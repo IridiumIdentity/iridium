@@ -1,14 +1,18 @@
 /*
- *  Copyright (C) Josh Fischer - All Rights Reserved
- *  Unauthorized copying of this file, via any medium is strictly prohibited
- *  Proprietary and confidential
- *  Written by Josh Fischer <josh@joshfischer.io>, 2022.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package software.iridium.api.entity;
 
-import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.GenericGenerator;
-
+import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,114 +25,114 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.io.Serializable;
-import java.util.Date;
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@AttributeOverride(name="id", column=@Column(name="authentication_id"))
-@Table(name="authentications")
+@AttributeOverride(name = "id", column = @Column(name = "authentication_id"))
+@Table(name = "authentications")
 public class AuthenticationEntity implements Serializable {
 
-    private static final long serialVersionUID = 2226019914052806053L;
+  private static final long serialVersionUID = 2226019914052806053L;
 
-    private static final String WEB_ID = "WEB_APPLICATION";
+  private static final String WEB_ID = "WEB_APPLICATION";
 
-    @Id
-    @GeneratedValue(generator="UUID")
-    @GenericGenerator(name ="UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name="id", length=36, nullable=false)
-    private String id;
+  @Id
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+  @Column(name = "id", length = 36, nullable = false)
+  private String id;
 
-    @ManyToOne(cascade= {CascadeType.PERSIST}, optional=false)
-    @JoinColumn(name="identity_id")
-    private IdentityEntity identity;
+  @ManyToOne(
+      cascade = {CascadeType.PERSIST},
+      optional = false)
+  @JoinColumn(name = "identity_id")
+  private IdentityEntity identity;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="created", nullable=false)
-    private Date created;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "created", nullable = false)
+  private Date created;
 
-    @Column(name="create_id", length=128, nullable=false)
-    private String createId;
+  @Column(name = "create_id", length = 128, nullable = false)
+  private String createId;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="expiration", nullable=false)
-    private Date expiration;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "expiration", nullable = false)
+  private Date expiration;
 
-    @Column(name="auth_token", length=255, nullable=false)
-    private String authToken;
+  @Column(name = "auth_token", length = 255, nullable = false)
+  private String authToken;
 
-    @Column(name="refresh_token", length=255, nullable=false)
-    private String refreshToken;
+  @Column(name = "refresh_token", length = 255, nullable = false)
+  private String refreshToken;
 
-
-
-    @PrePersist
-    public void prePersist() {
-        if (created == null) {
-            created = new Date();
-        }
-        if (StringUtils.isBlank(createId)) {
-            createId = WEB_ID;
-        }
+  @PrePersist
+  public void prePersist() {
+    if (created == null) {
+      created = new Date();
     }
-
-    public static String getWebId() {
-        return WEB_ID;
+    if (StringUtils.isBlank(createId)) {
+      createId = WEB_ID;
     }
+  }
 
-    public String getId() {
-        return id;
-    }
+  public static String getWebId() {
+    return WEB_ID;
+  }
 
-    public void setId(final String id) {
-        this.id = id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public IdentityEntity getIdentity() {
-        return identity;
-    }
+  public void setId(final String id) {
+    this.id = id;
+  }
 
-    public void setIdentity(final IdentityEntity identity) {
-        this.identity = identity;
-    }
+  public IdentityEntity getIdentity() {
+    return identity;
+  }
 
-    public Date getCreated() {
-        return created;
-    }
+  public void setIdentity(final IdentityEntity identity) {
+    this.identity = identity;
+  }
 
-    public void setCreated(final Date created) {
-        this.created = created;
-    }
+  public Date getCreated() {
+    return created;
+  }
 
-    public String getCreateId() {
-        return createId;
-    }
+  public void setCreated(final Date created) {
+    this.created = created;
+  }
 
-    public void setCreateId(final String createId) {
-        this.createId = createId;
-    }
+  public String getCreateId() {
+    return createId;
+  }
 
-    public Date getExpiration() {
-        return expiration;
-    }
+  public void setCreateId(final String createId) {
+    this.createId = createId;
+  }
 
-    public void setExpiration(final Date expiration) {
-        this.expiration = expiration;
-    }
+  public Date getExpiration() {
+    return expiration;
+  }
 
-    public String getAuthToken() {
-        return authToken;
-    }
+  public void setExpiration(final Date expiration) {
+    this.expiration = expiration;
+  }
 
-    public void setAuthToken(final String authToken) {
-        this.authToken = authToken;
-    }
+  public String getAuthToken() {
+    return authToken;
+  }
 
-    public String getRefreshToken() {
-        return refreshToken;
-    }
+  public void setAuthToken(final String authToken) {
+    this.authToken = authToken;
+  }
 
-    public void setRefreshToken(final String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
+  public String getRefreshToken() {
+    return refreshToken;
+  }
+
+  public void setRefreshToken(final String refreshToken) {
+    this.refreshToken = refreshToken;
+  }
 }

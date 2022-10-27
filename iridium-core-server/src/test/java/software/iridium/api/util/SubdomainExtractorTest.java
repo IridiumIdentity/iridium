@@ -1,44 +1,47 @@
 /*
- *  Copyright (C) Josh Fischer - All Rights Reserved
- *  Unauthorized copying of this file, via any medium is strictly prohibited
- *  Proprietary and confidential
- *  Written by Josh Fischer <josh@joshfischer.io>, 2022.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
-
 package software.iridium.api.util;
-
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 class SubdomainExtractorTest {
 
-    private SubdomainExtractor subject;
+  private SubdomainExtractor subject;
 
-    @BeforeEach
-    public void setupForEachTestCase() {
-        subject = new SubdomainExtractor();
-    }
+  @BeforeEach
+  public void setupForEachTestCase() {
+    subject = new SubdomainExtractor();
+  }
 
-    @Test
-    public void extractHttp_AllGood_ReturnsAsExpected() {
-        final var url = "http://some.url.com";
+  @Test
+  public void extractHttp_AllGood_ReturnsAsExpected() {
+    final var url = "http://some.url.com";
 
-        final var result = subject.extract(url);
+    final var result = subject.extract(url);
 
-        assertThat(result, is(equalTo("some")));
-    }
+    assertThat(result, is(equalTo("some")));
+  }
 
-    @Test
-    public void extractHttps_AllGood_ReturnsAsExpected() {
-        final var url = "https://some-thing.url.com";
+  @Test
+  public void extractHttps_AllGood_ReturnsAsExpected() {
+    final var url = "https://some-thing.url.com";
 
-        final var result = subject.extract(url);
+    final var result = subject.extract(url);
 
-        assertThat(result, is(equalTo("some-thing")));
-    }
+    assertThat(result, is(equalTo("some-thing")));
+  }
 }
