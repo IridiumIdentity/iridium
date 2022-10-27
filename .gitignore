@@ -1,2 +1,37 @@
-#intellij
+# maven
+target
+#osx
+.DS_Store
+## running application.props
+iridium-core-server/src/main/resources/application.properties
+# generated sql
+create.sql
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
 .idea
+*.iws
+*.iml
+*.ipr
+
+# node
+package-lock.json
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/

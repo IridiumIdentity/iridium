@@ -18,8 +18,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import { Line } from 'react-chartjs-2';
+
 //import './App.css';
-const drawerWidth = 240;
+const drawerWidth = 280;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -121,13 +123,14 @@ function App() {
         </AppBar>
         <Drawer variant="permanent" open={open}>
           <DrawerHeader>
+            drawer header goes here
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
           </DrawerHeader>
           <Divider />
           <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+            {['System Overview', 'Application Management', 'User Management', 'Drafts'].map((text, index) => (
                 <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                   <ListItemButton
                       sx={{
@@ -151,30 +154,30 @@ function App() {
             ))}
           </List>
           <Divider />
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                  <ListItemButton
-                      sx={{
-                        minHeight: 48,
-                        justifyContent: open ? 'initial' : 'center',
-                        px: 2.5,
-                      }}
-                  >
-                    <ListItemIcon
-                        sx={{
-                          minWidth: 0,
-                          mr: open ? 3 : 'auto',
-                          justifyContent: 'center',
-                        }}
-                    >
-                      {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                    </ListItemIcon>
-                    <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                  </ListItemButton>
-                </ListItem>
-            ))}
-          </List>
+          {/*<List>*/}
+          {/*  {['All mail', 'Trash', 'Spam'].map((text, index) => (*/}
+          {/*      <ListItem key={text} disablePadding sx={{ display: 'block' }}>*/}
+          {/*        <ListItemButton*/}
+          {/*            sx={{*/}
+          {/*              minHeight: 48,*/}
+          {/*              justifyContent: open ? 'initial' : 'center',*/}
+          {/*              px: 2.5,*/}
+          {/*            }}*/}
+          {/*        >*/}
+          {/*          <ListItemIcon*/}
+          {/*              sx={{*/}
+          {/*                minWidth: 0,*/}
+          {/*                mr: open ? 3 : 'auto',*/}
+          {/*                justifyContent: 'center',*/}
+          {/*              }}*/}
+          {/*          >*/}
+          {/*            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}*/}
+          {/*          </ListItemIcon>*/}
+          {/*          <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />*/}
+          {/*        </ListItemButton>*/}
+          {/*      </ListItem>*/}
+          {/*  ))}*/}
+          {/*</List>*/}
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <DrawerHeader />
@@ -205,6 +208,24 @@ function App() {
             eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
             posuere sollicitudin aliquam ultrices sagittis orci a.
           </Typography>
+          <Line
+              datasetIdKey='id'
+              data={{
+                labels: ['Jun', 'Jul', 'Aug'],
+                datasets: [
+                  {
+                    id: 1,
+                    label: '',
+                    data: [5, 6, 7],
+                  },
+                  {
+                    id: 2,
+                    label: '',
+                    data: [3, 2, 1],
+                  },
+                ],
+              }}
+          />
         </Box>
       </Box>
   );

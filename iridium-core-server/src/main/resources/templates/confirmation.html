@@ -1,0 +1,43 @@
+<!--
+  ~ * Copyright (C) Josh Fischer - All Rights Reserved
+  ~ * Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ * Proprietary and confidential
+  ~ * Written by Josh Fischer <josh@joshfischer.io>, 2022.
+  -->
+
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Login | Iridium</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <link th:href="@{/styles/confirmation.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/styles.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <!-- Required Material Web JavaScript library -->
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <!-- Instantiate single textfield component rendered in the document -->
+
+</head>
+<body>
+
+<div class="mdc-card card-container">
+
+    <div class="button-container">
+        Please check your email for further instructions
+    </div>
+    </div>
+
+</div>
+
+
+<script>
+    mdc.textField.MDCTextField.attachTo(document.querySelector('#username-label'));
+    mdc.textField.MDCTextField.attachTo(document.querySelector('#password-label'));
+</script>
+<div>
+
+</div>
+</body>
+</html>
