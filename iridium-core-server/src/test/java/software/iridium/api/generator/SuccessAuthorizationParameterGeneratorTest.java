@@ -1,41 +1,43 @@
 /*
- *  Copyright (C) Josh Fischer - All Rights Reserved
- *  Unauthorized copying of this file, via any medium is strictly prohibited
- *  Proprietary and confidential
- *  Written by Josh Fischer <josh@joshfischer.io>, 2022.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
-
 package software.iridium.api.generator;
-
-import software.iridium.api.util.AuthorizationCodeFlowConstants;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
+import java.util.HashMap;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import software.iridium.api.util.AuthorizationCodeFlowConstants;
+
 class SuccessAuthorizationParameterGeneratorTest {
 
-    private SuccessAuthorizationParameterGenerator subject;
+  private SuccessAuthorizationParameterGenerator subject;
 
-    @BeforeEach
-    public void setupForEachTestCase() {
-        subject = new SuccessAuthorizationParameterGenerator();
-    }
+  @BeforeEach
+  public void setupForEachTestCase() {
+    subject = new SuccessAuthorizationParameterGenerator();
+  }
 
-    @Test
-    public void generate_AllGood_GeneratesAsExpected() {
-        final var authCode = "theAuthCode";
-        final var state = "TheState";
-        final var params = new HashMap<String, String>();
-        params.put(AuthorizationCodeFlowConstants.STATE.getValue(), state);
+  @Test
+  public void generate_AllGood_GeneratesAsExpected() {
+    final var authCode = "theAuthCode";
+    final var state = "TheState";
+    final var params = new HashMap<String, String>();
+    params.put(AuthorizationCodeFlowConstants.STATE.getValue(), state);
 
-        final var response = subject.generate(params, authCode);
+    final var response = subject.generate(params, authCode);
 
-        assertThat(response.size(), is(equalTo(2)));
-    }
-
+    assertThat(response.size(), is(equalTo(2)));
+  }
 }

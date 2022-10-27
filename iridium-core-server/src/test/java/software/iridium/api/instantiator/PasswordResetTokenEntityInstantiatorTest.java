@@ -1,14 +1,23 @@
 /*
- *  Copyright (C) Josh Fischer - All Rights Reserved
- *  Unauthorized copying of this file, via any medium is strictly prohibited
- *  Proprietary and confidential
- *  Written by Josh Fischer <josh@joshfischer.io>, 2022.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
-
 package software.iridium.api.instantiator;
 
-import software.iridium.api.entity.IdentityEntity;
-import software.iridium.api.util.DateUtils;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.sameInstance;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -20,41 +29,35 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.sameInstance;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import software.iridium.api.entity.IdentityEntity;
+import software.iridium.api.util.DateUtils;
 
 @ExtendWith(MockitoExtension.class)
 class PasswordResetTokenEntityInstantiatorTest {
 
-    @Mock
-    private BCryptPasswordEncoder mockEncoder;
-    @InjectMocks
-    private PasswordResetTokenEntityInstantiator subject;
+  @Mock private BCryptPasswordEncoder mockEncoder;
+  @InjectMocks private PasswordResetTokenEntityInstantiator subject;
 
-    @AfterEach
-    public void ensureNoUnexpectedMockInteractions() {
-        Mockito.verifyNoMoreInteractions(mockEncoder);
-    }
-    @Test
-    public void instantiate_AllGood_InstantiatesAsExpected() {
-        ReflectionTestUtils.setField(subject, "passwordResetTokenLifetime", 4);
-        final var resetToken = "the reset token";
-        final var identity = new IdentityEntity();
+  @AfterEach
+  public void ensureNoUnexpectedMockInteractions() {
+    Mockito.verifyNoMoreInteractions(mockEncoder);
+  }
 
-        when(mockEncoder.encode(anyString())).thenReturn(resetToken);
+  @Test
+  public void instantiate_AllGood_InstantiatesAsExpected() {
+    ReflectionTestUtils.setField(subject, "passwordResetTokenLifetime", 4);
+    final var resetToken = "the reset token";
+    final var identity = new IdentityEntity();
 
-        final var response = subject.instantiate(identity);
+    when(mockEncoder.encode(anyString())).thenReturn(resetToken);
 
-        verify(mockEncoder).encode(anyString());
+    final var response = subject.instantiate(identity);
 
-        MatcherAssert.assertThat(response.getIdentity(), sameInstance(identity));
-        MatcherAssert.assertThat(response.getToken(), is(equalTo(resetToken)));
-        Assertions.assertTrue(response.getExpiration().before(DateUtils.addHoursToCurrentTime(5)));
-        Assertions.assertTrue(response.getExpiration().after(DateUtils.addHoursToCurrentTime(3)));
-    }
+    verify(mockEncoder).encode(anyString());
+
+    MatcherAssert.assertThat(response.getIdentity(), sameInstance(identity));
+    MatcherAssert.assertThat(response.getToken(), is(equalTo(resetToken)));
+    Assertions.assertTrue(response.getExpiration().before(DateUtils.addHoursToCurrentTime(5)));
+    Assertions.assertTrue(response.getExpiration().after(DateUtils.addHoursToCurrentTime(3)));
+  }
 }
