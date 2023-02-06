@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class InProgressExternalIdentityProviderAuthorizationEntity
     extends UuidIdentifiableAndAuditable {
 
-  @Column(name = "state", length = 100, nullable = false)
+  @Column(name = "state", length = 255, nullable = false)
   private String state;
 
   @Column(name = "redirect_uri", length = 255, nullable = false)

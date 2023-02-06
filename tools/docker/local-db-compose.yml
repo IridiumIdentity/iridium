@@ -16,6 +16,19 @@ services:
       MYSQL_PASSWORD: "sug4rn3ss&"
     networks:
       - iridium
+  mariadb-email:
+    image: mariadb:10.6.11
+    container_name: mariadb-email
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: emails
+      MYSQL_USER: email-api
+      MYSQL_PASSWORD: "upD0wnt0nuy"
+    networks:
+      - iridium
 
 networks:
   iridium:
