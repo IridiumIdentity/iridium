@@ -42,8 +42,8 @@ html, body {
 
 .tenant-logo-container {
     width: 300px;
-    height: 20%;
-    background: url('/img/iridium-3C-large.png')  center center no-repeat;
+    height: 200px;
+    background: url('/img/xyzwidget.png')  center center no-repeat;
     background-size: contain;
 }
 
