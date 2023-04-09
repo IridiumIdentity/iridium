@@ -12,13 +12,13 @@
 
 package software.iridium.api.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import software.iridium.api.authentication.domain.CodeChallengeMethod;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "identity_create_session_details_id"))
 @Table(name = "identity_create_session_details")
-public class IdentityCreateSessionDetails extends UuidIdentifiableAndAuditable {
+public class IdentityCreateSessionDetails extends AbstractEntity {
 
   @Column(name = "response_type", nullable = false, length = 50)
   private String responseType;

@@ -12,17 +12,12 @@
 
 package software.iridium.api.entity;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "client_secret_id"))
 @Table(name = "client_secrets")
-public class ClientSecretEntity extends UuidIdentifiableAndAuditable {
+public class ClientSecretEntity extends AbstractEntity {
 
   private static final long serialVersionUID = -2768574776374607276L;
 

@@ -12,16 +12,15 @@
 
 package software.iridium.api.entity;
 
+import jakarta.persistence.*;
 import java.util.Date;
-import javax.persistence.*;
 
 @Entity
 @AttributeOverride(
     name = "id",
     column = @Column(name = "in_progress_external_identity_provider_authorization_id"))
 @Table(name = "in_progress_external_identity_provider_authorizations")
-public class InProgressExternalIdentityProviderAuthorizationEntity
-    extends UuidIdentifiableAndAuditable {
+public class InProgressExternalIdentityProviderAuthorizationEntity extends AbstractEntity {
 
   @Column(name = "state", length = 255, nullable = false)
   private String state;

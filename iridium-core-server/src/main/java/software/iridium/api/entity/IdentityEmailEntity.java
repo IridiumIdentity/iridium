@@ -12,14 +12,14 @@
 
 package software.iridium.api.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "identity_email_address_id"))
 @Table(
     name = "identity_email_addresses",
     uniqueConstraints = {@UniqueConstraint(columnNames = {"identity_id", "email_address"})})
-public class IdentityEmailEntity extends UuidIdentifiableAndAuditable {
+public class IdentityEmailEntity extends AbstractEntity {
 
   private static final long serialVersionUID = 2816177551193171742L;
 

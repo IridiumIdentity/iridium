@@ -12,7 +12,7 @@
 
 package software.iridium.email.api.service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.email.domain.EmailTemplateResponse;

@@ -12,15 +12,11 @@
 
 package software.iridium.api.entity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Version;
+import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
 @MappedSuperclass
-public abstract class UuidIdentifiableAndAuditable extends Auditable {
+public abstract class AbstractEntity extends Auditable {
 
   private static final long serialVersionUID = 6767432032732072868L;
 

@@ -12,14 +12,14 @@
 
 package software.iridium.api.entity;
 
+import jakarta.persistence.*;
 import java.util.Date;
-import javax.persistence.*;
 import software.iridium.api.authentication.domain.CodeChallengeMethod;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "authorization_code_id"))
 @Table(name = "authorization_codes")
-public class AuthorizationCodeEntity extends UuidIdentifiableAndAuditable {
+public class AuthorizationCodeEntity extends AbstractEntity {
   private static final long serialVersionUID = 8517063872625445676L;
 
   @Column(name = "redirect_uri", length = 255, nullable = true)

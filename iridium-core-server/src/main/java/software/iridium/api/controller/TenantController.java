@@ -12,8 +12,8 @@
 
 package software.iridium.api.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 import software.iridium.api.authentication.domain.CreateTenantRequest;
 import software.iridium.api.authentication.domain.CreateTenantResponse;

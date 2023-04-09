@@ -14,9 +14,9 @@ package software.iridium.api.service;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

@@ -18,8 +18,8 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.*;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

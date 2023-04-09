@@ -12,19 +12,14 @@
 
 package software.iridium.api.entity;
 
+import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "group_id"))
 @Table(name = "roles")
-public class RoleEntity extends UuidIdentifiableAndAuditable {
+public class RoleEntity extends AbstractEntity {
 
   private static final long serialVersionUID = 3782334153369269308L;
 

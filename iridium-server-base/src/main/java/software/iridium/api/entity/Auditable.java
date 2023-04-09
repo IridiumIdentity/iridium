@@ -12,21 +12,16 @@
 
 package software.iridium.api.entity;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @MappedSuperclass
 public abstract class Auditable implements Serializable {
 
   private static final long serialVersionUID = -500382253621393740L;
 
-  private static final String WEB_ID = "SERVER_APP";
+  private static final String SERVER_ID = "SERVER_APP";
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "created", nullable = false)
@@ -94,12 +89,12 @@ public abstract class Auditable implements Serializable {
     if (created == null) {
       created = new Date();
     }
-    createId = WEB_ID;
+    createId = SERVER_ID;
   }
 
   @PreUpdate
   public void beforeUpdate() {
     updated = new Date();
-    updateId = WEB_ID;
+    updateId = SERVER_ID;
   }
 }

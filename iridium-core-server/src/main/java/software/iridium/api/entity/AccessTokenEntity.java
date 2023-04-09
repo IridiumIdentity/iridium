@@ -12,13 +12,13 @@
 
 package software.iridium.api.entity;
 
+import jakarta.persistence.*;
 import java.util.Date;
-import javax.persistence.*;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "access_token_id"))
 @Table(name = "access_tokens")
-public class AccessTokenEntity extends UuidIdentifiableAndAuditable {
+public class AccessTokenEntity extends AbstractEntity {
 
   private static final long serialVersionUID = 4386713626058738418L;
 

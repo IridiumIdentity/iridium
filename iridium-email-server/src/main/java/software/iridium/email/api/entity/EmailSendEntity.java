@@ -12,21 +12,15 @@
 
 package software.iridium.email.api.entity;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.AttributeOverride;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import software.iridium.api.entity.UuidIdentifiableAndAuditable;
+import software.iridium.api.entity.AbstractEntity;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "email_send_id"))
 @Table(name = "email_sends")
-public class EmailSendEntity extends UuidIdentifiableAndAuditable {
+public class EmailSendEntity extends AbstractEntity {
 
   private static final long serialVersionUID = 5369868319213866813L;
 

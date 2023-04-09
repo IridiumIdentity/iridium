@@ -12,31 +12,17 @@
 
 package software.iridium.api.entity;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.AttributeOverride;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "identity_id"))
 @Table(name = "identities")
-public class IdentityEntity extends UuidIdentifiableAndAuditable {
+public class IdentityEntity extends AbstractEntity {
 
   private static final long serialVersionUID = -649520696707218781L;
 
