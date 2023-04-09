@@ -12,20 +12,9 @@
 
 package software.iridium.api.entity;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.AttributeOverride;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -36,7 +25,7 @@ public class AuthenticationEntity implements Serializable {
 
   private static final long serialVersionUID = 2226019914052806053L;
 
-  private static final String WEB_ID = "WEB_APPLICATION";
+  private static final String SERVER_APP_ID = "SERVER_APP";
 
   @Id
   @GeneratedValue(generator = "UUID")
@@ -73,12 +62,12 @@ public class AuthenticationEntity implements Serializable {
       created = new Date();
     }
     if (StringUtils.isBlank(createId)) {
-      createId = WEB_ID;
+      createId = SERVER_APP_ID;
     }
   }
 
   public static String getWebId() {
-    return WEB_ID;
+    return SERVER_APP_ID;
   }
 
   public String getId() {

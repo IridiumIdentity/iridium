@@ -12,18 +12,13 @@
 
 package software.iridium.email.api.entity;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import software.iridium.api.entity.UuidIdentifiableAndAuditable;
+import jakarta.persistence.*;
+import software.iridium.api.entity.AbstractEntity;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "email_attachment_id"))
 @Table(name = "email_attachment")
-public class EmailAttachmentEntity extends UuidIdentifiableAndAuditable {
+public class EmailAttachmentEntity extends AbstractEntity {
 
   private static final long serialVersionUID = 5881323464921939514L;
 

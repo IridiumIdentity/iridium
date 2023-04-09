@@ -12,15 +12,15 @@
 
 package software.iridium.api.entity;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.*;
 import software.iridium.api.authentication.domain.Environment;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "tenant_id"))
 @Table(name = "tenants")
-public class TenantEntity extends UuidIdentifiableAndAuditable {
+public class TenantEntity extends AbstractEntity {
 
   private static final long serialVersionUID = 689089741127267195L;
 

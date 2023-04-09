@@ -12,12 +12,16 @@
 
 package software.iridium.api.base.client;
 
+import static org.springframework.http.HttpStatus.*;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import software.iridium.api.base.error.*;
 
 public class ErrorHandler {
 
-  public void handleErrors(final HttpStatus httpStatus) {
+  public void handleErrors(final HttpStatusCode httpStatusCode) {
+    final var httpStatus = HttpStatus.resolve(httpStatusCode.value());
 
     switch (httpStatus) {
       case UNAUTHORIZED -> throw new NotAuthorizedException(httpStatus.getReasonPhrase());

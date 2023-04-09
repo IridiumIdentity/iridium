@@ -12,14 +12,14 @@
 
 package software.iridium.api.entity;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.*;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "external_identity_provider_template_id"))
 @Table(name = "external_identity_provider_templates")
-public class ExternalIdentityProviderTemplateEntity extends UuidIdentifiableAndAuditable {
+public class ExternalIdentityProviderTemplateEntity extends AbstractEntity {
 
   private static final long serialVersionUID = -812177502861094777L;
 

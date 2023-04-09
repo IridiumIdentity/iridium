@@ -12,16 +12,16 @@
 
 package software.iridium.email.api.entity;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import software.iridium.api.entity.UuidIdentifiableAndAuditable;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import software.iridium.api.entity.AbstractEntity;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "email_template_type_id"))
 @Table(name = "email_template_types")
-public class EmailTemplateTypeEntity extends UuidIdentifiableAndAuditable {
+public class EmailTemplateTypeEntity extends AbstractEntity {
 
   @Column(name = "name", length = 100, nullable = false)
   private String name;

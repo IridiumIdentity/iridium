@@ -15,11 +15,10 @@ package software.iridium.api.repository;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import software.iridium.api.entity.ApplicationEntity;
 
-public interface ApplicationEntityRepository
-    extends PagingAndSortingRepository<ApplicationEntity, String> {
+public interface ApplicationEntityRepository extends JpaRepository<ApplicationEntity, String> {
 
   Optional<ApplicationEntity> findByNameAndTenantId(final String id, final String tenantId);
 

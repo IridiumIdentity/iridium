@@ -12,20 +12,13 @@
 
 package software.iridium.api.entity;
 
+import jakarta.persistence.*;
 import java.util.Date;
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "password_reset_token_id"))
 @Table(name = "password_reset_tokens")
-public class PasswordResetTokenEntity extends UuidIdentifiableAndAuditable {
+public class PasswordResetTokenEntity extends AbstractEntity {
 
   private static final long serialVersionUID = 172400918530567499L;
 

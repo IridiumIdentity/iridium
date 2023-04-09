@@ -12,14 +12,14 @@
 
 package software.iridium.api.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @AttributeOverride(
     name = "id",
     column = @Column(name = "external_identity_provider_property_template_id"))
 @Table(name = "external_identity_provider_property_templates")
-public class ExternalIdentityProviderPropertyTemplateEntity extends UuidIdentifiableAndAuditable {
+public class ExternalIdentityProviderPropertyTemplateEntity extends AbstractEntity {
 
   @Column(name = "value")
   private String value;

@@ -12,12 +12,12 @@
 
 package software.iridium.api.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "login_descriptor_id"))
 @Table(name = "login_descriptors")
-public class LoginDescriptorEntity extends UuidIdentifiableAndAuditable {
+public class LoginDescriptorEntity extends AbstractEntity {
   private static final long serialVersionUID = -4875102248476691639L;
 
   @Column(name = "display_name", length = 100, nullable = true)

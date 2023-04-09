@@ -12,16 +12,12 @@
 
 package software.iridium.api.entity;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "profile_id"))
 @Table(name = "profiles")
-public class ProfileEntity extends UuidIdentifiableAndAuditable {
+public class ProfileEntity extends AbstractEntity {
 
   @Column(name = "first_name", length = 50, nullable = false)
   private String firstName;

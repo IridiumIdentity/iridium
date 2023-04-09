@@ -12,19 +12,14 @@
 
 package software.iridium.email.api.entity;
 
+import jakarta.persistence.*;
 import java.util.Date;
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import software.iridium.api.entity.UuidIdentifiableAndAuditable;
+import software.iridium.api.entity.AbstractEntity;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "email_verification_token_id"))
 @Table(name = "email_verification_tokens")
-public class EmailVerificationTokenEntity extends UuidIdentifiableAndAuditable {
+public class EmailVerificationTokenEntity extends AbstractEntity {
 
   @Column(name = "token")
   private String token;

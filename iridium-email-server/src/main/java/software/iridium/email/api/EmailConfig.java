@@ -12,9 +12,9 @@
 
 package software.iridium.email.api;
 
+import jakarta.annotation.Resource;
 import java.io.IOException;
 import java.util.Properties;
-import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;

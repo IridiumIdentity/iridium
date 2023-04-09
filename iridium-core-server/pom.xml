@@ -6,7 +6,6 @@
         <artifactId>iridium</artifactId>
         <groupId>software.iridium</groupId>
         <version>0.0.1</version>
-<!--        <relativePath>../pom.xml</relativePath>-->
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -21,11 +20,10 @@
     </properties>
 
     <dependencies>
-        <!-- replace me with newer dep -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
-            <version>5.6.0</version>
+            <version>6.0.2</version>
         </dependency>
 
         <dependency>

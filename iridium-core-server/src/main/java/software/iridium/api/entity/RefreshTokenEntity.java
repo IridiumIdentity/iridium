@@ -12,12 +12,12 @@
 
 package software.iridium.api.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "refresh_token_id"))
 @Table(name = "refresh_tokens")
-public class RefreshTokenEntity extends UuidIdentifiableAndAuditable {
+public class RefreshTokenEntity extends AbstractEntity {
 
   @Column(name = "refresh_token", nullable = false, updatable = false, length = 100)
   private String refreshToken;

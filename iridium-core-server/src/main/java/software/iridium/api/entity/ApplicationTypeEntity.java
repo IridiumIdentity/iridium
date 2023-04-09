@@ -12,15 +12,15 @@
 
 package software.iridium.api.entity;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "application_type_id"))
 @Table(name = "application_types")
-public class ApplicationTypeEntity extends UuidIdentifiableAndAuditable {
+public class ApplicationTypeEntity extends AbstractEntity {
 
   private static final long serialVersionUID = 1702011158548911399L;
 
