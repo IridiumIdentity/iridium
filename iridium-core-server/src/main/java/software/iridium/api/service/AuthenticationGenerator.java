@@ -9,7 +9,6 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package software.iridium.api.service;
 
 import java.text.SimpleDateFormat;
@@ -46,9 +45,9 @@ public class AuthenticationGenerator {
     var tokenSource =
         new StringBuilder()
             .append(identityEntity.getPrimaryEmail().getEmailAddress())
-            .append("||")
+            .append(".")
             .append(formattedExpiration)
-            .append("||")
+            .append(".")
             .append(UUID.randomUUID())
             .toString();
     return encoder.encode(tokenSource);
