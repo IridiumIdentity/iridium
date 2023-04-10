@@ -4,6 +4,8 @@ target
 .DS_Store
 ## running application.props
 iridium-core-server/src/main/resources/application.properties
+iridium-core-server/src/main/support/db/test-seed.sql
+iridium-email-server/src/main/resources/application.properties
 # generated sql
 create.sql
 ### STS ###
