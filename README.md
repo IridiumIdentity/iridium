@@ -5,7 +5,6 @@ An enterprise grade identity management system.
 
 ### First things first
 
- * I'm working on getting the system understandable and usable. 
- * I'm looking forward to others contributing.
+ * Let's work on getting the system understandable and usable. 
  * Detailed docs soon to come.
 
