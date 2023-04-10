@@ -149,7 +149,7 @@
                           optionally, Spotless can set copyright years by digging
                           through git history (see "license" section below) -->
                         <licenseHeader>
-                            <file>${maven.multiModuleProjectDirectory}/LICENSE.content</file>
+                            <file>${maven.multiModuleProjectDirectory}/HEADER.content</file>
                         </licenseHeader>
                     </java>
                 </configuration>
