@@ -11,6 +11,9 @@
  */
 package software.iridium.api;
 
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.cache.TemplateLoader;
+import freemarker.template.Configuration;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.TimeZone;
@@ -28,12 +31,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import software.iridium.api.authentication.client.AuthenticationApiClient;
 import software.iridium.api.authentication.client.ProviderAccessTokenRequestor;
 import software.iridium.api.authentication.client.ProviderProfileRequestor;
-import software.iridium.api.email.client.EmailApiClient;
 
 @PropertySource(
     ignoreResourceNotFound = false,
@@ -75,11 +78,6 @@ public class AuthenticationApi implements WebMvcConfigurer {
   }
 
   @Bean
-  public EmailApiClient emailApiClient() {
-    return new EmailApiClient(emailApiBaseUrl, restTemplate());
-  }
-
-  @Bean
   public AuthenticationApiClient identityApiClient() {
     return new AuthenticationApiClient(identityApiBaseUrl, restTemplate());
   }
@@ -87,6 +85,16 @@ public class AuthenticationApi implements WebMvcConfigurer {
   @Bean
   public ProviderAccessTokenRequestor accessTokenRequestor() {
     return new ProviderAccessTokenRequestor(restTemplate());
+  }
+
+  @Bean
+  public FreeMarkerConfigurer freemarkerClassLoaderConfig() {
+    Configuration configuration = new Configuration(Configuration.VERSION_2_3_31);
+    TemplateLoader templateLoader = new ClassTemplateLoader(this.getClass(), "/email-templates");
+    configuration.setTemplateLoader(templateLoader);
+    FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
+    freeMarkerConfigurer.setConfiguration(configuration);
+    return freeMarkerConfigurer;
   }
 
   @Bean

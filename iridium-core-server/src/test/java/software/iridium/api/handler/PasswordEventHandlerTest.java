@@ -24,24 +24,24 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import software.iridium.api.email.client.EmailApiClient;
 import software.iridium.api.email.domain.EmailSendRequest;
 import software.iridium.api.entity.IdentityEmailEntity;
 import software.iridium.api.entity.IdentityEntity;
 import software.iridium.api.instantiator.EmailSendRequestInstantiator;
 import software.iridium.api.instantiator.SelfUrlGenerator;
+import software.iridium.api.service.EmailService;
 
 @ExtendWith(MockitoExtension.class)
 class PasswordEventHandlerTest {
 
   @Mock private EmailSendRequestInstantiator mockEmailInstantiator;
   @Mock private SelfUrlGenerator mockUrlGenerator;
-  @Mock private EmailApiClient mockEmailApiClient;
+  @Mock private EmailService mockEmailService;
   @InjectMocks private PasswordEventHandler subject;
 
   @AfterEach
   public void ensureNoUnexpectedMockInteractions() {
-    Mockito.verifyNoMoreInteractions(mockEmailApiClient, mockUrlGenerator, mockEmailInstantiator);
+    Mockito.verifyNoMoreInteractions(mockEmailService, mockUrlGenerator, mockEmailInstantiator);
   }
 
   @Test
@@ -67,6 +67,6 @@ class PasswordEventHandlerTest {
             eq("Iridium Password Change Notification"),
             anyMap(),
             eq("confirm-password-reset"));
-    verify(mockEmailApiClient).sendNewIdentityVerificationMail(same(sendRequest));
+    verify(mockEmailService).send(same(sendRequest));
   }
 }
