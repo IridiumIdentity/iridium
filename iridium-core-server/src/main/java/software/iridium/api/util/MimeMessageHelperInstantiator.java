@@ -9,21 +9,19 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package software.iridium.email.api.mapper;
+package software.iridium.api.util;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import java.nio.charset.StandardCharsets;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-import software.iridium.api.email.domain.EmailTemplateResponse;
-import software.iridium.email.api.entity.EmailTemplateEntity;
 
 @Component
-public class EmailTemplateResponseMapper {
+public class MimeMessageHelperInstantiator {
 
-  public EmailTemplateResponse map(final EmailTemplateEntity entity) {
-    final var response = new EmailTemplateResponse();
-    response.setId(entity.getId());
-    response.setTenantId(entity.getTenantId());
-    response.setFilePath(entity.getFilePath());
-    response.setContent("some content to set");
-    return response;
+  public MimeMessageHelper instantiate(final MimeMessage message) throws MessagingException {
+    return new MimeMessageHelper(
+        message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
   }
 }

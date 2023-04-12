@@ -8,7 +8,6 @@
         <module>iridium-client</module>
         <module>iridium-core-server</module>
         <module>iridium-server-base</module>
-        <module>iridium-email-server</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
