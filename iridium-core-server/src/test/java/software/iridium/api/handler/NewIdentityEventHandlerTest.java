@@ -24,22 +24,22 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import software.iridium.api.email.client.EmailApiClient;
 import software.iridium.api.email.domain.EmailSendRequest;
 import software.iridium.api.entity.IdentityEmailEntity;
 import software.iridium.api.entity.IdentityEntity;
 import software.iridium.api.instantiator.EmailSendRequestInstantiator;
+import software.iridium.api.service.EmailService;
 
 @ExtendWith(MockitoExtension.class)
 class NewIdentityEventHandlerTest {
 
-  @Mock private EmailApiClient mockEmailApiClient;
+  @Mock private EmailService mockEmailService;
   @Mock private EmailSendRequestInstantiator mockEmailSendRequestInstantiator;
   @InjectMocks private NewIdentityEventHandler subject;
 
   @AfterEach
   public void ensureNoUnexpectedMockInteractions() {
-    Mockito.verifyNoMoreInteractions(mockEmailApiClient, mockEmailSendRequestInstantiator);
+    Mockito.verifyNoMoreInteractions(mockEmailService, mockEmailSendRequestInstantiator);
   }
 
   @Test
@@ -58,7 +58,7 @@ class NewIdentityEventHandlerTest {
 
     subject.handleEvent(identity, clientId);
 
-    verify(mockEmailApiClient).sendNewIdentityVerificationMail(same(sendRequest));
+    verify(mockEmailService).send(same(sendRequest));
     verify(mockEmailSendRequestInstantiator)
         .instantiate(
             same(primaryEmail), eq("Iridium Email Verification"), anyMap(), eq("new-identity"));

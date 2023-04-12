@@ -9,7 +9,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package software.iridium.email.api.service;
+package software.iridium.api.service;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -28,6 +28,7 @@ public class EmailService {
 
   private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
+  // todo: add as database configuration?
   private static final List<String> templates =
       List.of(
           "initiate-password-reset",
@@ -42,14 +43,12 @@ public class EmailService {
   public EmailSendResponse send(final EmailSendRequest request) {
     checkArgument(
         templates.contains(request.getTemplate()),
-        "incorrect email type, " + request.getTemplate() + " : email templates supported are: ",
-        templates);
-    // validate the request
+        "incorrect email type: " + request.getTemplate());
     try {
       emailSender.send(request);
     } catch (Exception e) {
       logger.error("failed to send mail to {} ", request.getTo(), e);
-      throw new RuntimeException("boom", e);
+      throw new RuntimeException("failed to send mail", e);
     }
     return null;
   }

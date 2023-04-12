@@ -16,26 +16,28 @@ import java.util.Map;
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import software.iridium.api.email.client.EmailApiClient;
+import software.iridium.api.email.domain.EmailSendRequest;
 import software.iridium.api.entity.IdentityEntity;
 import software.iridium.api.instantiator.EmailSendRequestInstantiator;
+import software.iridium.api.service.EmailService;
 
 @Component
 public class NewIdentityEventHandler {
-
-  @Resource private EmailApiClient emailApiClient;
   @Resource private EmailSendRequestInstantiator emailSendRequestInstantiator;
+
+  @Resource private EmailService emailService;
 
   @Value("${software.iridium.emailNotification.client.baseUrl}")
   private String verifyEmailLink;
-  // todo: test me
+
   public void handleEvent(final IdentityEntity identity, final String clientId) {
     Map<String, Object> props = new HashMap<>();
     final var primaryEmail = identity.getPrimaryEmail();
     props.put(
         "verifyEmailLink",
         verifyEmailLink + "login?id=" + primaryEmail.getEmailAddress() + "&client_id=" + clientId);
-    emailApiClient.sendNewIdentityVerificationMail(
+    final var emailRequest = new EmailSendRequest();
+    emailService.send(
         emailSendRequestInstantiator.instantiate(
             primaryEmail, "Iridium Email Verification", props, "new-identity"));
   }

@@ -17,45 +17,37 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import software.iridium.api.email.client.EmailApiClient;
 import software.iridium.api.entity.IdentityEntity;
 import software.iridium.api.instantiator.EmailSendRequestInstantiator;
 import software.iridium.api.instantiator.SelfUrlGenerator;
+import software.iridium.api.service.EmailService;
 
 @Component
 public class PasswordEventHandler {
 
   @Resource private EmailSendRequestInstantiator emailInstantiator;
   @Resource private SelfUrlGenerator urlGenerator;
-  @Resource private EmailApiClient emailApiClient;
+  @Resource private EmailService emailService;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public void handlePasswordResetInitiatedEvent(
       final IdentityEntity identity, final String clientId) {
-    // todo (josh fischer) implement
+    // todo (josh fischer) remove me
     Map<String, Object> props = new HashMap<>();
     props.put(
         "forgotPasswordLink",
         urlGenerator.generateChangePasswordUrl(identity.getPasswordResetToken(), clientId));
-
-    // final var sendRequest = emailInstantiator.instantiate(identity, "Password Reset
-    // Notification", props);
-    // send send request to emai api
-    // restTemplate.exchange()
   }
 
   public void handlePasswordResetEvent(final IdentityEntity identity) {
     final var primaryEmail = identity.getPrimaryEmail();
-    if (primaryEmail != null) {
-      Map<String, Object> props = new HashMap<>();
-      props.put("tenantName", "IridiumID");
-      props.put("tenantHelpEmail", "help@iridium.software");
-      emailApiClient.sendNewIdentityVerificationMail(
-          emailInstantiator.instantiate(
-              primaryEmail,
-              "Iridium Password Change Notification",
-              props,
-              "confirm-password-reset"));
-    }
+
+    Map<String, Object> props = new HashMap<>();
+    props.put("tenantName", "IridiumID");
+    props.put("tenantHelpEmail", "help@iridium.software");
+
+    emailService.send(
+        emailInstantiator.instantiate(
+            primaryEmail, "Iridium Password Change Notification", props, "confirm-password-reset"));
   }
 }
