@@ -1,5 +1,7 @@
 site_name: Iridium
 theme:
   name: material
+  custom_dir: overrides
   favicon: images/favicon.png
+  logo: images/iridiumxl.png
 
