@@ -8,6 +8,7 @@
         <module>iridium-client</module>
         <module>iridium-core-server</module>
         <module>iridium-server-base</module>
+        <module>iridium-cli</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -72,6 +73,11 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>30.1.1-jre</version>
+            </dependency>
+            <dependency>
+                <groupId>info.picocli</groupId>
+                <artifactId>picocli</artifactId>
+                <version>4.7.2</version>
             </dependency>
             <!--test-->
             <dependency>
