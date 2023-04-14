@@ -1,0 +1,3 @@
+## Local setup
+
+We welcome your contributions to make the system easier to use. Until them, TODO....
