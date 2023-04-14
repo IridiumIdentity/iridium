@@ -1,4 +1,5 @@
 site_name: Iridium
 theme:
   name: material
+  favicon: images/favicon.png
 
