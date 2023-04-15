@@ -19,7 +19,5 @@ jobs:
           path: .cache
       - run: pip install mkdocs-material
         working-directory: ./site
-      - run: echo "docs.iridium.software" > CNAME
-        working-directory: ./site
       - run: mkdocs gh-deploy --force
         working-directory: ./site
