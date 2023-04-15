@@ -5,3 +5,7 @@ theme:
   favicon: images/favicon.png
   logo: images/iridiumxl.png
 
+extra:
+  analytics:
+    provider: google
+    property: G-XQP7070X67
