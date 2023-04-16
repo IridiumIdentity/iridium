@@ -35,7 +35,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>software.iridium.cli.Main</mainClass>
+                            <mainClass>software.iridium.cli.IridiumCli</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
