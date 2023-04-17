@@ -1,4 +1,8 @@
 site_name: Iridium
+repo_url: https://github.com/IridiumIdentity/iridium
+
+plugins:
+  - search
 theme:
   name: material
   custom_dir: overrides
