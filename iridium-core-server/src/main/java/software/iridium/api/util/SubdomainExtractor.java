@@ -19,7 +19,12 @@ public class SubdomainExtractor {
   private static final String SCHEME_SUBDOMAIN_SEPERATOR = "://";
   private static final String PERIOD = ".";
 
+  private static final String LOCALHOST = "localhost";
+
   public String extract(final String requestUrl) {
+    if (requestUrl.contains(LOCALHOST)) {
+      return "localhost";
+    }
     final var schemeEndIndex = requestUrl.indexOf(SCHEME_SUBDOMAIN_SEPERATOR);
     final var firstPeriodIndex = requestUrl.indexOf(PERIOD);
     return requestUrl.substring(
