@@ -20,6 +20,14 @@
     <groupId>software.iridium</groupId>
     <version>0.0.1</version>
 
+    <developers>
+        <developer>
+            <id>joshfischer</id>
+            <name>Josh Fischer</name>
+            <email>josh@joshfischer.io</email>
+        </developer>
+    </developers>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>

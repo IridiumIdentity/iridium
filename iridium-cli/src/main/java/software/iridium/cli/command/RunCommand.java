@@ -9,25 +9,15 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package software.iridium.cli;
+package software.iridium.cli.command;
 
-import picocli.CommandLine;
+import picocli.CommandLine.Command;
 
-@CommandLine.Command(name = "init", description = "inits the system")
-public class InitCommand implements Runnable {
-
-  @CommandLine.Option(
-      names = {"-h", "--host"},
-      description = "localhost, your-domain.xyz, ...",
-      interactive = true)
-  private String domain;
+@Command(name = "run", description = "run iridium")
+public class RunCommand implements Runnable {
 
   @Override
   public void run() {
-    if (domain == null && System.console() != null) {
-      // alternatively, use Console::readPassword
-      domain = System.console().readLine("Enter value for --host: ");
-    }
-    System.out.println("You provided value '" + domain + "'");
+    System.out.println("TODO...");
   }
 }

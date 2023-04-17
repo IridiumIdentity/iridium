@@ -9,21 +9,26 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package software.iridium.cli;
+package software.iridium.cli.command;
 
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
-import software.iridium.cli.command.InitCommand;
+import picocli.CommandLine.Option;
 
-@Command(
-    name = "iridium",
-    subcommands = {InitCommand.class},
-    mixinStandardHelpOptions = true,
-    description = "iridium management cli")
-public class IridiumCli {
+@Command(name = "init", description = "inits the system")
+public class InitCommand implements Runnable {
 
-  public static void main(String... args) {
-    int exitCode = new CommandLine(new IridiumCli()).execute(args);
-    System.exit(exitCode);
+  @Option(
+      names = {"-h", "--host"},
+      description = "localhost, your-domain.xyz, ...",
+      interactive = true)
+  private String domain;
+
+  @Override
+  public void run() {
+    if (domain == null && System.console() != null) {
+
+      domain = System.console().readLine("Enter value for --host: ");
+    }
+    System.out.println("You provided value '" + domain + "'");
   }
 }
