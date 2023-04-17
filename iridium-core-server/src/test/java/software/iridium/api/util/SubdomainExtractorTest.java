@@ -37,6 +37,15 @@ class SubdomainExtractorTest {
   }
 
   @Test
+  public void extractLocalhost_AllGood_ReturnsAsExpected() {
+    final var url = "http://localhost:8080/some/url";
+
+    final var result = subject.extract(url);
+
+    assertThat(result, is(equalTo("localhost")));
+  }
+
+  @Test
   public void extractHttps_AllGood_ReturnsAsExpected() {
     final var url = "https://some-thing.url.com";
 

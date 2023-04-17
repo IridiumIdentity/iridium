@@ -8,6 +8,7 @@
         <module>iridium-client</module>
         <module>iridium-core-server</module>
         <module>iridium-server-base</module>
+        <module>iridium-cli</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -18,6 +19,14 @@
     <artifactId>iridium</artifactId>
     <groupId>software.iridium</groupId>
     <version>0.0.1</version>
+
+    <developers>
+        <developer>
+            <id>joshfischer</id>
+            <name>Josh Fischer</name>
+            <email>josh@joshfischer.io</email>
+        </developer>
+    </developers>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -72,6 +81,11 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>30.1.1-jre</version>
+            </dependency>
+            <dependency>
+                <groupId>info.picocli</groupId>
+                <artifactId>picocli</artifactId>
+                <version>4.7.2</version>
             </dependency>
             <!--test-->
             <dependency>
