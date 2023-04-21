@@ -1,4 +1,4 @@
 # Open Source Identity Management
 
-![iridium](images/iridiumxl.png "Title")
+![iridium](images/iridiumxl.png "Iridium")
 
