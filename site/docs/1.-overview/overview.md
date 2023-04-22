@@ -25,7 +25,8 @@ Study the diagram below that describes how the authorization code grant works, b
 4. After the resource owner (end-user) authorizes access, the authorization server redirects the user-agent (browser) back to the original third-party client with an authorization code and typically a state parameter  
 5. The third-party client requests an access token with the received authorization code and associated redirect URI  
 6. The authorization authenticates the client, validates the authorization code and the accompanying redirect URI matches the URI provided in step D.  If the request is valid the authorization server returns back with an access token and an optional refresh token.  
-The OAuth 2.x does a great job of giving an overview of how a system is expected to behave under certain circumstances, but it doesn’t tell you how to make the system make decisions behind the scenes to create the expected behaviors.  
+
+The OAuth 2.x spec does a great job of giving an overview of how a system is expected to behave under certain circumstances, but it doesn’t tell you how to make the system make decisions behind the scenes to create the expected outcomes.  With iridium, we put the power in your hands to take control of your system.  
 
 ## How is the system architected?
 Iridium has been built with simplicity in the front of our minds as we build as flexible a model as we can. Iridium is served from a single jar tied to a relational database. 
