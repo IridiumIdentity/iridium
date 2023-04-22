@@ -27,11 +27,25 @@ Study the diagram below that describes how the authorization code grant works, b
 6. The authorization authenticates the client, validates the authorization code and the accompanying redirect URI matches the URI provided in step D.  If the request is valid the authorization server returns back with an access token and an optional refresh token.  
 The OAuth 2.x does a great job of giving an overview of how a system is expected to behave under certain circumstances, but it doesn’t tell you how to make the system make decisions behind the scenes to create the expected behaviors.  
 
-## How does the system architected?
+## How is the system architected?
 Iridium has been built with simplicity in the front of our minds as we build as flexible a model as we can. Iridium is served from a single jar tied to a relational database. 
 The system expects specific seed data to exist in the database to allow for the system to successfully authenticate, authorize, and provision access tokens to your users.
 
 ![iridium system overview](../images/iridium-overview.png "iridium system overview")
 
 ## Tell me more about the code structure
-We will get to this soon.
+The project is a multi-module Maven project.  There are a few top level folders to be aware of, we will add descriptions below. As the project progresses, expect to find different languages across the code base.  The server-side implementation is in Java, but there will need to be many frameworks, languages, and clients we will add support for.
+
+The modules to understand at  the moment are:
+
+ * `iridium-cli`
+   * The is management CLI for iridium.  Consider this module experimental
+ * `iridium-client`
+   * This is the spring implementation for a few RESTful endpoints to interact with iridium.   This module will be changed to support several languages.
+ * `iridium-core-server`
+   * This is the core authorization and authentication server based on the 0Auth 2.x specification
+ * `iridium-server-base`
+   * This is a reusable module for database entities and components across the system.
+ * infra
+   * This is a folder that contains iridium deployment-related resources
+
