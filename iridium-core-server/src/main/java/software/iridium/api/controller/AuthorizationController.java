@@ -13,9 +13,9 @@ package software.iridium.api.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
-import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -41,7 +41,7 @@ public class AuthorizationController {
 
   private static final Logger logger = LoggerFactory.getLogger(AuthorizationController.class);
 
-  @Resource private AuthorizationService authorizationService;
+  @Autowired private AuthorizationService authorizationService;
 
   @GetMapping(value = "/oauth/change-mel/authorize/", produces = IdentityResponse.MEDIA_TYPE)
   public RedirectView completeAuthorizationWithProvider(

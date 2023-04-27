@@ -13,7 +13,7 @@ package software.iridium.api.handler;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,9 +25,9 @@ import software.iridium.api.service.EmailService;
 @Component
 public class PasswordEventHandler {
 
-  @Resource private EmailSendRequestInstantiator emailInstantiator;
-  @Resource private SelfUrlGenerator urlGenerator;
-  @Resource private EmailService emailService;
+  @Autowired private EmailSendRequestInstantiator emailInstantiator;
+  @Autowired private SelfUrlGenerator urlGenerator;
+  @Autowired private EmailService emailService;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public void handlePasswordResetInitiatedEvent(

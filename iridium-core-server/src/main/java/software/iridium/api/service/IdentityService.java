@@ -16,8 +16,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Calendar;
 import java.util.Map;
-import javax.annotation.Resource;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -44,21 +44,21 @@ public class IdentityService {
 
   public static final Integer TEMP_PASSWORD_LENGTH = 8;
 
-  @Resource private AuthenticationEntityRepository authenticationRepository;
-  @Resource private IdentityEntityMapper identityEntityMapper;
-  @Resource private IdentityEntityInstantiator identityInstantiator;
-  @Resource private IdentityEntityRepository identityRepository;
-  @Resource private IdentityResponseMapper responseMapper;
-  @Resource private BCryptPasswordEncoder encoder;
-  @Resource private NewIdentityEventHandler eventHandler;
-  @Resource private IdentityEmailEntityRepository emailRepository;
-  @Resource private ServletTokenExtractor tokenExtractor;
-  @Resource private TenantEntityRepository tenantRepository;
-  @Resource private ApplicationEntityRepository applicationRepository;
-  @Resource private AttributeValidator attributeValidator;
-  @Resource private IdentityCreateRequestDetailsInstantiator requestDetailsInstantiator;
-  @Resource private AuthenticationService authenticationService;
-  @Resource private AuthenticationRequestInstantiator authenticationRequestInstantiator;
+  @Autowired private AuthenticationEntityRepository authenticationRepository;
+  @Autowired private IdentityEntityMapper identityEntityMapper;
+  @Autowired private IdentityEntityInstantiator identityInstantiator;
+  @Autowired private IdentityEntityRepository identityRepository;
+  @Autowired private IdentityResponseMapper responseMapper;
+  @Autowired private BCryptPasswordEncoder encoder;
+  @Autowired private NewIdentityEventHandler eventHandler;
+  @Autowired private IdentityEmailEntityRepository emailRepository;
+  @Autowired private ServletTokenExtractor tokenExtractor;
+  @Autowired private TenantEntityRepository tenantRepository;
+  @Autowired private ApplicationEntityRepository applicationRepository;
+  @Autowired private AttributeValidator attributeValidator;
+  @Autowired private IdentityCreateRequestDetailsInstantiator requestDetailsInstantiator;
+  @Autowired private AuthenticationService authenticationService;
+  @Autowired private AuthenticationRequestInstantiator authenticationRequestInstantiator;
 
   @Transactional(propagation = Propagation.SUPPORTS)
   public IdentityResponse getIdentity(final HttpServletRequest request) {

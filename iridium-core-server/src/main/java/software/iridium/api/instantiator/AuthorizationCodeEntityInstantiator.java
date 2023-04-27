@@ -12,9 +12,9 @@
 package software.iridium.api.instantiator;
 
 import java.util.Map;
-import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +33,7 @@ public class AuthorizationCodeEntityInstantiator {
   public static final Integer AUTHORIZATION_CODE_MAX_LENGTH = 24;
   public static final Integer AUTHORIZATION_CODE_EXPIRATION_IN_MINUTES = 1;
 
-  @Resource private EncoderUtils encoderUtils;
+  @Autowired private EncoderUtils encoderUtils;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public AuthorizationCodeEntity instantiate(

@@ -19,7 +19,7 @@ import java.util.Base64;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -58,40 +58,40 @@ import software.iridium.api.validator.AuthorizationRequestParameterValidator;
 public class AuthorizationService {
 
   // todo may need to break this out into smaller classes
-  @Resource private ProviderUrlGenerator providerUrlGenerator;
-  @Resource private ProviderAccessTokenRequestor accessTokenRequestor;
-  @Resource private ProviderProfileRequestor providerProfileRequestor;
-  @Resource private IdentityEntityInstantiator identityInstantiator;
-  @Resource private IdentityEntityRepository identityRepository;
-  @Resource private IdentityEmailEntityRepository emailRepository;
-  @Resource private IdentityResponseMapper identityResponseMapper;
-  @Resource private AuthorizationGrantTypeParamValidator grantTypeValidator;
-  @Resource private ApplicationEntityRepository applicationRepository;
-  @Resource private RedirectUrlGenerator redirectUrlGenerator;
-  @Resource private AttributeValidator attributeValidator;
-  @Resource private AuthorizationCodeEntityInstantiator authCodeInstantiator;
-  @Resource private AuthorizationCodeEntityRepository authCodeRepository;
-  @Resource private AuthorizationRequestParameterValidator requestParameterValidator;
-  @Resource private SuccessAuthorizationParameterGenerator successParamGenerator;
-  @Resource private AccessTokenRequestParameterValidator accessTokenRequestParameterValidator;
-  @Resource private ApplicationEntityAccessTokenRequestValidator applicationAccessTokenValidator;
-  @Resource private SHA256Hasher sha256Hasher;
-  @Resource private AccessTokenEntityInstantiator accessTokenInstantiator;
-  @Resource private AccessTokenEntityRepository accessTokenRepository;
-  @Resource private AccessTokenResponseMapper accessTokenResponseMapper;
-  @Resource private RefreshTokenEntityInstantiator refreshTokenInstantiator;
-  @Resource private SubdomainExtractor subdomainExtractor;
-  @Resource private TenantEntityRepository tenantRepository;
-  @Resource private AuthenticationEntityRepository authenticationRepository;
+  @Autowired private ProviderUrlGenerator providerUrlGenerator;
+  @Autowired private ProviderAccessTokenRequestor accessTokenRequestor;
+  @Autowired private ProviderProfileRequestor providerProfileRequestor;
+  @Autowired private IdentityEntityInstantiator identityInstantiator;
+  @Autowired private IdentityEntityRepository identityRepository;
+  @Autowired private IdentityEmailEntityRepository emailRepository;
+  @Autowired private IdentityResponseMapper identityResponseMapper;
+  @Autowired private AuthorizationGrantTypeParamValidator grantTypeValidator;
+  @Autowired private ApplicationEntityRepository applicationRepository;
+  @Autowired private RedirectUrlGenerator redirectUrlGenerator;
+  @Autowired private AttributeValidator attributeValidator;
+  @Autowired private AuthorizationCodeEntityInstantiator authCodeInstantiator;
+  @Autowired private AuthorizationCodeEntityRepository authCodeRepository;
+  @Autowired private AuthorizationRequestParameterValidator requestParameterValidator;
+  @Autowired private SuccessAuthorizationParameterGenerator successParamGenerator;
+  @Autowired private AccessTokenRequestParameterValidator accessTokenRequestParameterValidator;
+  @Autowired private ApplicationEntityAccessTokenRequestValidator applicationAccessTokenValidator;
+  @Autowired private SHA256Hasher sha256Hasher;
+  @Autowired private AccessTokenEntityInstantiator accessTokenInstantiator;
+  @Autowired private AccessTokenEntityRepository accessTokenRepository;
+  @Autowired private AccessTokenResponseMapper accessTokenResponseMapper;
+  @Autowired private RefreshTokenEntityInstantiator refreshTokenInstantiator;
+  @Autowired private SubdomainExtractor subdomainExtractor;
+  @Autowired private TenantEntityRepository tenantRepository;
+  @Autowired private AuthenticationEntityRepository authenticationRepository;
 
-  @Resource
+  @Autowired
   private InProgressExternalIdentityProviderAuthorizationInstantiator inProgressAuthInstantiator;
 
-  @Resource
+  @Autowired
   private InProgressExternalIdentityProviderAuthorizationEntityRepository inProgressAuthRepository;
 
-  @Resource private ServletTokenExtractor tokenExtractor;
-  @Resource private BCryptPasswordEncoder encoder;
+  @Autowired private ServletTokenExtractor tokenExtractor;
+  @Autowired private BCryptPasswordEncoder encoder;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public IdentityResponse completeAuthorizationWithProvider(

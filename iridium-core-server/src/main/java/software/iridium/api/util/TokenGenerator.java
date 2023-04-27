@@ -14,14 +14,14 @@ package software.iridium.api.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
-import javax.annotation.Resource;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TokenGenerator {
 
-  @Resource private BCryptPasswordEncoder encoder;
+  @Autowired private PasswordEncoder encoder;
 
   public String generateAccessToken(final String identityId, final Date expiration) {
     var formattedExpiration = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S").format(expiration);

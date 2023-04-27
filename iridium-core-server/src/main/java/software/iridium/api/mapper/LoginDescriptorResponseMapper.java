@@ -11,7 +11,7 @@
  */
 package software.iridium.api.mapper;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import software.iridium.api.authentication.domain.LoginDescriptorResponse;
 import software.iridium.api.entity.LoginDescriptorEntity;
@@ -19,7 +19,7 @@ import software.iridium.api.entity.LoginDescriptorEntity;
 @Component
 public class LoginDescriptorResponseMapper {
 
-  @Resource ExternalProviderLoginDescriptorResponseMapper externalProviderDescriptorMapper;
+  @Autowired ExternalProviderLoginDescriptorResponseMapper externalProviderDescriptorMapper;
 
   public LoginDescriptorResponse map(final LoginDescriptorEntity entity) {
 

@@ -13,7 +13,7 @@ package software.iridium.api.service;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +27,9 @@ import software.iridium.api.util.AttributeValidator;
 @Service
 public class LoginDescriptorService {
 
-  @Resource private LoginDescriptorEntityRepository loginDescriptorRepository;
-  @Resource private LoginDescriptorResponseMapper responseMapper;
-  @Resource private AttributeValidator attributeValidator;
+  @Autowired private LoginDescriptorEntityRepository loginDescriptorRepository;
+  @Autowired private LoginDescriptorResponseMapper responseMapper;
+  @Autowired private AttributeValidator attributeValidator;
 
   @Transactional(propagation = Propagation.SUPPORTS)
   public LoginDescriptorResponse getBySubdomain(final String subdomain) {

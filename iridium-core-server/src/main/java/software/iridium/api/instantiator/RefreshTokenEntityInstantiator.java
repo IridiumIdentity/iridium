@@ -11,7 +11,7 @@
  */
 package software.iridium.api.instantiator;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +21,7 @@ import software.iridium.api.util.TokenGenerator;
 @Component
 public class RefreshTokenEntityInstantiator {
 
-  @Resource private TokenGenerator tokenGenerator;
+  @Autowired private TokenGenerator tokenGenerator;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public RefreshTokenEntity instantiate(final String accessToken) {

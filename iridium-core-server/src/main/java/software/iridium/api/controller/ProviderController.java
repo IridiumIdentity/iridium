@@ -11,7 +11,7 @@
  */
 package software.iridium.api.controller;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +23,7 @@ import software.iridium.api.service.ProviderService;
 @RestController
 public class ProviderController {
 
-  @Resource private ProviderService providerService;
+  @Autowired private ProviderService providerService;
 
   @GetMapping(value = "providers", produces = ProviderSummaryResponse.MEDIA_TYPE_LIST)
   public ApiListResponse<ProviderSummaryResponse> retrieveAllSummaries() {

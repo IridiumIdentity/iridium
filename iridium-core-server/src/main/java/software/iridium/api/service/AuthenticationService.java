@@ -13,7 +13,7 @@ package software.iridium.api.service;
 
 import java.util.Date;
 import java.util.Map;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -31,16 +31,16 @@ import software.iridium.api.validator.AuthenticationRequestValidator;
 @Service
 public class AuthenticationService {
 
-  @Resource private IdentityEntityRepository identityRepository;
-  @Resource private BCryptPasswordEncoder encoder;
-  @Resource private TokenManager tokenManager;
-  @Resource private IdentityEmailEntityRepository emailRepository;
-  @Resource private AuthenticationRequestValidator authenticationRequestValidator;
-  @Resource private AuthenticationRequestParamValidator authRequestParamValidator;
-  @Resource private ApplicationEntityRepository applicationRepository;
-  @Resource private TenantEntityRepository tenantRepository;
-  @Resource private AuthorizationCodeEntityInstantiator authCodeInstantiator;
-  @Resource private AuthorizationCodeEntityRepository authCodeEntityRepository;
+  @Autowired private IdentityEntityRepository identityRepository;
+  @Autowired private BCryptPasswordEncoder encoder;
+  @Autowired private TokenManager tokenManager;
+  @Autowired private IdentityEmailEntityRepository emailRepository;
+  @Autowired private AuthenticationRequestValidator authenticationRequestValidator;
+  @Autowired private AuthenticationRequestParamValidator authRequestParamValidator;
+  @Autowired private ApplicationEntityRepository applicationRepository;
+  @Autowired private TenantEntityRepository tenantRepository;
+  @Autowired private AuthorizationCodeEntityInstantiator authCodeInstantiator;
+  @Autowired private AuthorizationCodeEntityRepository authCodeEntityRepository;
 
   @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = NotAuthorizedException.class)
   public AuthenticationResponse authenticate(

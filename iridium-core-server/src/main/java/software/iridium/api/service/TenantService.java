@@ -15,7 +15,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,14 +35,14 @@ import software.iridium.api.util.AttributeValidator;
 @Service
 public class TenantService {
 
-  @Resource private IdentityService identityService;
-  @Resource private TenantEntityRepository tenantRepository;
-  @Resource private TenantSummaryMapper summaryMapper;
-  @Resource private AttributeValidator attributeValidator;
-  @Resource private TenantInstantiator tenantInstantiator;
-  @Resource private IdentityEntityRepository identityRepository;
-  @Resource private CreateTenantResponseMapper responseMapper;
-  @Resource private LoginDescriptorEntityInstantiator loginDescriptorInstantiator;
+  @Autowired private IdentityService identityService;
+  @Autowired private TenantEntityRepository tenantRepository;
+  @Autowired private TenantSummaryMapper summaryMapper;
+  @Autowired private AttributeValidator attributeValidator;
+  @Autowired private TenantInstantiator tenantInstantiator;
+  @Autowired private IdentityEntityRepository identityRepository;
+  @Autowired private CreateTenantResponseMapper responseMapper;
+  @Autowired private LoginDescriptorEntityInstantiator loginDescriptorInstantiator;
 
   @Transactional(propagation = Propagation.SUPPORTS)
   public List<TenantSummary> getTenantSummaries(final HttpServletRequest request) {

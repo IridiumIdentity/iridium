@@ -12,7 +12,7 @@
 package software.iridium.api.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import software.iridium.api.authentication.domain.CreateTenantRequest;
 import software.iridium.api.authentication.domain.CreateTenantResponse;
@@ -25,7 +25,7 @@ import software.iridium.api.service.TenantService;
 @RestController
 public class TenantController {
 
-  @Resource private TenantService tenantService;
+  @Autowired private TenantService tenantService;
 
   @GetMapping(value = "tenants", produces = TenantSummary.MEDIA_TYPE_LIST)
   public ApiListResponse<TenantSummary> getTenantSummaries(HttpServletRequest request) {

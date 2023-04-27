@@ -13,10 +13,10 @@ package software.iridium.api.service;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import jakarta.annotation.Resource;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +37,7 @@ public class EmailService {
           "email-verification",
           "update-user-verification",
           "new-identity");
-  @Resource private EmailSender emailSender;
+  @Autowired private EmailSender emailSender;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public EmailSendResponse send(final EmailSendRequest request) {

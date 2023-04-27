@@ -13,7 +13,7 @@ package software.iridium.api.service;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -37,13 +37,13 @@ import software.iridium.api.util.AttributeValidator;
 @Service
 public class ApplicationService {
 
-  @Resource private AttributeValidator attributeValidator;
-  @Resource private TenantEntityRepository tenantRepository;
-  @Resource private ApplicationEntityRepository applicationRepository;
-  @Resource private ApplicationTypeEntityRepository applicationTypeRepository;
-  @Resource private ApplicationEntityInstantiator entityInstantiator;
-  @Resource private ApplicationResponseMapper responseMapper;
-  @Resource private ApplicationSummaryMapper summaryMapper;
+  @Autowired private AttributeValidator attributeValidator;
+  @Autowired private TenantEntityRepository tenantRepository;
+  @Autowired private ApplicationEntityRepository applicationRepository;
+  @Autowired private ApplicationTypeEntityRepository applicationTypeRepository;
+  @Autowired private ApplicationEntityInstantiator entityInstantiator;
+  @Autowired private ApplicationResponseMapper responseMapper;
+  @Autowired private ApplicationSummaryMapper summaryMapper;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public ApplicationCreateResponse create(

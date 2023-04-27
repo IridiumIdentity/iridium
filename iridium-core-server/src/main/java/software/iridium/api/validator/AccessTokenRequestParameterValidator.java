@@ -13,9 +13,9 @@ package software.iridium.api.validator;
 
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import software.iridium.api.base.error.BadRequestException;
@@ -30,8 +30,8 @@ public class AccessTokenRequestParameterValidator {
   // todo:  verify these error are thrown correctly, maybe thrown error descriptions as well
   private static final Logger logger =
       LoggerFactory.getLogger(AccessTokenRequestParameterValidator.class);
-  @Resource private AttributeValidator attributeValidator;
-  @Resource private RedirectUrlGenerator redirectUrlGenerator;
+  @Autowired private AttributeValidator attributeValidator;
+  @Autowired private RedirectUrlGenerator redirectUrlGenerator;
 
   public String validateAndOptionallyRedirect(
       final ApplicationEntity application, final Map<String, String> params) {
