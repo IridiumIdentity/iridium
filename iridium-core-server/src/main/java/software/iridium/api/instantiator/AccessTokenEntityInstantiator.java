@@ -11,7 +11,7 @@
  */
 package software.iridium.api.instantiator;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +24,7 @@ public class AccessTokenEntityInstantiator {
 
   private static final Integer HOURS_TO_EXPIRATION = 1;
 
-  @Resource private TokenGenerator tokenGenerator;
+  @Autowired private TokenGenerator tokenGenerator;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public AccessTokenEntity instantiate(final String identityId) {

@@ -12,7 +12,7 @@
 package software.iridium.api.validator;
 
 import java.util.Map;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import software.iridium.api.base.error.BadRequestException;
 import software.iridium.api.entity.ApplicationEntity;
@@ -22,7 +22,7 @@ import software.iridium.api.util.AuthorizationCodeFlowConstants;
 @Component
 public class ApplicationEntityAccessTokenRequestValidator {
 
-  @Resource private AttributeValidator attributeValidator;
+  @Autowired private AttributeValidator attributeValidator;
 
   public void validate(final ApplicationEntity application, final Map<String, String> params) {
 

@@ -12,7 +12,7 @@
 package software.iridium.api.service;
 
 import java.util.Date;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -31,12 +31,12 @@ import software.iridium.api.repository.PasswordResetTokenEntityRepository;
 @Service
 public class PasswordService {
 
-  @Resource private IdentityEntityRepository identityRepository;
-  @Resource private PasswordResetTokenEntityInstantiator tokenInstantiator;
-  @Resource private IdentityEmailEntityRepository emailRepository;
-  @Resource private PasswordEventHandler passwordEventHandler;
-  @Resource private PasswordResetTokenEntityRepository resetTokenRepository;
-  @Resource private ApplicationEntityRepository applicationRepository;
+  @Autowired private IdentityEntityRepository identityRepository;
+  @Autowired private PasswordResetTokenEntityInstantiator tokenInstantiator;
+  @Autowired private IdentityEmailEntityRepository emailRepository;
+  @Autowired private PasswordEventHandler passwordEventHandler;
+  @Autowired private PasswordResetTokenEntityRepository resetTokenRepository;
+  @Autowired private ApplicationEntityRepository applicationRepository;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public Boolean initiatePasswordReset(final InitiatePasswordResetRequest request) {

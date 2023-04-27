@@ -14,9 +14,9 @@ package software.iridium.api.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
-import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -33,7 +33,7 @@ import software.iridium.api.util.ServletTokenExtractor;
 @Controller
 public class TemplateController {
 
-  @Resource private TemplateService templateService;
+  @Autowired private TemplateService templateService;
 
   private static final Logger logger = LoggerFactory.getLogger(TemplateController.class);
 

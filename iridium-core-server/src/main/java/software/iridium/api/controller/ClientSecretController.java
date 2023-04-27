@@ -11,7 +11,7 @@
  */
 package software.iridium.api.controller;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import software.iridium.api.authentication.domain.ClientSecretCreateResponse;
 import software.iridium.api.base.domain.ApiDataResponse;
@@ -22,7 +22,7 @@ import software.iridium.api.service.ClientSecretService;
 @RestController
 public class ClientSecretController {
 
-  @Resource private ClientSecretService clientSecretService;
+  @Autowired private ClientSecretService clientSecretService;
 
   @PostMapping(
       value = "applications/{application-id}/client-secrets",

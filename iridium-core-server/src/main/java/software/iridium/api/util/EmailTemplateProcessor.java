@@ -13,8 +13,8 @@ package software.iridium.api.util;
 
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import jakarta.annotation.Resource;
 import java.io.IOException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
@@ -22,7 +22,7 @@ import software.iridium.api.email.domain.EmailSendRequest;
 
 @Component
 public class EmailTemplateProcessor {
-  @Resource private FreeMarkerConfigurer freemarkerConfigurer;
+  @Autowired private FreeMarkerConfigurer freemarkerConfigurer;
 
   public String processTemplateIntoString(final EmailSendRequest request)
       throws IOException, TemplateException {

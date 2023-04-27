@@ -13,7 +13,7 @@ package software.iridium.api.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -27,7 +27,7 @@ import software.iridium.api.service.IdentityService;
 @RestController
 public class IdentityController {
 
-  @Resource private IdentityService identityService;
+  @Autowired private IdentityService identityService;
 
   @RequestMapping(
       value = "/tenants/{tenant-id}/identities",

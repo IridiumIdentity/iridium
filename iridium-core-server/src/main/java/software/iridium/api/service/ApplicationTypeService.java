@@ -12,7 +12,7 @@
 package software.iridium.api.service;
 
 import java.util.List;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +23,8 @@ import software.iridium.api.repository.ApplicationTypeEntityRepository;
 @Service
 public class ApplicationTypeService {
 
-  @Resource private ApplicationTypeEntityRepository applicationTypeRepository;
-  @Resource private ApplicationTypeSummaryMapper summaryMapper;
+  @Autowired private ApplicationTypeEntityRepository applicationTypeRepository;
+  @Autowired private ApplicationTypeSummaryMapper summaryMapper;
 
   @Transactional(propagation = Propagation.SUPPORTS)
   public List<ApplicationTypeSummary> getAll() {

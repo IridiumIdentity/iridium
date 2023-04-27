@@ -14,7 +14,7 @@ package software.iridium.api.validator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -27,8 +27,8 @@ import software.iridium.api.util.AuthorizationErrorKeys;
 @Component
 public class AuthorizationRequestParameterValidator {
 
-  @Resource private RedirectUrlGenerator redirectUrlGenerator;
-  @Resource private AttributeValidator attributeValidator;
+  @Autowired private RedirectUrlGenerator redirectUrlGenerator;
+  @Autowired private AttributeValidator attributeValidator;
 
   public String validateAndOptionallyRedirect(
       final String redirectUri, final Map<String, String> params) {
