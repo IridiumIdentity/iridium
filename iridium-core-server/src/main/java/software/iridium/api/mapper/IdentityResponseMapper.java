@@ -11,7 +11,7 @@
  */
 package software.iridium.api.mapper;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import software.iridium.api.authentication.domain.AuthenticationResponse;
 import software.iridium.api.authentication.domain.IdentityResponse;
@@ -20,7 +20,7 @@ import software.iridium.api.entity.IdentityEntity;
 @Component
 public class IdentityResponseMapper {
 
-  @Resource private ProfileResponseMapper profileMapper;
+  @Autowired private ProfileResponseMapper profileMapper;
 
   public IdentityResponse map(
       final IdentityEntity entity, final AuthenticationResponse authenticationResponse) {

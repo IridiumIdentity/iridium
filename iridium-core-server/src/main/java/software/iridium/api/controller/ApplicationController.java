@@ -11,7 +11,7 @@
  */
 package software.iridium.api.controller;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import software.iridium.api.authentication.domain.ApplicationCreateRequest;
 import software.iridium.api.authentication.domain.ApplicationCreateResponse;
@@ -24,7 +24,7 @@ import software.iridium.api.service.ApplicationService;
 @RestController
 public class ApplicationController {
 
-  @Resource private ApplicationService applicationService;
+  @Autowired private ApplicationService applicationService;
 
   @PostMapping(
       value = "/tenants/{tenant-id}/applications",

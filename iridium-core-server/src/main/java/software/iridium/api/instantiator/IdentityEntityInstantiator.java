@@ -11,7 +11,7 @@
  */
 package software.iridium.api.instantiator;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +24,8 @@ import software.iridium.api.entity.IdentityEntity;
 @Component
 public class IdentityEntityInstantiator {
 
-  @Resource private EmailEntityInstantiator emailInstantiator;
-  @Resource private IdentityPropertyEntityInstantiator propertyInstantiator;
+  @Autowired private EmailEntityInstantiator emailInstantiator;
+  @Autowired private IdentityPropertyEntityInstantiator propertyInstantiator;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public IdentityEntity instantiate(

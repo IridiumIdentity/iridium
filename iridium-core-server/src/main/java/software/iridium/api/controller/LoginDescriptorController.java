@@ -11,7 +11,7 @@
  */
 package software.iridium.api.controller;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import software.iridium.api.authentication.domain.LoginDescriptorResponse;
 import software.iridium.api.base.domain.ApiDataResponse;
@@ -21,7 +21,7 @@ import software.iridium.api.service.LoginDescriptorService;
 @RestController
 public class LoginDescriptorController {
 
-  @Resource private LoginDescriptorService descriptorService;
+  @Autowired private LoginDescriptorService descriptorService;
 
   @GetMapping(
       value = "login-descriptors/{subdomain}",

@@ -12,15 +12,17 @@
 package software.iridium.api.instantiator;
 
 import java.util.Date;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import software.iridium.api.entity.EmailVerificationTokenEntity;
 import software.iridium.api.entity.IdentityEmailEntity;
 import software.iridium.api.util.DateUtils;
 
+@Component
 public class EmailVerificationTokenEntityInstantiator {
 
-  @Resource private BCryptPasswordEncoder encoder;
+  @Autowired private BCryptPasswordEncoder encoder;
 
   public EmailVerificationTokenEntity createEmailVerificationToken(IdentityEmailEntity email) {
     final var emailVerificationToken = new EmailVerificationTokenEntity();

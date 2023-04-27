@@ -14,9 +14,9 @@ package software.iridium.api.service;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import java.security.NoSuchAlgorithmException;
-import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,12 +36,12 @@ public class ClientSecretService {
   private static final Logger logger = LoggerFactory.getLogger(ClientSecretService.class);
   public static final Integer SEED_LENGTH = 32;
 
-  @Resource private AttributeValidator attributeValidator;
-  @Resource private ApplicationEntityRepository applicationRepository;
-  @Resource private ClientSecretEntityInstantiator clientSecretInstantiator;
-  @Resource private ClientSecretCreateResponseMapper responseMapper;
-  @Resource private ClientSecretEntityRepository clientSecretRepository;
-  @Resource private EncoderUtils encoderUtils;
+  @Autowired private AttributeValidator attributeValidator;
+  @Autowired private ApplicationEntityRepository applicationRepository;
+  @Autowired private ClientSecretEntityInstantiator clientSecretInstantiator;
+  @Autowired private ClientSecretCreateResponseMapper responseMapper;
+  @Autowired private ClientSecretEntityRepository clientSecretRepository;
+  @Autowired private EncoderUtils encoderUtils;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public ClientSecretCreateResponse create(final String applicationId) {

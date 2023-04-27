@@ -12,7 +12,7 @@
 package software.iridium.api.service;
 
 import java.util.List;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +23,8 @@ import software.iridium.api.repository.ExternalIdentityProviderTemplateEntityRep
 @Service
 public class ProviderService {
 
-  @Resource private ExternalIdentityProviderTemplateEntityRepository providerRepository;
-  @Resource private ProviderSummaryResponseMapper responseMapper;
+  @Autowired private ExternalIdentityProviderTemplateEntityRepository providerRepository;
+  @Autowired private ProviderSummaryResponseMapper responseMapper;
 
   @Transactional(propagation = Propagation.SUPPORTS)
   public List<ProviderSummaryResponse> retrieveAllSummaries() {

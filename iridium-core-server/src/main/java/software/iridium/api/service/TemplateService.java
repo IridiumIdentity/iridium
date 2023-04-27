@@ -13,7 +13,7 @@ package software.iridium.api.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +23,8 @@ import software.iridium.api.util.SubdomainExtractor;
 @Service
 public class TemplateService {
 
-  @Resource private SubdomainExtractor subdomainExtractor;
-  @Resource private LoginDescriptorService loginDescriptorService;
+  @Autowired private SubdomainExtractor subdomainExtractor;
+  @Autowired private LoginDescriptorService loginDescriptorService;
 
   @Transactional(propagation = Propagation.SUPPORTS)
   public String describeIndex(

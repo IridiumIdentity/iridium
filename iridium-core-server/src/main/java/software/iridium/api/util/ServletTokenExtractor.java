@@ -23,7 +23,6 @@ public class ServletTokenExtractor {
   public static final String IRIDIUM_TOKEN_HEADER_VALUE = "X-IRIDIUM-AUTH-TOKEN";
 
   public String extractBearerToken(final HttpServletRequest request) {
-    // todo: make sure in the real environment we check bearer tokens ahead of time.
     return request
         .getHeader(HttpHeaders.AUTHORIZATION)
         .substring(BEARER_PREFIX_WITH_SPACE.length());

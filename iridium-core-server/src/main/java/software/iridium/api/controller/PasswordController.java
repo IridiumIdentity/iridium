@@ -11,9 +11,9 @@
  */
 package software.iridium.api.controller;
 
-import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -30,7 +30,7 @@ public class PasswordController {
 
   private static final Logger logger = LoggerFactory.getLogger(PasswordController.class);
 
-  @Resource private PasswordService passwordService;
+  @Autowired private PasswordService passwordService;
 
   @PostMapping(
       value = "/identities/initiate-reset-password",

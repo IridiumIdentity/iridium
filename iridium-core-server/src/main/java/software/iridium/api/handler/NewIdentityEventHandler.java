@@ -13,7 +13,7 @@ package software.iridium.api.handler;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import software.iridium.api.email.domain.EmailSendRequest;
@@ -23,9 +23,9 @@ import software.iridium.api.service.EmailService;
 
 @Component
 public class NewIdentityEventHandler {
-  @Resource private EmailSendRequestInstantiator emailSendRequestInstantiator;
+  @Autowired private EmailSendRequestInstantiator emailSendRequestInstantiator;
 
-  @Resource private EmailService emailService;
+  @Autowired private EmailService emailService;
 
   @Value("${software.iridium.emailNotification.client.baseUrl}")
   private String verifyEmailLink;

@@ -12,7 +12,7 @@
 package software.iridium.api.instantiator;
 
 import java.util.Date;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -28,7 +28,7 @@ public class PasswordResetTokenEntityInstantiator {
   @Value("${passwordRestToken.lifetimeHours}")
   private Integer passwordResetTokenLifetime;
 
-  @Resource private BCryptPasswordEncoder encoder;
+  @Autowired private BCryptPasswordEncoder encoder;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public PasswordResetTokenEntity instantiate(final IdentityEntity identity) {

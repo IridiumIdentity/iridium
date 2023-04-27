@@ -11,9 +11,9 @@
  */
 package software.iridium.api.instantiator;
 
-import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
@@ -27,7 +27,7 @@ public class ClientSecretEntityInstantiator {
   private static final Logger logger =
       LoggerFactory.getLogger(ClientSecretEntityInstantiator.class);
 
-  @Resource private BCryptPasswordEncoder encoder;
+  @Autowired private BCryptPasswordEncoder encoder;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public ClientSecretEntity instantiate(final ApplicationEntity application, final String secret) {

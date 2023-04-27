@@ -15,7 +15,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import java.util.Map;
 import java.util.Objects;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import software.iridium.api.util.AttributeValidator;
 import software.iridium.api.util.AuthorizationCodeFlowConstants;
@@ -23,7 +23,7 @@ import software.iridium.api.util.AuthorizationCodeFlowConstants;
 @Component
 public class AuthorizationGrantTypeParamValidator {
 
-  @Resource private AttributeValidator attributeValidator;
+  @Autowired private AttributeValidator attributeValidator;
 
   public void validate(final Map<String, String> params) {
     checkArgument(

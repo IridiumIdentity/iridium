@@ -13,9 +13,9 @@ package software.iridium.api.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -28,7 +28,7 @@ import software.iridium.api.service.AuthenticationService;
 public class AuthenticationController {
   private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
-  @Resource private AuthenticationService authenticationService;
+  @Autowired private AuthenticationService authenticationService;
 
   @PostMapping(value = "/authenticate")
   public RedirectView authenticateWithFormSubmit(

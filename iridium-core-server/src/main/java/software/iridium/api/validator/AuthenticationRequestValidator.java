@@ -13,7 +13,7 @@ package software.iridium.api.validator;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import software.iridium.api.authentication.domain.AuthenticationRequest;
 import software.iridium.api.util.AttributeValidator;
@@ -21,7 +21,7 @@ import software.iridium.api.util.AttributeValidator;
 @Component
 public class AuthenticationRequestValidator {
 
-  @Resource private AttributeValidator attributeValidator;
+  @Autowired private AttributeValidator attributeValidator;
 
   public void validate(final AuthenticationRequest request) {
     checkArgument(

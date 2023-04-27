@@ -12,8 +12,8 @@
 package software.iridium.api.service;
 
 import java.util.Date;
-import javax.annotation.Resource;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +23,8 @@ import software.iridium.api.repository.AuthenticationEntityRepository;
 @Component
 public class TokenManager {
 
-  @Resource private AuthenticationEntityRepository authenticationEntityRepository;
-  @Resource private AuthenticationGenerator authenticationGenerator;
+  @Autowired private AuthenticationEntityRepository authenticationEntityRepository;
+  @Autowired private AuthenticationGenerator authenticationGenerator;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public ImmutablePair<String, String> getOrGenerateToken(IdentityEntity identityEntity) {
