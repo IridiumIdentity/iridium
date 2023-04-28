@@ -1,6 +1,6 @@
 # Contributing to iridium
 
-We welcome anyone to contribute!
+We welcome anyone to contribute to the project.
 
 ## <a name="questions"></a> It is okay to raise an issue to ask a question
 If you have a question about iridium, feel free to raise an issue for it.
@@ -23,7 +23,7 @@ It is a good idea to check we all have the same understanding that there actuall
 and for complex pull requests it may save time when we discuss in advance what shape the solution should take.
 
 That said, for bugfixes and documentation fixes, reporting the issue and providing a pull request to fix it in one PR is perfectly fine.
-When in doubt, maybe raise an issue first.
+When in doubt, raise an issue first.
 
 
 ## <a name="pr_conventions"></a> Conventions for pull requests
