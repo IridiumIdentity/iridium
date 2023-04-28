@@ -1,6 +1,6 @@
 # Contributing to iridium
 
-We welcome anyone to contribute to the project.
+Iridium is 100% free and open source. We encourage and support an active, healthy community that accepts contributions from the public – including you!
 
 ## <a name="questions"></a> It is okay to raise an issue to ask a question
 If you have a question about iridium, feel free to raise an issue for it.
