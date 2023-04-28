@@ -68,7 +68,7 @@ public class AuthenticationApi implements WebMvcConfigurer {
   }
 
   @Bean
-  public PasswordEncoder encoder() {
+  public BCryptPasswordEncoder encoder() {
     return new BCryptPasswordEncoder();
   }
 
