@@ -24,11 +24,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
@@ -38,9 +36,6 @@ import software.iridium.api.authentication.client.AuthenticationApiClient;
 import software.iridium.api.authentication.client.ProviderAccessTokenRequestor;
 import software.iridium.api.authentication.client.ProviderProfileRequestor;
 
-@PropertySource(
-    ignoreResourceNotFound = false,
-    value = {"classpath:application.properties"})
 @ComponentScan(basePackages = {"software.iridium"})
 @EnableJpaRepositories(basePackages = {"software.iridium.api.repository"})
 @EnableScheduling
