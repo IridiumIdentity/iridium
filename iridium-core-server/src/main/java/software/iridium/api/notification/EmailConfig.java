@@ -11,9 +11,9 @@
  */
 package software.iridium.api.notification;
 
-import jakarta.annotation.Resource;
 import java.io.IOException;
 import java.util.Properties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -48,7 +48,7 @@ public class EmailConfig {
   @Value("${spring.mail.properties.mail.smtp.starttls.required}")
   private String TLSRequired;
 
-  @Resource private ApplicationContext context;
+  @Autowired private ApplicationContext context;
 
   @Bean
   public JavaMailSender mailSender() throws IOException {
