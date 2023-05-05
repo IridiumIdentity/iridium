@@ -58,6 +58,7 @@
               "projects/iridium-ui/src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/pink-bluegrey.css",
               "projects/iridium-ui/src/styles.css"
             ],
             "scripts": []
@@ -120,6 +121,7 @@
               "projects/iridium-ui/src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/pink-bluegrey.css",
               "projects/iridium-ui/src/styles.css"
             ],
             "scripts": []

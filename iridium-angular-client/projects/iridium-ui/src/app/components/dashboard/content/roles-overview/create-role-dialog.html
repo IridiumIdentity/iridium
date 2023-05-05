@@ -1,0 +1,41 @@
+<div class="dialog-container">
+<form [formGroup]="createRoleFormGroup" class="dialog-form">
+  <h3>Create New Role</h3>
+
+  <section>
+    <h4>Select Application Type</h4>
+    <mat-button-toggle-group [formControl]="fontStyleControl" aria-label="Font Style">
+      <mat-button-toggle value="bold">Web App</mat-button-toggle>
+      <mat-button-toggle value="italic">Single Page App</mat-button-toggle>
+    </mat-button-toggle-group>
+    <p>Chosen value is {{fontStyleControl.value}}</p>
+  </section>
+
+  <mat-form-field appearance="fill" class="form-input">
+    <mat-label>Application Name</mat-label>
+    <input matInput formControlName="applicationName" required>
+  </mat-form-field>
+  <div>
+    <mat-form-field appearance="fill" class="form-input">
+      <mat-label>Homepage URL</mat-label>
+      <input matInput formControlName="homepageURL" required>
+    </mat-form-field>
+  </div>
+  <mat-form-field appearance="fill" class="form-input">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+  <div>
+    <mat-form-field appearance="fill" class="form-input">
+      <mat-label>Authorization Callback URL</mat-label>
+      <input matInput formControlName="authorizationCallbackURL" required>
+    </mat-form-field>
+
+  </div>
+  <div>
+    <button mat-button type="submit" [disabled]="!createRoleFormGroup.valid" (click)="create()">
+      Submit
+    </button>
+  </div>
+</form>
+</div>
