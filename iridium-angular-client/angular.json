@@ -35,6 +35,97 @@
           }
         }
       }
+    },
+    "iridium-ui": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/iridium-ui",
+      "sourceRoot": "projects/iridium-ui/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/iridium-ui",
+            "index": "projects/iridium-ui/src/index.html",
+            "main": "projects/iridium-ui/src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "projects/iridium-ui/tsconfig.app.json",
+            "assets": [
+              "projects/iridium-ui/src/favicon.ico",
+              "projects/iridium-ui/src/assets"
+            ],
+            "styles": [
+              "projects/iridium-ui/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "iridium-ui:build:production"
+            },
+            "development": {
+              "browserTarget": "iridium-ui:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "iridium-ui:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "projects/iridium-ui/tsconfig.spec.json",
+            "assets": [
+              "projects/iridium-ui/src/favicon.ico",
+              "projects/iridium-ui/src/assets"
+            ],
+            "styles": [
+              "projects/iridium-ui/src/styles.css"
+            ],
+            "scripts": []
+          }
+        }
+      }
     }
   }
 }

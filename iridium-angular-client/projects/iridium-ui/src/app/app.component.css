@@ -1,0 +1,31 @@
+.example-spacer {
+    flex: 1 1 auto;
+  }
+
+  .my-wrapper {
+    display: flex;
+  }
+
+  .my-item {
+    padding: 10px;
+  }
+
+  .home-button {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    color: white;
+  }
+
+
+.header img {
+  max-width: 250px;
+}
+
+.header-bar {
+  background-color: #5b89b4;
+  color: #fafafa
+}

@@ -1,0 +1,42 @@
+<div class="main-container">
+  <div class="create-button-container">
+    <button mat-raised-button (click)="create()" class="create-button">Create Application</button>
+  </div>
+  <div class="application-table-container">
+    <h3>Current Applications</h3>
+    <div class="table-container">
+    <mat-table cdk-table [dataSource]="dataSource" class="data-table">
+
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.name}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="clientId">
+        <mat-header-cell *matHeaderCellDef>Client ID</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.clientId}}
+        </mat-cell>
+      </ng-container>
+
+
+
+
+      <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.type}}
+        </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns; index as i" (click)="onRowClick(i)"></mat-row>
+    </mat-table>
+    </div>
+
+  </div>
+</div>

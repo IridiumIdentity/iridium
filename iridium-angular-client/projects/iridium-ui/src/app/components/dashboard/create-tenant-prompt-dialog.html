@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Create Tenant</h1>
+<div mat-dialog-content>
+  Enter a name for you tenant.  Tenant names need to be unique and url safe.
+  <form>
+    <div>
+    <mat-form-field>
+      <input matInput placeholder="tenant name" >
+    </mat-form-field>
+    </div>
+    Select the appropriate environment for the tenant you are creating.
+    <div>
+    <mat-button-toggle-group name="favoriteColor" aria-label="Favorite Color">
+      <mat-button-toggle value="dev">dev</mat-button-toggle>
+      <mat-button-toggle value="non-prod">non-prod</mat-button-toggle>
+      <mat-button-toggle value="prod">prod</mat-button-toggle>
+    </mat-button-toggle-group>
+    </div>
+
+  </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="onDialogYes()" mat-dialog-close cdkFocusInitial>Create</button>
+</div>
