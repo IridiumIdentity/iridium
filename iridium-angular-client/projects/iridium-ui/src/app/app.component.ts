@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgxIridiumClientService } from 'ngx-iridium-client';
 
 export interface Tile {
   color: string;
@@ -21,17 +22,18 @@ interface TenantSelectItem {
 export class AppComponent {
   loggedIn = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private iridiumClient: NgxIridiumClientService) {
 
   }
   title = 'Iridium UI';
 
-  onClick() {
-    this.router.navigateByUrl('/login');
+  login() {
+    this.iridiumClient.authenticateWithExternalRedirect();
+    //this.router.navigateByUrl('/login');
 
   }
 
-  registerOnClick() {
+  register() {
     this.router.navigateByUrl('/register');
   }
 

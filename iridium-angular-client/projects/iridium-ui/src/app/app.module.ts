@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -55,6 +55,7 @@ import { SubscriptionComponent } from './components/dashboard/content/subscripti
 import { BillingComponent } from './components/dashboard/content/billing/billing.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { NgxIridiumClientModule } from 'ngx-iridium-client';
 
 @NgModule({
   declarations: [
@@ -106,9 +107,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatMenuModule,
     MatToolbarModule,
     MatButtonToggleModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    NgxIridiumClientModule
   ],
-  providers: [DynamicContentViewService],
+  providers: [DynamicContentViewService, {provide: 'config', useValue: environment}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

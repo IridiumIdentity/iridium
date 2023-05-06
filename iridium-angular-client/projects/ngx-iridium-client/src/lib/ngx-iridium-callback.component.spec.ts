@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NgxIridiumClientComponent } from './ngx-iridium-client.component';
+import { NgxIridiumCallbackComponent } from './ngx-iridium-callback.component';
 
 describe('NgxIridiumClientComponent', () => {
-  let component: NgxIridiumClientComponent;
-  let fixture: ComponentFixture<NgxIridiumClientComponent>;
+  let component: NgxIridiumCallbackComponent;
+  let fixture: ComponentFixture<NgxIridiumCallbackComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NgxIridiumClientComponent ]
+      declarations: [ NgxIridiumCallbackComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(NgxIridiumClientComponent);
+    fixture = TestBed.createComponent(NgxIridiumCallbackComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

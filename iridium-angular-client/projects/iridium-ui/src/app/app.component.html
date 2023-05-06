@@ -4,8 +4,8 @@
 
 
   <span class="menu-spacer"></span>
-  <button (click)="registerOnClick()" mat-button>Register</button>
-  <button (click)="onClick()" mat-button>Login</button>
+  <button (click)="register()" mat-button>Register</button>
+  <button (click)="login()" mat-button>Login</button>
 
   <div *ngIf="loggedIn">
     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="user menu">

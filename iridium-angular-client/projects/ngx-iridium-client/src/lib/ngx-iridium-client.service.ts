@@ -50,6 +50,7 @@ export class NgxIridiumClientService {
           // get token from accessCode
           this.authorizationService.exchange(returnedCode).subscribe(authzResponse => {
               const accessToken = authzResponse;
+              return true;
             },
             error => {
               console.log('error get  user: ', error);
