@@ -19,6 +19,27 @@ export class AuthorizationService extends AbstractBaseService {
     super();
   }
 
+  exchangeForExternalIdentity(code: string | null, state: string | null) {
+    const headers = new HttpHeaders({
+      Accept:  'application/json',
+    });
+
+    const httpOptions = {
+      headers,
+    };
+    const redirectUri = this.config.iridium.redirectUri;
+    const clientId = this.config.iridium.clientId;
+
+    const codeVerifier = this.cookieService.getCookie(OauthConstants.PKCE_CODE_VERIFIER);
+    const url = this.config.iridium.domain
+      + 'oauth/token?grant_type=authorization_code&code='
+      // tslint:disable-next-line:max-line-length
+      + code + '&redirect_uri=' + redirectUri + '&client_id=' + clientId + '&code_verifier=' + codeVerifier + '&state=' + state
+    console.log('exchange: ',url)
+    return this.http.post<AccessTokenResponse>(url,null, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
   exchange(code: string | null) {
     const headers = new HttpHeaders({
       Accept:  'application/json',
@@ -30,10 +51,10 @@ export class AuthorizationService extends AbstractBaseService {
     const redirectUri = this.config.iridium.redirectUri;
     const clientId = this.config.iridium.clientId;
 
-    const codeVerifier = this.cookieService.getCookie('pkce_verifier');
+    const codeVerifier = this.cookieService.getCookie(OauthConstants.PKCE_CODE_VERIFIER);
 
     return this.http.post<AccessTokenResponse>(
-      this.config.authenticationApiBaseUrl
+      this.config.iridium.domain
       + 'oauth/token?grant_type=authorization_code&code='
       + code + '&redirect_uri=' + redirectUri + '&client_id=' + clientId + '&code_verifier=' + codeVerifier, null, httpOptions)
       .pipe(catchError(this.handleError));

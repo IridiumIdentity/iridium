@@ -4,6 +4,7 @@ import { DynamicContentView } from './content/dynamic-content-view';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { TenantSelectItem } from './domain/tenant-select-item';
 import { MenuItemNode } from './domain/menu-item-node';
+import { NgxIridiumClientService } from '../../../../../ngx-iridium-client/src/lib/ngx-iridium-client.service';
 
 
 const TREE_DATA: MenuItemNode[] = [
@@ -89,9 +90,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     {value: 'tenant-3', viewValue: 'tenant-3'},
   ];
 
-  constructor(private contentViewService: DynamicContentViewService, private dialog: MatDialog) {
+  constructor(private contentViewService: DynamicContentViewService, private dialog: MatDialog, private iridiumClient: NgxIridiumClientService) {
   }
   ngOnInit(): void {
+    this.iridiumClient.authorize();
     this.views = this.contentViewService.getViews();
     this.view = this.views['system overview']
   }

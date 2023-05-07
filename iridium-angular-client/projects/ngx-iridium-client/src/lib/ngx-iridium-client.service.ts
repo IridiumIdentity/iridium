@@ -49,12 +49,23 @@ export class NgxIridiumClientService {
           }
           // get token from accessCode
           this.authorizationService.exchange(returnedCode).subscribe(authzResponse => {
-              const accessToken = authzResponse;
+
+              this.cookieService.setCookie('iridium-token', authzResponse.access_token, 1, OauthConstants.COOKIE_PATH)
               return true;
             },
             error => {
-              console.log('error get  user: ', error);
+              // check from external provider
+              this.authorizationService.exchangeForExternalIdentity(returnedCode, params.get('state')).subscribe(authzResponse => {
+                  console.log('success login: ', authzResponse);
+                  this.cookieService.setCookie('iridium-token', authzResponse.access_token, 1, OauthConstants.COOKIE_PATH)
+                },
+                error => {
+                  console.log('error get  user: ', error);
+                });
+
             });
+
+
         } else {
           console.log('an error occurred');
           return;

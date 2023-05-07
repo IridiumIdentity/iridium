@@ -28,6 +28,7 @@ export class AppComponent {
   title = 'Iridium UI';
 
   login() {
+    console.log('authenticate with ext')
     this.iridiumClient.authenticateWithExternalRedirect();
     //this.router.navigateByUrl('/login');
 
