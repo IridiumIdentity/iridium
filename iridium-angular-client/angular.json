@@ -58,7 +58,7 @@
               "projects/iridium-ui/src/assets"
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/pink-bluegrey.css",
+              "@angular/material/prebuilt-themes/indigo-pink.css",
               "projects/iridium-ui/src/styles.css"
             ],
             "scripts": []

@@ -11,7 +11,6 @@
  */
 package software.iridium.api.mapper;
 
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import software.iridium.api.authentication.domain.IdentityResponse;
 import software.iridium.api.entity.IdentityEntity;
@@ -30,7 +29,7 @@ public class IdentityEntityMapper {
     response.setUsername(entity.getPrimaryEmail().getEmailAddress());
     response
         .getRoles()
-        .addAll(entity.getRoles().stream().map(RoleEntity::getName).collect(Collectors.toList()));
+        .addAll(entity.getRoles().stream().map(RoleEntity::getName).toList());
     return response;
   }
 }

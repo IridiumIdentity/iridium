@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxIridiumClientService } from 'ngx-iridium-client';
 
@@ -19,12 +19,16 @@ interface TenantSelectItem {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   loggedIn = false;
 
   constructor(private router: Router, private iridiumClient: NgxIridiumClientService) {
 
   }
+
+  ngOnInit(): void {
+        console.log('check auth status')
+    }
   title = 'Iridium UI';
 
   login() {

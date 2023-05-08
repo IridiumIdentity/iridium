@@ -25,16 +25,6 @@ import software.iridium.api.authentication.domain.ApplicationAuthorizationFormRe
 import software.iridium.api.authentication.domain.IdentityResponse;
 import software.iridium.api.service.AuthorizationService;
 
-/**
- * Create a log-in link with the app's client ID, redirect URL, state, and PKCE code challenge
- * parameters The user sees the authorization prompt and approves the request The user is redirected
- * back to the app's server with an auth code • The app exchanges the auth code for an access
- * token @RequestParam(name = "scope") final String scope, @RequestParam(name = "response_type")
- * final String responseType, @RequestParam(name = "client_id") final String
- * clientId, @RequestParam(name = "redirect_uri") final String redirectUri, @RequestParam(name =
- * "state") final String state, @RequestParam(name = "code_challenge") final String
- * codeChallenge, @RequestParam(name = "code_challenge_method") final String codeChallengeMethod
- */
 @CrossOrigin
 @RestController
 public class AuthorizationController {
