@@ -4,7 +4,7 @@
     <div  class="tenant-select">
     <mat-form-field appearance="fill">
       <mat-label>Select Tenant</mat-label>
-      <mat-select>
+      <mat-select [disabled]="!tenants" (selectionChange)="onTenantChange($event)">
         <mat-option *ngFor="let tenant of tenants"
                     [value]="tenant.value">
           {{tenant.viewValue}}
@@ -20,7 +20,7 @@
 
     <mat-accordion>
 
-      <mat-expansion-panel *ngFor="let menuItem of menuItemNodes" (opened)="panelOpenState = true"
+      <mat-expansion-panel  [disabled]="!selectedTenant" *ngFor="let menuItem of menuItemNodes" (opened)="panelOpenState = true"
                            (closed)="panelOpenState = false">
         <mat-expansion-panel-header>
           <mat-panel-title>

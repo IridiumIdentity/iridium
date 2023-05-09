@@ -41,7 +41,7 @@ public class CorsFilter extends OncePerRequestFilter {
       response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
       response.addHeader(
           "Access-Control-Allow-Headers",
-          "Authorization, Content-Type, Accept, X-IRIDIUM-AUTH-TOKEN");
+          "Authorization, Content-Type, Accept, X-IRIDIUM-AUTH-TOKEN, Bearer");
       response.addHeader("Access-Control-Max-Age", "1");
     }
 

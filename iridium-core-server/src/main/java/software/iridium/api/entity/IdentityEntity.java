@@ -86,7 +86,7 @@ public class IdentityEntity extends AbstractEntity {
 
   @OneToMany(
       cascade = CascadeType.ALL,
-      fetch = FetchType.LAZY,
+      fetch = FetchType.EAGER,
       mappedBy = "identity",
       orphanRemoval = true)
   private List<IdentityEmailEntity> emails = new ArrayList<>();

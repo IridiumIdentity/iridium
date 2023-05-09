@@ -21,6 +21,8 @@ import software.iridium.api.base.domain.ApiDataResponse;
 import software.iridium.api.base.domain.ApiListResponse;
 import software.iridium.api.service.TenantService;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 public class TenantController {
@@ -28,16 +30,16 @@ public class TenantController {
   @Autowired private TenantService tenantService;
 
   @GetMapping(value = "tenants", produces = TenantSummary.MEDIA_TYPE_LIST)
-  public ApiListResponse<TenantSummary> getTenantSummaries(HttpServletRequest request) {
-    return new ApiListResponse<>(tenantService.getTenantSummaries(request));
+  public List<TenantSummary> getTenantSummaries(HttpServletRequest request) {
+    return tenantService.getTenantSummaries(request);
   }
 
   @PostMapping(
       value = "tenants",
       consumes = CreateTenantRequest.MEDIA_TYPE,
       produces = CreateTenantResponse.MEDIA_TYPE)
-  public ApiDataResponse<CreateTenantResponse> create(
+  public CreateTenantResponse create(
       final HttpServletRequest request, @RequestBody final CreateTenantRequest tenantRequest) {
-    return new ApiDataResponse<>(tenantService.create(request, tenantRequest));
+    return tenantService.create(request, tenantRequest);
   }
 }

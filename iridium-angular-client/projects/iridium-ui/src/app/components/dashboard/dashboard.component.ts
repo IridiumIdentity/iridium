@@ -1,10 +1,13 @@
-import { Component, Input, OnDestroy, OnInit, Inject } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DynamicContentViewService } from './content/dynamic-content-view.service';
 import { DynamicContentView } from './content/dynamic-content-view';
-import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { TenantSelectItem } from './domain/tenant-select-item';
 import { MenuItemNode } from './domain/menu-item-node';
 import { NgxIridiumClientService } from '../../../../../ngx-iridium-client/src/lib/ngx-iridium-client.service';
+import { TenantService } from '../../services/tenant.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
 
 
 const TREE_DATA: MenuItemNode[] = [
@@ -61,14 +64,26 @@ const TREE_DATA: MenuItemNode[] = [
   templateUrl: 'create-tenant-prompt-dialog.html',
 })
 export class CreateTenantPromptDialog {
-
+  createTenantFormGroup: FormGroup;
   // @ts-ignore
   constructor(
     public dialogRef: MatDialogRef<DashboardComponent>,
-  ) {}
+    private tenantService: TenantService,
+    private formBuilder: FormBuilder
+  ) {
+    this.createTenantFormGroup = this.formBuilder.group({
+      tenantName: ['', Validators.required],
+      environment: ['', Validators.required],
+    });
+  }
 
   onDialogYes() {
     console.log('yes')
+    this.tenantService.create(this.createTenantFormGroup)
+      .subscribe(response => {
+        console.log('success response is: ', response)
+          window.location.reload();
+      })
   }
 }
 
@@ -80,22 +95,33 @@ export class CreateTenantPromptDialog {
 export class DashboardComponent implements OnInit, OnDestroy {
   panelOpenState = false;
   menuItemNodes = TREE_DATA;
-
   interval: number|undefined;
   @Input() views: { [id:string] : DynamicContentView } = {}
   @Input() view!: DynamicContentView;
-  tenants: TenantSelectItem[] = [
-    {value: 'tenant-1', viewValue: 'tenant-1'},
-    {value: 'tenant-2', viewValue: 'tenant-2'},
-    {value: 'tenant-3', viewValue: 'tenant-3'},
-  ];
+  tenants: TenantSelectItem[] = [];
+  selectedTenant!: string;
 
-  constructor(private contentViewService: DynamicContentViewService, private dialog: MatDialog, private iridiumClient: NgxIridiumClientService) {
+  constructor(private contentViewService: DynamicContentViewService, private dialog: MatDialog, private iridiumClient: NgxIridiumClientService, private tenantService: TenantService) {
   }
   ngOnInit(): void {
     this.iridiumClient.authorize();
     this.views = this.contentViewService.getViews();
     this.view = this.views['system overview']
+    this.getTenantSummaries();
+
+  }
+
+  getTenantSummaries() {
+    this.tenantService.getTenantSummaries()
+      .subscribe(summaries => {
+        for (let i = 0; i < summaries.length; i++) {
+          this.tenants.push({ value: summaries[i].id, viewValue: summaries[i].subdomain})
+        }
+      })
+  }
+
+  onTenantChange(event: MatSelectChange) {
+    this.selectedTenant = event.value;
   }
 
   ngOnDestroy() {
@@ -115,18 +141,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   openDialog(): void {
-
-    const dialogRef = this.dialog.open(CreateTenantPromptDialog, {
+    this.dialog.open(CreateTenantPromptDialog, {
       data: {},
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
   }
-
-
-
-
 }
 
