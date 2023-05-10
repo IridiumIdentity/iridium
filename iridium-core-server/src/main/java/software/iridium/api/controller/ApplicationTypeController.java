@@ -19,6 +19,8 @@ import software.iridium.api.authentication.domain.ApplicationTypeSummary;
 import software.iridium.api.base.domain.ApiListResponse;
 import software.iridium.api.service.ApplicationTypeService;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 public class ApplicationTypeController {
@@ -26,7 +28,7 @@ public class ApplicationTypeController {
   @Autowired private ApplicationTypeService applicationTypeService;
 
   @GetMapping(value = "/application-types", produces = ApplicationTypeSummary.MEDIA_TYPE_LIST)
-  public ApiListResponse<ApplicationTypeSummary> getAll() {
-    return new ApiListResponse<>(applicationTypeService.getAll());
+  public List<ApplicationTypeSummary> getAll() {
+    return applicationTypeService.getAll();
   }
 }

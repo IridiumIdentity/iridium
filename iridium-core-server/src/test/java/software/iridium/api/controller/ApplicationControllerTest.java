@@ -52,7 +52,7 @@ public class ApplicationControllerTest {
 
     verify(mockService).create(same(request), same(tenantId));
 
-    assertThat(response.getData(), sameInstance(appResponse));
+    assertThat(response, sameInstance(appResponse));
   }
 
   @Test

@@ -15,6 +15,8 @@ export class DynamicContentViewComponent implements OnInit, OnDestroy {
 
   @Input() view!: DynamicContentView;
 
+  @Input() tenantId!: string;
+
   previousComponent!: Type<any>;
 
   @ViewChild(DynamicContentViewDirective, {static: true}) dynamicContentViewHost!: DynamicContentViewDirective;

@@ -30,10 +30,10 @@ public class ApplicationController {
       value = "/tenants/{tenant-id}/applications",
       consumes = ApplicationCreateRequest.MEDIA_TYPE,
       produces = ApplicationCreateResponse.MEDIA_TYPE)
-  public ApiDataResponse<ApplicationCreateResponse> create(
+  public ApplicationCreateResponse create(
       @RequestBody final ApplicationCreateRequest request,
       @PathVariable("tenant-id") final String tenantId) {
-    return new ApiDataResponse<>(applicationService.create(request, tenantId));
+    return applicationService.create(request, tenantId);
   }
 
   @GetMapping(

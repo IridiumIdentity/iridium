@@ -1,15 +1,13 @@
 <h1 mat-dialog-title>Create Application</h1>
 <div mat-dialog-content>
   Enter details for your application
-<form [formGroup]="createApplicationFormGroup" class="dialog-form">
 
+<form [formGroup]="createApplicationFormGroup" class="dialog-form">
   <section>
     <h4>Select Application Type</h4>
-    <mat-button-toggle-group [formControl]="fontStyleControl" aria-label="Font Style">
-      <mat-button-toggle value="bold">Web App</mat-button-toggle>
-      <mat-button-toggle value="italic">Single Page App</mat-button-toggle>
+    <mat-button-toggle-group formControlName="applicationTypeId" aria-label="Font Style">
+      <mat-button-toggle *ngFor="let item of data;" [value]="item.id">{{item.name}}</mat-button-toggle>
     </mat-button-toggle-group>
-    <p>Chosen value is {{fontStyleControl.value}}</p>
   </section>
 
   <mat-form-field appearance="fill" class="form-input">

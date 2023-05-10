@@ -18,7 +18,7 @@ public class ApplicationCreateRequest implements Serializable {
   private static final long serialVersionUID = -6208748801543357305L;
 
   public static final String MEDIA_TYPE =
-      "application/vnd.iridium.id.authz.application-create-request.1+json";
+      "application/vnd.iridium.id.application-create-request.1+json";
 
   private String name;
 

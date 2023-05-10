@@ -37,6 +37,6 @@
     </mat-accordion>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-dynamic-content-view [view]="view" (changeViewRequest)="changeView($event)"></app-dynamic-content-view>
+    <app-dynamic-content-view [tenantId]="selectedTenant" [view]="view" (changeViewRequest)="changeView($event)"></app-dynamic-content-view>
   </mat-sidenav-content>
 </mat-sidenav-container>

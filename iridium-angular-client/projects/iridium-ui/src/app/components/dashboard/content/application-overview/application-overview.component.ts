@@ -5,6 +5,9 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { CookieService } from '../../../../services/cookie.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ApplicationTypeService } from '../../../../services/application-type.service';
+import { ApplicationTypeSummary } from '../../domain/application-type-summary';
+import { ApplicationService } from '../../../../services/application.service';
 @Component({
   selector: 'create-application-dialog',
   templateUrl: 'create-application-dialog.html',
@@ -15,18 +18,23 @@ export class CreateApplicationDialog {
   fontStyle?: string;
   createApplicationFormGroup: UntypedFormGroup;
   // @ts-ignore
-  constructor(public dialogRef: MatDialogRef<ApplicationOverviewComponent>, private _formBuilder: UntypedFormBuilder) {
+  constructor(public dialogRef: MatDialogRef<ApplicationOverviewComponent>, private _formBuilder: UntypedFormBuilder, @Inject(MAT_DIALOG_DATA) public data: ApplicationTypeSummary[], private applicationService: ApplicationService) {
     this.createApplicationFormGroup = this._formBuilder.group({
       applicationName: ['', Validators.required],
       homepageURL: ['', Validators.required],
       description: [''],
       authorizationCallbackURL: ['', Validators.required],
+      applicationTypeId: ['', Validators.required]
     });
   }
 
 
   create() {
-    console.log('yes')
+    console.log('form data', this.createApplicationFormGroup.controls)
+    this.applicationService.create(this.createApplicationFormGroup)
+      .subscribe((response ) => {
+
+      })
   }
 }
 @Component({
@@ -42,25 +50,28 @@ export class ApplicationOverviewComponent implements DynamicContentViewItem {
   displayedColumns: string[] = ['name', 'clientId', 'type'];
   dataSource: FrontEndClientSummary[] = [];
   createApplicationFormGroup: UntypedFormGroup;
+  applicationTypes: ApplicationTypeSummary[] = []
 
 
-  constructor(private cookieService: CookieService, private route: ActivatedRoute, private _formBuilder: UntypedFormBuilder, private router: Router, private dialog: MatDialog) {
+  constructor(private cookieService: CookieService, private route: ActivatedRoute, private _formBuilder: UntypedFormBuilder, private router: Router, private dialog: MatDialog, private applicationTypeService: ApplicationTypeService) {
     this.createApplicationFormGroup = this._formBuilder.group({
       applicationName: ['', Validators.required],
       homepageURL: ['', Validators.required],
       description: [''],
       authorizationCallbackURL: ['', Validators.required],
     });
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      if (params.get('tenantId')) {
+   this.applicationTypeService.get()
+     .subscribe(applicationTypes => {
+       console.log('application types ', applicationTypes)
+       this.applicationTypes = applicationTypes
 
-      }
-    })
+     })
   }
 
   create() {
+    console.log('about to pass application types: ', this.applicationTypes)
     const dialogRef = this.dialog.open(CreateApplicationDialog, {
-      data: {},
+      data: this.applicationTypes,
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -122,6 +122,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onTenantChange(event: MatSelectChange) {
     this.selectedTenant = event.value;
+    console.log('selected tenant: ', this.selectedTenant)
   }
 
   ngOnDestroy() {
