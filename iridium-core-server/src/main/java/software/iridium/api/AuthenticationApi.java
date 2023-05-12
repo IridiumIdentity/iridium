@@ -14,7 +14,6 @@ package software.iridium.api;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.TemplateLoader;
 import freemarker.template.Configuration;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.TimeZone;
 import javax.annotation.PostConstruct;
@@ -102,7 +101,7 @@ public class AuthenticationApi implements WebMvcConfigurer {
   @PostConstruct
   public void init() {
     TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-    System.out.println("AuthenticationApi application running in UTC timezone :" + new Date());
+    System.out.println("Iridium running in UTC timezone :" + new Date());
   }
 
   public static void main(String... args) {

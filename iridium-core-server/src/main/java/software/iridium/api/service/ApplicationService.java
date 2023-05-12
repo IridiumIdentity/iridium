@@ -26,6 +26,7 @@ import software.iridium.api.base.domain.PagedListResponse;
 import software.iridium.api.base.error.DuplicateResourceException;
 import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.entity.ApplicationEntity;
+import software.iridium.api.entity.ApplicationType;
 import software.iridium.api.instantiator.ApplicationEntityInstantiator;
 import software.iridium.api.mapper.ApplicationResponseMapper;
 import software.iridium.api.mapper.ApplicationSummaryMapper;
@@ -33,6 +34,7 @@ import software.iridium.api.repository.ApplicationEntityRepository;
 import software.iridium.api.repository.ApplicationTypeEntityRepository;
 import software.iridium.api.repository.TenantEntityRepository;
 import software.iridium.api.util.AttributeValidator;
+import software.iridium.api.validator.SinglePageApplicationCreateRequestValidator;
 
 @Service
 public class ApplicationService {
@@ -44,6 +46,7 @@ public class ApplicationService {
   @Autowired private ApplicationEntityInstantiator entityInstantiator;
   @Autowired private ApplicationResponseMapper responseMapper;
   @Autowired private ApplicationSummaryMapper summaryMapper;
+  @Autowired private SinglePageApplicationCreateRequestValidator spaRequestValidator;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public ApplicationCreateResponse create(
@@ -66,6 +69,10 @@ public class ApplicationService {
                     new ResourceNotFoundException(
                         "application type not found for id: " + request.getApplicationTypeId()));
 
+    if (applicationType.getType().equals(ApplicationType.SINGLE_PAGE)) {
+      spaRequestValidator.validate(request);
+    }
+
     if (tenantRepository.findById(tenantId).isEmpty()) {
       throw new ResourceNotFoundException("tenant not found for id: " + tenantId);
     }
@@ -81,25 +88,21 @@ public class ApplicationService {
   }
 
   @Transactional(propagation = Propagation.SUPPORTS)
-  public PagedListResponse<ApplicationSummary> getPageByTenantIdAndApplicationTypeId(
+  public PagedListResponse<ApplicationSummary> getPageByTenantId(
       final String tenantId,
-      final String applicationTypeId,
       final Integer page,
       final Integer size,
       final Boolean active) {
     checkArgument(
         attributeValidator.isUuid(tenantId), "tenantId must be a valid uuid: " + tenantId);
-    checkArgument(
-        attributeValidator.isUuid(applicationTypeId),
-        "applicationTypeId must be a valid uuid: " + applicationTypeId);
     checkArgument(attributeValidator.isPositive(page), "page must be a positive integer: " + page);
     checkArgument(attributeValidator.isPositive(size), "size must be a positive integer: " + size);
     checkArgument(
         attributeValidator.isNotNull(active), "active must be either true or false: " + active);
 
     Page<ApplicationEntity> pageOfEntityInstances =
-        applicationRepository.findAllByTenantIdAndApplicationTypeIdAndActive(
-            tenantId, applicationTypeId, active, PageRequest.of(page, size));
+        applicationRepository.findAllByTenantIdAndActive(
+            tenantId, active, PageRequest.of(page, size));
     final var content = pageOfEntityInstances.getContent();
     return new PagedListResponse<>(
         summaryMapper.mapToSummaries(content), pageOfEntityInstances.getTotalPages(), page, size);

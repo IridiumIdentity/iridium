@@ -5,7 +5,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateUserDialog, UserOverviewComponent } from '../user-overview/user-overview.component';
 import { CookieService } from '../../../../services/cookie.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FrontEndClientSummary } from '../../domain/frontEndClientSummary';
+import { ApplicationSummary } from '../../domain/application-summary';
 
 
 @Component({
@@ -41,7 +41,7 @@ export class RolesOverviewComponent implements DynamicContentViewItem {
 
   @Input() data: any;
   displayedColumns: string[] = ['name', 'clientId', 'type'];
-  dataSource: FrontEndClientSummary[] = [];
+  dataSource: ApplicationSummary[] = [];
   constructor(private cookieService: CookieService, private route: ActivatedRoute, private _formBuilder: UntypedFormBuilder, private router: Router, private dialog: MatDialog) { }
 
   create() {

@@ -35,9 +35,7 @@ export class AuthorizationService extends AbstractBaseService {
       + 'oauth/token?grant_type=authorization_code&code='
       // tslint:disable-next-line:max-line-length
       + code + '&redirect_uri=' + redirectUri + '&client_id=' + clientId + '&code_verifier=' + codeVerifier + '&state=' + state
-    console.log('exchange: ',url)
-    return this.http.post<AccessTokenResponse>(url,null, httpOptions)
-      .pipe(catchError(this.handleError));
+    return this.http.post<AccessTokenResponse>(url,null, httpOptions).toPromise();
   }
 
   exchange(code: string | null) {
@@ -56,7 +54,6 @@ export class AuthorizationService extends AbstractBaseService {
     return this.http.post<AccessTokenResponse>(
       this.config.iridium.domain
       + 'oauth/token?grant_type=authorization_code&code='
-      + code + '&redirect_uri=' + redirectUri + '&client_id=' + clientId + '&code_verifier=' + codeVerifier, null, httpOptions)
-      .pipe(catchError(this.handleError));
+      + code + '&redirect_uri=' + redirectUri + '&client_id=' + clientId + '&code_verifier=' + codeVerifier, null, httpOptions).toPromise()
   }
 }

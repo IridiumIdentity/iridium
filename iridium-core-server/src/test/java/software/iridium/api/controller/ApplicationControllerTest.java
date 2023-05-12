@@ -58,14 +58,13 @@ public class ApplicationControllerTest {
   @Test
   public void getPageByTenantIdAndApplicationTypeAllGood_BehavesAsExpected() {
     final var orgId = "the org id";
-    final var applicationTypeId = "applicationTypeId";
     final var page = 1;
     final var size = 20;
 
-    subject.getPageByTenantAndApplicationType(orgId, applicationTypeId, page, size, true);
+    subject.getPageByTenantAndApplicationType(orgId, page, size, true);
 
     verify(mockService)
-        .getPageByTenantIdAndApplicationTypeId(
-            same(orgId), same(applicationTypeId), same(page), same(size), eq(true));
+        .getPageByTenantId(
+            same(orgId), same(page), same(size), eq(true));
   }
 }

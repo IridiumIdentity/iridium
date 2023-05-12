@@ -1,4 +1,4 @@
-export interface FrontEndClientSummary {
+export interface ApplicationSummary {
   clientId: string;
   name: string;
   type: string;

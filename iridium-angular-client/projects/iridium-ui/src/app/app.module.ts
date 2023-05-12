@@ -50,8 +50,6 @@ import { MatTableModule } from '@angular/material/table';
 import { SystemOverviewComponent } from './components/dashboard/content/system-overview/system-overview.component';
 import { TenantOverviewComponent } from './components/dashboard/content/tenant-overview/tenant-overview.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { SubscriptionComponent } from './components/dashboard/content/subscription/subscription.component';
-import { BillingComponent } from './components/dashboard/content/billing/billing.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxIridiumClientModule } from 'ngx-iridium-client';
@@ -72,8 +70,6 @@ import { NgxIridiumClientModule } from 'ngx-iridium-client';
     SystemOverviewComponent,
     TenantOverviewComponent,
     CreateTenantPromptDialog,
-    SubscriptionComponent,
-    BillingComponent,
     CreateApplicationDialog,
     CreateAPIDialog,
     CreateUserDialog,

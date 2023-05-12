@@ -32,7 +32,6 @@ public class PasswordEventHandler {
   @Transactional(propagation = Propagation.REQUIRED)
   public void handlePasswordResetInitiatedEvent(
       final IdentityEntity identity, final String clientId) {
-    // todo (josh fischer) remove me
     Map<String, Object> props = new HashMap<>();
     props.put(
         "forgotPasswordLink",

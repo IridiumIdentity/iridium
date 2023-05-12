@@ -11,6 +11,8 @@
  */
 package software.iridium.api.util;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
@@ -56,6 +58,18 @@ public class AttributeValidator {
 
   public boolean isNotNull(final Object candidate) {
     return candidate != null;
+  }
+
+  public boolean isValidUrl(String url) {
+    if (url == null) {
+      return false;
+    }
+    try {
+      new URL(url);
+      return true;
+    } catch (MalformedURLException e) {
+      return false;
+    }
   }
 
   public boolean isUuid(String uuid) {

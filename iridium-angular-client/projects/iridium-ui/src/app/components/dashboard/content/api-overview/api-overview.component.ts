@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { DynamicContentViewItem } from '../dynamic-content-view-item';
-import { FrontEndClientSummary } from '../../domain/frontEndClientSummary';
+import { ApplicationSummary } from '../../domain/application-summary';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { CookieService } from '../../../../services/cookie.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -43,7 +43,7 @@ export class ApiOverviewComponent implements DynamicContentViewItem {
 
 
   displayedColumns: string[] = ['name', 'clientId', 'type'];
-  dataSource: FrontEndClientSummary[] = [];
+  dataSource: ApplicationSummary[] = [];
   createApiFormGroup: UntypedFormGroup;
 
   constructor(private cookieService: CookieService, private route: ActivatedRoute, private _formBuilder: UntypedFormBuilder, private router: Router, private dialog: MatDialog) {

@@ -13,7 +13,7 @@ export class ApplicationService {
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 
-  create(formGroup: FormGroup) {
+  create(formGroup: FormGroup, tenantId: string) {
     const token = this.cookieService.getCookie('iridium-token')
     const headers = new HttpHeaders({
       'Content-Type':  'application/vnd.iridium.id.application-create-request.1+json',
@@ -23,8 +23,10 @@ export class ApplicationService {
     const request = new CreateApplicationRequest();
     request.name = formGroup.controls['applicationName'].value;
     request.applicationTypeId = formGroup.controls['applicationTypeId'].value;
+    request.callbackURL = formGroup.controls['authorizationCallbackURL'].value;
+    request.description = formGroup.controls['description'].value;
+    request.homepageURL = formGroup.controls['homepageURL'].value;
     const options = { headers: headers }
-    const tenantId = 'somethign'
-    return this.http.post<CreateApplicationResponse>(environment.iridium.domain + `/tenants/${tenantId}/applications`, request, options)
+    return this.http.post<CreateApplicationResponse>(environment.iridium.domain + `tenants/${tenantId}/applications`, request, options)
   }
 }

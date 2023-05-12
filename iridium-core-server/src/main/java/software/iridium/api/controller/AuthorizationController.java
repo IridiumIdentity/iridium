@@ -71,7 +71,6 @@ public class AuthorizationController {
       final ApplicationAuthorizationFormRequest formRequest,
       @RequestParam Map<String, String> params) {
     logger.info("initiating authorization");
-    logger.info("params {}", params);
     final var redirectUri = authorizationService.authorize(formRequest, params, servletRequest);
     RedirectView redirectView = new RedirectView();
     redirectView.setUrl(redirectUri);

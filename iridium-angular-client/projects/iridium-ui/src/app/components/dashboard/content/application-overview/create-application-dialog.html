@@ -6,7 +6,7 @@
   <section>
     <h4>Select Application Type</h4>
     <mat-button-toggle-group formControlName="applicationTypeId" aria-label="Font Style">
-      <mat-button-toggle *ngFor="let item of data;" [value]="item.id">{{item.name}}</mat-button-toggle>
+      <mat-button-toggle *ngFor="let item of data.applicationTypes;" [value]="item.id">{{item.name}}</mat-button-toggle>
     </mat-button-toggle-group>
   </section>
 

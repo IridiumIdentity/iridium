@@ -62,7 +62,7 @@ class IdentityEntityMapperTest {
       assertThat(domainRoleName, is(equalTo(roleName)));
     }
 
-    for (String tenantIdResponse: response.getTenantIds()) {
+    for (String tenantIdResponse : response.getTenantIds()) {
       assertThat(tenantIdResponse, is(equalTo(tenantId)));
     }
   }

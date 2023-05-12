@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import software.iridium.api.authentication.domain.ApplicationCreateRequest;
 import software.iridium.api.authentication.domain.ApplicationCreateResponse;
 import software.iridium.api.authentication.domain.ApplicationSummary;
-import software.iridium.api.base.domain.ApiDataResponse;
 import software.iridium.api.base.domain.PagedListResponse;
 import software.iridium.api.service.ApplicationService;
 
@@ -37,15 +36,14 @@ public class ApplicationController {
   }
 
   @GetMapping(
-      value = "/tenants/{tenant-id}/applications/{application-type-id}",
+      value = "/tenants/{tenant-id}/applications",
       produces = ApplicationSummary.MEDIA_TYPE_LIST)
   public PagedListResponse<ApplicationSummary> getPageByTenantAndApplicationType(
       @PathVariable("tenant-id") final String tenantId,
-      @PathVariable("application-type-id") final String applicationTypeId,
       @RequestParam(value = "page", required = false, defaultValue = "0") final Integer page,
       @RequestParam(value = "size", required = false, defaultValue = "20") final Integer size,
       @RequestParam(value = "active", defaultValue = "true") final Boolean active) {
-    return applicationService.getPageByTenantIdAndApplicationTypeId(
-        tenantId, applicationTypeId, page, size, active);
+    return applicationService.getPageByTenantId(
+        tenantId, page, size, active);
   }
 }

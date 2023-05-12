@@ -11,10 +11,7 @@
  */
 package software.iridium.api.entity;
 
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "application_type_id"))
@@ -31,6 +28,10 @@ public class ApplicationTypeEntity extends AbstractEntity {
 
   @Column(name = "requires_secret", nullable = false)
   private Boolean requiresSecret;
+
+  @Column(name = "type")
+  @Enumerated(EnumType.STRING)
+  private ApplicationType type;
 
   public String getName() {
     return name;
@@ -58,5 +59,13 @@ public class ApplicationTypeEntity extends AbstractEntity {
 
   public void setRequiresSecret(final Boolean requiresSecret) {
     this.requiresSecret = requiresSecret;
+  }
+
+  public ApplicationType getType() {
+    return type;
+  }
+
+  public void setType(final ApplicationType type) {
+    this.type = type;
   }
 }

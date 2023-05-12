@@ -12,16 +12,13 @@
 package software.iridium.api.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import software.iridium.api.authentication.domain.CreateTenantRequest;
 import software.iridium.api.authentication.domain.CreateTenantResponse;
 import software.iridium.api.authentication.domain.TenantSummary;
-import software.iridium.api.base.domain.ApiDataResponse;
-import software.iridium.api.base.domain.ApiListResponse;
 import software.iridium.api.service.TenantService;
-
-import java.util.List;
 
 @CrossOrigin
 @RestController

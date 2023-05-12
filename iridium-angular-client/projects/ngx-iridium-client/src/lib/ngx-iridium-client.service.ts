@@ -7,6 +7,7 @@ import { UrlGeneratorService } from './service/url-generator.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthorizationService } from './service/authorization.service';
 import { OauthConstants } from './service/oauth-constants';
+import { AccessTokenResponse } from './domain/access-token-response';
 
 @Injectable({
   providedIn: 'root'
@@ -36,54 +37,34 @@ export class NgxIridiumClientService {
       });
   }
 
-  public authorize() {
-    this.route.queryParamMap
-      .subscribe(params => {
-        console.log('params ', params);
-        if (params.get('state') === this.cookieService.getCookie(OauthConstants.STATE)) {
-          this.cookieService.deleteCookie(OauthConstants.STATE);
-          const returnedCode = params.get('code');
-          if (this.empty(returnedCode)) {
-            console.log('an error occurred');
-            return;
-          }
-          // get token from accessCode
-          this.authorizationService.exchange(returnedCode).subscribe(authzResponse => {
+  public async authorize() {
+    const state = this.route.snapshot.queryParamMap.get('state');
+    const code = this.route.snapshot.queryParamMap.get('code');
+    const successful = false;
+    if (state === this.cookieService.getCookie(OauthConstants.STATE)) {
+      this.cookieService.deleteCookie(OauthConstants.STATE);
 
-              this.cookieService.setCookie('iridium-token', authzResponse.access_token, 1, OauthConstants.COOKIE_PATH)
-              return true;
-            },
-            error => {
-              // check from external provider
-              this.authorizationService.exchangeForExternalIdentity(returnedCode, params.get('state')).subscribe(authzResponse => {
-                  console.log('success login: ', authzResponse);
-                  this.cookieService.setCookie('iridium-token', authzResponse.access_token, 1, OauthConstants.COOKIE_PATH)
-                },
-                error => {
-                  console.log('error get  user: ', error);
-                });
-
-            });
-
-
+      try {
+        const accessCodeResponse = await this.authorizationService.exchange(code)
+        if (accessCodeResponse != undefined) {
+          this.cookieService.setCookie('iridium-token', accessCodeResponse.access_token, 1, OauthConstants.COOKIE_PATH);
+          return true;
         } else {
-          console.log('an error occurred');
-          return;
+          const externalAccessCodeResponse = await this.authorizationService.exchangeForExternalIdentity(code, state);
+          if (externalAccessCodeResponse != undefined) {
+            this.cookieService.setCookie('iridium-token', externalAccessCodeResponse.access_token, 1, OauthConstants.COOKIE_PATH);
+          }
+          return true;
         }
-      });
+      } catch (error) {
+        const externalAccessCodeResponse = await this.authorizationService.exchangeForExternalIdentity(code, state);
+        if (externalAccessCodeResponse != undefined) {
+          this.cookieService.setCookie('iridium-token', externalAccessCodeResponse.access_token, 1, OauthConstants.COOKIE_PATH);
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
-  private empty(e: any) {
-    switch (e) {
-      case '':
-      case 0:
-      case '0':
-      case null:
-      case false:
-      case undefined:
-        return true;
-      default:
-        return false;
-    }
-  }
 }

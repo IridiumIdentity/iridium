@@ -24,6 +24,12 @@ public class ApplicationCreateRequest implements Serializable {
 
   private String applicationTypeId;
 
+  private String homepageURL;
+
+  private String description;
+
+  private String callbackURL;
+
   public String getName() {
     return name;
   }
@@ -38,5 +44,29 @@ public class ApplicationCreateRequest implements Serializable {
 
   public void setApplicationTypeId(final String applicationTypeId) {
     this.applicationTypeId = applicationTypeId;
+  }
+
+  public String getHomepageURL() {
+    return homepageURL;
+  }
+
+  public void setHomepageURL(final String homepageURL) {
+    this.homepageURL = homepageURL;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(final String description) {
+    this.description = description;
+  }
+
+  public String getCallbackURL() {
+    return callbackURL;
+  }
+
+  public void setCallbackURL(final String callbackURL) {
+    this.callbackURL = callbackURL;
   }
 }

@@ -9,8 +9,8 @@ import { DynamicContentViewItem } from '../dynamic-content-view-item';
 export class SystemOverviewComponent implements DynamicContentViewItem {
 
   @Input() data: any;
-  constructor() { }
-
+  constructor() {
+  }
 
 
 }

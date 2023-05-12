@@ -7,8 +7,6 @@ import { ApplicationOverviewComponent } from './application-overview/application
 import { ApiOverviewComponent } from './api-overview/api-overview.component';
 import { SystemOverviewComponent } from './system-overview/system-overview.component';
 import { TenantOverviewComponent } from './tenant-overview/tenant-overview.component';
-import { SubscriptionComponent } from './subscription/subscription.component';
-import { BillingComponent } from './billing/billing.component';
 
 @Injectable()
 export class DynamicContentViewService {
@@ -17,48 +15,39 @@ export class DynamicContentViewService {
   constructor() {
 
     this.viewDictionary['applications'] = new DynamicContentView(
-      ApplicationOverviewComponent,
-      { name: 'Applications', bio: 'manage them here' }
+      ApplicationOverviewComponent, {}
     )
     this.viewDictionary['apis'] = new DynamicContentView(
-      ApiOverviewComponent,
-      { name: 'APIS', bio: 'manage APIS' }
+      ApiOverviewComponent, {}
     )
 
     this.viewDictionary['users'] = new DynamicContentView(
-      UserOverviewComponent,
-      { headline: 'Users', body: 'Look at your users' }
+      UserOverviewComponent, {}
     )
 
     this.viewDictionary['roles'] = new DynamicContentView(
-      RolesOverviewComponent,
-      { headline: 'Roles', body: 'Define roles in your application' }
+      RolesOverviewComponent, {}
     )
 
     this.viewDictionary['system overview'] = new DynamicContentView(
-      SystemOverviewComponent,
-      { headline: 'Roles', body: 'Define roles in your application' }
+      SystemOverviewComponent, {}
     )
 
     this.viewDictionary['tenant overview'] = new DynamicContentView(
-      TenantOverviewComponent,
-      { headline: 'Roles', body: 'Define roles in your application' }
-    )
-
-    this.viewDictionary['subscription'] = new DynamicContentView(
-      SubscriptionComponent,
-      { headline: 'Roles', body: 'Define roles in your application' }
-    )
-
-    this.viewDictionary['billing'] = new DynamicContentView(
-      BillingComponent,
-      { headline: 'Roles', body: 'Define roles in your application' }
+      TenantOverviewComponent, {}
     )
   }
 
 
 
   getViews() {
+    return this.viewDictionary
+  }
+
+  getViewsForTenant(tenantId: string) {
+    for(let key in this.viewDictionary) {
+      this.viewDictionary[key].data.tenantId = tenantId
+    }
     return this.viewDictionary
   }
 

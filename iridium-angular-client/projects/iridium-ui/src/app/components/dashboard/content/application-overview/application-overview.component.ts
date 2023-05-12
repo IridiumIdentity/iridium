@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { DynamicContentViewItem } from '../dynamic-content-view-item';
-import { FrontEndClientSummary } from '../../domain/frontEndClientSummary';
+import { ApplicationSummary } from '../../domain/application-summary';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { CookieService } from '../../../../services/cookie.service';
@@ -18,7 +18,7 @@ export class CreateApplicationDialog {
   fontStyle?: string;
   createApplicationFormGroup: UntypedFormGroup;
   // @ts-ignore
-  constructor(public dialogRef: MatDialogRef<ApplicationOverviewComponent>, private _formBuilder: UntypedFormBuilder, @Inject(MAT_DIALOG_DATA) public data: ApplicationTypeSummary[], private applicationService: ApplicationService) {
+  constructor(public dialogRef: MatDialogRef<ApplicationOverviewComponent>, private _formBuilder: UntypedFormBuilder, @Inject(MAT_DIALOG_DATA) public data: any, private applicationService: ApplicationService) {
     this.createApplicationFormGroup = this._formBuilder.group({
       applicationName: ['', Validators.required],
       homepageURL: ['', Validators.required],
@@ -31,7 +31,7 @@ export class CreateApplicationDialog {
 
   create() {
     console.log('form data', this.createApplicationFormGroup.controls)
-    this.applicationService.create(this.createApplicationFormGroup)
+    this.applicationService.create(this.createApplicationFormGroup, this.data.tenantId)
       .subscribe((response ) => {
 
       })
@@ -48,7 +48,7 @@ export class ApplicationOverviewComponent implements DynamicContentViewItem {
 
 
   displayedColumns: string[] = ['name', 'clientId', 'type'];
-  dataSource: FrontEndClientSummary[] = [];
+  dataSource: ApplicationSummary[] = [];
   createApplicationFormGroup: UntypedFormGroup;
   applicationTypes: ApplicationTypeSummary[] = []
 
@@ -62,20 +62,18 @@ export class ApplicationOverviewComponent implements DynamicContentViewItem {
     });
    this.applicationTypeService.get()
      .subscribe(applicationTypes => {
-       console.log('application types ', applicationTypes)
        this.applicationTypes = applicationTypes
 
      })
   }
 
   create() {
-    console.log('about to pass application types: ', this.applicationTypes)
     const dialogRef = this.dialog.open(CreateApplicationDialog, {
-      data: this.applicationTypes,
+      data: {applicationTypes: this.applicationTypes, tenantId: this.data.tenantId},
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      console.log('The dialog was closed', result);
     });
   }
   onRowClick(index: number) {

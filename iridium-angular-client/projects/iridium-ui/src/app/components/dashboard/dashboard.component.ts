@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 
 
-const TREE_DATA: MenuItemNode[] = [
+const MENU_DATA: MenuItemNode[] = [
   {
     name: 'System Metrics',
     children: [
@@ -41,21 +41,7 @@ const TREE_DATA: MenuItemNode[] = [
         name: 'Roles'
       },
     ],
-  },
-  {
-    name: 'Tenant Management',
-    children: [
-      {
-        name: 'Tenant Overview'
-      },
-      {
-        name: 'Subscription'
-      },
-      {
-        name: 'Billing'
-      }
-    ],
-  },
+  }
 ];
 
 
@@ -65,7 +51,6 @@ const TREE_DATA: MenuItemNode[] = [
 })
 export class CreateTenantPromptDialog {
   createTenantFormGroup: FormGroup;
-  // @ts-ignore
   constructor(
     public dialogRef: MatDialogRef<DashboardComponent>,
     private tenantService: TenantService,
@@ -78,10 +63,8 @@ export class CreateTenantPromptDialog {
   }
 
   onDialogYes() {
-    console.log('yes')
     this.tenantService.create(this.createTenantFormGroup)
       .subscribe(response => {
-        console.log('success response is: ', response)
           window.location.reload();
       })
   }
@@ -94,17 +77,21 @@ export class CreateTenantPromptDialog {
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   panelOpenState = false;
-  menuItemNodes = TREE_DATA;
+  menuItemNodes = MENU_DATA;
   interval: number|undefined;
   @Input() views: { [id:string] : DynamicContentView } = {}
   @Input() view!: DynamicContentView;
   tenants: TenantSelectItem[] = [];
   selectedTenant!: string;
+  loggedIn = false;
 
   constructor(private contentViewService: DynamicContentViewService, private dialog: MatDialog, private iridiumClient: NgxIridiumClientService, private tenantService: TenantService) {
   }
   ngOnInit(): void {
-    this.iridiumClient.authorize();
+    this.iridiumClient.authorize()
+      .then(successful => {
+        
+      })
     this.views = this.contentViewService.getViews();
     this.view = this.views['system overview']
     this.getTenantSummaries();
@@ -122,7 +109,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onTenantChange(event: MatSelectChange) {
     this.selectedTenant = event.value;
-    console.log('selected tenant: ', this.selectedTenant)
+    for(let key in this.views) {
+      this.views = this.contentViewService.getViewsForTenant(this.selectedTenant)
+      this.view = this.contentViewService.getView('system overview')
+    }
   }
 
   ngOnDestroy() {
@@ -130,15 +120,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     clearInterval(this.interval);
   }
 
-  changeView(event: any) {
-    console.log('change view request captured in dashboard')
-    this.view = this.views['apis']
-  }
-
   onClick(event: string) {
-    console.log("on click: ", event.toLowerCase())
     this.view = this.views[event.toLowerCase()]
-    console.log('interval: ', this.interval)
   }
 
   openDialog(): void {

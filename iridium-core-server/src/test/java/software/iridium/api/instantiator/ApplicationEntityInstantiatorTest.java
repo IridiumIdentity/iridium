@@ -15,6 +15,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.sameInstance;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.verify;
@@ -50,7 +51,13 @@ class ApplicationEntityInstantiatorTest {
     final var applicationType = new ApplicationTypeEntity();
     final var orgId = "the org id";
     final var name = "the app name";
+    final var description = "the description";
+    final var homePageURL = "the home page URL";
+    final var redirectURI = "the redirect URI";
     request.setName(name);
+    request.setDescription(description);
+    request.setHomepageURL(homePageURL);
+    request.setCallbackURL(redirectURI);
 
     when(mockEncoderUtils.cryptoSecureToHex(
             same(ApplicationEntityInstantiator.CLIENT_ID_SEED_LENGTH)))
@@ -67,6 +74,9 @@ class ApplicationEntityInstantiatorTest {
     MatcherAssert.assertThat(
         response.getClientId().length(),
         is(equalTo(ApplicationEntityInstantiator.CLIENT_ID_SEED_LENGTH * 2)));
+    assertThat(response.getDescription(), is(equalTo(description)));
+    assertThat(response.getHomePageUrl(), is(equalTo(homePageURL)));
+    assertThat(response.getRedirectUri(), is(equalTo(redirectURI)));
   }
 
   @Test
