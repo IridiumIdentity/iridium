@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { DynamicContentViewItem } from '../dynamic-content-view-item';
 import { ApplicationSummary } from '../../domain/application-summary';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
@@ -33,7 +33,7 @@ export class CreateApplicationDialog {
     console.log('form data', this.createApplicationFormGroup.controls)
     this.applicationService.create(this.createApplicationFormGroup, this.data.tenantId)
       .subscribe((response ) => {
-
+        console.log('create application was good.')
       })
   }
 }
@@ -42,7 +42,7 @@ export class CreateApplicationDialog {
   templateUrl: './application-overview.component.html',
   styleUrls: ['./application-overview.component.css']
 })
-export class ApplicationOverviewComponent implements DynamicContentViewItem {
+export class ApplicationOverviewComponent implements DynamicContentViewItem, OnInit {
 
   @Input() data: any;
 
@@ -53,7 +53,7 @@ export class ApplicationOverviewComponent implements DynamicContentViewItem {
   applicationTypes: ApplicationTypeSummary[] = []
 
 
-  constructor(private cookieService: CookieService, private route: ActivatedRoute, private _formBuilder: UntypedFormBuilder, private router: Router, private dialog: MatDialog, private applicationTypeService: ApplicationTypeService) {
+  constructor(private cookieService: CookieService, private route: ActivatedRoute, private _formBuilder: UntypedFormBuilder, private router: Router, private dialog: MatDialog, private applicationTypeService: ApplicationTypeService, private applicationService: ApplicationService) {
     this.createApplicationFormGroup = this._formBuilder.group({
       applicationName: ['', Validators.required],
       homepageURL: ['', Validators.required],
@@ -63,8 +63,9 @@ export class ApplicationOverviewComponent implements DynamicContentViewItem {
    this.applicationTypeService.get()
      .subscribe(applicationTypes => {
        this.applicationTypes = applicationTypes
-
      })
+
+
   }
 
   create() {
@@ -73,10 +74,23 @@ export class ApplicationOverviewComponent implements DynamicContentViewItem {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
+
     });
   }
   onRowClick(index: number) {
     console.log('clicked on row: ', index)
+  }
+
+  ngOnInit(): void {
+    console.log('ng on init', this.data)
+    this.applicationService.getPage(this.data.tenantId, 100)
+      .subscribe(applicationSummaries => {
+        for (let i = 0; applicationSummaries.data.length; i++) {
+          console.log('adding row')
+          const newRow = {name: applicationSummaries.data[i].name, clientId: applicationSummaries.data[i].clientId, type: applicationSummaries.data[i].id};
+          this.dataSource = [...this.dataSource, newRow]
+        }
+
+      })
   }
 }

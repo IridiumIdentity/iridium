@@ -5,6 +5,8 @@ import { environment } from '../../environments/environment';
 import { FormGroup } from '@angular/forms';
 import { CreateApplicationResponse } from '../components/dashboard/domain/create-application-response';
 import { CreateApplicationRequest } from '../components/dashboard/domain/create-application-request';
+import { ApplicationSummaryResponse } from './domain/application-summary-response';
+import { PagedListResponse } from './domain/paged-list-response';
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +30,15 @@ export class ApplicationService {
     request.homepageURL = formGroup.controls['homepageURL'].value;
     const options = { headers: headers }
     return this.http.post<CreateApplicationResponse>(environment.iridium.domain + `tenants/${tenantId}/applications`, request, options)
+  }
+
+  getPage(tenantId: string, count: number) {
+    const token = this.cookieService.getCookie('iridium-token')
+    const headers = new HttpHeaders({
+      'Accept': 'application/vnd.iridium.id.application-summary-list.1+json',
+      'Authorization': 'Bearer ' + token
+    })
+    const options = { headers: headers }
+    return this.http.get<PagedListResponse<ApplicationSummaryResponse>>(environment.iridium.domain + `tenants/${tenantId}/applications?page=0&size=${count}`, options)
   }
 }

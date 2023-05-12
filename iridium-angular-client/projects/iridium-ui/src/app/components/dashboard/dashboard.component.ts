@@ -3,46 +3,15 @@ import { DynamicContentViewService } from './content/dynamic-content-view.servic
 import { DynamicContentView } from './content/dynamic-content-view';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { TenantSelectItem } from './domain/tenant-select-item';
-import { MenuItemNode } from './domain/menu-item-node';
 import { NgxIridiumClientService } from '../../../../../ngx-iridium-client/src/lib/ngx-iridium-client.service';
 import { TenantService } from '../../services/tenant.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
+import { MenuItemNode } from './domain/menu-item-node';
+import { MenuItemService } from '../../services/menu-item.service';
 
 
-const MENU_DATA: MenuItemNode[] = [
-  {
-    name: 'System Metrics',
-    children: [
-      {
-        name: 'System Overview'
-      },
 
-    ],
-  },
-  {
-    name: 'Application Management',
-    children: [
-      {
-        name: 'Applications'
-      },
-      {
-        name: 'APIs'
-      }
-    ],
-  },
-  {
-    name: 'User Management',
-    children: [
-      {
-        name: 'Users'
-      },
-      {
-        name: 'Roles'
-      },
-    ],
-  }
-];
 
 
 @Component({
@@ -77,7 +46,7 @@ export class CreateTenantPromptDialog {
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   panelOpenState = false;
-  menuItemNodes = MENU_DATA;
+  menuItemNodes: MenuItemNode[];
   interval: number|undefined;
   @Input() views: { [id:string] : DynamicContentView } = {}
   @Input() view!: DynamicContentView;
@@ -85,17 +54,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   selectedTenant!: string;
   loggedIn = false;
 
-  constructor(private contentViewService: DynamicContentViewService, private dialog: MatDialog, private iridiumClient: NgxIridiumClientService, private tenantService: TenantService) {
+  constructor(private contentViewService: DynamicContentViewService, private dialog: MatDialog, private iridiumClient: NgxIridiumClientService, private tenantService: TenantService, private menuItemService: MenuItemService) {
+    this.menuItemNodes = this.menuItemService.getMenuItems();
   }
   ngOnInit(): void {
     this.iridiumClient.authorize()
       .then(successful => {
-        
-      })
-    this.views = this.contentViewService.getViews();
-    this.view = this.views['system overview']
-    this.getTenantSummaries();
-
+        this.views = this.contentViewService.getViews();
+        this.view = this.views['system overview']
+        this.getTenantSummaries();
+      });
   }
 
   getTenantSummaries() {
@@ -112,6 +80,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     for(let key in this.views) {
       this.views = this.contentViewService.getViewsForTenant(this.selectedTenant)
       this.view = this.contentViewService.getView('system overview')
+      console.log('views now have ', this.views)
     }
   }
 
@@ -120,7 +89,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     clearInterval(this.interval);
   }
 
-  onClick(event: string) {
+  subItemClick(event: string) {
     this.view = this.views[event.toLowerCase()]
   }
 

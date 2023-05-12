@@ -21,12 +21,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class AttributeValidator {
 
-  public boolean isPositive(final Long candidate) {
-    return candidate != null && candidate > 0L;
+  public boolean isZeroOrGreater(final Long candidate) {
+    return candidate != null && candidate >= 0L;
   }
 
-  public boolean isPositive(final Integer candidate) {
-    return candidate != null && candidate > 0;
+  public boolean isZeroOrGreater(final Integer candidate) {
+    return candidate != null && candidate >= 0;
   }
 
   public boolean isValidSubdomain(final String candidate) {

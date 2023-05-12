@@ -29,7 +29,7 @@
 
         </mat-expansion-panel-header>
         <div class="sub-menu-container">
-          <button  (click)="onClick(subItem.name)" *ngFor="let subItem of menuItem.children" mat-flat-button>{{subItem.name}}</button>
+          <button (click)="subItemClick(subItem.name)" *ngFor="let subItem of menuItem.children" mat-flat-button>{{subItem.name}}</button>
         </div>
 
 

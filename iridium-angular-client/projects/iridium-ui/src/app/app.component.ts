@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
-    }
+  }
 
   login() {
     this.iridiumClient.authenticateWithExternalRedirect();
