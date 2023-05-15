@@ -35,7 +35,12 @@ export class CreateApplicationDialog {
       .subscribe((response ) => {
         console.log('create application was good.')
       })
+    this.dialogRef.close({formGroup: this.createApplicationFormGroup })
   }
+}
+
+type ApplicationTypeSummaryMapType = {
+  [id: string]: ApplicationTypeSummary;
 }
 @Component({
   selector: 'app-front-end-client-overview',
@@ -51,6 +56,7 @@ export class ApplicationOverviewComponent implements DynamicContentViewItem, OnI
   dataSource: ApplicationSummary[] = [];
   createApplicationFormGroup: UntypedFormGroup;
   applicationTypes: ApplicationTypeSummary[] = []
+  applicationTypeMap: ApplicationTypeSummaryMapType = {};
 
 
   constructor(private cookieService: CookieService, private route: ActivatedRoute, private _formBuilder: UntypedFormBuilder, private router: Router, private dialog: MatDialog, private applicationTypeService: ApplicationTypeService, private applicationService: ApplicationService) {
@@ -60,10 +66,7 @@ export class ApplicationOverviewComponent implements DynamicContentViewItem, OnI
       description: [''],
       authorizationCallbackURL: ['', Validators.required],
     });
-   this.applicationTypeService.get()
-     .subscribe(applicationTypes => {
-       this.applicationTypes = applicationTypes
-     })
+
 
 
   }
@@ -74,6 +77,7 @@ export class ApplicationOverviewComponent implements DynamicContentViewItem, OnI
     });
 
     dialogRef.afterClosed().subscribe(result => {
+        console.log('dialog was closed with ', result.formGroup)
 
     });
   }
@@ -82,15 +86,23 @@ export class ApplicationOverviewComponent implements DynamicContentViewItem, OnI
   }
 
   ngOnInit(): void {
-    console.log('ng on init', this.data)
-    this.applicationService.getPage(this.data.tenantId, 100)
-      .subscribe(applicationSummaries => {
-        for (let i = 0; applicationSummaries.data.length; i++) {
-          console.log('adding row')
-          const newRow = {name: applicationSummaries.data[i].name, clientId: applicationSummaries.data[i].clientId, type: applicationSummaries.data[i].id};
-          this.dataSource = [...this.dataSource, newRow]
-        }
+    this.applicationTypeService.get()
+      .subscribe(applicationTypes => {
+        this.applicationTypes = applicationTypes
 
+        for (let i = 0; i < applicationTypes.length; i ++) {
+          this.applicationTypeMap[applicationTypes[i].id] = applicationTypes[i]
+        }
+        this.applicationService.getPage(this.data.tenantId, 100)
+          .subscribe(applicationSummaries => {
+            for (let i = 0; i < applicationSummaries.data.length; i++) {
+              let summary = applicationSummaries.data[i];
+              const newRow = {name: summary.name, clientId: summary.clientId, type: this.applicationTypeMap[summary.applicationTypeId].name};
+              this.dataSource = [...this.dataSource, newRow]
+            }
+
+          })
       })
+
   }
 }

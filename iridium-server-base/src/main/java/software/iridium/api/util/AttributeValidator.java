@@ -29,6 +29,10 @@ public class AttributeValidator {
     return candidate != null && candidate >= 0;
   }
 
+  public boolean isPositive(final Integer candidate) {
+    return candidate != null && candidate > 0;
+  }
+
   public boolean isValidSubdomain(final String candidate) {
     final var pattern = Pattern.compile("^[A-Za-z0-9-]*$");
     final var matcher = pattern.matcher(candidate);

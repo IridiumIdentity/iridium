@@ -301,6 +301,7 @@ class ApplicationServiceTest {
     final var summaries = new ArrayList<ApplicationSummary>();
 
     when(mockAttributeValidator.isUuid(anyString())).thenCallRealMethod();
+    when(mockAttributeValidator.isPositive(anyInt())).thenCallRealMethod();
     when(mockAttributeValidator.isZeroOrGreater(anyInt())).thenCallRealMethod();
     when(mockAttributeValidator.isNotNull(anyBoolean())).thenCallRealMethod();
     when(mockApplicationRepository.findAllByTenantIdAndActive(
@@ -314,7 +315,7 @@ class ApplicationServiceTest {
 
     verify(mockAttributeValidator).isUuid(same(tenantId));
     verify(mockAttributeValidator).isZeroOrGreater(same(page));
-    verify(mockAttributeValidator).isZeroOrGreater(same(size));
+    verify(mockAttributeValidator).isPositive(same(size));
     verify(mockAttributeValidator).isNotNull(same(active));
     verify(mockApplicationRepository)
         .findAllByTenantIdAndActive(
@@ -333,6 +334,7 @@ class ApplicationServiceTest {
     final Boolean active = null;
 
     when(mockAttributeValidator.isUuid(anyString())).thenCallRealMethod();
+    when(mockAttributeValidator.isPositive(anyInt())).thenCallRealMethod();
     when(mockAttributeValidator.isZeroOrGreater(anyInt())).thenCallRealMethod();
     when(mockAttributeValidator.isNotNull(nullable(Boolean.class))).thenCallRealMethod();
 
@@ -345,7 +347,7 @@ class ApplicationServiceTest {
 
     verify(mockAttributeValidator).isUuid(same(tenantId));
     verify(mockAttributeValidator).isZeroOrGreater(same(page));
-    verify(mockAttributeValidator).isZeroOrGreater(same(size));
+    verify(mockAttributeValidator).isPositive(same(size));
     verify(mockAttributeValidator).isNotNull(nullable(Boolean.class));
     assertThat(
         exception.getMessage(), is(equalTo("active must be either true or false: " + active)));
@@ -358,6 +360,7 @@ class ApplicationServiceTest {
     final var size = -3;
 
     when(mockAttributeValidator.isUuid(anyString())).thenCallRealMethod();
+    when(mockAttributeValidator.isPositive(anyInt())).thenCallRealMethod();
     when(mockAttributeValidator.isZeroOrGreater(anyInt())).thenCallRealMethod();
 
     final var exception =
@@ -369,7 +372,7 @@ class ApplicationServiceTest {
 
     verify(mockAttributeValidator).isUuid(same(tenantId));
     verify(mockAttributeValidator).isZeroOrGreater(same(page));
-    verify(mockAttributeValidator).isZeroOrGreater(same(size));
+    verify(mockAttributeValidator).isPositive(same(size));
     assertThat(exception.getMessage(), is(equalTo("size must be a positive integer: " + size)));
   }
 
@@ -390,7 +393,7 @@ class ApplicationServiceTest {
 
     verify(mockAttributeValidator).isUuid(same(tenantId));
     verify(mockAttributeValidator).isZeroOrGreater(same(page));
-    assertThat(exception.getMessage(), is(equalTo("page must be a positive integer: " + page)));
+    assertThat(exception.getMessage(), is(equalTo("page must be a zero or greater integer: " + page)));
   }
 
   @Test

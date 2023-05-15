@@ -95,8 +95,8 @@ public class ApplicationService {
       final Boolean active) {
     checkArgument(
         attributeValidator.isUuid(tenantId), "tenantId must be a valid uuid: " + tenantId);
-    checkArgument(attributeValidator.isZeroOrGreater(page), "page must be a positive integer: " + page);
-    checkArgument(attributeValidator.isZeroOrGreater(size), "size must be a positive integer: " + size);
+    checkArgument(attributeValidator.isZeroOrGreater(page), "page must be a zero or greater integer: " + page);
+    checkArgument(attributeValidator.isPositive(size), "size must be a positive integer: " + size);
     checkArgument(
         attributeValidator.isNotNull(active), "active must be either true or false: " + active);
 

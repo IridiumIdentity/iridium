@@ -1,28 +1,23 @@
 import { Component, Input, } from '@angular/core';
 import { DynamicContentViewItem } from '../dynamic-content-view-item';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CookieService } from '../../../../services/cookie.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationSummary } from '../../domain/application-summary';
 
 @Component({
-  selector: 'create-user-dialog',
-  templateUrl: './create-user-dialog.html',
-  styleUrls: ['./create-user-dialog.css']
+  selector: 'add-user-dialog',
+  templateUrl: './add-user-dialog.html',
+  styleUrls: ['./add-user-dialog.css']
 })
-export class CreateUserDialog {
-  fontStyleControl = new UntypedFormControl('');
-  fontStyle?: string;
-  createApiFormGroup: UntypedFormGroup;
+export class AddUserDialog {
+  createUserFormGroup: UntypedFormGroup;
 
-  // @ts-ignore
   constructor(public dialogRef: MatDialogRef<UserOverviewComponent>, private _formBuilder: UntypedFormBuilder) {
-    this.createApiFormGroup = this._formBuilder.group({
-      applicationName: ['', Validators.required],
-      homepageURL: ['', Validators.required],
-      description: [''],
-      authorizationCallbackURL: ['', Validators.required],
+    this.createUserFormGroup = this._formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
     });
   }
 
@@ -44,7 +39,7 @@ export class UserOverviewComponent implements DynamicContentViewItem {
 
 
   create() {
-    const dialogRef = this.dialog.open(CreateUserDialog, {
+    const dialogRef = this.dialog.open(AddUserDialog, {
       data: {},
     });
 

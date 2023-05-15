@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { DynamicContentViewItem } from '../dynamic-content-view-item';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { CreateUserDialog, UserOverviewComponent } from '../user-overview/user-overview.component';
+import { AddUserDialog, UserOverviewComponent } from '../user-overview/user-overview.component';
 import { CookieService } from '../../../../services/cookie.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationSummary } from '../../domain/application-summary';
@@ -45,7 +45,7 @@ export class RolesOverviewComponent implements DynamicContentViewItem {
   constructor(private cookieService: CookieService, private route: ActivatedRoute, private _formBuilder: UntypedFormBuilder, private router: Router, private dialog: MatDialog) { }
 
   create() {
-    const dialogRef = this.dialog.open(CreateUserDialog, {
+    const dialogRef = this.dialog.open(AddUserDialog, {
       data: {},
     });
 

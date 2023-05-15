@@ -6,4 +6,6 @@ export class ApplicationSummaryResponse {
   iconUrl: string = '';
 
   clientId: string = '';
+
+  applicationTypeId: string = '';
 }
