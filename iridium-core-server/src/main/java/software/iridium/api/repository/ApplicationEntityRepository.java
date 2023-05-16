@@ -27,4 +27,6 @@ public interface ApplicationEntityRepository extends JpaRepository<ApplicationEn
       final String tenantId,
       final Boolean active,
       final Pageable of);
+
+    Optional<ApplicationEntity> findByTenantIdAndId(String tenantId, String id);
 }

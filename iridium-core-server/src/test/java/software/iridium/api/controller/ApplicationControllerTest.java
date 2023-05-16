@@ -27,6 +27,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.authentication.domain.ApplicationCreateRequest;
 import software.iridium.api.authentication.domain.ApplicationCreateResponse;
+import software.iridium.api.authentication.domain.ApplicationUpdateRequest;
+import software.iridium.api.authentication.domain.ApplicationUpdateResponse;
 import software.iridium.api.service.ApplicationService;
 
 @ExtendWith(MockitoExtension.class)
@@ -66,5 +68,19 @@ public class ApplicationControllerTest {
     verify(mockService)
         .getPageByTenantId(
             same(orgId), same(page), same(size), eq(true));
+  }
+
+  @Test
+  public void update_AllGood_BehavesAsExpected() {
+    final var tenantId = "the tenant id";
+    final var applicationId = "the app id";
+    final var response = new ApplicationUpdateResponse();
+    final var request = new ApplicationUpdateRequest();
+
+    when(mockService.update(same(request), same(tenantId), same(applicationId))).thenReturn(response);
+
+    assertThat(subject.update(request, tenantId, applicationId), sameInstance(response));
+
+    verify(mockService).update(same(request),same(tenantId), same(applicationId));
   }
 }

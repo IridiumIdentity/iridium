@@ -8,17 +8,38 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { ApplicationTypeService } from '../../../../services/application-type.service';
 import { ApplicationTypeSummary } from '../../domain/application-type-summary';
 import { ApplicationService } from '../../../../services/application.service';
+
+@Component({
+  selector: 'update-application-dialog',
+  templateUrl: 'update-application-dialog.html',
+  styleUrls: ['/update-application-dialog.css']
+})
+export class UpdateApplicationDialog {
+  updateApplicationFormGroup: UntypedFormGroup;
+  constructor(public dialogRef: MatDialogRef<ApplicationOverviewComponent>, private _formBuilder: UntypedFormBuilder, @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.updateApplicationFormGroup = this._formBuilder.group({
+      applicationName: ['', Validators.required],
+      homepageURL: ['', Validators.required],
+      description: [''],
+      authorizationCallbackURL: ['', Validators.required],
+      applicationTypeId: ['', Validators.required]
+    });
+  }
+
+
+  update() {
+
+    this.dialogRef.close({formGroup: this.updateApplicationFormGroup })
+  }
+}
 @Component({
   selector: 'create-application-dialog',
   templateUrl: 'create-application-dialog.html',
   styleUrls: ['/create-application-dialog.css']
 })
 export class CreateApplicationDialog {
-  fontStyleControl = new UntypedFormControl('');
-  fontStyle?: string;
   createApplicationFormGroup: UntypedFormGroup;
-  // @ts-ignore
-  constructor(public dialogRef: MatDialogRef<ApplicationOverviewComponent>, private _formBuilder: UntypedFormBuilder, @Inject(MAT_DIALOG_DATA) public data: any, private applicationService: ApplicationService) {
+  constructor(public dialogRef: MatDialogRef<ApplicationOverviewComponent>, private _formBuilder: UntypedFormBuilder, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.createApplicationFormGroup = this._formBuilder.group({
       applicationName: ['', Validators.required],
       homepageURL: ['', Validators.required],
@@ -30,11 +51,7 @@ export class CreateApplicationDialog {
 
 
   create() {
-    console.log('form data', this.createApplicationFormGroup.controls)
-    this.applicationService.create(this.createApplicationFormGroup, this.data.tenantId)
-      .subscribe((response ) => {
-        console.log('create application was good.')
-      })
+
     this.dialogRef.close({formGroup: this.createApplicationFormGroup })
   }
 }
@@ -54,21 +71,11 @@ export class ApplicationOverviewComponent implements DynamicContentViewItem, OnI
 
   displayedColumns: string[] = ['name', 'clientId', 'type'];
   dataSource: ApplicationSummary[] = [];
-  createApplicationFormGroup: UntypedFormGroup;
   applicationTypes: ApplicationTypeSummary[] = []
   applicationTypeMap: ApplicationTypeSummaryMapType = {};
 
 
   constructor(private cookieService: CookieService, private route: ActivatedRoute, private _formBuilder: UntypedFormBuilder, private router: Router, private dialog: MatDialog, private applicationTypeService: ApplicationTypeService, private applicationService: ApplicationService) {
-    this.createApplicationFormGroup = this._formBuilder.group({
-      applicationName: ['', Validators.required],
-      homepageURL: ['', Validators.required],
-      description: [''],
-      authorizationCallbackURL: ['', Validators.required],
-    });
-
-
-
   }
 
   create() {
@@ -77,12 +84,29 @@ export class ApplicationOverviewComponent implements DynamicContentViewItem, OnI
     });
 
     dialogRef.afterClosed().subscribe(result => {
-        console.log('dialog was closed with ', result.formGroup)
+      this.dataSource = [];
+      this.applicationService.create(result.formGroup, this.data.tenantId)
+        .subscribe((response ) => {
+          this.refreshDataSource();
+        })
 
     });
   }
   onRowClick(index: number) {
-    console.log('clicked on row: ', index)
+    console.log(this.dataSource[index])
+    const dialogRef = this.dialog.open(UpdateApplicationDialog, {
+      data: {applicationTypes: this.applicationTypes, tenantId: this.data.tenantId, applicationId: this.dataSource[index].id},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // update application
+      //this.dataSource = [];
+      // this.applicationService.create(result.formGroup, this.data.tenantId)
+      //   .subscribe((response ) => {
+      //     this.refreshDataSource();
+      //   })
+
+    });
   }
 
   ngOnInit(): void {
@@ -93,16 +117,25 @@ export class ApplicationOverviewComponent implements DynamicContentViewItem, OnI
         for (let i = 0; i < applicationTypes.length; i ++) {
           this.applicationTypeMap[applicationTypes[i].id] = applicationTypes[i]
         }
-        this.applicationService.getPage(this.data.tenantId, 100)
-          .subscribe(applicationSummaries => {
-            for (let i = 0; i < applicationSummaries.data.length; i++) {
-              let summary = applicationSummaries.data[i];
-              const newRow = {name: summary.name, clientId: summary.clientId, type: this.applicationTypeMap[summary.applicationTypeId].name};
-              this.dataSource = [...this.dataSource, newRow]
-            }
-
-          })
+        this.refreshDataSource();
       })
 
+  }
+
+  private refreshDataSource() {
+    this.applicationService.getPage(this.data.tenantId, 100)
+      .subscribe(applicationSummaries => {
+        for (let i = 0; i < applicationSummaries.data.length; i++) {
+          let summary = applicationSummaries.data[i];
+          const newRow = {
+            id: summary.id,
+            name: summary.name,
+            clientId: summary.clientId,
+            type: this.applicationTypeMap[summary.applicationTypeId].name
+          };
+          this.dataSource = [...this.dataSource, newRow]
+        }
+
+      })
   }
 }

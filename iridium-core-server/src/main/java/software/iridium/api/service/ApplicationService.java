@@ -19,9 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import software.iridium.api.authentication.domain.ApplicationCreateRequest;
-import software.iridium.api.authentication.domain.ApplicationCreateResponse;
-import software.iridium.api.authentication.domain.ApplicationSummary;
+import software.iridium.api.authentication.domain.*;
 import software.iridium.api.base.domain.PagedListResponse;
 import software.iridium.api.base.error.DuplicateResourceException;
 import software.iridium.api.base.error.ResourceNotFoundException;
@@ -30,10 +28,13 @@ import software.iridium.api.entity.ApplicationType;
 import software.iridium.api.instantiator.ApplicationEntityInstantiator;
 import software.iridium.api.mapper.ApplicationResponseMapper;
 import software.iridium.api.mapper.ApplicationSummaryMapper;
+import software.iridium.api.mapper.ApplicationUpdateResponseMapper;
 import software.iridium.api.repository.ApplicationEntityRepository;
 import software.iridium.api.repository.ApplicationTypeEntityRepository;
 import software.iridium.api.repository.TenantEntityRepository;
+import software.iridium.api.updator.ApplicationEntityUpdator;
 import software.iridium.api.util.AttributeValidator;
+import software.iridium.api.validator.ApplicationUpdateRequestValidator;
 import software.iridium.api.validator.SinglePageApplicationCreateRequestValidator;
 
 @Service
@@ -47,6 +48,9 @@ public class ApplicationService {
   @Autowired private ApplicationResponseMapper responseMapper;
   @Autowired private ApplicationSummaryMapper summaryMapper;
   @Autowired private SinglePageApplicationCreateRequestValidator spaRequestValidator;
+  @Autowired private ApplicationEntityUpdator updator;
+  @Autowired private ApplicationUpdateRequestValidator updateRequestValidator;
+  @Autowired private ApplicationUpdateResponseMapper updateResponseMapper;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public ApplicationCreateResponse create(
@@ -106,5 +110,22 @@ public class ApplicationService {
     final var content = pageOfEntityInstances.getContent();
     return new PagedListResponse<>(
         summaryMapper.mapToSummaries(content), pageOfEntityInstances.getTotalPages(), page, size);
+  }
+
+  @Transactional(propagation = Propagation.REQUIRED)
+  public ApplicationUpdateResponse update(final ApplicationUpdateRequest request, final String tenantId, final String applicationId) {
+    checkArgument(
+            attributeValidator.isUuid(tenantId), "tenantId must be a valid uuid: " + tenantId);
+    checkArgument(
+            attributeValidator.isUuid(applicationId), "applicationId must be a valid uuid: " + applicationId);
+    updateRequestValidator.validate(request);
+
+    final var entity = applicationRepository.findByTenantIdAndId(tenantId, applicationId)
+            .orElseThrow(() -> new ResourceNotFoundException(String.format("application not found for tenantId %s and applicationId %s", tenantId, applicationId)));
+
+    final var applicationType = applicationTypeRepository.findById(request.getApplicationTypeId())
+            .orElseThrow(() -> new ResourceNotFoundException(String.format("application type not found for id: %s", request.getApplicationTypeId())));
+
+    return updateResponseMapper.map( updator.update(entity, applicationType, request));
   }
 }

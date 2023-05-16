@@ -39,7 +39,7 @@ import {
 } from './components/dashboard/content/roles-overview/roles-overview.component';
 import {
   ApplicationOverviewComponent,
-  CreateApplicationDialog
+  CreateApplicationDialog, UpdateApplicationDialog
 } from './components/dashboard/content/application-overview/application-overview.component';
 import {
   ApiOverviewComponent,
@@ -71,6 +71,7 @@ import { NgxIridiumClientModule } from 'ngx-iridium-client';
     TenantOverviewComponent,
     CreateTenantPromptDialog,
     CreateApplicationDialog,
+    UpdateApplicationDialog,
     CreateAPIDialog,
     AddUserDialog,
     CreateRoleDialog

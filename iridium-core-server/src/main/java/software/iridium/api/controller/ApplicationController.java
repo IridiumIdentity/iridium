@@ -13,9 +13,7 @@ package software.iridium.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import software.iridium.api.authentication.domain.ApplicationCreateRequest;
-import software.iridium.api.authentication.domain.ApplicationCreateResponse;
-import software.iridium.api.authentication.domain.ApplicationSummary;
+import software.iridium.api.authentication.domain.*;
 import software.iridium.api.base.domain.PagedListResponse;
 import software.iridium.api.service.ApplicationService;
 
@@ -45,5 +43,13 @@ public class ApplicationController {
       @RequestParam(value = "active", defaultValue = "true") final Boolean active) {
     return applicationService.getPageByTenantId(
         tenantId, page, size, active);
+  }
+
+
+  @PutMapping(value = "/tenants/{tenant-id}/applications/{application-id}",
+  consumes = ApplicationUpdateRequest.MEDIA_TYPE,
+  produces = ApplicationUpdateResponse.MEDIA_TYPE)
+  public ApplicationUpdateResponse update(@RequestBody final ApplicationUpdateRequest request, @PathVariable("tenant-id") final String tenantId, @PathVariable("application-id")final String applicationId) {
+    return applicationService.update(request, tenantId, applicationId);
   }
 }

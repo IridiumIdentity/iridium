@@ -1,8 +1,8 @@
-<h1 mat-dialog-title>Create Application</h1>
+<h1 mat-dialog-title>Update Application</h1>
 <div mat-dialog-content>
-  Enter details for your application
+  Update details for your application
 
-  <form [formGroup]="createApplicationFormGroup" class="dialog-form">
+  <form [formGroup]="updateApplicationFormGroup" class="dialog-form">
     <section>
       <h4>Select Application Type</h4>
       <mat-button-toggle-group formControlName="applicationTypeId" aria-label="Font Style">
@@ -36,7 +36,7 @@
 
       </div>
       <div>
-        <button mat-button type="submit" [disabled]="!createApplicationFormGroup.valid" (click)="create()">
+        <button mat-button type="submit" [disabled]="!updateApplicationFormGroup.valid" (click)="update()">
           Submit
         </button>
       </div>

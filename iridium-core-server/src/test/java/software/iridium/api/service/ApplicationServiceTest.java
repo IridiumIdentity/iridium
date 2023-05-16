@@ -32,9 +32,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import software.iridium.api.authentication.domain.ApplicationCreateRequest;
-import software.iridium.api.authentication.domain.ApplicationCreateResponse;
-import software.iridium.api.authentication.domain.ApplicationSummary;
+import software.iridium.api.authentication.domain.*;
 import software.iridium.api.base.error.DuplicateResourceException;
 import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.entity.ApplicationEntity;
@@ -44,10 +42,13 @@ import software.iridium.api.entity.TenantEntity;
 import software.iridium.api.instantiator.ApplicationEntityInstantiator;
 import software.iridium.api.mapper.ApplicationResponseMapper;
 import software.iridium.api.mapper.ApplicationSummaryMapper;
+import software.iridium.api.mapper.ApplicationUpdateResponseMapper;
 import software.iridium.api.repository.ApplicationEntityRepository;
 import software.iridium.api.repository.ApplicationTypeEntityRepository;
 import software.iridium.api.repository.TenantEntityRepository;
+import software.iridium.api.updator.ApplicationEntityUpdator;
 import software.iridium.api.util.AttributeValidator;
+import software.iridium.api.validator.ApplicationUpdateRequestValidator;
 import software.iridium.api.validator.SinglePageApplicationCreateRequestValidator;
 
 @ExtendWith(MockitoExtension.class)
@@ -61,6 +62,10 @@ class ApplicationServiceTest {
   @Mock private ApplicationResponseMapper mockResponseMapper;
   @Mock private ApplicationSummaryMapper mockSummaryMapper;
   @Mock private SinglePageApplicationCreateRequestValidator mockSpaValidator;
+  @Mock private ApplicationEntityUpdator mockApplicationUpdator;
+  @Mock private ApplicationUpdateRequestValidator mockUpdateRequestValidator;
+  @Mock private ApplicationUpdateResponseMapper mockUpdateResponseMapper;
+
   @InjectMocks private ApplicationService subject;
 
   @AfterEach
@@ -73,7 +78,10 @@ class ApplicationServiceTest {
         mockEntityInstantiator,
         mockResponseMapper,
         mockSummaryMapper,
-            mockSpaValidator);
+            mockSpaValidator,
+            mockApplicationUpdator,
+            mockUpdateRequestValidator,
+            mockUpdateResponseMapper);
   }
 
   @Test
@@ -409,5 +417,36 @@ class ApplicationServiceTest {
 
     verify(mockAttributeValidator).isUuid(same(tenantId));
     assertThat(exception.getMessage(), is(equalTo("tenantId must be a valid uuid: " + tenantId)));
+  }
+
+  @Test
+  public void update_AllGood_BehavesAsExpected() {
+    final var tenantId = "the tenant id";
+    final var applicationId = "the app id";
+    final var applicationTypeId = "the app type id";
+    final var request = new ApplicationUpdateRequest();
+    request.setApplicationTypeId(applicationTypeId);
+    final var application = new ApplicationEntity();
+    final var updatedApplication = new ApplicationEntity();
+    final var response = new ApplicationUpdateResponse();
+    final var applicationType = new ApplicationTypeEntity();
+
+
+    when(mockApplicationRepository.findByTenantIdAndId(same(tenantId), same(applicationId))).thenReturn(Optional.of(application));
+    when(mockAttributeValidator.isUuid(anyString())).thenReturn(true);
+    when(mockApplicationUpdator.update(same(application), same(applicationType), same(request))).thenReturn(updatedApplication);
+    when(mockUpdateResponseMapper.map(same(updatedApplication))).thenReturn(response);
+    when(mockApplicationTypeRepository.findById(same(applicationTypeId))).thenReturn(Optional.of(applicationType));
+
+    subject.update(request, tenantId, applicationId);
+
+    verify(mockAttributeValidator).isUuid(same(tenantId));
+    verify(mockAttributeValidator).isUuid(same(applicationId));
+    verify(mockUpdateRequestValidator).validate(same(request));
+    verify(mockApplicationRepository).findByTenantIdAndId(same(tenantId), same(applicationId));
+    verify(mockApplicationUpdator).update(same(application), same(applicationType), same(request));
+    verify(mockUpdateResponseMapper).map(same(updatedApplication));
+    verify(mockApplicationTypeRepository).findById(same(applicationTypeId));
+
   }
 }
