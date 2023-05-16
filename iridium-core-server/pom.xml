@@ -33,7 +33,7 @@
 
         <dependency>
             <groupId>software.iridium</groupId>
-            <artifactId>iridium-client</artifactId>
+            <artifactId>iridium-java-client</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
