@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>iridium-client</module>
+        <module>iridium-java-client</module>
         <module>iridium-core-server</module>
         <module>iridium-server-base</module>
         <module>iridium-cli</module>
