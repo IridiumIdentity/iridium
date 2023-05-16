@@ -17,6 +17,8 @@ import freemarker.template.Configuration;
 import java.util.Date;
 import java.util.TimeZone;
 import javax.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -41,10 +43,9 @@ import software.iridium.api.authentication.client.ProviderProfileRequestor;
 @EnableScheduling
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @EnableTransactionManagement
-public class AuthenticationApi implements WebMvcConfigurer {
+public class IridiumAPI implements WebMvcConfigurer {
 
-  @Value("${software.iridium.emailApi.baseUrl}")
-  private String emailApiBaseUrl;
+  private static final Logger logger = LoggerFactory.getLogger(IridiumAPI.class);
 
   @Value("${software.iridium.identityApi.baseUrl}")
   private String identityApiBaseUrl;
@@ -57,8 +58,7 @@ public class AuthenticationApi implements WebMvcConfigurer {
     configurer.setSuffix(".html");
     configurer.setTemplateMode(TemplateMode.HTML);
     configurer.setCharacterEncoding("UTF-8");
-    configurer.setOrder(
-        0); // this is important. This way spring //boot will listen to both places 0 and 1
+    configurer.setOrder(0);
     configurer.setCheckExistence(true);
     return configurer;
   }
@@ -101,10 +101,10 @@ public class AuthenticationApi implements WebMvcConfigurer {
   @PostConstruct
   public void init() {
     TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-    System.out.println("Iridium running in UTC timezone :" + new Date());
+    logger.info("Iridium running in UTC timezone :" + new Date());
   }
 
   public static void main(String... args) {
-    SpringApplication.run(AuthenticationApi.class);
+    SpringApplication.run(IridiumAPI.class);
   }
 }
