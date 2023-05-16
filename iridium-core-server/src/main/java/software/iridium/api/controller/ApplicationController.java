@@ -41,15 +41,26 @@ public class ApplicationController {
       @RequestParam(value = "page", required = false, defaultValue = "0") final Integer page,
       @RequestParam(value = "size", required = false, defaultValue = "20") final Integer size,
       @RequestParam(value = "active", defaultValue = "true") final Boolean active) {
-    return applicationService.getPageByTenantId(
-        tenantId, page, size, active);
+    return applicationService.getPageByTenantId(tenantId, page, size, active);
   }
 
-
-  @PutMapping(value = "/tenants/{tenant-id}/applications/{application-id}",
-  consumes = ApplicationUpdateRequest.MEDIA_TYPE,
-  produces = ApplicationUpdateResponse.MEDIA_TYPE)
-  public ApplicationUpdateResponse update(@RequestBody final ApplicationUpdateRequest request, @PathVariable("tenant-id") final String tenantId, @PathVariable("application-id")final String applicationId) {
+  @PutMapping(
+      value = "/tenants/{tenant-id}/applications/{application-id}",
+      consumes = ApplicationUpdateRequest.MEDIA_TYPE,
+      produces = ApplicationUpdateResponse.MEDIA_TYPE)
+  public ApplicationUpdateResponse update(
+      @RequestBody final ApplicationUpdateRequest request,
+      @PathVariable("tenant-id") final String tenantId,
+      @PathVariable("application-id") final String applicationId) {
     return applicationService.update(request, tenantId, applicationId);
+  }
+
+  @GetMapping(
+      value = "/tenants/{tenant-id}/applications/{application-id}",
+      produces = ApplicationResponse.MEDIA_TYPE)
+  public ApplicationResponse get(
+      @PathVariable("tenant-id") final String tenantId,
+      @PathVariable("application-id") final String applicationId) {
+    return applicationService.get(tenantId, applicationId);
   }
 }

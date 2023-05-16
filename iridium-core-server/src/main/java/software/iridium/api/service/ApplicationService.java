@@ -26,6 +26,7 @@ import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.entity.ApplicationEntity;
 import software.iridium.api.entity.ApplicationType;
 import software.iridium.api.instantiator.ApplicationEntityInstantiator;
+import software.iridium.api.mapper.ApplicationCreateResponseMapper;
 import software.iridium.api.mapper.ApplicationResponseMapper;
 import software.iridium.api.mapper.ApplicationSummaryMapper;
 import software.iridium.api.mapper.ApplicationUpdateResponseMapper;
@@ -45,12 +46,13 @@ public class ApplicationService {
   @Autowired private ApplicationEntityRepository applicationRepository;
   @Autowired private ApplicationTypeEntityRepository applicationTypeRepository;
   @Autowired private ApplicationEntityInstantiator entityInstantiator;
-  @Autowired private ApplicationResponseMapper responseMapper;
+  @Autowired private ApplicationCreateResponseMapper createResponseMapper;
   @Autowired private ApplicationSummaryMapper summaryMapper;
   @Autowired private SinglePageApplicationCreateRequestValidator spaRequestValidator;
   @Autowired private ApplicationEntityUpdator updator;
   @Autowired private ApplicationUpdateRequestValidator updateRequestValidator;
   @Autowired private ApplicationUpdateResponseMapper updateResponseMapper;
+  @Autowired private ApplicationResponseMapper responseMapper;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public ApplicationCreateResponse create(
@@ -86,20 +88,19 @@ public class ApplicationService {
           String.format(
               "duplicate application name: %s for tenant %s", request.getName(), tenantId));
     }
-    return responseMapper.map(
+    return createResponseMapper.map(
         applicationRepository.save(
             entityInstantiator.instantiate(request, applicationType, tenantId)));
   }
 
   @Transactional(propagation = Propagation.SUPPORTS)
   public PagedListResponse<ApplicationSummary> getPageByTenantId(
-      final String tenantId,
-      final Integer page,
-      final Integer size,
-      final Boolean active) {
+      final String tenantId, final Integer page, final Integer size, final Boolean active) {
     checkArgument(
         attributeValidator.isUuid(tenantId), "tenantId must be a valid uuid: " + tenantId);
-    checkArgument(attributeValidator.isZeroOrGreater(page), "page must be a zero or greater integer: " + page);
+    checkArgument(
+        attributeValidator.isZeroOrGreater(page),
+        "page must be a zero or greater integer: " + page);
     checkArgument(attributeValidator.isPositive(size), "size must be a positive integer: " + size);
     checkArgument(
         attributeValidator.isNotNull(active), "active must be either true or false: " + active);
@@ -113,19 +114,56 @@ public class ApplicationService {
   }
 
   @Transactional(propagation = Propagation.REQUIRED)
-  public ApplicationUpdateResponse update(final ApplicationUpdateRequest request, final String tenantId, final String applicationId) {
+  public ApplicationUpdateResponse update(
+      final ApplicationUpdateRequest request, final String tenantId, final String applicationId) {
     checkArgument(
-            attributeValidator.isUuid(tenantId), "tenantId must be a valid uuid: " + tenantId);
+        attributeValidator.isUuid(tenantId), "tenantId must be a valid uuid: " + tenantId);
     checkArgument(
-            attributeValidator.isUuid(applicationId), "applicationId must be a valid uuid: " + applicationId);
+        attributeValidator.isUuid(applicationId),
+        "applicationId must be a valid uuid: " + applicationId);
     updateRequestValidator.validate(request);
 
-    final var entity = applicationRepository.findByTenantIdAndId(tenantId, applicationId)
-            .orElseThrow(() -> new ResourceNotFoundException(String.format("application not found for tenantId %s and applicationId %s", tenantId, applicationId)));
+    final var entity =
+        applicationRepository
+            .findByTenantIdAndId(tenantId, applicationId)
+            .orElseThrow(
+                () ->
+                    new ResourceNotFoundException(
+                        String.format(
+                            "application not found for tenantId %s and applicationId %s",
+                            tenantId, applicationId)));
 
-    final var applicationType = applicationTypeRepository.findById(request.getApplicationTypeId())
-            .orElseThrow(() -> new ResourceNotFoundException(String.format("application type not found for id: %s", request.getApplicationTypeId())));
+    final var applicationType =
+        applicationTypeRepository
+            .findById(request.getApplicationTypeId())
+            .orElseThrow(
+                () ->
+                    new ResourceNotFoundException(
+                        String.format(
+                            "application type not found for id: %s",
+                            request.getApplicationTypeId())));
 
-    return updateResponseMapper.map( updator.update(entity, applicationType, request));
+    return updateResponseMapper.map(updator.update(entity, applicationType, request));
+  }
+
+  @Transactional(propagation = Propagation.SUPPORTS)
+  public ApplicationResponse get(final String tenantId, final String applicationId) {
+    checkArgument(
+        attributeValidator.isUuid(tenantId), "tenantId must be a valid uuid: " + tenantId);
+    checkArgument(
+        attributeValidator.isUuid(applicationId),
+        "applicationId must be a valid uuid: " + applicationId);
+
+    final var entity =
+        applicationRepository
+            .findByTenantIdAndId(tenantId, applicationId)
+            .orElseThrow(
+                () ->
+                    new ResourceNotFoundException(
+                        String.format(
+                            "application not found for tenantId %s and applicationId %s",
+                            tenantId, applicationId)));
+
+    return responseMapper.map(entity);
   }
 }

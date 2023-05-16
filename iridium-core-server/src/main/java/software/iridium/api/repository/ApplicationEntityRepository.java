@@ -24,9 +24,7 @@ public interface ApplicationEntityRepository extends JpaRepository<ApplicationEn
   Optional<ApplicationEntity> findByClientId(final String clientId);
 
   Page<ApplicationEntity> findAllByTenantIdAndActive(
-      final String tenantId,
-      final Boolean active,
-      final Pageable of);
+      final String tenantId, final Boolean active, final Pageable of);
 
-    Optional<ApplicationEntity> findByTenantIdAndId(String tenantId, String id);
+  Optional<ApplicationEntity> findByTenantIdAndId(String tenantId, String id);
 }

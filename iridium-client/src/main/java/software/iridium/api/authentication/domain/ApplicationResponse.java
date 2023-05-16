@@ -14,10 +14,9 @@ package software.iridium.api.authentication.domain;
 import java.io.Serial;
 import java.io.Serializable;
 
-public class ApplicationUpdateResponse implements Serializable {
-  public static final String MEDIA_TYPE =
-      "application/vnd.iridium.id.application-update-response.1+json";
-  @Serial private static final long serialVersionUID = -1487585095563737742L;
+public class ApplicationResponse implements Serializable {
+  public static final String MEDIA_TYPE = "application/vnd.iridium.id.application-response.1+json";
+  @Serial private static final long serialVersionUID = -3939633187501231419L;
 
   private String id;
 
@@ -34,6 +33,14 @@ public class ApplicationUpdateResponse implements Serializable {
   private String callbackURL;
 
   private String privacyPolicyUrl;
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(final String id) {
+    this.id = id;
+  }
 
   public String getName() {
     return name;
@@ -59,6 +66,14 @@ public class ApplicationUpdateResponse implements Serializable {
     this.homepageURL = homepageURL;
   }
 
+  public String getTenantId() {
+    return tenantId;
+  }
+
+  public void setTenantId(final String tenantId) {
+    this.tenantId = tenantId;
+  }
+
   public String getDescription() {
     return description;
   }
@@ -73,22 +88,6 @@ public class ApplicationUpdateResponse implements Serializable {
 
   public void setCallbackURL(final String callbackURL) {
     this.callbackURL = callbackURL;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(final String id) {
-    this.id = id;
-  }
-
-  public String getTenantId() {
-    return tenantId;
-  }
-
-  public void setTenantId(final String tenantId) {
-    this.tenantId = tenantId;
   }
 
   public String getPrivacyPolicyUrl() {

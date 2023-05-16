@@ -65,9 +65,7 @@ public class ApplicationControllerTest {
 
     subject.getPageByTenantAndApplicationType(orgId, page, size, true);
 
-    verify(mockService)
-        .getPageByTenantId(
-            same(orgId), same(page), same(size), eq(true));
+    verify(mockService).getPageByTenantId(same(orgId), same(page), same(size), eq(true));
   }
 
   @Test
@@ -77,10 +75,21 @@ public class ApplicationControllerTest {
     final var response = new ApplicationUpdateResponse();
     final var request = new ApplicationUpdateRequest();
 
-    when(mockService.update(same(request), same(tenantId), same(applicationId))).thenReturn(response);
+    when(mockService.update(same(request), same(tenantId), same(applicationId)))
+        .thenReturn(response);
 
     assertThat(subject.update(request, tenantId, applicationId), sameInstance(response));
 
-    verify(mockService).update(same(request),same(tenantId), same(applicationId));
+    verify(mockService).update(same(request), same(tenantId), same(applicationId));
+  }
+
+  @Test
+  public void get_AllGood_BehavesAsExpected() {
+    final var tenantId = "the tenant id";
+    final var applicationId = "the application id";
+
+    subject.get(tenantId, applicationId);
+
+    verify(mockService).get(same(tenantId), same(applicationId));
   }
 }

@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class ApplicationUpdateRequest implements Serializable {
 
   public static final String MEDIA_TYPE =
-          "application/vnd.iridium.id.application-update-request.1+json";
+      "application/vnd.iridium.id.application-update-request.1+json";
 
   private String name;
 
