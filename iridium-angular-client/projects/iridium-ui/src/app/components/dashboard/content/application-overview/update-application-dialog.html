@@ -17,6 +17,10 @@
         <mat-label>Application Name</mat-label>
         <input matInput formControlName="applicationName" required>
       </mat-form-field>
+      <mat-form-field appearance="fill" class="form-input">
+        <mat-label>Client Id</mat-label>
+        <input matInput formControlName="clientId">
+      </mat-form-field>
 
       <div>
         <mat-form-field appearance="fill" class="form-input">
@@ -32,6 +36,16 @@
         <mat-form-field appearance="fill" class="form-input">
           <mat-label>Authorization Callback URL</mat-label>
           <input matInput formControlName="authorizationCallbackURL" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="form-input">
+          <mat-label>Privacy Policy  URL</mat-label>
+          <input matInput formControlName="privacyPolicyURL">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="form-input">
+          <mat-label>Icon URL</mat-label>
+          <input matInput formControlName="iconURL">
         </mat-form-field>
 
       </div>

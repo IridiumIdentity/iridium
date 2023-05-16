@@ -59,15 +59,19 @@ class ApplicationUpdateRequestValidatorTest {
     when(mockValidator.isValidUrl(anyString())).thenReturn(true);
     when(mockValidator.isNotBlank(anyString())).thenReturn(true);
     when(mockValidator.isUuid(same(applicationTypeId))).thenReturn(true);
+    when(mockValidator.ifPresentAndIsNotBlankAndNoLongerThan(anyString(), anyInt()))
+        .thenReturn(true);
 
     subject.validate(request);
 
     verify(mockValidator).isNotBlankAndNoLongerThan(same(name), eq(100));
-    verify(mockValidator).isNotBlankAndNoLongerThan(same(description), eq(255));
+    verify(mockValidator).ifPresentAndIsNotBlankAndNoLongerThan(same(description), eq(255));
     verify(mockValidator).isValidUrl(same(homepageUrl));
     verify(mockValidator).isValidUrl(same(privacyPolicyUrl));
     verify(mockValidator).isValidUrl(same(redirectURI));
+    verify(mockValidator).isValidUrl(same(iconUrl));
     verify(mockValidator).isNotBlank(same(iconUrl));
+    verify(mockValidator).isNotBlank(same(privacyPolicyUrl));
     verify(mockValidator).isUuid(same(applicationTypeId));
   }
 }

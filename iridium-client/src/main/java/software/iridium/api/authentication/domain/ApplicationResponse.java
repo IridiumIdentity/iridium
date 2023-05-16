@@ -34,6 +34,16 @@ public class ApplicationResponse implements Serializable {
 
   private String privacyPolicyUrl;
 
+  private String clientId;
+
+  public String getClientId() {
+    return clientId;
+  }
+
+  public void setClientId(final String clientId) {
+    this.clientId = clientId;
+  }
+
   public String getId() {
     return id;
   }

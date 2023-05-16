@@ -18,11 +18,14 @@ export class UpdateApplicationDialog {
   updateApplicationFormGroup: UntypedFormGroup;
   constructor(public dialogRef: MatDialogRef<ApplicationOverviewComponent>, private _formBuilder: UntypedFormBuilder, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.updateApplicationFormGroup = this._formBuilder.group({
-      applicationName: ['', Validators.required],
-      homepageURL: ['', Validators.required],
-      description: [''],
-      authorizationCallbackURL: ['', Validators.required],
-      applicationTypeId: ['', Validators.required]
+      applicationName: [this.data.application.name, Validators.required],
+      clientId: [{value:  this.data.application.clientId, disabled: true}],
+      homepageURL: [this.data.application.homepageURL, Validators.required],
+      description: [this.data.application.description],
+      authorizationCallbackURL: [this.data.application.callbackURL, Validators.required],
+      applicationTypeId: [this.data.application.applicationTypeId, Validators.required],
+      privacyPolicyURL: [this.data.application.privacyPolicyUrl, ],
+      iconURL: [this.data.application.iconURL ]
     });
   }
 
@@ -84,7 +87,7 @@ export class ApplicationOverviewComponent implements DynamicContentViewItem, OnI
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.dataSource = [];
+
       this.applicationService.create(result.formGroup, this.data.tenantId)
         .subscribe((response ) => {
           this.refreshDataSource();
@@ -94,19 +97,24 @@ export class ApplicationOverviewComponent implements DynamicContentViewItem, OnI
   }
   onRowClick(index: number) {
     console.log(this.dataSource[index])
-    const dialogRef = this.dialog.open(UpdateApplicationDialog, {
-      data: {applicationTypes: this.applicationTypes, tenantId: this.data.tenantId, applicationId: this.dataSource[index].id},
-    });
+    this.applicationService.get(this.data.tenantId, this.dataSource[index].id)
+      .subscribe(applicationResponse => {
+        const dialogRef = this.dialog.open(UpdateApplicationDialog, {
+          data: {applicationTypes: this.applicationTypes, tenantId: this.data.tenantId, application: applicationResponse},
+        });
+        dialogRef.afterClosed().subscribe(updateResult => {
 
-    dialogRef.afterClosed().subscribe(result => {
-      // update application
-      //this.dataSource = [];
-      // this.applicationService.create(result.formGroup, this.data.tenantId)
-      //   .subscribe((response ) => {
-      //     this.refreshDataSource();
-      //   })
+          this.applicationService.update(updateResult.formGroup, this.data.tenantId, this.dataSource[index].id)
+            .subscribe(result => {
+              console.log('update result is: ', result)
+              this.refreshDataSource();
+            })
 
-    });
+        });
+      })
+
+
+
   }
 
   ngOnInit(): void {
@@ -123,6 +131,7 @@ export class ApplicationOverviewComponent implements DynamicContentViewItem, OnI
   }
 
   private refreshDataSource() {
+    this.dataSource = [];
     this.applicationService.getPage(this.data.tenantId, 100)
       .subscribe(applicationSummaries => {
         for (let i = 0; i < applicationSummaries.data.length; i++) {

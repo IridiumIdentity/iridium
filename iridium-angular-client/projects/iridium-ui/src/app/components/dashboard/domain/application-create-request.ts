@@ -1,4 +1,4 @@
-export class CreateApplicationRequest {
+export class ApplicationCreateRequest {
   name = '';
   applicationTypeId = '';
   homepageURL = '';

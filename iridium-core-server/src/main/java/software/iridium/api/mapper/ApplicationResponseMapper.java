@@ -28,6 +28,7 @@ public class ApplicationResponseMapper {
     response.setCallbackURL(entity.getRedirectUri());
     response.setHomepageURL(entity.getHomePageUrl());
     response.setPrivacyPolicyUrl(entity.getPrivacyPolicyUrl());
+    response.setClientId(entity.getClientId());
     return response;
   }
 }

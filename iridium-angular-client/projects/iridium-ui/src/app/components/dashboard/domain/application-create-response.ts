@@ -1,4 +1,4 @@
-export interface CreateApplicationResponse {
+export interface ApplicationCreateResponse {
   id: string;
   name: string;
   applicationTypeId: string;

@@ -45,7 +45,7 @@ public class AttributeValidator {
 
   public boolean ifPresentAndIsNotBlankAndNoLongerThan(
       final String candidate, final Integer maxLength) {
-    return candidate == null || this.isNotBlankAndNoLongerThan(candidate, maxLength);
+    return StringUtils.isEmpty(candidate) || this.isNotBlankAndNoLongerThan(candidate, maxLength);
   }
 
   public boolean isBlank(final String candidate) {
