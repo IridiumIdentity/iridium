@@ -48,7 +48,7 @@ class TenantControllerTest {
 
     when(mockTenantService.getTenantSummaries(same(mockServletRequest))).thenReturn(summaries);
 
-    assertThat(subject.getTenantSummaries(mockServletRequest).getData(), sameInstance(summaries));
+    assertThat(subject.getTenantSummaries(mockServletRequest), sameInstance(summaries));
 
     verify(mockTenantService).getTenantSummaries(same(mockServletRequest));
   }

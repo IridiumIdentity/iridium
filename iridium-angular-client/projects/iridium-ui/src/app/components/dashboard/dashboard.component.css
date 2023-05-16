@@ -1,0 +1,32 @@
+.main-container {
+    position: absolute;
+    height: 100%;
+    left: 0;
+    right: 0;
+  }
+
+.sidebar-container {
+    padding-right: 1em;
+}
+
+.sub-menu-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.tenant-select {
+  padding-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.new-tenant-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 5px;
+}
+
+

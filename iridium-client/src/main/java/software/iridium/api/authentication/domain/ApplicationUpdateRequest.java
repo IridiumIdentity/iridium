@@ -15,6 +15,9 @@ import java.io.Serializable;
 
 public class ApplicationUpdateRequest implements Serializable {
 
+  public static final String MEDIA_TYPE =
+      "application/vnd.iridium.id.application-update-request.1+json";
+
   private String name;
 
   private String description;
@@ -26,6 +29,8 @@ public class ApplicationUpdateRequest implements Serializable {
   private String redirectUri;
 
   private String iconUrl;
+
+  private String applicationTypeId;
 
   public String getName() {
     return name;
@@ -73,5 +78,13 @@ public class ApplicationUpdateRequest implements Serializable {
 
   public void setIconUrl(final String iconUrl) {
     this.iconUrl = iconUrl;
+  }
+
+  public String getApplicationTypeId() {
+    return applicationTypeId;
+  }
+
+  public void setApplicationTypeId(final String applicationTypeId) {
+    this.applicationTypeId = applicationTypeId;
   }
 }

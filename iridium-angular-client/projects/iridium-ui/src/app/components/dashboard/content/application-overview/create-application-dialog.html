@@ -1,0 +1,46 @@
+<h1 mat-dialog-title>Create Application</h1>
+<div mat-dialog-content>
+  Enter details for your application
+
+  <form [formGroup]="createApplicationFormGroup" class="dialog-form">
+    <section>
+      <h4>Select Application Type</h4>
+      <mat-button-toggle-group formControlName="applicationTypeId" aria-label="Font Style">
+        <mat-button-toggle *ngFor="let item of data.applicationTypes;"
+                           [value]="item.id">{{item.name}}</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
+
+    <div class="app-form-container">
+
+      <mat-form-field appearance="fill" class="form-input">
+        <mat-label>Application Name</mat-label>
+        <input matInput formControlName="applicationName" required>
+      </mat-form-field>
+
+      <div>
+        <mat-form-field appearance="fill" class="form-input">
+          <mat-label>Homepage URL</mat-label>
+          <input matInput formControlName="homepageURL" required>
+        </mat-form-field>
+      </div>
+      <mat-form-field appearance="fill" class="form-input">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+      <div>
+        <mat-form-field appearance="fill" class="form-input">
+          <mat-label>Authorization Callback URL</mat-label>
+          <input matInput formControlName="authorizationCallbackURL" required>
+        </mat-form-field>
+
+      </div>
+      <div>
+        <button mat-button type="submit" [disabled]="!createApplicationFormGroup.valid" (click)="create()">
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+

@@ -17,6 +17,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.Calendar;
 import java.util.Map;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,6 @@ import software.iridium.api.authentication.domain.IdentityResponse;
 import software.iridium.api.base.error.DuplicateResourceException;
 import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.base.error.ResourceNotFoundException;
-import software.iridium.api.entity.AuthenticationEntity;
 import software.iridium.api.handler.NewIdentityEventHandler;
 import software.iridium.api.instantiator.AuthenticationRequestInstantiator;
 import software.iridium.api.instantiator.IdentityCreateRequestDetailsInstantiator;
@@ -59,17 +60,26 @@ public class IdentityService {
   @Autowired private IdentityCreateRequestDetailsInstantiator requestDetailsInstantiator;
   @Autowired private AuthenticationService authenticationService;
   @Autowired private AuthenticationRequestInstantiator authenticationRequestInstantiator;
+  @Autowired private AccessTokenEntityRepository accessTokenRepository;
 
-  @Transactional(propagation = Propagation.SUPPORTS)
+  private static final Logger logger = LoggerFactory.getLogger(IdentityService.class);
+
+  @Transactional(propagation = Propagation.REQUIRED)
   public IdentityResponse getIdentity(final HttpServletRequest request) {
+    logger.info("retrieving identity");
     final var now = Calendar.getInstance().getTime();
-    final var token = tokenExtractor.extractIridiumToken(request);
-    final AuthenticationEntity auth =
-        authenticationRepository
-            .findFirstByAuthTokenAndExpirationAfter(token, now)
+    final var token = tokenExtractor.extractBearerToken(request);
+    final var accessToken =
+        accessTokenRepository
+            .findFirstByAccessTokenAndExpirationAfter(token, now)
             .orElseThrow(NotAuthorizedException::new);
 
-    return identityEntityMapper.map(auth.getIdentity());
+    final var identity =
+        identityRepository
+            .findById(accessToken.getIdentityId())
+            .orElseThrow(NotAuthorizedException::new);
+
+    return identityEntityMapper.map(identity);
   }
 
   @Transactional(propagation = Propagation.REQUIRED)

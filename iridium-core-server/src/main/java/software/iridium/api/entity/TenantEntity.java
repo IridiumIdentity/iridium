@@ -29,7 +29,7 @@ public class TenantEntity extends AbstractEntity {
   @ManyToMany(mappedBy = "managedTenants", fetch = FetchType.LAZY)
   private List<IdentityEntity> managingIdentities = new ArrayList<>();
 
-  @Column(name = "website_url", length = 255, nullable = false, unique = true, updatable = true)
+  @Column(name = "website_url", length = 255, nullable = true, unique = true, updatable = true)
   private String websiteUrl;
 
   @Column(name = "environment")

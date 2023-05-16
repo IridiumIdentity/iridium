@@ -20,6 +20,7 @@ import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import software.iridium.api.entity.ApplicationEntity;
+import software.iridium.api.entity.ApplicationTypeEntity;
 
 class ApplicationSummaryMapperTest {
 
@@ -35,10 +36,16 @@ class ApplicationSummaryMapperTest {
     final var id = "the id";
     final var name = "the name";
     final var iconUrl = "the icon url";
+    final var applicationTypeId = "the application type id";
+    final var clientId = "the client id";
     final var entity = new ApplicationEntity();
     entity.setId(id);
     entity.setName(name);
     entity.setIconUrl(iconUrl);
+    entity.setClientId(clientId);
+    final var applicationType = new ApplicationTypeEntity();
+    applicationType.setId(applicationTypeId);
+    entity.setApplicationType(applicationType);
     final var list = new ArrayList<ApplicationEntity>();
     list.add(entity);
 
@@ -49,6 +56,8 @@ class ApplicationSummaryMapperTest {
     MatcherAssert.assertThat(response.getId(), is(equalTo(id)));
     MatcherAssert.assertThat(response.getName(), is(equalTo(name)));
     MatcherAssert.assertThat(response.getIconUrl(), is(equalTo(iconUrl)));
+    MatcherAssert.assertThat(response.getApplicationTypeId(), is(equalTo(applicationTypeId)));
+    MatcherAssert.assertThat(response.getClientId(), is(equalTo(clientId)));
   }
 
   @Test

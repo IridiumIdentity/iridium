@@ -30,7 +30,7 @@ public class AccessTokenEntityInstantiator {
   public AccessTokenEntity instantiate(final String identityId) {
     final var entity = new AccessTokenEntity();
     entity.setIdentityId(identityId);
-    entity.setExpiration(DateUtils.addHoursToCurrentTime(1));
+    entity.setExpiration(DateUtils.addHoursToCurrentTime(HOURS_TO_EXPIRATION));
     entity.setTokenType("Bearer");
     final var accessToken =
         tokenGenerator.generateAccessToken(

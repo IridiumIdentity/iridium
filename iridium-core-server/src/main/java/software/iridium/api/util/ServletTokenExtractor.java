@@ -14,6 +14,7 @@ package software.iridium.api.util;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+import software.iridium.api.base.error.NotAuthorizedException;
 
 @Component
 public class ServletTokenExtractor {
@@ -23,19 +24,29 @@ public class ServletTokenExtractor {
   public static final String IRIDIUM_TOKEN_HEADER_VALUE = "X-IRIDIUM-AUTH-TOKEN";
 
   public String extractBearerToken(final HttpServletRequest request) {
-    return request
-        .getHeader(HttpHeaders.AUTHORIZATION)
-        .substring(BEARER_PREFIX_WITH_SPACE.length());
+    final var header = request.getHeader(HttpHeaders.AUTHORIZATION);
+
+    if (header == null || header.isBlank()) {
+      throw new NotAuthorizedException("authorization blank");
+    }
+    return header.substring(BEARER_PREFIX_WITH_SPACE.length());
   }
 
   public String extractBasicAuthToken(final HttpServletRequest request) {
-    return request.getHeader(HttpHeaders.AUTHORIZATION).substring(BASIC_PREFIX_WITH_SPACE.length());
+    final var header = request.getHeader(HttpHeaders.AUTHORIZATION);
+    if (header == null || header.isBlank()) {
+      throw new NotAuthorizedException("basic auth token blank");
+    }
+    return header.substring(BASIC_PREFIX_WITH_SPACE.length());
   }
 
   public String extractIridiumToken(final HttpServletRequest request) {
+    final var header = request.getHeader(IRIDIUM_TOKEN_HEADER_VALUE);
 
-    return request
-        .getHeader(IRIDIUM_TOKEN_HEADER_VALUE)
-        .substring(BEARER_PREFIX_WITH_SPACE.length());
+    if (header == null || header.isBlank()) {
+      throw new NotAuthorizedException("iridium token blank");
+    }
+
+    return header.substring(BEARER_PREFIX_WITH_SPACE.length());
   }
 }

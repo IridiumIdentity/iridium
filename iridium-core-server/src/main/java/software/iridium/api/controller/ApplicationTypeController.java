@@ -11,12 +11,12 @@
  */
 package software.iridium.api.controller;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import software.iridium.api.authentication.domain.ApplicationTypeSummary;
-import software.iridium.api.base.domain.ApiListResponse;
 import software.iridium.api.service.ApplicationTypeService;
 
 @CrossOrigin
@@ -26,7 +26,7 @@ public class ApplicationTypeController {
   @Autowired private ApplicationTypeService applicationTypeService;
 
   @GetMapping(value = "/application-types", produces = ApplicationTypeSummary.MEDIA_TYPE_LIST)
-  public ApiListResponse<ApplicationTypeSummary> getAll() {
-    return new ApiListResponse<>(applicationTypeService.getAll());
+  public List<ApplicationTypeSummary> getAll() {
+    return applicationTypeService.getAll();
   }
 }

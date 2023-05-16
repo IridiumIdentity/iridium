@@ -17,7 +17,7 @@ public class ApplicationTypeSummary implements Serializable {
   private static final long serialVersionUID = -2596785945095858657L;
 
   public static final String MEDIA_TYPE_LIST =
-      "application/vnd.iridium.id.authz.application-type-summary-list.1+json";
+      "application/vnd.iridium.id.application-type-summary-list.1+json";
 
   private String id;
 

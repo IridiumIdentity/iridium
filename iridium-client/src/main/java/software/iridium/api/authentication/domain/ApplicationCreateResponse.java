@@ -18,7 +18,7 @@ public class ApplicationCreateResponse implements Serializable {
   private static final long serialVersionUID = -7816794958442604679L;
 
   public static final String MEDIA_TYPE =
-      "application/vnd.iridium.id.authz.application-create-response.1+json";
+      "application/vnd.iridium.id.application-create-response.1+json";
 
   private String id;
 

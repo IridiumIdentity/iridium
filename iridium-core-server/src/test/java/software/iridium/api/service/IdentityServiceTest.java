@@ -71,6 +71,7 @@ class IdentityServiceTest {
   @Mock private AuthenticationRequestInstantiator mockRequestInstantiator;
   @Mock private AuthenticationService mockAuthenticationService;
   @Mock private IdentityCreateRequestDetailsInstantiator mockRequestDetailsInstantiator;
+  @Mock private AccessTokenEntityRepository accessTokenRepository;
   @InjectMocks private IdentityService subject;
 
   @AfterEach
@@ -90,48 +91,50 @@ class IdentityServiceTest {
         mockApplicationRepository,
         mockRequestInstantiator,
         mockAuthenticationService,
+        accessTokenRepository,
         mockRequestDetailsInstantiator);
   }
 
   @Test
   public void getIdentity_AllGood_BehavesAsExpected() {
     final var userAuthToken = "userAuthToken";
-    final var auth = new AuthenticationEntity();
+    final var identityId = "the identity id";
+    final var accessToken = new AccessTokenEntity();
     final var identity = new IdentityEntity();
-    auth.setIdentity(identity);
+    accessToken.setIdentityId(identityId);
     final var identityResponse = new IdentityResponse();
 
-    when(mockAuthenticationEntityRepository.findFirstByAuthTokenAndExpirationAfter(
+    when(accessTokenRepository.findFirstByAccessTokenAndExpirationAfter(
             same(userAuthToken), any(Date.class)))
-        .thenReturn(Optional.of(auth));
+        .thenReturn(Optional.of(accessToken));
     when(mockIdentityEntityMapper.map(same(identity))).thenReturn(identityResponse);
-    when(mockTokenExtractor.extractIridiumToken(same(mockServletRequest)))
-        .thenReturn(userAuthToken);
+    when(mockTokenExtractor.extractBearerToken(same(mockServletRequest))).thenReturn(userAuthToken);
+    when(mockIdentityRepository.findById(same(identityId))).thenReturn(Optional.of(identity));
 
     assertThat(subject.getIdentity(mockServletRequest), sameInstance(identityResponse));
 
-    verify(mockAuthenticationEntityRepository)
-        .findFirstByAuthTokenAndExpirationAfter(same(userAuthToken), any(Date.class));
+    verify(accessTokenRepository)
+        .findFirstByAccessTokenAndExpirationAfter(same(userAuthToken), any(Date.class));
     verify(mockIdentityEntityMapper).map(same(identity));
-    verify(mockTokenExtractor).extractIridiumToken(same(mockServletRequest));
+    verify(mockTokenExtractor).extractBearerToken(same(mockServletRequest));
+    verify(mockIdentityRepository).findById(same(identityId));
   }
 
   @Test
   public void getIdentity_EntityNotFound_ExceptionThrown() {
     final var userAuthToken = "userAuthToken";
 
-    when(mockAuthenticationEntityRepository.findFirstByAuthTokenAndExpirationAfter(
+    when(accessTokenRepository.findFirstByAccessTokenAndExpirationAfter(
             same(userAuthToken), any(Date.class)))
         .thenReturn(Optional.empty());
-    when(mockTokenExtractor.extractIridiumToken(same(mockServletRequest)))
-        .thenReturn(userAuthToken);
+    when(mockTokenExtractor.extractBearerToken(same(mockServletRequest))).thenReturn(userAuthToken);
 
     assertThrows(NotAuthorizedException.class, () -> subject.getIdentity(mockServletRequest));
 
-    verify(mockAuthenticationEntityRepository)
-        .findFirstByAuthTokenAndExpirationAfter(same(userAuthToken), any(Date.class));
+    verify(accessTokenRepository)
+        .findFirstByAccessTokenAndExpirationAfter(same(userAuthToken), any(Date.class));
     verify(mockIdentityEntityMapper, never()).map(any());
-    verify(mockTokenExtractor).extractIridiumToken(same(mockServletRequest));
+    verify(mockTokenExtractor).extractBearerToken(same(mockServletRequest));
   }
 
   @Test

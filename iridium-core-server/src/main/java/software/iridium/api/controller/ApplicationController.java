@@ -13,10 +13,7 @@ package software.iridium.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import software.iridium.api.authentication.domain.ApplicationCreateRequest;
-import software.iridium.api.authentication.domain.ApplicationCreateResponse;
-import software.iridium.api.authentication.domain.ApplicationSummary;
-import software.iridium.api.base.domain.ApiDataResponse;
+import software.iridium.api.authentication.domain.*;
 import software.iridium.api.base.domain.PagedListResponse;
 import software.iridium.api.service.ApplicationService;
 
@@ -30,22 +27,40 @@ public class ApplicationController {
       value = "/tenants/{tenant-id}/applications",
       consumes = ApplicationCreateRequest.MEDIA_TYPE,
       produces = ApplicationCreateResponse.MEDIA_TYPE)
-  public ApiDataResponse<ApplicationCreateResponse> create(
+  public ApplicationCreateResponse create(
       @RequestBody final ApplicationCreateRequest request,
       @PathVariable("tenant-id") final String tenantId) {
-    return new ApiDataResponse<>(applicationService.create(request, tenantId));
+    return applicationService.create(request, tenantId);
   }
 
   @GetMapping(
-      value = "/tenants/{tenant-id}/applications/{application-type-id}",
+      value = "/tenants/{tenant-id}/applications",
       produces = ApplicationSummary.MEDIA_TYPE_LIST)
   public PagedListResponse<ApplicationSummary> getPageByTenantAndApplicationType(
       @PathVariable("tenant-id") final String tenantId,
-      @PathVariable("application-type-id") final String applicationTypeId,
       @RequestParam(value = "page", required = false, defaultValue = "0") final Integer page,
       @RequestParam(value = "size", required = false, defaultValue = "20") final Integer size,
       @RequestParam(value = "active", defaultValue = "true") final Boolean active) {
-    return applicationService.getPageByTenantIdAndApplicationTypeId(
-        tenantId, applicationTypeId, page, size, active);
+    return applicationService.getPageByTenantId(tenantId, page, size, active);
+  }
+
+  @PutMapping(
+      value = "/tenants/{tenant-id}/applications/{application-id}",
+      consumes = ApplicationUpdateRequest.MEDIA_TYPE,
+      produces = ApplicationUpdateResponse.MEDIA_TYPE)
+  public ApplicationUpdateResponse update(
+      @RequestBody final ApplicationUpdateRequest request,
+      @PathVariable("tenant-id") final String tenantId,
+      @PathVariable("application-id") final String applicationId) {
+    return applicationService.update(request, tenantId, applicationId);
+  }
+
+  @GetMapping(
+      value = "/tenants/{tenant-id}/applications/{application-id}",
+      produces = ApplicationResponse.MEDIA_TYPE)
+  public ApplicationResponse get(
+      @PathVariable("tenant-id") final String tenantId,
+      @PathVariable("application-id") final String applicationId) {
+    return applicationService.get(tenantId, applicationId);
   }
 }

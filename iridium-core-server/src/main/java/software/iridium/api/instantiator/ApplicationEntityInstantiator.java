@@ -37,10 +37,14 @@ public class ApplicationEntityInstantiator {
       final ApplicationCreateRequest request,
       final ApplicationTypeEntity type,
       final String tenantId) {
+    // todo
     final var entity = new ApplicationEntity();
     entity.setApplicationType(type);
     entity.setTenantId(tenantId);
     entity.setName(request.getName());
+    entity.setDescription(request.getDescription());
+    entity.setHomePageUrl(request.getHomepageURL());
+    entity.setRedirectUri(request.getCallbackURL());
     try {
       entity.setClientId(encoderUtils.cryptoSecureToHex(CLIENT_ID_SEED_LENGTH));
     } catch (NoSuchAlgorithmException e) {
