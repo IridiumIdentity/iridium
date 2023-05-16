@@ -14,10 +14,11 @@ package software.iridium.cli;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import software.iridium.cli.command.InitCommand;
+import software.iridium.cli.command.RunCommand;
 
 @Command(
     name = "iridium",
-    subcommands = {InitCommand.class},
+    subcommands = {InitCommand.class, RunCommand.class},
     mixinStandardHelpOptions = true,
     description = "iridium management cli")
 public class IridiumCli {

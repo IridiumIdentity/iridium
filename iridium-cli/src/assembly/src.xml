@@ -33,8 +33,10 @@
                 <include>assets/**</include>
                 <include>tools/**</include>
             </includes>
+            
             <excludes>
                 <exclude>**/target/**</exclude>
+                <exclude>**/node_modules/**</exclude>
             </excludes>
         </fileSet>
     </fileSets>

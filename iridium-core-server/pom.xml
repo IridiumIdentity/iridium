@@ -16,7 +16,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <java.version>17</java.version>
-        <start-class>software.iridium.api.AuthenticationApi</start-class>
+        <start-class>software.iridium.api.IridiumAPI</start-class>
     </properties>
 
     <dependencies>
@@ -49,12 +49,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.thymeleaf</groupId>-->
-<!--            <artifactId>thymeleaf</artifactId>-->
-<!--            <version>3.0.15.RELEASE</version>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring6</artifactId>
