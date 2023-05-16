@@ -12,18 +12,23 @@
 package software.iridium.api.mapper;
 
 import org.springframework.stereotype.Component;
-import software.iridium.api.authentication.domain.ApplicationCreateResponse;
+import software.iridium.api.authentication.domain.ApplicationResponse;
 import software.iridium.api.entity.ApplicationEntity;
 
 @Component
 public class ApplicationResponseMapper {
 
-  public ApplicationCreateResponse map(final ApplicationEntity entity) {
-    final var response = new ApplicationCreateResponse();
+  public ApplicationResponse map(final ApplicationEntity entity) {
+    final var response = new ApplicationResponse();
     response.setName(entity.getName());
     response.setApplicationTypeId(entity.getApplicationType().getId());
     response.setTenantId(entity.getTenantId());
     response.setId(entity.getId());
+    response.setDescription(entity.getDescription());
+    response.setCallbackURL(entity.getRedirectUri());
+    response.setHomepageURL(entity.getHomePageUrl());
+    response.setPrivacyPolicyUrl(entity.getPrivacyPolicyUrl());
+    response.setClientId(entity.getClientId());
     return response;
   }
 }

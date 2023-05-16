@@ -12,13 +12,12 @@
 package software.iridium.api.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import software.iridium.api.authentication.domain.CreateTenantRequest;
 import software.iridium.api.authentication.domain.CreateTenantResponse;
 import software.iridium.api.authentication.domain.TenantSummary;
-import software.iridium.api.base.domain.ApiDataResponse;
-import software.iridium.api.base.domain.ApiListResponse;
 import software.iridium.api.service.TenantService;
 
 @CrossOrigin
@@ -28,16 +27,16 @@ public class TenantController {
   @Autowired private TenantService tenantService;
 
   @GetMapping(value = "tenants", produces = TenantSummary.MEDIA_TYPE_LIST)
-  public ApiListResponse<TenantSummary> getTenantSummaries(HttpServletRequest request) {
-    return new ApiListResponse<>(tenantService.getTenantSummaries(request));
+  public List<TenantSummary> getTenantSummaries(HttpServletRequest request) {
+    return tenantService.getTenantSummaries(request);
   }
 
   @PostMapping(
       value = "tenants",
       consumes = CreateTenantRequest.MEDIA_TYPE,
       produces = CreateTenantResponse.MEDIA_TYPE)
-  public ApiDataResponse<CreateTenantResponse> create(
+  public CreateTenantResponse create(
       final HttpServletRequest request, @RequestBody final CreateTenantRequest tenantRequest) {
-    return new ApiDataResponse<>(tenantService.create(request, tenantRequest));
+    return tenantService.create(request, tenantRequest);
   }
 }

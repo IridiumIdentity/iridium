@@ -26,6 +26,10 @@ public class ApplicationSummary implements Serializable {
 
   private String iconUrl;
 
+  private String applicationTypeId;
+
+  private String clientId;
+
   public String getId() {
     return id;
   }
@@ -48,5 +52,21 @@ public class ApplicationSummary implements Serializable {
 
   public void setIconUrl(final String iconUrl) {
     this.iconUrl = iconUrl;
+  }
+
+  public String getApplicationTypeId() {
+    return applicationTypeId;
+  }
+
+  public void setApplicationTypeId(final String applicationTypeId) {
+    this.applicationTypeId = applicationTypeId;
+  }
+
+  public String getClientId() {
+    return clientId;
+  }
+
+  public void setClientId(final String clientId) {
+    this.clientId = clientId;
   }
 }

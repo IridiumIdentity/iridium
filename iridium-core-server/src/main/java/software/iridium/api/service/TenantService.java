@@ -44,10 +44,11 @@ public class TenantService {
   @Autowired private CreateTenantResponseMapper responseMapper;
   @Autowired private LoginDescriptorEntityInstantiator loginDescriptorInstantiator;
 
-  @Transactional(propagation = Propagation.SUPPORTS)
+  @Transactional(propagation = Propagation.REQUIRED)
   public List<TenantSummary> getTenantSummaries(final HttpServletRequest request) {
 
     final var identity = identityService.getIdentity(request);
+
     final var tenants =
         tenantRepository
             .findByIdIn(identity.getTenantIds())

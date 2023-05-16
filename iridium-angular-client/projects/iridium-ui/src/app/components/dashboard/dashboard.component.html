@@ -1,0 +1,42 @@
+<mat-sidenav-container class="main-container">
+
+  <mat-sidenav mode="side" opened class='sidebar-container'>
+    <div  class="tenant-select">
+    <mat-form-field appearance="fill">
+      <mat-label>Select Tenant</mat-label>
+      <mat-select [disabled]="!tenants" (selectionChange)="onTenantChange($event)">
+        <mat-option *ngFor="let tenant of tenants"
+                    [value]="tenant.value">
+          {{tenant.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    </div>
+    <div class="new-tenant-button">
+      <button  (click)="openDialog()" mat-flat-button>Create Tenant</button>
+    </div>
+
+
+
+    <mat-accordion>
+
+      <mat-expansion-panel  [disabled]="!selectedTenant" *ngFor="let menuItem of menuItemNodes" (opened)="panelOpenState = true"
+                           (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{menuItem.name}}
+          </mat-panel-title>
+
+        </mat-expansion-panel-header>
+        <div class="sub-menu-container">
+          <button (click)="subItemClick(subItem.name)" *ngFor="let subItem of menuItem.children" mat-flat-button>{{subItem.name}}</button>
+        </div>
+
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-dynamic-content-view  [view]="view" ></app-dynamic-content-view>
+  </mat-sidenav-content>
+</mat-sidenav-container>

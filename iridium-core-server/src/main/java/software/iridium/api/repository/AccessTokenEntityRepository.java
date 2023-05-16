@@ -11,9 +11,13 @@
  */
 package software.iridium.api.repository;
 
+import java.util.Date;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import software.iridium.api.entity.AccessTokenEntity;
 
 public interface AccessTokenEntityRepository extends JpaRepository<AccessTokenEntity, String> {
-  // intentionally left blank
+
+  Optional<AccessTokenEntity> findFirstByAccessTokenAndExpirationAfter(
+      final String accessToken, final Date expiration);
 }

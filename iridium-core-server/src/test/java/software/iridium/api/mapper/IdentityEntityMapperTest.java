@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import software.iridium.api.entity.IdentityEmailEntity;
 import software.iridium.api.entity.IdentityEntity;
 import software.iridium.api.entity.RoleEntity;
+import software.iridium.api.entity.TenantEntity;
 
 class IdentityEntityMapperTest {
 
@@ -37,6 +38,9 @@ class IdentityEntityMapperTest {
     final var id = "someId";
     final var emailAddress = "someUserName@nowhere.com";
     final var roleName = "roleName";
+    final var tenantId = "the id";
+    final var tenant = new TenantEntity();
+    tenant.setId(tenantId);
     final var role = new RoleEntity();
     role.setName(roleName);
     final var entity = new IdentityEntity();
@@ -46,14 +50,20 @@ class IdentityEntityMapperTest {
     entity.setId(id);
     entity.getEmails().add(email);
     entity.getRoles().add(role);
+    entity.getManagedTenants().add(tenant);
 
     final var response = subject.map(entity);
 
     MatcherAssert.assertThat(response.getId(), is(equalTo(id)));
     MatcherAssert.assertThat(response.getUsername(), is(equalTo(emailAddress)));
     MatcherAssert.assertThat(response.getRoles().size(), is(equalTo(1)));
+    MatcherAssert.assertThat(response.getTenantIds().size(), is(equalTo(1)));
     for (String domainRoleName : response.getRoles()) {
       assertThat(domainRoleName, is(equalTo(roleName)));
+    }
+
+    for (String tenantIdResponse : response.getTenantIds()) {
+      assertThat(tenantIdResponse, is(equalTo(tenantId)));
     }
   }
 

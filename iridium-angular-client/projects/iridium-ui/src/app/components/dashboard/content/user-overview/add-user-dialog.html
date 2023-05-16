@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Create New User</h1>
+<div mat-dialog-content>
+<form [formGroup]="createUserFormGroup" class="dialog-form">
+
+  <mat-form-field appearance="fill" class="form-input">
+    <mat-label>Email Address</mat-label>
+    <input matInput formControlName="username" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="form-input">
+    <mat-label>Temporary Password</mat-label>
+    <input matInput type="password" formControlName="password">
+  </mat-form-field>
+
+  <div>
+    <button mat-button type="submit" [disabled]="!createUserFormGroup.valid" (click)="create()">
+      Submit
+    </button>
+  </div>
+</form>
+</div>

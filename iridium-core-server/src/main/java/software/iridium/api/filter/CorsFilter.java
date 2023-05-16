@@ -31,7 +31,8 @@ public class CorsFilter extends OncePerRequestFilter {
       final HttpServletResponse response,
       final FilterChain filterChain)
       throws ServletException, IOException {
-    response.addHeader("Access-Control-Allow-Origin", "http://localhost:4300");
+    // todo (josh fischer) make this configurable
+    response.addHeader("Access-Control-Allow-Origin", "*");
 
     if (request.getHeader("Access-Control-Request-Method") != null
         && "OPTIONS".equals(request.getMethod())) {
@@ -40,7 +41,7 @@ public class CorsFilter extends OncePerRequestFilter {
       response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
       response.addHeader(
           "Access-Control-Allow-Headers",
-          "Authorization, Content-Type, Accept, X-IRIDIUM-AUTH-TOKEN");
+          "Authorization, Content-Type, Accept, X-IRIDIUM-AUTH-TOKEN, Bearer");
       response.addHeader("Access-Control-Max-Age", "1");
     }
 

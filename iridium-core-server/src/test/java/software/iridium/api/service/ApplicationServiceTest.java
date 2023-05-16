@@ -32,21 +32,25 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import software.iridium.api.authentication.domain.ApplicationCreateRequest;
-import software.iridium.api.authentication.domain.ApplicationCreateResponse;
-import software.iridium.api.authentication.domain.ApplicationSummary;
+import software.iridium.api.authentication.domain.*;
 import software.iridium.api.base.error.DuplicateResourceException;
 import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.entity.ApplicationEntity;
+import software.iridium.api.entity.ApplicationType;
 import software.iridium.api.entity.ApplicationTypeEntity;
 import software.iridium.api.entity.TenantEntity;
 import software.iridium.api.instantiator.ApplicationEntityInstantiator;
+import software.iridium.api.mapper.ApplicationCreateResponseMapper;
 import software.iridium.api.mapper.ApplicationResponseMapper;
 import software.iridium.api.mapper.ApplicationSummaryMapper;
+import software.iridium.api.mapper.ApplicationUpdateResponseMapper;
 import software.iridium.api.repository.ApplicationEntityRepository;
 import software.iridium.api.repository.ApplicationTypeEntityRepository;
 import software.iridium.api.repository.TenantEntityRepository;
+import software.iridium.api.updator.ApplicationEntityUpdator;
 import software.iridium.api.util.AttributeValidator;
+import software.iridium.api.validator.ApplicationUpdateRequestValidator;
+import software.iridium.api.validator.SinglePageApplicationCreateRequestValidator;
 
 @ExtendWith(MockitoExtension.class)
 class ApplicationServiceTest {
@@ -56,8 +60,14 @@ class ApplicationServiceTest {
   @Mock private ApplicationEntityRepository mockApplicationRepository;
   @Mock private ApplicationTypeEntityRepository mockApplicationTypeRepository;
   @Mock private ApplicationEntityInstantiator mockEntityInstantiator;
-  @Mock private ApplicationResponseMapper mockResponseMapper;
+  @Mock private ApplicationCreateResponseMapper mockCreateResponseMapper;
   @Mock private ApplicationSummaryMapper mockSummaryMapper;
+  @Mock private SinglePageApplicationCreateRequestValidator mockSpaValidator;
+  @Mock private ApplicationEntityUpdator mockApplicationUpdator;
+  @Mock private ApplicationUpdateRequestValidator mockUpdateRequestValidator;
+  @Mock private ApplicationUpdateResponseMapper mockUpdateResponseMapper;
+  @Mock private ApplicationResponseMapper mockResponseMapper;
+
   @InjectMocks private ApplicationService subject;
 
   @AfterEach
@@ -68,8 +78,13 @@ class ApplicationServiceTest {
         mockApplicationRepository,
         mockApplicationTypeRepository,
         mockEntityInstantiator,
-        mockResponseMapper,
-        mockSummaryMapper);
+        mockCreateResponseMapper,
+        mockSummaryMapper,
+        mockSpaValidator,
+        mockApplicationUpdator,
+        mockUpdateRequestValidator,
+        mockUpdateResponseMapper,
+        mockResponseMapper);
   }
 
   @Test
@@ -78,6 +93,7 @@ class ApplicationServiceTest {
     final var applicationTypeId = "app type id";
     final var name = "app name";
     final var applicationType = new ApplicationTypeEntity();
+    applicationType.setType(ApplicationType.SINGLE_PAGE);
     final var tenant = new TenantEntity();
     final var request = new ApplicationCreateRequest();
     request.setApplicationTypeId(applicationTypeId);
@@ -95,7 +111,7 @@ class ApplicationServiceTest {
         .thenReturn(Optional.empty());
     when(mockEntityInstantiator.instantiate(same(request), same(applicationType), same(tenantId)))
         .thenReturn(entity);
-    when(mockResponseMapper.map(same(entity))).thenReturn(response);
+    when(mockCreateResponseMapper.map(same(entity))).thenReturn(response);
     when(mockApplicationRepository.save(same(entity))).thenReturn(entity);
 
     assertThat(subject.create(request, tenantId), sameInstance(response));
@@ -108,8 +124,9 @@ class ApplicationServiceTest {
     verify(mockApplicationRepository).findByNameAndTenantId(same(name), same(tenantId));
     verify(mockEntityInstantiator)
         .instantiate(same(request), same(applicationType), same(tenantId));
-    verify(mockResponseMapper).map(same(entity));
+    verify(mockCreateResponseMapper).map(same(entity));
     verify(mockApplicationRepository).save(same(entity));
+    verify(mockSpaValidator).validate(same(request));
   }
 
   @Test
@@ -214,7 +231,7 @@ class ApplicationServiceTest {
   }
 
   @Test
-  public void create_TenantNotFound_ExceptionThrown() {
+  public void createSPA_TenantNotFound_ExceptionThrown() {
     final var tenantId = "the tenant id";
     final var applicationTypeId = "app type id";
     final var name = "app name";
@@ -222,6 +239,7 @@ class ApplicationServiceTest {
     request.setApplicationTypeId(applicationTypeId);
     request.setName(name);
     final var applicationType = new ApplicationTypeEntity();
+    applicationType.setType(ApplicationType.SINGLE_PAGE);
 
     when(mockAttributeValidator.isUuid(anyString())).thenReturn(true);
     when(mockAttributeValidator.isNotBlankAndNoLongerThan(anyString(), anyInt()))
@@ -239,6 +257,7 @@ class ApplicationServiceTest {
     verify(mockAttributeValidator).isUuid(same(applicationTypeId));
     verify(mockApplicationTypeRepository).findById(same(applicationTypeId));
     verify(mockTenantRepository).findById(same(tenantId));
+    verify(mockSpaValidator).validate(same(request));
   }
 
   @Test
@@ -250,6 +269,7 @@ class ApplicationServiceTest {
     request.setApplicationTypeId(applicationTypeId);
     request.setName(name);
     final var applicationType = new ApplicationTypeEntity();
+    applicationType.setType(ApplicationType.SINGLE_PAGE);
     final var tenant = new TenantEntity();
     final var entity = new ApplicationEntity();
 
@@ -277,12 +297,12 @@ class ApplicationServiceTest {
     verify(mockApplicationTypeRepository).findById(same(applicationTypeId));
     verify(mockTenantRepository).findById(same(tenantId));
     verify(mockApplicationRepository).findByNameAndTenantId(same(name), same(tenantId));
+    verify(mockSpaValidator).validate(same(request));
   }
 
   @Test
   public void getPageByTenantIdAndApplicationTypeId_AllGood_BehavesAsExpected() {
     final var tenantId = UUID.randomUUID().toString();
-    final var applicationTypeId = UUID.randomUUID().toString();
     final var page = 1;
     final var size = 3;
     final var active = true;
@@ -293,24 +313,21 @@ class ApplicationServiceTest {
 
     when(mockAttributeValidator.isUuid(anyString())).thenCallRealMethod();
     when(mockAttributeValidator.isPositive(anyInt())).thenCallRealMethod();
+    when(mockAttributeValidator.isZeroOrGreater(anyInt())).thenCallRealMethod();
     when(mockAttributeValidator.isNotNull(anyBoolean())).thenCallRealMethod();
-    when(mockApplicationRepository.findAllByTenantIdAndApplicationTypeIdAndActive(
-            same(tenantId), same(applicationTypeId), same(active), any(PageRequest.class)))
+    when(mockApplicationRepository.findAllByTenantIdAndActive(
+            same(tenantId), same(active), any(PageRequest.class)))
         .thenReturn(pageOfApplications);
     when(mockSummaryMapper.mapToSummaries(any())).thenReturn(summaries);
 
-    final var response =
-        subject.getPageByTenantIdAndApplicationTypeId(
-            tenantId, applicationTypeId, page, size, active);
+    final var response = subject.getPageByTenantId(tenantId, page, size, active);
 
     verify(mockAttributeValidator).isUuid(same(tenantId));
-    verify(mockAttributeValidator).isUuid(same(applicationTypeId));
-    verify(mockAttributeValidator).isPositive(same(page));
+    verify(mockAttributeValidator).isZeroOrGreater(same(page));
     verify(mockAttributeValidator).isPositive(same(size));
     verify(mockAttributeValidator).isNotNull(same(active));
     verify(mockApplicationRepository)
-        .findAllByTenantIdAndApplicationTypeIdAndActive(
-            same(tenantId), same(applicationTypeId), same(active), any(PageRequest.class));
+        .findAllByTenantIdAndActive(same(tenantId), same(active), any(PageRequest.class));
     verify(mockSummaryMapper).mapToSummaries(eq(applications));
     assertThat(response.getPageInfo().getCount(), is(equalTo(1)));
     assertThat(response.getPageInfo().getPage(), is(equalTo(page)));
@@ -320,25 +337,22 @@ class ApplicationServiceTest {
   @Test
   public void getPageByTenantIdAndApplicationTypeId_ActiveIsNull_ExceptionThrown() {
     final var tenantId = UUID.randomUUID().toString();
-    final var applicationTypeId = UUID.randomUUID().toString();
     final var page = 1;
     final var size = 3;
     final Boolean active = null;
 
     when(mockAttributeValidator.isUuid(anyString())).thenCallRealMethod();
     when(mockAttributeValidator.isPositive(anyInt())).thenCallRealMethod();
+    when(mockAttributeValidator.isZeroOrGreater(anyInt())).thenCallRealMethod();
     when(mockAttributeValidator.isNotNull(nullable(Boolean.class))).thenCallRealMethod();
 
     final var exception =
         assertThrows(
             IllegalArgumentException.class,
-            () ->
-                subject.getPageByTenantIdAndApplicationTypeId(
-                    tenantId, applicationTypeId, page, size, null));
+            () -> subject.getPageByTenantId(tenantId, page, size, null));
 
     verify(mockAttributeValidator).isUuid(same(tenantId));
-    verify(mockAttributeValidator).isUuid(same(applicationTypeId));
-    verify(mockAttributeValidator).isPositive(same(page));
+    verify(mockAttributeValidator).isZeroOrGreater(same(page));
     verify(mockAttributeValidator).isPositive(same(size));
     verify(mockAttributeValidator).isNotNull(nullable(Boolean.class));
     assertThat(
@@ -348,23 +362,20 @@ class ApplicationServiceTest {
   @Test
   public void getPageByTenantIdAndApplicationTypeId_PageSizeIsNegativeNumber_ExceptionThrown() {
     final var tenantId = UUID.randomUUID().toString();
-    final var applicationTypeId = UUID.randomUUID().toString();
     final var page = 1;
     final var size = -3;
 
     when(mockAttributeValidator.isUuid(anyString())).thenCallRealMethod();
     when(mockAttributeValidator.isPositive(anyInt())).thenCallRealMethod();
+    when(mockAttributeValidator.isZeroOrGreater(anyInt())).thenCallRealMethod();
 
     final var exception =
         assertThrows(
             IllegalArgumentException.class,
-            () ->
-                subject.getPageByTenantIdAndApplicationTypeId(
-                    tenantId, applicationTypeId, page, size, null));
+            () -> subject.getPageByTenantId(tenantId, page, size, null));
 
     verify(mockAttributeValidator).isUuid(same(tenantId));
-    verify(mockAttributeValidator).isUuid(same(applicationTypeId));
-    verify(mockAttributeValidator).isPositive(same(page));
+    verify(mockAttributeValidator).isZeroOrGreater(same(page));
     verify(mockAttributeValidator).isPositive(same(size));
     assertThat(exception.getMessage(), is(equalTo("size must be a positive integer: " + size)));
   }
@@ -372,44 +383,20 @@ class ApplicationServiceTest {
   @Test
   public void getPageByTenantIdAndApplicationTypeId_PageIsNegativeNumber_ExceptionThrown() {
     final var tenantId = UUID.randomUUID().toString();
-    final var applicationTypeId = UUID.randomUUID().toString();
     final var page = -1;
 
     when(mockAttributeValidator.isUuid(anyString())).thenCallRealMethod();
-    when(mockAttributeValidator.isPositive(anyInt())).thenCallRealMethod();
+    when(mockAttributeValidator.isZeroOrGreater(anyInt())).thenCallRealMethod();
 
     final var exception =
         assertThrows(
             IllegalArgumentException.class,
-            () ->
-                subject.getPageByTenantIdAndApplicationTypeId(
-                    tenantId, applicationTypeId, page, null, null));
+            () -> subject.getPageByTenantId(tenantId, page, null, null));
 
     verify(mockAttributeValidator).isUuid(same(tenantId));
-    verify(mockAttributeValidator).isUuid(same(applicationTypeId));
-    verify(mockAttributeValidator).isPositive(same(page));
-    assertThat(exception.getMessage(), is(equalTo("page must be a positive integer: " + page)));
-  }
-
-  @Test
-  public void getPageByTenantIdAndApplicationTypeId_ApplicationTypeIdIsInvalid_ExceptionThrown() {
-    final var tenantId = UUID.randomUUID().toString();
-    final var applicationTypeId = "not a uuid";
-
-    when(mockAttributeValidator.isUuid(anyString())).thenCallRealMethod();
-
-    final var exception =
-        assertThrows(
-            IllegalArgumentException.class,
-            () ->
-                subject.getPageByTenantIdAndApplicationTypeId(
-                    tenantId, applicationTypeId, null, null, null));
-
-    verify(mockAttributeValidator).isUuid(same(tenantId));
-    verify(mockAttributeValidator).isUuid(same(applicationTypeId));
+    verify(mockAttributeValidator).isZeroOrGreater(same(page));
     assertThat(
-        exception.getMessage(),
-        is(equalTo("applicationTypeId must be a valid uuid: " + applicationTypeId)));
+        exception.getMessage(), is(equalTo("page must be a zero or greater integer: " + page)));
   }
 
   @Test
@@ -421,9 +408,59 @@ class ApplicationServiceTest {
     final var exception =
         assertThrows(
             IllegalArgumentException.class,
-            () -> subject.getPageByTenantIdAndApplicationTypeId(tenantId, null, null, null, null));
+            () -> subject.getPageByTenantId(tenantId, null, null, null));
 
     verify(mockAttributeValidator).isUuid(same(tenantId));
     assertThat(exception.getMessage(), is(equalTo("tenantId must be a valid uuid: " + tenantId)));
+  }
+
+  @Test
+  public void update_AllGood_BehavesAsExpected() {
+    final var tenantId = "the tenant id";
+    final var applicationId = "the app id";
+    final var applicationTypeId = "the app type id";
+    final var request = new ApplicationUpdateRequest();
+    request.setApplicationTypeId(applicationTypeId);
+    final var application = new ApplicationEntity();
+    final var updatedApplication = new ApplicationEntity();
+    final var response = new ApplicationUpdateResponse();
+    final var applicationType = new ApplicationTypeEntity();
+
+    when(mockApplicationRepository.findByTenantIdAndId(same(tenantId), same(applicationId)))
+        .thenReturn(Optional.of(application));
+    when(mockAttributeValidator.isUuid(anyString())).thenReturn(true);
+    when(mockApplicationUpdator.update(same(application), same(applicationType), same(request)))
+        .thenReturn(updatedApplication);
+    when(mockUpdateResponseMapper.map(same(updatedApplication))).thenReturn(response);
+    when(mockApplicationTypeRepository.findById(same(applicationTypeId)))
+        .thenReturn(Optional.of(applicationType));
+
+    subject.update(request, tenantId, applicationId);
+
+    verify(mockAttributeValidator).isUuid(same(tenantId));
+    verify(mockAttributeValidator).isUuid(same(applicationId));
+    verify(mockUpdateRequestValidator).validate(same(request));
+    verify(mockApplicationRepository).findByTenantIdAndId(same(tenantId), same(applicationId));
+    verify(mockApplicationUpdator).update(same(application), same(applicationType), same(request));
+    verify(mockUpdateResponseMapper).map(same(updatedApplication));
+    verify(mockApplicationTypeRepository).findById(same(applicationTypeId));
+  }
+
+  @Test
+  public void get_AllGood_BehavesAsExpected() {
+    final var tenantId = "the tenant id";
+    final var applicationId = "the app id";
+    final var entity = new ApplicationEntity();
+
+    when(mockAttributeValidator.isUuid(anyString())).thenReturn(true);
+    when(mockApplicationRepository.findByTenantIdAndId(same(tenantId), same(applicationId)))
+        .thenReturn(Optional.of(entity));
+
+    subject.get(tenantId, applicationId);
+
+    verify(mockAttributeValidator).isUuid(same(tenantId));
+    verify(mockAttributeValidator).isUuid(same(applicationId));
+    verify(mockApplicationRepository).findByTenantIdAndId(same(tenantId), same(applicationId));
+    verify(mockResponseMapper).map(same(entity));
   }
 }

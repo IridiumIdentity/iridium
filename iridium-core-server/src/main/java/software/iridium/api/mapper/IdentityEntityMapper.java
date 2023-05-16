@@ -11,15 +11,18 @@
  */
 package software.iridium.api.mapper;
 
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import software.iridium.api.authentication.domain.IdentityResponse;
 import software.iridium.api.entity.IdentityEntity;
 import software.iridium.api.entity.RoleEntity;
+import software.iridium.api.entity.TenantEntity;
 
 @Component
 public class IdentityEntityMapper {
 
+  @Transactional(propagation = Propagation.REQUIRED)
   public IdentityResponse map(final IdentityEntity entity) {
     if (entity == null) {
       return null;
@@ -28,9 +31,10 @@ public class IdentityEntityMapper {
     final var response = new IdentityResponse();
     response.setId(entity.getId());
     response.setUsername(entity.getPrimaryEmail().getEmailAddress());
-    response
-        .getRoles()
-        .addAll(entity.getRoles().stream().map(RoleEntity::getName).collect(Collectors.toList()));
+    for (TenantEntity tenantEntity : entity.getManagedTenants()) {
+      response.getTenantIds().add(tenantEntity.getId());
+    }
+    response.getRoles().addAll(entity.getRoles().stream().map(RoleEntity::getName).toList());
     return response;
   }
 }

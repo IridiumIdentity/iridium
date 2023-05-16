@@ -1,0 +1,21 @@
+
+  .register-wrapper {
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    justify-content: center;
+   
+  }
+
+  .register-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+
+
+ 
+  

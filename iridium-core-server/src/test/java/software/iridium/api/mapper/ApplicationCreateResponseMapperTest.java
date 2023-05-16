@@ -22,11 +22,11 @@ import software.iridium.api.entity.ApplicationTypeEntity;
 
 class ApplicationCreateResponseMapperTest {
 
-  private ApplicationResponseMapper subject;
+  private ApplicationCreateResponseMapper subject;
 
   @BeforeEach
   public void setupForEachTestCase() {
-    subject = new ApplicationResponseMapper();
+    subject = new ApplicationCreateResponseMapper();
   }
 
   @Test

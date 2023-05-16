@@ -11,6 +11,8 @@
  */
 package software.iridium.api.util;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
@@ -19,8 +21,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class AttributeValidator {
 
-  public boolean isPositive(final Long candidate) {
-    return candidate != null && candidate > 0L;
+  public boolean isZeroOrGreater(final Long candidate) {
+    return candidate != null && candidate >= 0L;
+  }
+
+  public boolean isZeroOrGreater(final Integer candidate) {
+    return candidate != null && candidate >= 0;
   }
 
   public boolean isPositive(final Integer candidate) {
@@ -39,7 +45,7 @@ public class AttributeValidator {
 
   public boolean ifPresentAndIsNotBlankAndNoLongerThan(
       final String candidate, final Integer maxLength) {
-    return candidate == null || this.isNotBlankAndNoLongerThan(candidate, maxLength);
+    return StringUtils.isEmpty(candidate) || this.isNotBlankAndNoLongerThan(candidate, maxLength);
   }
 
   public boolean isBlank(final String candidate) {
@@ -56,6 +62,18 @@ public class AttributeValidator {
 
   public boolean isNotNull(final Object candidate) {
     return candidate != null;
+  }
+
+  public boolean isValidUrl(String url) {
+    if (url == null) {
+      return false;
+    }
+    try {
+      new URL(url);
+      return true;
+    } catch (MalformedURLException e) {
+      return false;
+    }
   }
 
   public boolean isUuid(String uuid) {

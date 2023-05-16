@@ -1,0 +1,23 @@
+<mat-toolbar class="header-bar">
+
+  <button  (click)="homeButtonClick()" class="home-button"><div class="header"><img src="assets/iridium-3C-xl.png" alt="iridium-home"></div></button>
+
+
+  <span class="menu-spacer"></span>
+  <button (click)="register()" mat-button>Register</button>
+  <button (click)="login()" mat-button>Login</button>
+
+  <div *ngIf="loggedIn">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="user menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>
+
+<router-outlet></router-outlet>

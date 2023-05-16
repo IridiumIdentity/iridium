@@ -27,6 +27,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.authentication.domain.ApplicationCreateRequest;
 import software.iridium.api.authentication.domain.ApplicationCreateResponse;
+import software.iridium.api.authentication.domain.ApplicationUpdateRequest;
+import software.iridium.api.authentication.domain.ApplicationUpdateResponse;
 import software.iridium.api.service.ApplicationService;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,20 +54,42 @@ public class ApplicationControllerTest {
 
     verify(mockService).create(same(request), same(tenantId));
 
-    assertThat(response.getData(), sameInstance(appResponse));
+    assertThat(response, sameInstance(appResponse));
   }
 
   @Test
   public void getPageByTenantIdAndApplicationTypeAllGood_BehavesAsExpected() {
     final var orgId = "the org id";
-    final var applicationTypeId = "applicationTypeId";
     final var page = 1;
     final var size = 20;
 
-    subject.getPageByTenantAndApplicationType(orgId, applicationTypeId, page, size, true);
+    subject.getPageByTenantAndApplicationType(orgId, page, size, true);
 
-    verify(mockService)
-        .getPageByTenantIdAndApplicationTypeId(
-            same(orgId), same(applicationTypeId), same(page), same(size), eq(true));
+    verify(mockService).getPageByTenantId(same(orgId), same(page), same(size), eq(true));
+  }
+
+  @Test
+  public void update_AllGood_BehavesAsExpected() {
+    final var tenantId = "the tenant id";
+    final var applicationId = "the app id";
+    final var response = new ApplicationUpdateResponse();
+    final var request = new ApplicationUpdateRequest();
+
+    when(mockService.update(same(request), same(tenantId), same(applicationId)))
+        .thenReturn(response);
+
+    assertThat(subject.update(request, tenantId, applicationId), sameInstance(response));
+
+    verify(mockService).update(same(request), same(tenantId), same(applicationId));
+  }
+
+  @Test
+  public void get_AllGood_BehavesAsExpected() {
+    final var tenantId = "the tenant id";
+    final var applicationId = "the application id";
+
+    subject.get(tenantId, applicationId);
+
+    verify(mockService).get(same(tenantId), same(applicationId));
   }
 }
