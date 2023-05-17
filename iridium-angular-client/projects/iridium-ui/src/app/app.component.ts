@@ -11,7 +11,7 @@ import { NgxIridiumClientService } from 'ngx-iridium-client';
 export class AppComponent implements OnInit {
   loggedIn = false;
 
-  constructor(private router: Router, private iridiumClient: NgxIridiumClientService) {
+  constructor() {
 
   }
 
@@ -19,17 +19,6 @@ export class AppComponent implements OnInit {
 
   }
 
-  login() {
-    this.iridiumClient.authenticateWithExternalRedirect();
 
-  }
-
-  register() {
-    this.router.navigateByUrl('/register');
-  }
-
-  homeButtonClick(): void {
-    this.router.navigateByUrl('/');
- }
 }
 

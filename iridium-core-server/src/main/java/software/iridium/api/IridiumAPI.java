@@ -41,7 +41,7 @@ import software.iridium.api.authentication.client.ProviderProfileRequestor;
 @ComponentScan(basePackages = {"software.iridium"})
 @EnableJpaRepositories(basePackages = {"software.iridium.api.repository"})
 @EnableScheduling
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+@SpringBootApplication
 @EnableTransactionManagement
 public class IridiumAPI implements WebMvcConfigurer {
 

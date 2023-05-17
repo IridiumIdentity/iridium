@@ -66,7 +66,8 @@ public class IdentityService {
 
   @Transactional(propagation = Propagation.REQUIRED)
   public IdentityResponse getIdentity(final HttpServletRequest request) {
-    logger.info("retrieving identity");
+    logger.info("retrieving identity " + request.getServerName());
+
     final var now = Calendar.getInstance().getTime();
     final var token = tokenExtractor.extractBearerToken(request);
     final var accessToken =
