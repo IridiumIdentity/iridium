@@ -37,7 +37,6 @@ public class SecurityConfig {
     http.addFilterBefore(preAuthMdcFilter, TokenAuthenticationFilter.class);
     http.addFilterAfter(postAuthMdcFilter, TokenAuthenticationFilter.class);
     http.addFilterAfter(requestLoggingFilter, TokenAuthenticationFilter.class);
-    //http.cors().and().csrf().disable();
     http.cors();
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     return http.build();
