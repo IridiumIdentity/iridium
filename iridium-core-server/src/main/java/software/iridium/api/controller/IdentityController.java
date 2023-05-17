@@ -30,7 +30,7 @@ public class IdentityController {
   @Autowired private IdentityService identityService;
 
   @RequestMapping(
-      value = "/tenants/{tenant-id}/identities",
+      value = "/identities",
       method = RequestMethod.GET,
       produces = IdentityResponse.MEDIA_TYPE)
   public ApiDataResponse<IdentityResponse> getIdentity(HttpServletRequest request) {
