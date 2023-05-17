@@ -32,6 +32,7 @@ public class CorsFilter extends OncePerRequestFilter {
       final FilterChain filterChain)
       throws ServletException, IOException {
     // todo (josh fischer) make this configurable
+
     response.addHeader("Access-Control-Allow-Origin", "*");
 
     if (request.getHeader("Access-Control-Request-Method") != null

@@ -8,11 +8,13 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthorizationService } from './service/authorization.service';
 import { OauthConstants } from './service/oauth-constants';
 import { AccessTokenResponse } from './domain/access-token-response';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NgxIridiumClientService {
+
 
   constructor(
     private stateGenerator: StateGeneratorService,
@@ -64,7 +66,10 @@ export class NgxIridiumClientService {
         }
       }
     }
-    return false;
+    // otherwise check for valid cookie
+    const response = await this.authorizationService.getIdentity(this.cookieService.getCookie('iridium-token'))
+    return response != undefined;
+
   }
 
 }

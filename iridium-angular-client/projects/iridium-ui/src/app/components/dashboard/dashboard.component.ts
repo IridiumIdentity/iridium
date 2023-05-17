@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MenuItemNode } from './domain/menu-item-node';
 import { MenuItemService } from '../../services/menu-item.service';
+import { Router } from '@angular/router';
 
 
 
@@ -54,15 +55,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
   selectedTenant!: string;
   loggedIn = false;
 
-  constructor(private contentViewService: DynamicContentViewService, private dialog: MatDialog, private iridiumClient: NgxIridiumClientService, private tenantService: TenantService, private menuItemService: MenuItemService) {
+  constructor(private router: Router, private contentViewService: DynamicContentViewService, private dialog: MatDialog, private iridiumClient: NgxIridiumClientService, private tenantService: TenantService, private menuItemService: MenuItemService) {
     this.menuItemNodes = this.menuItemService.getMenuItems();
   }
   ngOnInit(): void {
+    this.views = this.contentViewService.getViews();
+    this.view = this.views['system overview']
     this.iridiumClient.authorize()
       .then(successful => {
-        this.views = this.contentViewService.getViews();
-        this.view = this.views['system overview']
-        this.getTenantSummaries();
+        if (successful) {
+          console.log('auth was successful')
+          this.loggedIn = true
+
+          this.getTenantSummaries();
+        } else {
+          console.log('auth was not successful')
+        }
+
       });
   }
 
@@ -96,6 +105,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.dialog.open(CreateTenantPromptDialog, {
       data: {},
     });
+  }
+
+  login() {
+    this.iridiumClient.authenticateWithExternalRedirect();
+
+  }
+
+  register() {
+    this.router.navigateByUrl('/register');
+  }
+
+  homeButtonClick(): void {
+    this.router.navigateByUrl('/');
   }
 }
 
