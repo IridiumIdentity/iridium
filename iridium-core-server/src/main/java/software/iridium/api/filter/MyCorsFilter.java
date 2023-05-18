@@ -18,12 +18,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
-public class CorsFilter extends OncePerRequestFilter {
-  private static final Logger logger = LoggerFactory.getLogger(CorsFilter.class);
+@Order(Ordered.HIGHEST_PRECEDENCE)
+public class MyCorsFilter extends OncePerRequestFilter {
+  private static final Logger logger = LoggerFactory.getLogger(MyCorsFilter.class);
 
   @Override
   protected void doFilterInternal(
@@ -32,19 +35,15 @@ public class CorsFilter extends OncePerRequestFilter {
       final FilterChain filterChain)
       throws ServletException, IOException {
     // todo (josh fischer) make this configurable
+    response.addHeader("Access-Control-Allow-Origin", "http://localhost:4200");
 
-    response.addHeader("Access-Control-Allow-Origin", "*");
-
-    if (request.getHeader("Access-Control-Request-Method") != null
-        && "OPTIONS".equals(request.getMethod())) {
-      logger.trace("Sending Header....");
-      // CORS "pre-flight" request
-      response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-      response.addHeader(
+    logger.info("Sending Header....");
+    response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, HEAD, DELETE, OPTIONS");
+    response.addHeader("Access-Control-Allow-Credentials", "true");
+    response.addHeader(
           "Access-Control-Allow-Headers",
-          "Authorization, Content-Type, Accept, X-IRIDIUM-AUTH-TOKEN, Bearer");
-      response.addHeader("Access-Control-Max-Age", "1");
-    }
+          "Authorization, Content-Type, Accept, X-IRIDIUM-AUTH-TOKEN, Access-Control-Allow-Origin, Access-Control-Allow-Methods");
+      response.addHeader("Access-Control-Max-Age", "3600");
 
     filterChain.doFilter(request, response);
   }
