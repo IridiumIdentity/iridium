@@ -13,6 +13,9 @@ package software.iridium.api.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import software.iridium.api.authentication.domain.CreateTenantRequest;
@@ -24,12 +27,16 @@ import software.iridium.api.service.TenantService;
 @RestController
 public class TenantController {
 
+  private static final Logger logger = LoggerFactory.getLogger(TenantController.class);
+
   @Autowired private TenantService tenantService;
 
   @GetMapping(value = "tenants", produces = TenantSummary.MEDIA_TYPE_LIST)
   public List<TenantSummary> getTenantSummaries(HttpServletRequest request) {
+    logger.info("get summaries");
     return tenantService.getTenantSummaries(request);
   }
+
 
   @PostMapping(
       value = "tenants",
