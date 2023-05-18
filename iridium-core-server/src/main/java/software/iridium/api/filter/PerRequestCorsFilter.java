@@ -25,8 +25,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class MyCorsFilter extends OncePerRequestFilter {
-  private static final Logger logger = LoggerFactory.getLogger(MyCorsFilter.class);
+public class PerRequestCorsFilter extends OncePerRequestFilter {
+  private static final Logger logger = LoggerFactory.getLogger(PerRequestCorsFilter.class);
 
   @Override
   protected void doFilterInternal(
@@ -41,9 +41,10 @@ public class MyCorsFilter extends OncePerRequestFilter {
     response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, HEAD, DELETE, OPTIONS");
     response.addHeader("Access-Control-Allow-Credentials", "true");
     response.addHeader(
-          "Access-Control-Allow-Headers",
-          "Authorization, Content-Type, Accept, X-IRIDIUM-AUTH-TOKEN, Access-Control-Allow-Origin, Access-Control-Allow-Methods");
-      response.addHeader("Access-Control-Max-Age", "3600");
+        "Access-Control-Allow-Headers",
+        "Authorization, Content-Type, Accept, X-IRIDIUM-AUTH-TOKEN, Access-Control-Allow-Origin,"
+            + " Access-Control-Allow-Methods");
+    response.addHeader("Access-Control-Max-Age", "3600");
 
     filterChain.doFilter(request, response);
   }
