@@ -13,7 +13,6 @@ package software.iridium.api.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,6 @@ public class TenantController {
     logger.info("get summaries");
     return tenantService.getTenantSummaries(request);
   }
-
 
   @PostMapping(
       value = "tenants",
