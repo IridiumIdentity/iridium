@@ -43,7 +43,6 @@ public class PerRequestCorsFilter extends OncePerRequestFilter {
 
     logger.info("Sending Header....");
     response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, HEAD, DELETE, OPTIONS");
-    // nse.addHeader("Access-Control-Allow-Credentials", "true");
     response.addHeader(
         "Access-Control-Allow-Headers",
         "Authorization, Content-Type, Accept, X-IRIDIUM-AUTH-TOKEN, Access-Control-Allow-Origin,"
