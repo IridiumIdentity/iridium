@@ -15,7 +15,7 @@ mvn test
 
 mvn package -Dmaven.test.skip=true
 
-mv iridium-core-server/target/iridium-core-server-*.jar tools/images
+mv iridium-core-server/target/iridium-core-server-*.jar ./
 
 revision=iridium_git_rev
 
