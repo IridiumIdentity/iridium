@@ -10,6 +10,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { MenuItemNode } from './domain/menu-item-node';
 import { MenuItemService } from '../../services/menu-item.service';
 import { Router } from '@angular/router';
+import { AddUserDialog } from './content/user-overview/user-overview.component';
 
 
 
@@ -22,7 +23,7 @@ import { Router } from '@angular/router';
 export class CreateTenantPromptDialog {
   createTenantFormGroup: FormGroup;
   constructor(
-    public dialogRef: MatDialogRef<DashboardComponent>,
+    private dialogRef: MatDialogRef<DashboardComponent>,
     private tenantService: TenantService,
     private formBuilder: FormBuilder
   ) {
@@ -30,12 +31,27 @@ export class CreateTenantPromptDialog {
       tenantName: ['', Validators.required],
       environment: ['', Validators.required],
     });
+
   }
 
+
   onDialogYes() {
+    const dialogRef = this.dialogRef;
     this.tenantService.create(this.createTenantFormGroup)
-      .subscribe(response => {
-          window.location.reload();
+      .subscribe({
+        next(v) {
+          console.log('success creating tenant')
+          console.log(v)
+          dialogRef.close({})
+
+        },
+       error(e) {
+          console.log('error creating tenant')
+         console.log(e)
+       },
+        complete() {
+          console.log('complete')
+        }
       })
   }
 }
@@ -60,7 +76,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.views = this.contentViewService.getViews();
-    this.view = this.views['system overview']
+    this.view = this.views['applications']
     this.iridiumClient.authorize()
       .then(successful => {
         if (successful) {
@@ -68,6 +84,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.loggedIn = true
 
           this.getTenantSummaries();
+
         } else {
           console.log('auth was not successful')
         }
@@ -76,11 +93,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getTenantSummaries() {
+    this.tenants = [];
     this.tenantService.getTenantSummaries()
       .subscribe(summaries => {
+        console.log('summaries', summaries)
         for (let i = 0; i < summaries.length; i++) {
           this.tenants.push({ value: summaries[i].id, viewValue: summaries[i].subdomain})
         }
+
+
       })
   }
 
@@ -88,7 +109,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.selectedTenant = event.value;
     for(let key in this.views) {
       this.views = this.contentViewService.getViewsForTenant(this.selectedTenant)
-      this.view = this.contentViewService.getView('system overview')
+      this.view = this.contentViewService.getView('applications')
     }
   }
 
@@ -102,9 +123,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   openDialog(): void {
-    this.dialog.open(CreateTenantPromptDialog, {
+    const dialogRef = this.dialog.open(CreateTenantPromptDialog, {
       data: {},
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('get tenant summaries')
+      this.getTenantSummaries()
+    });
+
   }
 
   login() {
