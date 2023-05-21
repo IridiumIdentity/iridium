@@ -4,7 +4,7 @@ COPY ./iridium-core-server-*.jar /opt/java/iridium
 
 WORKDIR /opt/java/iridium
 
-CMD ["java", "-jar", "iridium-core-server-*.jar"]
+CMD ["java", "-jar", "/opt/java/iridium/iridium-core-server-*.jar"]
 
 
 
