@@ -3,9 +3,10 @@ version: '3.3'
 services:
 
   iridium:
-    image: ghcr.io/iridiumidentity/iridium-core-server:1116446ba83c69c3693c9f989f109240b7de1627
+    image: ghcr.io/iridiumidentity/iridium-core-server:latest
     container_name: iridium
     restart: always
+    pull_policy: always
     ports:
       - "8381:8381"
     environment:
@@ -16,7 +17,6 @@ services:
       - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB=DEBUG
       - SPRING_MVC_LOG-REQUEST-DETAILS=true
       - SPRING_MVC_DISPATCH-OPTIONS-REQUEST=true
-      - SPRING_JPA_HIBERNATE_DDL-AUTO=true
       - SPRING_JPA_HIBERNATE_SHOW_SQL=false
       - SPRING_JPA_HIBERNATE_FORMAT_SQL=true
       - SPRING_JPA_PROPERTIES_HIBERNATE_HBM2DDL_DELIMITER=;
@@ -28,13 +28,17 @@ services:
       - SPRING_JPA_PROPERTIES_JAKARTA_PERSISTENCE.SCHEMA-GENERATION_SCRIPTS_DROP-TARGET=drop.sql
       - SPRING_JPA_PROPERTIES_JAKARTA_PERSISTENCE.SCHEMA-GENERATION_DATABASE_ACTION=drop-and-create
       - SPRING_DATASOURCE_DRIVER-CLASS=com.mysql.jdbc.Driver
-      - SPRING_DATASOURCE_URL=jdbc:mysql://localhost/identities?useSSL=false
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mariadb/identities?useSSL=false
       - SPRING_DATASOURCE_USERNAME=iridium
       - SPRING_DATASOURCE_PASSWORD=sug4rn3ss&
       - SPRING_DATASOURCE_TOMCAT_MAX-ACTIVE=5
       - SPRING_DATASOURCE_TEST-WHILE-IDLE=true
       - SPRING_DATASOURCE_VALIDATION_QUERY=SELECT 1 FROM DUEL
       - SPRING_DATASOURCE_VALIDATION_INTERVAL=180000
+      - PASSWORD_RESET_TOKEN_LIFETIME_HOURS=4
+      - SOFTWARE.IRIDIUM.PASSWORDRESET.CLIENT.BASEURL=http://localhost:8381/
+      - SOFTWARE.IRIDIUM.EMAILNOTIFICATION.CLIENT.BASEURL=http://localhost:8381/
+      - SOFTWARE.IRIDIUM.API.TTL.MINUTES=30
       - SERVER_ERROR_WHITELABEL_ENABLED=false
       - SPRING_MAIL_FROM_ADDRESS=noreply@yourdomain.com
       - SPRING_THYMELEAF_PREFIX=classpath:/templates/
@@ -47,6 +51,8 @@ services:
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED=true
+    networks:
+      - iridium
 
 
   mariadb:

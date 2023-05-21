@@ -31,6 +31,10 @@ revision=$(iridium_git_rev)
 
 docker build -t ghcr.io/$namespace/$image_name:$revision -f tools/images/Dockerfile.core .
 
+docker tag ghcr.io/$namespace/$image_name:$revision ghcr.io/$namespace/$image_name:latest
+
 docker push ghcr.io/$namespace/iridium-core-server:$revision
+
+docker push ghcr.io/$namespace/$image_name:latest
 
 
