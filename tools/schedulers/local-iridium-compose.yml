@@ -3,7 +3,7 @@ version: '3.3'
 services:
 
   iridium:
-    image: iridium-image
+    image: ghcr.io/iridiumidentity/iridium-core-server:1116446ba83c69c3693c9f989f109240b7de1627
     container_name: iridium
     restart: always
     ports:

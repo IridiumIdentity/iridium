@@ -11,7 +11,7 @@ echo $image_name
 
 
 iridium_git_rev() {
-  local git_rev=$(git rev-parse HEAD)
+  local git_rev=$(git rev-parse --short HEAD)
   if [[ $? != 0 ]];
   then
     exit 1
@@ -25,7 +25,7 @@ mvn test
 
 mvn package -Dmaven.test.skip=true
 
-mv iridium-core-server/target/iridium-core-server-*.jar ./
+mv iridium-core-server/target/iridium-core-server-*.jar tools/images/
 
 revision=$(iridium_git_rev)
 
