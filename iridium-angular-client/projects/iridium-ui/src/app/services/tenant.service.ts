@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
 import { NgxIridiumClientService } from '../../../../ngx-iridium-client/src/lib/ngx-iridium-client.service';
 import { CookieService } from './cookie.service';
 import { TenantSummaryResponse } from './domain/tenant-summary-response';
 import { environment } from '../../environments/environment';
 import { AbstractBaseService } from '../../../../ngx-iridium-client/src/lib/service/abstract-base-service';
-import { catchError } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { TenantCreateRequest } from './domain/tenant-create-request';
 import { TenantCreateResponse } from './domain/tenant-create-response';
@@ -19,7 +19,7 @@ export class TenantService extends AbstractBaseService {
     super();
   }
 
-  public getTenantSummaries() {
+  public getTenantSummaries(): Observable<TenantSummaryResponse[]> {
     const token = this.cookieService.getCookie('iridium-token')
     const headers = new HttpHeaders({
       Accept:  'application/vnd.iridium.id.tenant-summary-list.1+json',
@@ -28,13 +28,9 @@ export class TenantService extends AbstractBaseService {
 
     const options = { headers: headers }
     return this.http.get<TenantSummaryResponse[]>(environment.iridium.domain + 'tenants', options)
-      .pipe(
-        catchError(this.handleError)
-      )
   }
 
   public create(formGroup: FormGroup) {
-    console.log('create tenant')
     console.log(formGroup.controls['tenantName'].value)
     console.log(formGroup.controls['environment'].value)
     const request = new TenantCreateRequest();
@@ -47,7 +43,7 @@ export class TenantService extends AbstractBaseService {
       'Authorization': 'Bearer ' + token
     })
     const options = { headers: headers }
-    return this.http.post<TenantCreateResponse>(environment.iridium.domain + 'tenants', request, options)
+    return this.http.post<TenantCreateResponse>(environment.iridium.domain + 'tenants', request, options).pipe()
 
   }
 }

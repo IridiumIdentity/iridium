@@ -42,9 +42,9 @@ import software.iridium.api.authentication.client.ProviderProfileRequestor;
 @EnableScheduling
 @SpringBootApplication
 @EnableTransactionManagement
-public class IridiumAPI implements WebMvcConfigurer {
+public class Iridium implements WebMvcConfigurer {
 
-  private static final Logger logger = LoggerFactory.getLogger(IridiumAPI.class);
+  private static final Logger logger = LoggerFactory.getLogger(Iridium.class);
 
   @Value("${software.iridium.identityApi.baseUrl}")
   private String identityApiBaseUrl;
@@ -104,6 +104,6 @@ public class IridiumAPI implements WebMvcConfigurer {
   }
 
   public static void main(String... args) {
-    SpringApplication.run(IridiumAPI.class);
+    SpringApplication.run(Iridium.class);
   }
 }

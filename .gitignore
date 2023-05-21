@@ -6,8 +6,12 @@ target
 iridium-core-server/src/main/resources/application.properties
 iridium-core-server/src/main/support/db/test-seed.sql
 iridium-email-server/src/main/resources/application.properties
+## release jar
+tools/images/iridium-core-server*.jar
+iridium-core-server-*.jar
 # generated sql
 create.sql
+drop.sql
 ### STS ###
 .apt_generated
 .classpath

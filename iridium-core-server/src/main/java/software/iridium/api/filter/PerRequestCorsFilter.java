@@ -18,15 +18,19 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import software.iridium.api.repository.ApplicationEntityRepository;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class PerRequestCorsFilter extends OncePerRequestFilter {
   private static final Logger logger = LoggerFactory.getLogger(PerRequestCorsFilter.class);
+
+  @Autowired private ApplicationEntityRepository applicationRepository;
 
   @Override
   protected void doFilterInternal(
@@ -39,11 +43,11 @@ public class PerRequestCorsFilter extends OncePerRequestFilter {
 
     logger.info("Sending Header....");
     response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, HEAD, DELETE, OPTIONS");
-    response.addHeader("Access-Control-Allow-Credentials", "true");
     response.addHeader(
         "Access-Control-Allow-Headers",
         "Authorization, Content-Type, Accept, X-IRIDIUM-AUTH-TOKEN, Access-Control-Allow-Origin,"
-            + " Access-Control-Allow-Methods");
+            + " Access-Control-Allow-Methods, Set-Cookie");
+
     response.addHeader("Access-Control-Max-Age", "3600");
 
     filterChain.doFilter(request, response);

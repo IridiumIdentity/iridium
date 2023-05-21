@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,30 +40,31 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-    http.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
+    http.authorizeHttpRequests(
+            (authorize) ->
+                authorize
+                    .requestMatchers(
+                        "/",
+                        "/login",
+                        "/styles/**",
+                        "img/**",
+                        "/oauth/external/authorize",
+                        "/identities",
+                        "/authorize",
+                        "/oauth/token")
+                    .permitAll()
+                    .anyRequest()
+                    .fullyAuthenticated())
         .apply(new AuthenticationManagerConfigurer());
+
     http.addFilterBefore(preAuthMdcFilter, TokenAuthenticationFilter.class);
     http.addFilterAfter(postAuthMdcFilter, TokenAuthenticationFilter.class);
     http.addFilterAfter(requestLoggingFilter, TokenAuthenticationFilter.class);
     http.cors();
+    http.csrf().disable();
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    return http.build();
-  }
 
-  @Bean
-  public WebSecurityCustomizer webSecurityCustomizer() {
-    return (web) ->
-        web.ignoring()
-            .requestMatchers(
-                "/healthz",
-                "/",
-                "/login",
-                "/styles/**",
-                "img/**",
-                "/oauth/external/authorize",
-                "/identities",
-                "/authorize",
-                "/oauth/token");
+    return http.build();
   }
 
   public class AuthenticationManagerConfigurer

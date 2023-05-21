@@ -33,7 +33,7 @@ public class EmailSender {
 
   @Autowired private MimeMessageHelperInstantiator messageHelperInstantiator;
 
-  @Value("${spring.mail.fromAddress}")
+  @Value("${spring.mail.from.address}")
   private String fromAddress;
 
   public void send(final EmailSendRequest request)
