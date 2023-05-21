@@ -2,8 +2,9 @@ name: Create and publish iridium core server docker image
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches: [ "*" ]
+#    tags:
+#      - 'v*.*.*'
 
 env:
   REGISTRY: ghcr.io
@@ -26,17 +27,11 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+      - uses: actions/setup-java@v1.4.4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          java-version: 17
+          java-package: jdk
+          architecture: x64
+          server-id: maven
+      - run: ./tools/scripts/build-docker.sh ${{ env.REGISTRY }} ${{ env.IMAGE_NAME }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
-        with:
-          context: .
-          push: true
-          tags: ${{env.GITHUB_REF_NAME}}
-          labels: ${{ steps.meta.outputs.labels }}

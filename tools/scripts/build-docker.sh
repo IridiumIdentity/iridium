@@ -1,4 +1,6 @@
 #!/bin/bash
+registry = $1
+image_name = $2
 
 iridium_git_rev() {
   local git_rev=$(git rev-parse HEAD)
@@ -19,6 +21,6 @@ mv iridium-core-server/target/iridium-core-server-*.jar ./
 
 revision=iridium_git_rev
 
-docker build -t iridiumidentity/iridium:$revision -f tools/images/Dockerfile.core .
+docker build -t $registry/$image_name:$revision -f tools/images/Dockerfile.core .
 
 
