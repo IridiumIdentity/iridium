@@ -33,7 +33,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-import software.iridium.api.authentication.client.AuthenticationApiClient;
 import software.iridium.api.authentication.client.ProviderAccessTokenRequestor;
 import software.iridium.api.authentication.client.ProviderProfileRequestor;
 
@@ -70,11 +69,6 @@ public class Iridium implements WebMvcConfigurer {
   @Bean
   public RestTemplate restTemplate() {
     return new RestTemplate();
-  }
-
-  @Bean
-  public AuthenticationApiClient identityApiClient() {
-    return new AuthenticationApiClient(identityApiBaseUrl, restTemplate());
   }
 
   @Bean
