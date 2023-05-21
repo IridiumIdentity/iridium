@@ -1,10 +1,10 @@
 FROM eclipse-temurin:17-jre-alpine
 RUN mkdir -p /opt/java/iridium
-COPY ./iridium-core-server-*.jar /opt/java/iridium
+COPY ./iridium-core-server-*.jar /opt/java/iridium/iridium-core-server.jar
 
 WORKDIR /opt/java/iridium
 
-CMD ["java", "-jar", "/opt/java/iridium/iridium-core-server-*.jar"]
+CMD ["java", "-jar", "/opt/java/iridium/iridium-core-server.jar"]
 
 
 
