@@ -29,7 +29,7 @@ mv iridium-core-server/target/iridium-core-server-*.jar ./
 
 revision=$(iridium_git_rev)
 
-docker build -t ghr.io/$namespace/$image_name:$revision -f tools/images/Dockerfile.core .
+docker build -t ghcr.io/$namespace/$image_name:$revision -f tools/images/Dockerfile.core .
 
 docker push ghcr.io/$namespace/iridium-core-server:$revision
 
