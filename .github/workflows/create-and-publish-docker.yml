@@ -3,8 +3,6 @@ name: Create and publish iridium core server docker image
 on:
   push:
     branches: [ "*" ]
-#    tags:
-#      - 'v*.*.*'
 
 env:
   NAMESPACE: iridiumidentity
