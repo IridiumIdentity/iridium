@@ -7,7 +7,7 @@ on:
 #      - 'v*.*.*'
 
 env:
-  REGISTRY: ghcr.io
+  NAMESPACE: iridiumidentity
   IMAGE_NAME: iridium-core-server
 
 jobs:
@@ -33,5 +33,5 @@ jobs:
           java-package: jdk
           architecture: x64
           server-id: maven
-      - run: ./tools/scripts/build-docker.sh ${{ env.REGISTRY }} ${{ env.IMAGE_NAME }}
+      - run: ./tools/scripts/build-docker.sh ${{ env.NAMESPACE }} ${{ env.IMAGE_NAME }}
 

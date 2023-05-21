@@ -1,11 +1,14 @@
 #!/bin/bash
 set -e
 
-registry=$1
+namespace=$1
 
 image_name=$2
 
-echo "building ${registry}/${image_name}"
+echo "building..."
+echo $namespace
+echo $image_name
+
 
 iridium_git_rev() {
   local git_rev=$(git rev-parse HEAD)
@@ -26,8 +29,8 @@ mv iridium-core-server/target/iridium-core-server-*.jar ./
 
 revision=$(iridium_git_rev)
 
-docker build -t ghr.io/$registry/$image_name:$revision -f tools/images/Dockerfile.core .
+docker build -t ghr.io/$namespace/$image_name:$revision -f tools/images/Dockerfile.core .
 
-docker push ghcr.io/iridiumidentity/iridium-core-server:$revision
+docker push ghcr.io/$namespace/iridium-core-server:$revision
 
 
