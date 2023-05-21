@@ -24,7 +24,6 @@ import static org.mockito.Mockito.when;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -99,6 +98,7 @@ class IdentityServiceTest {
   public void getIdentity_AllGood_BehavesAsExpected() {
     final var userAuthToken = "userAuthToken";
     final var identityId = "the identity id";
+    final var serverName = "localhost";
     final var accessToken = new AccessTokenEntity();
     final var identity = new IdentityEntity();
     accessToken.setIdentityId(identityId);
@@ -110,6 +110,7 @@ class IdentityServiceTest {
     when(mockIdentityEntityMapper.map(same(identity))).thenReturn(identityResponse);
     when(mockTokenExtractor.extractBearerToken(same(mockServletRequest))).thenReturn(userAuthToken);
     when(mockIdentityRepository.findById(same(identityId))).thenReturn(Optional.of(identity));
+    when(mockServletRequest.getServerName()).thenReturn(serverName);
 
     assertThat(subject.getIdentity(mockServletRequest), sameInstance(identityResponse));
 
@@ -118,16 +119,19 @@ class IdentityServiceTest {
     verify(mockIdentityEntityMapper).map(same(identity));
     verify(mockTokenExtractor).extractBearerToken(same(mockServletRequest));
     verify(mockIdentityRepository).findById(same(identityId));
+    verify(mockServletRequest).getServerName();
   }
 
   @Test
   public void getIdentity_EntityNotFound_ExceptionThrown() {
     final var userAuthToken = "userAuthToken";
+    final var serverName = "localhost";
 
     when(accessTokenRepository.findFirstByAccessTokenAndExpirationAfter(
             same(userAuthToken), any(Date.class)))
         .thenReturn(Optional.empty());
     when(mockTokenExtractor.extractBearerToken(same(mockServletRequest))).thenReturn(userAuthToken);
+    when(mockServletRequest.getServerName()).thenReturn(serverName);
 
     assertThrows(NotAuthorizedException.class, () -> subject.getIdentity(mockServletRequest));
 
@@ -135,6 +139,7 @@ class IdentityServiceTest {
         .findFirstByAccessTokenAndExpirationAfter(same(userAuthToken), any(Date.class));
     verify(mockIdentityEntityMapper, never()).map(any());
     verify(mockTokenExtractor).extractBearerToken(same(mockServletRequest));
+    verify(mockServletRequest).getServerName();
   }
 
   @Test
@@ -249,7 +254,7 @@ class IdentityServiceTest {
     final var emailEntity = new IdentityEmailEntity();
     emailEntity.setIdentity(entity);
 
-    final Map paramMap = new HashMap<String, String>();
+    final var paramMap = new HashMap<String, String>();
 
     when(mockAttributeValidator.isNotBlank(same(clientId))).thenReturn(true);
     when(mockApplicationRepository.findByClientId(same(clientId))).thenReturn(Optional.empty());
@@ -277,7 +282,7 @@ class IdentityServiceTest {
     final var tenantId = "the-tenantId";
     application.setTenantId(tenantId);
 
-    final Map paramMap = new HashMap<String, String>();
+    final var paramMap = new HashMap<String, String>();
 
     when(mockAttributeValidator.isNotBlank(same(clientId))).thenReturn(true);
     when(mockApplicationRepository.findByClientId(same(clientId)))
@@ -291,22 +296,5 @@ class IdentityServiceTest {
     verify(mockAttributeValidator).isNotBlank(same(clientId));
     verify(mockApplicationRepository).findByClientId(same(clientId));
     verify(mockTenantRepository).findById(same(tenantId));
-  }
-
-  @Test
-  public void create_ImproperlyFormattedEmail_ExceptionThrown() {
-    final var emailAddress = "you@@@@nowehere.com";
-    final var request = new CreateIdentityRequest();
-    request.setUsername(emailAddress);
-    final var entity = new IdentityEntity();
-    final var emailEntity = new IdentityEmailEntity();
-    emailEntity.setIdentity(entity);
-    final var tenantId = "the-tenantId";
-    // todo
-    // final var exception = assertThrows(IllegalArgumentException.class, () ->
-    // subject.create(request));
-
-    // assertThat(exception.getMessage(), is(equalTo("email must not be blank and properly
-    // formatted: you@@@@nowehere.com")));
   }
 }

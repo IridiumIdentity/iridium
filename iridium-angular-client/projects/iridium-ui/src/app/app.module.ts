@@ -20,7 +20,7 @@ import { MatListModule } from '@angular/material/list';
 import { RegisterComponent } from './components/register/register.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SpinnerComponent } from './components/spinner/spinner.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { CreateTenantPromptDialog, DashboardComponent } from './components/dashboard/dashboard.component';
@@ -53,6 +53,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxIridiumClientModule } from 'ngx-iridium-client';
+import { NoopInterceptor } from './http-interceptors/http-interceptor';
 
 @NgModule({
   declarations: [
@@ -103,9 +104,14 @@ import { NgxIridiumClientModule } from 'ngx-iridium-client';
     MatToolbarModule,
     MatButtonToggleModule,
     MatCheckboxModule,
-    NgxIridiumClientModule
+    NgxIridiumClientModule,
   ],
-  providers: [DynamicContentViewService, {provide: 'config', useValue: environment}],
+  providers: [DynamicContentViewService, {provide: 'config', useValue: environment},
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: NoopInterceptor,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -43,8 +43,6 @@ import software.iridium.api.util.ServletTokenExtractor;
 @Service
 public class IdentityService {
 
-  public static final Integer TEMP_PASSWORD_LENGTH = 8;
-
   @Autowired private AuthenticationEntityRepository authenticationRepository;
   @Autowired private IdentityEntityMapper identityEntityMapper;
   @Autowired private IdentityEntityInstantiator identityInstantiator;
