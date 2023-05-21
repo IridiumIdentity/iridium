@@ -45,9 +45,6 @@ public class Iridium implements WebMvcConfigurer {
 
   private static final Logger logger = LoggerFactory.getLogger(Iridium.class);
 
-  @Value("${software.iridium.identityApi.baseUrl}")
-  private String identityApiBaseUrl;
-
   @Bean
   public ClassLoaderTemplateResolver thymeleafTemplateResolver() {
     ClassLoaderTemplateResolver configurer = new ClassLoaderTemplateResolver();
