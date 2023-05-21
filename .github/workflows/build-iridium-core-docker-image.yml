@@ -19,7 +19,7 @@ jobs:
          java-package: jdk
          architecture: x64
          server-id: maven
-     - run: ./tools/scripts/build-docker.sh
+     - run: ./tools/scripts/build-docker.sh ${{ env.NAMESPACE }} ${{ env.IMAGE_NAME }}
 
      
       
