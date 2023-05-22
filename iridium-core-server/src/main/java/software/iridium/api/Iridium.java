@@ -14,12 +14,11 @@ package software.iridium.api;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.TemplateLoader;
 import freemarker.template.Configuration;
+import jakarta.annotation.PostConstruct;
 import java.util.Date;
 import java.util.TimeZone;
-import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -33,7 +32,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-import software.iridium.api.authentication.client.AuthenticationApiClient;
 import software.iridium.api.authentication.client.ProviderAccessTokenRequestor;
 import software.iridium.api.authentication.client.ProviderProfileRequestor;
 
@@ -45,9 +43,6 @@ import software.iridium.api.authentication.client.ProviderProfileRequestor;
 public class Iridium implements WebMvcConfigurer {
 
   private static final Logger logger = LoggerFactory.getLogger(Iridium.class);
-
-  @Value("${software.iridium.identityApi.baseUrl}")
-  private String identityApiBaseUrl;
 
   @Bean
   public ClassLoaderTemplateResolver thymeleafTemplateResolver() {
@@ -70,11 +65,6 @@ public class Iridium implements WebMvcConfigurer {
   @Bean
   public RestTemplate restTemplate() {
     return new RestTemplate();
-  }
-
-  @Bean
-  public AuthenticationApiClient identityApiClient() {
-    return new AuthenticationApiClient(identityApiBaseUrl, restTemplate());
   }
 
   @Bean

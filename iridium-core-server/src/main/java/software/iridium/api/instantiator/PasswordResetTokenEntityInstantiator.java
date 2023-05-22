@@ -25,7 +25,7 @@ import software.iridium.api.util.DateUtils;
 @Component
 public class PasswordResetTokenEntityInstantiator {
 
-  @Value("${passwordRestToken.lifetimeHours}")
+  @Value("${password.reset.token.lifetime.hours}")
   private Integer passwordResetTokenLifetime;
 
   @Autowired private BCryptPasswordEncoder encoder;
