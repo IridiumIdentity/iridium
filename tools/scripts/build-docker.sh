@@ -1,7 +1,17 @@
 #!/bin/bash
+set -e
+
+namespace=$1
+
+image_name=$2
+
+echo "building..."
+echo $namespace
+echo $image_name
+
 
 iridium_git_rev() {
-  local git_rev=$(git rev-parse HEAD)
+  local git_rev=$(git rev-parse --short HEAD)
   if [[ $? != 0 ]];
   then
     exit 1
@@ -17,8 +27,14 @@ mvn package -Dmaven.test.skip=true
 
 mv iridium-core-server/target/iridium-core-server-*.jar ./
 
-revision=iridium_git_rev
+revision=$(iridium_git_rev)
 
-docker build -t iridiumidentity/iridium:$revision -f tools/images/Dockerfile.core .
+docker build -t ghcr.io/$namespace/$image_name:$revision -f tools/images/Dockerfile.core .
+
+docker tag ghcr.io/$namespace/$image_name:$revision ghcr.io/$namespace/$image_name:latest
+
+docker push ghcr.io/$namespace/iridium-core-server:$revision
+
+docker push ghcr.io/$namespace/$image_name:latest
 
 
