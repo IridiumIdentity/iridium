@@ -11,7 +11,7 @@ Iridium helps developers secure their applications or systems the right way by p
 
 ## Community
 We are just getting started!
-* [Participate in discussion on Github](https://github.com/IridiumIdentity/iridium/discussions)
+* [Participate in discussions on Github](https://github.com/IridiumIdentity/iridium/discussions)
 
 ## How can I contribute?
 There are many places to start.  You can start with documentation, fixing bugs related to issues, helping with building examples, etc.
