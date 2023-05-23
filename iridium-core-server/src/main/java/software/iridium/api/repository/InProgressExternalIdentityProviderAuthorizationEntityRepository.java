@@ -13,7 +13,7 @@ package software.iridium.api.repository;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import software.iridium.api.entity.InProgressExternalIdentityProviderAuthorizationEntity;
+import software.iridium.entity.InProgressExternalIdentityProviderAuthorizationEntity;
 
 public interface InProgressExternalIdentityProviderAuthorizationEntityRepository
     extends JpaRepository<InProgressExternalIdentityProviderAuthorizationEntity, String> {

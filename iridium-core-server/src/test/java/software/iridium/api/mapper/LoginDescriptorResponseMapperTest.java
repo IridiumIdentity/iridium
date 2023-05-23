@@ -26,9 +26,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.authentication.domain.ExternalProviderLoginDescriptorResponse;
-import software.iridium.api.entity.ExternalIdentityProviderEntity;
-import software.iridium.api.entity.LoginDescriptorEntity;
-import software.iridium.api.entity.TenantEntity;
+import software.iridium.entity.ExternalIdentityProviderEntity;
+import software.iridium.entity.LoginDescriptorEntity;
+import software.iridium.entity.TenantEntity;
 
 @ExtendWith(MockitoExtension.class)
 class LoginDescriptorResponseMapperTest {

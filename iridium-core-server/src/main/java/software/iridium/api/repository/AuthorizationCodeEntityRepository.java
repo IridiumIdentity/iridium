@@ -13,7 +13,7 @@ package software.iridium.api.repository;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import software.iridium.api.entity.AuthorizationCodeEntity;
+import software.iridium.entity.AuthorizationCodeEntity;
 
 public interface AuthorizationCodeEntityRepository
     extends JpaRepository<AuthorizationCodeEntity, String> {

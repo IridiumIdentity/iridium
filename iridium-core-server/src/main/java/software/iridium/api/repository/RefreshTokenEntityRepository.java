@@ -12,7 +12,7 @@
 package software.iridium.api.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import software.iridium.api.entity.RefreshTokenEntity;
+import software.iridium.entity.RefreshTokenEntity;
 
 public interface RefreshTokenEntityRepository extends JpaRepository<RefreshTokenEntity, String> {
   // intentionally left blank

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import software.iridium.api.authentication.domain.ExternalProviderLoginDescriptorResponse;
-import software.iridium.api.entity.ExternalIdentityProviderEntity;
+import software.iridium.entity.ExternalIdentityProviderEntity;
 
 @Component
 public class ExternalProviderLoginDescriptorResponseMapper {

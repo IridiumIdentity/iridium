@@ -17,9 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import software.iridium.api.email.domain.EmailSendRequest;
-import software.iridium.api.entity.IdentityEntity;
 import software.iridium.api.instantiator.EmailSendRequestInstantiator;
 import software.iridium.api.service.EmailService;
+import software.iridium.entity.IdentityEntity;
 
 @Component
 public class NewIdentityEventHandler {

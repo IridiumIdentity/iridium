@@ -32,8 +32,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.authentication.domain.*;
 import software.iridium.api.base.error.DuplicateResourceException;
 import software.iridium.api.base.error.ResourceNotFoundException;
-import software.iridium.api.entity.IdentityEntity;
-import software.iridium.api.entity.TenantEntity;
 import software.iridium.api.instantiator.LoginDescriptorEntityInstantiator;
 import software.iridium.api.instantiator.TenantInstantiator;
 import software.iridium.api.mapper.CreateTenantResponseMapper;
@@ -41,6 +39,8 @@ import software.iridium.api.mapper.TenantSummaryMapper;
 import software.iridium.api.repository.IdentityEntityRepository;
 import software.iridium.api.repository.TenantEntityRepository;
 import software.iridium.api.util.AttributeValidator;
+import software.iridium.entity.IdentityEntity;
+import software.iridium.entity.TenantEntity;
 
 @ExtendWith(MockitoExtension.class)
 class TenantServiceTest {

@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import software.iridium.api.authentication.domain.IdentityResponse;
-import software.iridium.api.entity.IdentityEntity;
-import software.iridium.api.entity.RoleEntity;
-import software.iridium.api.entity.TenantEntity;
+import software.iridium.entity.IdentityEntity;
+import software.iridium.entity.RoleEntity;
+import software.iridium.entity.TenantEntity;
 
 @Component
 public class IdentityEntityMapper {

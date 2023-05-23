@@ -9,31 +9,25 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package software.iridium.api;
+package software.iridium.api.user;
 
-import java.security.Principal;
-import java.util.List;
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import software.iridium.entity.IdentityEntity;
 
-public class PrincipalUser extends User implements Principal {
-  private static final long serialVersionUID = -3997242419392271736L;
+public class UserInfo extends User {
 
-  private String emailAddress;
-  private String authToken;
+  @Serial private static final long serialVersionUID = -1300015092363456591L;
 
-  public PrincipalUser(
-      final String authToken, final String emailAddress, final List<GrantedAuthority> authorities) {
-    super(emailAddress, "password", authorities);
-    this.authToken = authToken;
+  public UserInfo(IdentityEntity identity) {
+    super(String.valueOf(identity.getId()), "", new ArrayList<>());
   }
 
-  @Override
-  public String getName() {
-    return emailAddress;
-  }
-
-  public String getAuthToken() {
-    return authToken;
+  public UserInfo(
+      IdentityEntity identity, Collection<? extends GrantedAuthority> grantedAuthorities) {
+    super(String.valueOf(identity.getId()), "", grantedAuthorities);
   }
 }

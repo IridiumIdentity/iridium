@@ -24,9 +24,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import software.iridium.api.entity.ExternalIdentityProviderTemplateEntity;
 import software.iridium.api.mapper.ProviderSummaryResponseMapper;
 import software.iridium.api.repository.ExternalIdentityProviderTemplateEntityRepository;
+import software.iridium.entity.ExternalIdentityProviderTemplateEntity;
 
 @ExtendWith(MockitoExtension.class)
 class ProviderServiceTest {

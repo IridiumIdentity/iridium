@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import software.iridium.api.authentication.domain.AuthenticationResponse;
 import software.iridium.api.authentication.domain.IdentityResponse;
-import software.iridium.api.entity.IdentityEntity;
+import software.iridium.entity.IdentityEntity;
 
 @Component
 public class IdentityResponseMapper {

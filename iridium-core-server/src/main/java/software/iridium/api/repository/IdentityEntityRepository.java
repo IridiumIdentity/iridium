@@ -13,7 +13,7 @@ package software.iridium.api.repository;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import software.iridium.api.entity.IdentityEntity;
+import software.iridium.entity.IdentityEntity;
 
 public interface IdentityEntityRepository extends JpaRepository<IdentityEntity, String> {
 

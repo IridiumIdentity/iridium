@@ -19,11 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import software.iridium.api.base.error.BadRequestException;
-import software.iridium.api.entity.ApplicationEntity;
 import software.iridium.api.generator.RedirectUrlGenerator;
 import software.iridium.api.util.AttributeValidator;
 import software.iridium.api.util.AuthorizationCodeFlowConstants;
 import software.iridium.api.util.AuthorizationErrorKeys;
+import software.iridium.entity.ApplicationEntity;
 
 @Component
 public class AccessTokenRequestParameterValidator {

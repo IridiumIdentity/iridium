@@ -19,10 +19,10 @@ import static org.hamcrest.Matchers.equalTo;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import software.iridium.api.entity.IdentityEmailEntity;
-import software.iridium.api.entity.IdentityEntity;
-import software.iridium.api.entity.RoleEntity;
-import software.iridium.api.entity.TenantEntity;
+import software.iridium.entity.IdentityEmailEntity;
+import software.iridium.entity.IdentityEntity;
+import software.iridium.entity.RoleEntity;
+import software.iridium.entity.TenantEntity;
 
 class IdentityEntityMapperTest {
 

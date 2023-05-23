@@ -37,7 +37,6 @@ import software.iridium.api.authentication.domain.ApplicationAuthorizationFormRe
 import software.iridium.api.authentication.domain.AuthorizationResponse;
 import software.iridium.api.authentication.domain.GithubProfileResponse;
 import software.iridium.api.base.error.ResourceNotFoundException;
-import software.iridium.api.entity.*;
 import software.iridium.api.generator.ProviderUrlGenerator;
 import software.iridium.api.generator.RedirectUrlGenerator;
 import software.iridium.api.generator.SuccessAuthorizationParameterGenerator;
@@ -50,6 +49,7 @@ import software.iridium.api.util.AuthorizationCodeFlowConstants;
 import software.iridium.api.util.SubdomainExtractor;
 import software.iridium.api.validator.AuthorizationGrantTypeParamValidator;
 import software.iridium.api.validator.AuthorizationRequestParameterValidator;
+import software.iridium.entity.*;
 
 @ExtendWith(MockitoExtension.class)
 class AuthorizationServiceTest {

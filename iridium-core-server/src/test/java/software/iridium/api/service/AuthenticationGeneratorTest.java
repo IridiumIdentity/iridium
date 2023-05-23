@@ -27,8 +27,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
-import software.iridium.api.entity.IdentityEmailEntity;
-import software.iridium.api.entity.IdentityEntity;
+import software.iridium.entity.IdentityEmailEntity;
+import software.iridium.entity.IdentityEntity;
 
 @ExtendWith(MockitoExtension.class)
 class AuthenticationGeneratorTest {

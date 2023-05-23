@@ -13,7 +13,7 @@ package software.iridium.api.mapper;
 
 import org.springframework.stereotype.Component;
 import software.iridium.api.authentication.domain.ClientSecretCreateResponse;
-import software.iridium.api.entity.ClientSecretEntity;
+import software.iridium.entity.ClientSecretEntity;
 
 @Component
 public class ClientSecretCreateResponseMapper {

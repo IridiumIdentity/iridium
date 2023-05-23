@@ -29,15 +29,15 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.authentication.domain.InitiatePasswordResetRequest;
 import software.iridium.api.base.error.ResourceNotFoundException;
-import software.iridium.api.entity.ApplicationEntity;
-import software.iridium.api.entity.IdentityEmailEntity;
-import software.iridium.api.entity.IdentityEntity;
-import software.iridium.api.entity.PasswordResetTokenEntity;
 import software.iridium.api.handler.PasswordEventHandler;
 import software.iridium.api.instantiator.PasswordResetTokenEntityInstantiator;
 import software.iridium.api.repository.ApplicationEntityRepository;
 import software.iridium.api.repository.IdentityEmailEntityRepository;
 import software.iridium.api.repository.IdentityEntityRepository;
+import software.iridium.entity.ApplicationEntity;
+import software.iridium.entity.IdentityEmailEntity;
+import software.iridium.entity.IdentityEntity;
+import software.iridium.entity.PasswordResetTokenEntity;
 
 @ExtendWith(MockitoExtension.class)
 class PasswordServiceTest {

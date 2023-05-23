@@ -23,8 +23,6 @@ import software.iridium.api.authentication.domain.*;
 import software.iridium.api.base.domain.PagedListResponse;
 import software.iridium.api.base.error.DuplicateResourceException;
 import software.iridium.api.base.error.ResourceNotFoundException;
-import software.iridium.api.entity.ApplicationEntity;
-import software.iridium.api.entity.ApplicationType;
 import software.iridium.api.instantiator.ApplicationEntityInstantiator;
 import software.iridium.api.mapper.ApplicationCreateResponseMapper;
 import software.iridium.api.mapper.ApplicationResponseMapper;
@@ -37,6 +35,8 @@ import software.iridium.api.updator.ApplicationEntityUpdator;
 import software.iridium.api.util.AttributeValidator;
 import software.iridium.api.validator.ApplicationUpdateRequestValidator;
 import software.iridium.api.validator.SinglePageApplicationCreateRequestValidator;
+import software.iridium.entity.ApplicationEntity;
+import software.iridium.entity.ApplicationType;
 
 @Service
 public class ApplicationService {

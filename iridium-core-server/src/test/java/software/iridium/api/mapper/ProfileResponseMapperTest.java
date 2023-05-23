@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.nullValue;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import software.iridium.api.entity.ProfileEntity;
+import software.iridium.entity.ProfileEntity;
 
 class ProfileResponseMapperTest {
 

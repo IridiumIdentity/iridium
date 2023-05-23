@@ -14,7 +14,7 @@ package software.iridium.api.repository;
 import java.util.Date;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import software.iridium.api.entity.AuthenticationEntity;
+import software.iridium.entity.AuthenticationEntity;
 
 public interface AuthenticationEntityRepository
     extends JpaRepository<AuthenticationEntity, String> {

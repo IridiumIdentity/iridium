@@ -15,9 +15,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import software.iridium.api.base.error.BadRequestException;
-import software.iridium.api.entity.ApplicationEntity;
 import software.iridium.api.util.AttributeValidator;
 import software.iridium.api.util.AuthorizationCodeFlowConstants;
+import software.iridium.entity.ApplicationEntity;
 
 @Component
 public class ApplicationEntityAccessTokenRequestValidator {

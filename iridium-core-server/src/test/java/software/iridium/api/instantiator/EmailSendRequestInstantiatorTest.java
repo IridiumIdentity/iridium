@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.equalTo;
 import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import software.iridium.api.entity.IdentityEmailEntity;
+import software.iridium.entity.IdentityEmailEntity;
 
 class EmailSendRequestInstantiatorTest {
 

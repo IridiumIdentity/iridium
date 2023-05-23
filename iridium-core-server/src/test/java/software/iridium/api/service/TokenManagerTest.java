@@ -28,9 +28,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import software.iridium.api.entity.AuthenticationEntity;
-import software.iridium.api.entity.IdentityEntity;
 import software.iridium.api.repository.AuthenticationEntityRepository;
+import software.iridium.entity.AuthenticationEntity;
+import software.iridium.entity.IdentityEntity;
 
 @ExtendWith(MockitoExtension.class)
 class TokenManagerTest {

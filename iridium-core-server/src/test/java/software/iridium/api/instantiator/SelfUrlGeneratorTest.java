@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.equalTo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
-import software.iridium.api.entity.PasswordResetTokenEntity;
+import software.iridium.entity.PasswordResetTokenEntity;
 
 class SelfUrlGeneratorTest {
 

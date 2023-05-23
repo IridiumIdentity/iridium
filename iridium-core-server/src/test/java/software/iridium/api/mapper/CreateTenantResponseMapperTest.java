@@ -18,7 +18,7 @@ import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import software.iridium.api.authentication.domain.Environment;
-import software.iridium.api.entity.TenantEntity;
+import software.iridium.entity.TenantEntity;
 
 class CreateTenantResponseMapperTest {
 

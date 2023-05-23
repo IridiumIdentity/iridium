@@ -19,9 +19,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import software.iridium.api.authentication.domain.ApplicationCreateRequest;
-import software.iridium.api.entity.ApplicationEntity;
-import software.iridium.api.entity.ApplicationTypeEntity;
 import software.iridium.api.util.EncoderUtils;
+import software.iridium.entity.ApplicationEntity;
+import software.iridium.entity.ApplicationTypeEntity;
 
 @Component
 public class ApplicationEntityInstantiator {
