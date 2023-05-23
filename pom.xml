@@ -9,6 +9,7 @@
         <module>iridium-core-server</module>
         <module>iridium-server-base</module>
         <module>iridium-cli</module>
+        <module>iridium-core-entity</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

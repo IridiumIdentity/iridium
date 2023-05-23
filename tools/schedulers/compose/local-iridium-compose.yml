@@ -1,6 +1,17 @@
-version: '3.9'
+version: '3.8'
 
 services:
+
+  web:
+    build:
+      context: ../../../iridium-angular-client
+      target: builder
+    container_name: iridium-ui
+    ports:
+      - 4200:4200
+    volumes:
+      - ../../../iridium-angular-client:/project
+      - /project/node_modules
 
   iridium:
     image: ghcr.io/iridiumidentity/iridium-core-server:latest

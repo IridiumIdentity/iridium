@@ -33,6 +33,11 @@
         </dependency>
         <dependency>
             <groupId>software.iridium</groupId>
+            <artifactId>iridium-core-entity</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>software.iridium</groupId>
             <artifactId>iridium-server-base</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
