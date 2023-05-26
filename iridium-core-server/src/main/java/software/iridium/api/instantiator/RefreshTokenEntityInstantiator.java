@@ -15,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import software.iridium.api.entity.RefreshTokenEntity;
 import software.iridium.api.util.TokenGenerator;
+import software.iridium.entity.RefreshTokenEntity;
 
 @Component
 public class RefreshTokenEntityInstantiator {

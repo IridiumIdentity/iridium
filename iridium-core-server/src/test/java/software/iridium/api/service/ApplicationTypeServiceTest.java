@@ -23,9 +23,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.authentication.domain.ApplicationTypeSummary;
-import software.iridium.api.entity.ApplicationTypeEntity;
 import software.iridium.api.mapper.ApplicationTypeSummaryMapper;
 import software.iridium.api.repository.ApplicationTypeEntityRepository;
+import software.iridium.entity.ApplicationTypeEntity;
 
 @ExtendWith(MockitoExtension.class)
 class ApplicationTypeServiceTest {

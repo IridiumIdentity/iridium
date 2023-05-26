@@ -18,9 +18,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import software.iridium.api.entity.IdentityEntity;
-import software.iridium.api.entity.PasswordResetTokenEntity;
 import software.iridium.api.util.DateUtils;
+import software.iridium.entity.IdentityEntity;
+import software.iridium.entity.PasswordResetTokenEntity;
 
 @Component
 public class PasswordResetTokenEntityInstantiator {

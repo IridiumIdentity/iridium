@@ -12,7 +12,7 @@
 package software.iridium.api.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import software.iridium.api.entity.ClientSecretEntity;
+import software.iridium.entity.ClientSecretEntity;
 
 public interface ClientSecretEntityRepository extends JpaRepository<ClientSecretEntity, String> {
   // intentionally left blank

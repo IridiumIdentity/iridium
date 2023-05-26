@@ -30,8 +30,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.authentication.domain.ApplicationCreateRequest;
-import software.iridium.api.entity.ApplicationTypeEntity;
 import software.iridium.api.util.EncoderUtils;
+import software.iridium.entity.ApplicationTypeEntity;
 
 @ExtendWith(MockitoExtension.class)
 class ApplicationEntityInstantiatorTest {

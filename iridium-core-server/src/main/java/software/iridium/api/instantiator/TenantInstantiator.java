@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import software.iridium.api.authentication.domain.CreateTenantRequest;
-import software.iridium.api.entity.TenantEntity;
+import software.iridium.entity.TenantEntity;
 
 @Component
 public class TenantInstantiator {

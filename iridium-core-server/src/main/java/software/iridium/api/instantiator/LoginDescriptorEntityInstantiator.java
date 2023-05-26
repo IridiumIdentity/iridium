@@ -14,8 +14,8 @@ package software.iridium.api.instantiator;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import software.iridium.api.entity.LoginDescriptorEntity;
-import software.iridium.api.entity.TenantEntity;
+import software.iridium.entity.LoginDescriptorEntity;
+import software.iridium.entity.TenantEntity;
 
 @Component
 public class LoginDescriptorEntityInstantiator {

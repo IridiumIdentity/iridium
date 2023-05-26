@@ -35,8 +35,6 @@ import software.iridium.api.authentication.domain.IdentityResponse;
 import software.iridium.api.base.error.BadRequestException;
 import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.base.error.ResourceNotFoundException;
-import software.iridium.api.entity.ClientSecretEntity;
-import software.iridium.api.entity.ExternalIdentityProviderEntity;
 import software.iridium.api.generator.ProviderUrlGenerator;
 import software.iridium.api.generator.RedirectUrlGenerator;
 import software.iridium.api.generator.SuccessAuthorizationParameterGenerator;
@@ -53,6 +51,8 @@ import software.iridium.api.validator.AccessTokenRequestParameterValidator;
 import software.iridium.api.validator.ApplicationEntityAccessTokenRequestValidator;
 import software.iridium.api.validator.AuthorizationGrantTypeParamValidator;
 import software.iridium.api.validator.AuthorizationRequestParameterValidator;
+import software.iridium.entity.ClientSecretEntity;
+import software.iridium.entity.ExternalIdentityProviderEntity;
 
 @Service
 public class AuthorizationService {

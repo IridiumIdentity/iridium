@@ -19,7 +19,7 @@ import java.util.Arrays;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import software.iridium.api.entity.ExternalIdentityProviderTemplateEntity;
+import software.iridium.entity.ExternalIdentityProviderTemplateEntity;
 
 class ProviderSummaryResponseMapperTest {
 

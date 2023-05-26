@@ -29,8 +29,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
-import software.iridium.api.entity.IdentityEntity;
 import software.iridium.api.util.DateUtils;
+import software.iridium.entity.IdentityEntity;
 
 @ExtendWith(MockitoExtension.class)
 class PasswordResetTokenEntityInstantiatorTest {

@@ -28,10 +28,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.base.error.ResourceNotFoundException;
-import software.iridium.api.entity.LoginDescriptorEntity;
 import software.iridium.api.mapper.LoginDescriptorResponseMapper;
 import software.iridium.api.repository.LoginDescriptorEntityRepository;
 import software.iridium.api.util.AttributeValidator;
+import software.iridium.entity.LoginDescriptorEntity;
 
 @ExtendWith(MockitoExtension.class)
 class LoginDescriptorServiceTest {

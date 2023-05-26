@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import software.iridium.api.authentication.domain.CodeChallengeMethod;
-import software.iridium.api.entity.IdentityCreateSessionDetails;
-import software.iridium.api.entity.IdentityEntity;
+import software.iridium.entity.IdentityCreateSessionDetails;
+import software.iridium.entity.IdentityEntity;
 
 @Component
 public class IdentityCreateRequestDetailsInstantiator {

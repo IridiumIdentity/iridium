@@ -27,9 +27,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.authentication.domain.AuthenticationResponse;
 import software.iridium.api.authentication.domain.ProfileResponse;
-import software.iridium.api.entity.IdentityEmailEntity;
-import software.iridium.api.entity.IdentityEntity;
-import software.iridium.api.entity.ProfileEntity;
+import software.iridium.entity.IdentityEmailEntity;
+import software.iridium.entity.IdentityEntity;
+import software.iridium.entity.ProfileEntity;
 
 @ExtendWith(MockitoExtension.class)
 class IdentityResponseMapperTest {

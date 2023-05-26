@@ -4,5 +4,12 @@
 .settings/
 target/
 bin/
+
+### IntelliJ IDEA ###
+.idea/modules.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/libraries/
+*.iws
 *.iml
-.idea/
+*.ipr

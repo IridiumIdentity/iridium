@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import software.iridium.api.authentication.domain.GithubProfileResponse;
-import software.iridium.api.entity.IdentityEntity;
-import software.iridium.api.entity.IdentityPropertyEntity;
+import software.iridium.entity.IdentityEntity;
+import software.iridium.entity.IdentityPropertyEntity;
 
 @Component
 public class IdentityPropertyEntityInstantiator {

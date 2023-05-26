@@ -14,7 +14,7 @@ package software.iridium.api.instantiator;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import software.iridium.api.entity.IdentityEmailEntity;
+import software.iridium.entity.IdentityEmailEntity;
 
 @Component
 public class EmailEntityInstantiator {

@@ -14,7 +14,7 @@ package software.iridium.api.mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import software.iridium.api.authentication.domain.LoginDescriptorResponse;
-import software.iridium.api.entity.LoginDescriptorEntity;
+import software.iridium.entity.LoginDescriptorEntity;
 
 @Component
 public class LoginDescriptorResponseMapper {

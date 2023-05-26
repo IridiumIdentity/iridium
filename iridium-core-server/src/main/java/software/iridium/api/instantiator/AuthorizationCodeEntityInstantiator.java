@@ -19,11 +19,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import software.iridium.api.authentication.domain.CodeChallengeMethod;
-import software.iridium.api.entity.AuthorizationCodeEntity;
-import software.iridium.api.entity.IdentityEntity;
 import software.iridium.api.util.AuthorizationCodeFlowConstants;
 import software.iridium.api.util.DateUtils;
 import software.iridium.api.util.EncoderUtils;
+import software.iridium.entity.AuthorizationCodeEntity;
+import software.iridium.entity.IdentityEntity;
 
 @Component
 public class AuthorizationCodeEntityInstantiator {

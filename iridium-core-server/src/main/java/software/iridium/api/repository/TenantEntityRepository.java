@@ -14,7 +14,7 @@ package software.iridium.api.repository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import software.iridium.api.entity.TenantEntity;
+import software.iridium.entity.TenantEntity;
 
 public interface TenantEntityRepository extends JpaRepository<TenantEntity, String> {
 

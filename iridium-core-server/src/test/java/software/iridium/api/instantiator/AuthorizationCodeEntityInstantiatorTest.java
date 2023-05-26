@@ -28,10 +28,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.authentication.domain.CodeChallengeMethod;
-import software.iridium.api.entity.IdentityEntity;
 import software.iridium.api.util.AuthorizationCodeFlowConstants;
 import software.iridium.api.util.EncoderUtils;
 import software.iridium.api.util.SHA256Hasher;
+import software.iridium.entity.IdentityEntity;
 
 @ExtendWith(MockitoExtension.class)
 class AuthorizationCodeEntityInstantiatorTest {

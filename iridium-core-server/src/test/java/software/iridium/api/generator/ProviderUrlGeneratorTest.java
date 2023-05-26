@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import software.iridium.api.entity.ExternalIdentityProviderEntity;
+import software.iridium.entity.ExternalIdentityProviderEntity;
 
 class ProviderUrlGeneratorTest {
 

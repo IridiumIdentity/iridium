@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="persistence" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+
+    <class>software.iridium.entity.AbstractEntity</class>
+    <class>software.iridium.entity.AccessTokenEntity</class>
+    <class>software.iridium.entity.ApplicationEntity</class>
+    <class>software.iridium.entity.ApplicationTypeEntity</class>
+    <class>software.iridium.entity.Auditable</class>
+    <class>software.iridium.entity.AuthenticationEntity</class>
+    <class>software.iridium.entity.AuthorizationCodeEntity</class>
+    <class>software.iridium.entity.ClientSecretEntity</class>
+    <class>software.iridium.entity.EmailVerificationTokenEntity</class>
+    <class>software.iridium.entity.ExternalIdentityProviderEntity</class>
+    <class>software.iridium.entity.ExternalIdentityProviderPropertyEntity</class>
+    <class>software.iridium.entity.ExternalIdentityProviderTemplateEntity</class>
+    <class>software.iridium.entity.ExternalIdentityProviderPropertyTemplateEntity</class>
+    <class>software.iridium.entity.IdentityCreateSessionDetails</class>
+    <class>software.iridium.entity.IdentityEmailEntity</class>
+    <class>software.iridium.entity.IdentityEntity</class>
+    <class>software.iridium.entity.IdentityPropertyEntity</class>
+    <class>software.iridium.entity.InProgressExternalIdentityProviderAuthorizationEntity</class>
+    <class>software.iridium.entity.LoginDescriptorEntity</class>
+    <class>software.iridium.entity.PasswordResetTokenEntity</class>
+    <class>software.iridium.entity.ProfileEntity</class>
+    <class>software.iridium.entity.RefreshTokenEntity</class>
+    <class>software.iridium.entity.RoleEntity</class>
+    <class>software.iridium.entity.ScopeEntity</class>
+    <class>software.iridium.entity.TenantEntity</class>
+
+
+    <properties>
+      <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+      <property name="jakarta.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+      <property name="hibernate.show_sql" value="false" />
+      <property name="hibernate.transaction.flush_before_completion" value="true" />
+      <property name="hibernate.hbm2ddl.delimiter" value=";"/>
+      <property name="hibernate.id.new_generator_mappings" value="true"/>
+      <property name="toplink.logging.level" value="OFF"/>
+
+    </properties>
+  </persistence-unit>
+</persistence>
+

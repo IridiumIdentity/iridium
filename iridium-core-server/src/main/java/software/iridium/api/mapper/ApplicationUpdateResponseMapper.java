@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import software.iridium.api.authentication.domain.ApplicationUpdateResponse;
-import software.iridium.api.entity.ApplicationEntity;
+import software.iridium.entity.ApplicationEntity;
 
 @Component
 public class ApplicationUpdateResponseMapper {

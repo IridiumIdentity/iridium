@@ -23,7 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import software.iridium.api.validator.UserInfo;
+import software.iridium.api.user.UserInfo;
 
 @Component
 public class PreAuthMdcFilter extends OncePerRequestFilter {

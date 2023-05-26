@@ -18,8 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import software.iridium.api.entity.ApplicationEntity;
-import software.iridium.api.entity.ClientSecretEntity;
+import software.iridium.entity.ApplicationEntity;
+import software.iridium.entity.ClientSecretEntity;
 
 @Component
 public class ClientSecretEntityInstantiator {
