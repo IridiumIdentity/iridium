@@ -12,12 +12,15 @@
 package software.iridium.entity;
 
 import jakarta.persistence.*;
+import java.io.Serial;
 import java.util.Date;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "email_verification_token_id"))
 @Table(name = "email_verification_tokens")
 public class EmailVerificationTokenEntity extends AbstractEntity {
+
+  @Serial private static final long serialVersionUID = 2211848227772877113L;
 
   @Column(name = "token")
   private String token;

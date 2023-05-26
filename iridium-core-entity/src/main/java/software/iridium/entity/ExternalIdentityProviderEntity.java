@@ -63,8 +63,6 @@ public class ExternalIdentityProviderEntity extends AbstractEntity {
       orphanRemoval = true)
   private List<ExternalIdentityProviderPropertyEntity> properties = new ArrayList<>();
 
-  private Boolean syncAttributesOnEachLogin;
-
   public ExternalIdentityProviderTemplateEntity getTemplate() {
     return template;
   }
@@ -103,14 +101,6 @@ public class ExternalIdentityProviderEntity extends AbstractEntity {
 
   public void setProperties(final List<ExternalIdentityProviderPropertyEntity> properties) {
     this.properties = properties;
-  }
-
-  public Boolean getSyncAttributesOnEachLogin() {
-    return syncAttributesOnEachLogin;
-  }
-
-  public void setSyncAttributesOnEachLogin(final Boolean syncAttributesOnEachLogin) {
-    this.syncAttributesOnEachLogin = syncAttributesOnEachLogin;
   }
 
   public String getRedirectUri() {

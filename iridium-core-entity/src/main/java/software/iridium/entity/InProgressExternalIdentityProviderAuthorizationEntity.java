@@ -12,6 +12,7 @@
 package software.iridium.entity;
 
 import jakarta.persistence.*;
+import java.io.Serial;
 import java.util.Date;
 
 @Entity
@@ -21,13 +22,15 @@ import java.util.Date;
 @Table(name = "in_progress_external_identity_provider_authorizations")
 public class InProgressExternalIdentityProviderAuthorizationEntity extends AbstractEntity {
 
+  @Serial private static final long serialVersionUID = -6454913453656270364L;
+
   @Column(name = "state", length = 255, nullable = false)
   private String state;
 
   @Column(name = "redirect_uri", length = 255, nullable = false)
   private String redirectUri;
 
-  @Column(name = "clientId", length = 42, nullable = false)
+  @Column(name = "client_id", length = 42, nullable = false)
   private String clientId;
 
   @Temporal(TemporalType.TIMESTAMP)

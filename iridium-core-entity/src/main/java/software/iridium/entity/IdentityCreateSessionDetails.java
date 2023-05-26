@@ -12,12 +12,15 @@
 package software.iridium.entity;
 
 import jakarta.persistence.*;
+import java.io.Serial;
 import software.iridium.api.authentication.domain.CodeChallengeMethod;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "identity_create_session_details_id"))
 @Table(name = "identity_create_session_details")
 public class IdentityCreateSessionDetails extends AbstractEntity {
+
+  @Serial private static final long serialVersionUID = -2979796008615001766L;
 
   @Column(name = "response_type", nullable = false, length = 50)
   private String responseType;

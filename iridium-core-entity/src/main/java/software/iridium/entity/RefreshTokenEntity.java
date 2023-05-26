@@ -12,11 +12,14 @@
 package software.iridium.entity;
 
 import jakarta.persistence.*;
+import java.io.Serial;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "refresh_token_id"))
 @Table(name = "refresh_tokens")
 public class RefreshTokenEntity extends AbstractEntity {
+
+  @Serial private static final long serialVersionUID = 474966926438091101L;
 
   @Column(name = "refresh_token", nullable = false, updatable = false, length = 100)
   private String refreshToken;

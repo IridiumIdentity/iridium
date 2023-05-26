@@ -12,11 +12,14 @@
 package software.iridium.entity;
 
 import jakarta.persistence.*;
+import java.io.Serial;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "identity_property_id"))
 @Table(name = "identity_property")
 public class IdentityPropertyEntity extends AbstractEntity {
+
+  @Serial private static final long serialVersionUID = -1841949604340006899L;
 
   @Column(name = "value")
   private String value;
