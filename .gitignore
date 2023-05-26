@@ -2,9 +2,10 @@
 iridium-core-server/src/main/resources/application.properties
 iridium-core-server/src/main/support/db/test-seed.sql
 iridium-email-server/src/main/resources/application.properties
-## release jar
+## release 
 tools/images/iridium-core-server*.jar
 iridium-core-server-*.jar
+iridium-*-bin
 # generated sql
 create.sql
 drop.sql

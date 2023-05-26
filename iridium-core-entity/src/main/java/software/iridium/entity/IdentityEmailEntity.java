@@ -25,10 +25,10 @@ public class IdentityEmailEntity extends AbstractEntity {
   @Column(name = "email_address", unique = false)
   private String emailAddress;
 
-  @Column(name = "verified")
+  @Column(name = "is_verified")
   private Boolean verified = false;
 
-  @Column(name = "primary")
+  @Column(name = "is_primary")
   private Boolean primary;
 
   @ManyToOne(fetch = FetchType.LAZY)

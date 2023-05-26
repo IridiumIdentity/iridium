@@ -5,19 +5,10 @@ namespace=$1
 
 image_name=$2
 
-echo "building..."
-echo $namespace
-echo $image_name
-
-
-iridium_git_rev() {
-  local git_rev=$(git rev-parse --short HEAD)
-  if [[ $? != 0 ]];
-  then
-    exit 1
-  fi
-  echo $git_rev
-}
+version=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+echo "#############"
+echo "building iridium version ${version}"
+echo "#############"
 
 mvn --version
 
@@ -27,13 +18,11 @@ mvn package -Dmaven.test.skip=true
 
 mv iridium-core-server/target/iridium-core-server-*.jar ./
 
-revision=$(iridium_git_rev)
+docker build -t ghcr.io/$namespace/$image_name:$version -f tools/images/Dockerfile.core .
 
-docker build -t ghcr.io/$namespace/$image_name:$revision -f tools/images/Dockerfile.core .
+docker tag ghcr.io/$namespace/$image_name:$version ghcr.io/$namespace/$image_name:latest
 
-docker tag ghcr.io/$namespace/$image_name:$revision ghcr.io/$namespace/$image_name:latest
-
-docker push ghcr.io/$namespace/iridium-core-server:$revision
+docker push ghcr.io/$namespace/iridium-core-server:$version
 
 docker push ghcr.io/$namespace/$image_name:latest
 

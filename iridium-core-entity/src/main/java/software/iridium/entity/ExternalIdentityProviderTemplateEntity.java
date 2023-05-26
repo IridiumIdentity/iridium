@@ -25,20 +25,17 @@ public class ExternalIdentityProviderTemplateEntity extends AbstractEntity {
   @Column(name = "name", length = 100, nullable = false)
   private String name;
 
-  @Column(name = "client_id", length = 100, nullable = false)
-  private String clientId;
-
-  @Column(name = "client_secret", length = 100, nullable = true)
-  private String clientSecret;
-
-  @Column(name = "identity_request_base_url", length = 255, nullable = false)
-  private String identityRequestBaseUrl;
+  @Column(name = "access_token_request_base_url", length = 255, nullable = false)
+  private String accessTokenRequestBaseUrl;
 
   @Column(name = "profile_request_base_url", length = 255, nullable = false)
   private String profileRequestBaseUrl;
 
   @Column(name = "icon_path", length = 255, nullable = false)
   private String iconPath;
+
+  @Column(name = "base_authorization_url", length = 2355, nullable = false)
+  private String baseAuthorizationUrl;
 
   @OneToMany(
       cascade = CascadeType.ALL,
@@ -55,28 +52,12 @@ public class ExternalIdentityProviderTemplateEntity extends AbstractEntity {
     this.name = name;
   }
 
-  public String getClientId() {
-    return clientId;
+  public String getAccessTokenRequestBaseUrl() {
+    return accessTokenRequestBaseUrl;
   }
 
-  public void setClientId(String clientId) {
-    this.clientId = clientId;
-  }
-
-  public String getClientSecret() {
-    return clientSecret;
-  }
-
-  public void setClientSecret(String clientSecret) {
-    this.clientSecret = clientSecret;
-  }
-
-  public String getIdentityRequestBaseUrl() {
-    return identityRequestBaseUrl;
-  }
-
-  public void setIdentityRequestBaseUrl(String baseUrl) {
-    this.identityRequestBaseUrl = baseUrl;
+  public void setAccessTokenRequestBaseUrl(String baseUrl) {
+    this.accessTokenRequestBaseUrl = baseUrl;
   }
 
   public String getProfileRequestBaseUrl() {
@@ -93,5 +74,21 @@ public class ExternalIdentityProviderTemplateEntity extends AbstractEntity {
 
   public void setIconPath(final String iconPath) {
     this.iconPath = iconPath;
+  }
+
+  public String getBaseAuthorizationUrl() {
+    return baseAuthorizationUrl;
+  }
+
+  public void setBaseAuthorizationUrl(final String baseAuthorizationUrl) {
+    this.baseAuthorizationUrl = baseAuthorizationUrl;
+  }
+
+  public List<ExternalIdentityProviderPropertyTemplateEntity> getProperties() {
+    return properties;
+  }
+
+  public void setProperties(final List<ExternalIdentityProviderPropertyTemplateEntity> properties) {
+    this.properties = properties;
   }
 }

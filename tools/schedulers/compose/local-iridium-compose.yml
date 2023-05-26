@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
 
-  web:
+  iridium-ui:
     build:
       context: ../../../iridium-angular-client
       target: builder
