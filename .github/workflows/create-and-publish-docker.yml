@@ -5,6 +5,7 @@ on:
     tags: [ "v*" ]
 
 env:
+  REGISTRY: ghcr.io
   NAMESPACE: iridiumidentity
   IMAGE_NAME: iridium-core-server
 
