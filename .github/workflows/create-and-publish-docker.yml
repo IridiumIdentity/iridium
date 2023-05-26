@@ -17,8 +17,10 @@ jobs:
       packages: write
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repository and set version
         uses: actions/checkout@v3
+        id: vars
+        run: echo "version=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $VERSION_OUTPUT
 
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -34,7 +36,9 @@ jobs:
           server-id: maven
       - run: ./tools/scripts/build-docker.sh ${{ env.NAMESPACE }} ${{ env.IMAGE_NAME }}
       - uses: actions/upload-artifact@v3
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.version }}
         with:
-          name: iridium-bin
+          name: iridium-${{ steps.vars.outputs.version }}-bin
           path: iridium-cli/target/iridium-*-bin.tar.gz
 
