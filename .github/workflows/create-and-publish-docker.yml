@@ -33,4 +33,8 @@ jobs:
           architecture: x64
           server-id: maven
       - run: ./tools/scripts/build-docker.sh ${{ env.NAMESPACE }} ${{ env.IMAGE_NAME }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: iridium-bin
+          path: iridium-cli/target/iridium-*-bin.tar.gz
 
