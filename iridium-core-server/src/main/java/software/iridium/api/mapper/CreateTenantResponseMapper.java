@@ -13,7 +13,7 @@ package software.iridium.api.mapper;
 
 import org.springframework.stereotype.Component;
 import software.iridium.api.authentication.domain.CreateTenantResponse;
-import software.iridium.api.entity.TenantEntity;
+import software.iridium.entity.TenantEntity;
 
 @Component
 public class CreateTenantResponseMapper {

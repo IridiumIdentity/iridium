@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import software.iridium.api.authentication.domain.ApplicationSummary;
-import software.iridium.api.entity.ApplicationEntity;
+import software.iridium.entity.ApplicationEntity;
 
 @Component
 public class ApplicationSummaryMapper {

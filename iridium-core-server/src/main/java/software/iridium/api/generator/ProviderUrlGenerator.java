@@ -13,7 +13,7 @@ package software.iridium.api.generator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
-import software.iridium.api.entity.ExternalIdentityProviderEntity;
+import software.iridium.entity.ExternalIdentityProviderEntity;
 
 @Component
 public class ProviderUrlGenerator {

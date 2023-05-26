@@ -18,7 +18,7 @@ import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import software.iridium.api.entity.ClientSecretEntity;
+import software.iridium.entity.ClientSecretEntity;
 
 class ClientSecretCreateResponseMapperTest {
 

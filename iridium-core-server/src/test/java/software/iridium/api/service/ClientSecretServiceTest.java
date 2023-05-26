@@ -31,15 +31,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.authentication.domain.ClientSecretCreateResponse;
 import software.iridium.api.base.error.ClientCallException;
 import software.iridium.api.base.error.ResourceNotFoundException;
-import software.iridium.api.entity.ApplicationEntity;
-import software.iridium.api.entity.ApplicationTypeEntity;
-import software.iridium.api.entity.ClientSecretEntity;
 import software.iridium.api.instantiator.ClientSecretEntityInstantiator;
 import software.iridium.api.mapper.ClientSecretCreateResponseMapper;
 import software.iridium.api.repository.ApplicationEntityRepository;
 import software.iridium.api.repository.ClientSecretEntityRepository;
 import software.iridium.api.util.AttributeValidator;
 import software.iridium.api.util.EncoderUtils;
+import software.iridium.entity.ApplicationEntity;
+import software.iridium.entity.ApplicationTypeEntity;
+import software.iridium.entity.ClientSecretEntity;
 
 @ExtendWith(MockitoExtension.class)
 class ClientSecretServiceTest {

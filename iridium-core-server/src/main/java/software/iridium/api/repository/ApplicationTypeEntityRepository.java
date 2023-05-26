@@ -12,7 +12,7 @@
 package software.iridium.api.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import software.iridium.api.entity.ApplicationTypeEntity;
+import software.iridium.entity.ApplicationTypeEntity;
 
 public interface ApplicationTypeEntityRepository
     extends JpaRepository<ApplicationTypeEntity, String> {

@@ -13,7 +13,7 @@ package software.iridium.api.instantiator;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import software.iridium.api.entity.PasswordResetTokenEntity;
+import software.iridium.entity.PasswordResetTokenEntity;
 
 @Component
 public class SelfUrlGenerator {

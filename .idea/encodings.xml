@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/iridium-cli/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/iridium-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/iridium-core-entity/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/iridium-core-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/iridium-email-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/iridium-java-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/iridium-server-base/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

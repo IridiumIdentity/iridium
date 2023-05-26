@@ -17,10 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import software.iridium.api.entity.IdentityEntity;
 import software.iridium.api.instantiator.EmailSendRequestInstantiator;
 import software.iridium.api.instantiator.SelfUrlGenerator;
 import software.iridium.api.service.EmailService;
+import software.iridium.entity.IdentityEntity;
 
 @Component
 public class PasswordEventHandler {

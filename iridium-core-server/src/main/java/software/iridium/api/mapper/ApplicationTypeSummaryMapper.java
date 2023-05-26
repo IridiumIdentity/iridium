@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import software.iridium.api.authentication.domain.ApplicationTypeSummary;
-import software.iridium.api.entity.ApplicationTypeEntity;
+import software.iridium.entity.ApplicationTypeEntity;
 
 @Component
 public class ApplicationTypeSummaryMapper {

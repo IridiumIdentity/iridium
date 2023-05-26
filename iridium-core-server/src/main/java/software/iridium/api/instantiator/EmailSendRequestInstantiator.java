@@ -14,7 +14,7 @@ package software.iridium.api.instantiator;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 import software.iridium.api.email.domain.EmailSendRequest;
-import software.iridium.api.entity.IdentityEmailEntity;
+import software.iridium.entity.IdentityEmailEntity;
 
 @Component
 public class EmailSendRequestInstantiator {

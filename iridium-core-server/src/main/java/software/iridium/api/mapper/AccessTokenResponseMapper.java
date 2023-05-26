@@ -13,7 +13,7 @@ package software.iridium.api.mapper;
 
 import org.springframework.stereotype.Component;
 import software.iridium.api.authentication.domain.AccessTokenResponse;
-import software.iridium.api.entity.AccessTokenEntity;
+import software.iridium.entity.AccessTokenEntity;
 
 @Component
 public class AccessTokenResponseMapper {

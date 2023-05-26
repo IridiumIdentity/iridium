@@ -15,9 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import software.iridium.api.entity.AccessTokenEntity;
 import software.iridium.api.util.DateUtils;
 import software.iridium.api.util.TokenGenerator;
+import software.iridium.entity.AccessTokenEntity;
 
 @Component
 public class AccessTokenEntityInstantiator {

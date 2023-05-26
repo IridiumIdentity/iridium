@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+
+  iridium-ui:
+    build:
+      context: ../../../iridium-angular-client
+      target: builder
+    container_name: iridium-ui
+    ports:
+      - 4200:4200
+    volumes:
+      - ../../../iridium-angular-client:/project
+      - /project/node_modules
+
+  iridium:
+    image: ghcr.io/iridiumidentity/iridium-core-server:latest
+    container_name: iridium
+    restart: always
+    pull_policy: always
+    ports:
+      - "8381:8381"
+    environment:
+      - SERVER_PORT=8381
+      - LOGGING_LEVEL_ROOT=info
+      - LOGGING_LEVEL_SOFTWARE_IRIDIUM=DEBUG
+      - SPRING_JMX_ENABLED=false
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB=DEBUG
+      - SPRING_MVC_LOG-REQUEST-DETAILS=true
+      - SPRING_MVC_DISPATCH-OPTIONS-REQUEST=true
+      - SPRING_JPA_HIBERNATE_SHOW_SQL=false
+      - SPRING_JPA_HIBERNATE_FORMAT_SQL=true
+      - SPRING_JPA_PROPERTIES_HIBERNATE_HBM2DDL_DELIMITER=;
+      - SPRING_JPA_PROPERTIES_HIBERNATE_GLOBALLY_QUOTED_IDENTIFIERS=true
+      - SPRING_JPA_PROPERTIES_HIBERNATE-GLOBALLY_QUOTED_IDENTIFIERS_SKIP_COLUMN_DEFINITIONS=true
+#      - SPRING_JPA_PROPERTIES_JAKARTA_PERSISTENCE.SCHEMA-GENERATION_CREATE-SOURCE=metadata
+#      - SPRING_JPA_PROPERTIES_JAKARTA_PERSISTENCE.SCHEMA-GENERATION_SCRIPTS_ACTION=create
+#      - SPRING_JPA_PROPERTIES_JAKARTA_PERSISTENCE.SCHEMA-GENERATION_SCRIPTS_CREATE-TARGET=create.sql
+#      - SPRING_JPA_PROPERTIES_JAKARTA_PERSISTENCE.SCHEMA-GENERATION_SCRIPTS_DROP-TARGET=drop.sql
+#      - SPRING_JPA_PROPERTIES_JAKARTA_PERSISTENCE.SCHEMA-GENERATION_DATABASE_ACTION=drop-and-create
+      - SPRING_DATASOURCE_DRIVER-CLASS=com.mysql.jdbc.Driver
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mariadb/identities?useSSL=false
+      - SPRING_DATASOURCE_USERNAME=iridium
+      - SPRING_DATASOURCE_PASSWORD=sug4rn3ss&
+      - SPRING_DATASOURCE_TOMCAT_MAX-ACTIVE=5
+      - SPRING_DATASOURCE_TEST-WHILE-IDLE=true
+      - SPRING_DATASOURCE_VALIDATION_QUERY=SELECT 1 FROM DUEL
+      - SPRING_DATASOURCE_VALIDATION_INTERVAL=180000
+      - PASSWORD_RESET_TOKEN_LIFETIME_HOURS=4
+      - SOFTWARE.IRIDIUM.PASSWORDRESET.CLIENT.BASEURL=http://localhost:8381/
+      - SOFTWARE.IRIDIUM.EMAILNOTIFICATION.CLIENT.BASEURL=http://localhost:8381/
+      - SOFTWARE.IRIDIUM.API.TTL.MINUTES=30
+      - SERVER_ERROR_WHITELABEL_ENABLED=false
+      - SPRING_MAIL_FROM_ADDRESS=noreply@yourdomain.com
+      - SPRING_THYMELEAF_PREFIX=classpath:/templates/
+      - SPRING_THYMELEAF_SUFFIX=.html
+      - SPRING_MAIL_HOST=someMailHost
+      - SPRING_MAIL_USERNAME=mailUsername
+      - SPRING_MAIL_PASSWORD=mailPassword
+      - SPRING_MAIL_PROPERTIES_MAIL_TRANSPORT_PROTOCOL=smtp
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_PORT=465
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED=true
+    networks:
+      - iridium
+
+
+  mariadb:
+    image: mariadb:10.6.11
+    container_name: mariadb
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: identities
+      MYSQL_USER: iridium
+      MYSQL_PASSWORD: sug4rn3ss&
+    networks:
+      - iridium
+
+networks:
+  iridium:
+    driver: bridge

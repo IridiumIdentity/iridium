@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import software.iridium.api.authentication.domain.TenantSummary;
-import software.iridium.api.entity.TenantEntity;
+import software.iridium.entity.TenantEntity;
 
 @Component
 public class TenantSummaryMapper {

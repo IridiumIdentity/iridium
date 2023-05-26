@@ -17,8 +17,8 @@ import static org.hamcrest.CoreMatchers.is;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import software.iridium.api.entity.ApplicationEntity;
-import software.iridium.api.entity.ApplicationTypeEntity;
+import software.iridium.entity.ApplicationEntity;
+import software.iridium.entity.ApplicationTypeEntity;
 
 class ApplicationCreateResponseMapperTest {
 

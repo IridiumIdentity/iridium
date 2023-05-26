@@ -22,11 +22,11 @@ import software.iridium.api.authentication.domain.AuthenticationRequest;
 import software.iridium.api.authentication.domain.AuthenticationResponse;
 import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.base.error.ResourceNotFoundException;
-import software.iridium.api.entity.ApplicationEntity;
 import software.iridium.api.instantiator.AuthorizationCodeEntityInstantiator;
 import software.iridium.api.repository.*;
 import software.iridium.api.validator.AuthenticationRequestParamValidator;
 import software.iridium.api.validator.AuthenticationRequestValidator;
+import software.iridium.entity.ApplicationEntity;
 
 @Service
 public class AuthenticationService {

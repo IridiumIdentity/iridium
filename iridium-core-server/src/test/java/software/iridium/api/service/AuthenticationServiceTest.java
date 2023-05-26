@@ -37,13 +37,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import software.iridium.api.authentication.domain.AuthenticationRequest;
 import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.base.error.ResourceNotFoundException;
-import software.iridium.api.entity.ApplicationEntity;
-import software.iridium.api.entity.IdentityEmailEntity;
-import software.iridium.api.entity.IdentityEntity;
-import software.iridium.api.entity.TenantEntity;
 import software.iridium.api.repository.*;
 import software.iridium.api.validator.AuthenticationRequestParamValidator;
 import software.iridium.api.validator.AuthenticationRequestValidator;
+import software.iridium.entity.ApplicationEntity;
+import software.iridium.entity.IdentityEmailEntity;
+import software.iridium.entity.IdentityEntity;
+import software.iridium.entity.TenantEntity;
 
 @ExtendWith(MockitoExtension.class)
 class AuthenticationServiceTest {

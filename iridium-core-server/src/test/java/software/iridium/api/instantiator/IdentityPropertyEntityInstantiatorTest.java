@@ -21,8 +21,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.authentication.domain.GithubProfileResponse;
-import software.iridium.api.entity.IdentityEntity;
-import software.iridium.api.entity.IdentityPropertyEntity;
+import software.iridium.entity.IdentityEntity;
+import software.iridium.entity.IdentityPropertyEntity;
 
 @ExtendWith(MockitoExtension.class)
 class IdentityPropertyEntityInstantiatorTest {

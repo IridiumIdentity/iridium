@@ -16,8 +16,8 @@ import java.util.Date;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import software.iridium.api.entity.ExternalIdentityProviderEntity;
-import software.iridium.api.entity.InProgressExternalIdentityProviderAuthorizationEntity;
+import software.iridium.entity.ExternalIdentityProviderEntity;
+import software.iridium.entity.InProgressExternalIdentityProviderAuthorizationEntity;
 
 @Component
 public class InProgressExternalIdentityProviderAuthorizationInstantiator {

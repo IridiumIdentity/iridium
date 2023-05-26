@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import software.iridium.api.authentication.domain.ProviderSummaryResponse;
-import software.iridium.api.entity.ExternalIdentityProviderTemplateEntity;
+import software.iridium.entity.ExternalIdentityProviderTemplateEntity;
 
 @Component
 public class ProviderSummaryResponseMapper {

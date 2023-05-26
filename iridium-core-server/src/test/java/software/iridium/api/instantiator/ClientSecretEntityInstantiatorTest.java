@@ -28,7 +28,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import software.iridium.api.entity.ApplicationEntity;
+import software.iridium.entity.ApplicationEntity;
 
 @ExtendWith(MockitoExtension.class)
 class ClientSecretEntityInstantiatorTest {

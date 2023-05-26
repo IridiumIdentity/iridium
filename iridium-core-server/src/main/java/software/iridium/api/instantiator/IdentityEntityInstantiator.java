@@ -17,9 +17,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import software.iridium.api.authentication.domain.CreateIdentityRequest;
 import software.iridium.api.authentication.domain.GithubProfileResponse;
-import software.iridium.api.entity.ExternalIdentityProviderEntity;
-import software.iridium.api.entity.IdentityEmailEntity;
-import software.iridium.api.entity.IdentityEntity;
+import software.iridium.entity.ExternalIdentityProviderEntity;
+import software.iridium.entity.IdentityEmailEntity;
+import software.iridium.entity.IdentityEntity;
 
 @Component
 public class IdentityEntityInstantiator {

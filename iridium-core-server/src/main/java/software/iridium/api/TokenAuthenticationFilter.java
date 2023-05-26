@@ -19,8 +19,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import software.iridium.api.base.error.NotAuthorizedException;
-import software.iridium.api.entity.AccessTokenEntity;
 import software.iridium.api.repository.AccessTokenEntityRepository;
+import software.iridium.api.user.PrincipalUser;
+import software.iridium.entity.AccessTokenEntity;
 
 public class TokenAuthenticationFilter extends AbstractPreAuthenticatedProcessingFilter {
 

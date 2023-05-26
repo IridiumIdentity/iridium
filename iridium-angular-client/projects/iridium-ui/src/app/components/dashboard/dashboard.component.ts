@@ -76,7 +76,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.views = this.contentViewService.getViews();
-    this.view = this.views['applications']
+    this.view = this.views['system overview']
     this.iridiumClient.authorize()
       .then(successful => {
         if (successful) {
@@ -109,7 +109,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.selectedTenant = event.value;
     for(let key in this.views) {
       this.views = this.contentViewService.getViewsForTenant(this.selectedTenant)
-      this.view = this.contentViewService.getView('applications')
+      this.view = this.contentViewService.getView('system overview')
     }
   }
 

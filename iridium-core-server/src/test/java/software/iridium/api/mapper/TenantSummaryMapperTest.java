@@ -21,7 +21,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import software.iridium.api.authentication.domain.TenantSummary;
-import software.iridium.api.entity.TenantEntity;
+import software.iridium.entity.TenantEntity;
 
 class TenantSummaryMapperTest {
 

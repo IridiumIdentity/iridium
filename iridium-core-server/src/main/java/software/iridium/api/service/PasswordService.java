@@ -20,13 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 import software.iridium.api.authentication.domain.InitiatePasswordResetRequest;
 import software.iridium.api.authentication.domain.PasswordResetRequest;
 import software.iridium.api.base.error.ResourceNotFoundException;
-import software.iridium.api.entity.ApplicationEntity;
 import software.iridium.api.handler.PasswordEventHandler;
 import software.iridium.api.instantiator.PasswordResetTokenEntityInstantiator;
 import software.iridium.api.repository.ApplicationEntityRepository;
 import software.iridium.api.repository.IdentityEmailEntityRepository;
 import software.iridium.api.repository.IdentityEntityRepository;
 import software.iridium.api.repository.PasswordResetTokenEntityRepository;
+import software.iridium.entity.ApplicationEntity;
 
 @Service
 public class PasswordService {

@@ -40,7 +40,6 @@ import software.iridium.api.authentication.domain.IdentityResponse;
 import software.iridium.api.base.error.DuplicateResourceException;
 import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.base.error.ResourceNotFoundException;
-import software.iridium.api.entity.*;
 import software.iridium.api.handler.NewIdentityEventHandler;
 import software.iridium.api.instantiator.AuthenticationRequestInstantiator;
 import software.iridium.api.instantiator.IdentityCreateRequestDetailsInstantiator;
@@ -50,6 +49,7 @@ import software.iridium.api.mapper.IdentityResponseMapper;
 import software.iridium.api.repository.*;
 import software.iridium.api.util.AttributeValidator;
 import software.iridium.api.util.ServletTokenExtractor;
+import software.iridium.entity.*;
 
 @ExtendWith(MockitoExtension.class)
 class IdentityServiceTest {

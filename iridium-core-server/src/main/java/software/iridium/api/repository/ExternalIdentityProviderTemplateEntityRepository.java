@@ -12,7 +12,7 @@
 package software.iridium.api.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import software.iridium.api.entity.ExternalIdentityProviderTemplateEntity;
+import software.iridium.entity.ExternalIdentityProviderTemplateEntity;
 
 public interface ExternalIdentityProviderTemplateEntityRepository
     extends JpaRepository<ExternalIdentityProviderTemplateEntity, String> {
