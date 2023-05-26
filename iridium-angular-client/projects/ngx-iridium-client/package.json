@@ -1,6 +1,6 @@
 {
   "name": "ngx-iridium-client",
-  "version": "0.0.1",
+  "version": "0.1.0-beta",
   "peerDependencies": {
     "@angular/common": "^15.2.0",
     "@angular/core": "^15.2.0"
