@@ -10,6 +10,8 @@ iridium-*-bin
 create.sql
 drop.sql
 
+# site
+site/.venv/
 
 target/
 !.mvn/wrapper/maven-wrapper.jar
