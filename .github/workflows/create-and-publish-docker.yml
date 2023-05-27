@@ -22,7 +22,7 @@ jobs:
 
       - name: set version
         id: vars
-        run: echo "version=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" 
+        run: echo "version=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_ENV
 
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -40,9 +40,7 @@ jobs:
       - run: ./tools/scripts/build-docker.sh ${{ env.NAMESPACE }} ${{ env.IMAGE_NAME }}
       - name: upload tar.gz
         uses: actions/upload-artifact@v3
-        env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.version }}
         with:
-          name: iridium-${{ steps.vars.outputs.version }}-bin
+          name: iridium-${{ env.artifactPath }}-bin
           path: iridium-cli/target/iridium-*-bin.tar.gz
 
