@@ -10,6 +10,8 @@ theme:
   logo: images/iridiumxl.png
 
 extra:
+  version:
+    provider: mike
   analytics:
     provider: google
     property: G-XQP7070X67

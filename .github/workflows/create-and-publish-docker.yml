@@ -17,8 +17,12 @@ jobs:
       packages: write
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repository and set version
         uses: actions/checkout@v3
+
+      - name: set version
+        id: vars
+        run: echo "version=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_ENV
 
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -26,6 +30,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: actions/setup-java@v1.4.4
         with:
           java-version: 17
@@ -33,4 +38,9 @@ jobs:
           architecture: x64
           server-id: maven
       - run: ./tools/scripts/build-docker.sh ${{ env.NAMESPACE }} ${{ env.IMAGE_NAME }}
+      - name: upload tar.gz
+        uses: actions/upload-artifact@v3
+        with:
+          name: iridium-${{ env.version }}-bin
+          path: iridium-cli/target/iridium-*-bin.tar.gz
 
