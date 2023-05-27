@@ -41,6 +41,6 @@ jobs:
       - name: upload tar.gz
         uses: actions/upload-artifact@v3
         with:
-          name: iridium-${{ env.artifactPath }}-bin
+          name: iridium-${{ env.version }}-bin
           path: iridium-cli/target/iridium-*-bin.tar.gz
 
