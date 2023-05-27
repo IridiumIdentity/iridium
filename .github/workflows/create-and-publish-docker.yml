@@ -35,11 +35,5 @@ jobs:
           architecture: x64
           server-id: maven
         run: ./tools/scripts/build-docker.sh ${{ env.NAMESPACE }} ${{ env.IMAGE_NAME }}
-      - name: upload tar.gz
-        uses: actions/upload-artifact@v3
-        env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.version }}
-        with:
-          name: iridium-${{ steps.vars.outputs.version }}-bin
-          path: iridium-cli/target/iridium-*-bin.tar.gz
+      
 
