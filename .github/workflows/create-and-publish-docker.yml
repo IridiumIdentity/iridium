@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Checkout repository and set version
         uses: actions/checkout@v3
+
+      - name: set version
         id: vars
         run: echo "version=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $VERSION_OUTPUT
 
@@ -28,12 +30,19 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: actions/setup-java@v1.4.4
         with:
           java-version: 17
           java-package: jdk
           architecture: x64
           server-id: maven
-        run: ./tools/scripts/build-docker.sh ${{ env.NAMESPACE }} ${{ env.IMAGE_NAME }}
-      
+      - run: ./tools/scripts/build-docker.sh ${{ env.NAMESPACE }} ${{ env.IMAGE_NAME }}
+      - name: upload tar.gz
+        uses: actions/upload-artifact@v3
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.version }}
+        with:
+          name: iridium-${{ steps.vars.outputs.version }}-bin
+          path: iridium-cli/target/iridium-*-bin.tar.gz
 
