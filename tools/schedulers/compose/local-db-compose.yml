@@ -10,7 +10,7 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: iridium
       MYSQL_DATABASE: identities
       MYSQL_USER: identity-api
       MYSQL_PASSWORD: "sug4rn3ss&"
