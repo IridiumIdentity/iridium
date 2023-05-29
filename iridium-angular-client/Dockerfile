@@ -8,7 +8,7 @@ WORKDIR /project
 
 RUN npm install -g @angular/cli@15
 
-COPY package.json angular.json tsconfig.json package-lock.json ./
+COPY package*.json angular.json tsconfig.json ./
 RUN npm ci
 
 COPY projects ./projects
