@@ -29,5 +29,4 @@ EOF
 # install Docker tools (cli, buildx, compose)
 COPY --from=gloursdocker/docker / /
 
-RUN ng build ngx-iridium-client
 CMD ["ng", "serve", "--host", "0.0.0.0"]
