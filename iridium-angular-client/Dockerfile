@@ -3,6 +3,7 @@
 FROM --platform=$BUILDPLATFORM node:18.16.0-bullseye-slim as builder
 
 RUN mkdir /project
+RUN mkdir /project/projectsn
 WORKDIR /project
 
 RUN npm install -g @angular/cli@15
@@ -11,7 +12,8 @@ COPY package.json angular.json tsconfig.json package-lock.json ./
 RUN npm ci
 
 COPY projects ./projects
-CMD ["ng", "build", "ngx-iridium-client", "&&", "ng", "serve", "--host", "0.0.0.0"]
+RUN ng build ngx-iridium-client
+CMD ["ng", "serve", "--host", "0.0.0.0"]
 
 FROM builder as dev-envs
 
