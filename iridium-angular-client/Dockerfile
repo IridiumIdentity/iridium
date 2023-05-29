@@ -10,7 +10,7 @@ RUN npm install -g @angular/cli@15
 COPY package.json angular.json tsconfig.json package-lock.json ./
 RUN npm ci
 
-COPY projects .
+COPY projects ./projects
 CMD ["ng", "build", "ngx-iridium-client", "&&", "ng", "serve", "--host", "0.0.0.0"]
 
 FROM builder as dev-envs
