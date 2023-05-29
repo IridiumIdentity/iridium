@@ -52,8 +52,7 @@ build/
 ### Mac OS ###
 .DS_Store
 
-# node
-package-lock.json
+
 ### NetBeans ###
 
 /nbproject/private/
