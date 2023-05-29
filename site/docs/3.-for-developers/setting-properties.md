@@ -1,67 +1,49 @@
 # Configuration
-Iridium's core server needs a set of required properties to be set. These properties will need to be set at
+Iridium's core server needs a set of required properties to be set. 
 
-* ```${ProjectRoot}/iridium-core-server/src/main/resources/application.properties```  
+An example for local configuration is below.  You can see how this is used in [docker-compose file](https://github.com/IridiumIdentity/iridium/blob/main/tools/schedulers/compose/local-iridium-compose.yml). 
 
-An example for local configuration is below. In future releases we will deprecate this method of setting properties. 
-
-```properties
-server.port=8381
-logging.level.root=info
-logging.level.software.iridium=debug
-spring.jmx.enabled=false
-logging.level.org.springframework.web=DEBUG
-spring.mvc.log-request-details=true
-
-spring.datasource.driver-class=com.mysql.jdbc.Driver
-spring.datasource.url=jdbc:mysql://localhost/identities?useSSL=false
-spring.datasource.username={DataSourceUsername}
-spring.datasource.password={DataSourcePassword}
-spring.datasource.tomcat.max-active=5
-spring.datasource.test-while-idle=true
-spring.datasource.validation-query=SELECT 1 FROM DUEL
-spring.datasource.validation-interval=180000
-
-spring.jpa.hibernate.ddl-auto=none
-
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect
-spring.jpa.properties.hibernate.show_sql=true
-spring.jpa.properties.hibernate.format_sql=true
-spring.jpa.properties.hibernate.globally_quoted_identifiers=true
-spring.jpa.properties.hibernate.globally_quoted_identifiers_skip_column_definitions = true
-spring.jpa.properties.javax.persistence.schema-generation.create-source=metadata
-spring.jpa.properties.javax.persistence.schema-generation.scripts.action=create
-spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target=create.sql
-spring.jpa.properties.javax.persistence.schema-generation.scripts.drop-target=create.sql
-spring.jpa.properties.javax.persistence.schema-generation.database.action=drop-and-create
-spring.jpa.properties.hibernate.hbm2ddl.delimiter=;
-
-passwordRestToken.lifetimeHours=4
-software.iridium.api.ttl.minutes=30
-software.iridium.emailNotification.client.baseUrl=http://iridium.iridium.software:8381/
-software.iridium.passwordReset.client.baseUrl=http://iridium.iridium.software:8381/
-software.iridium.emailApi.baseUrl=http://localhost:8382/
-software.iridium.identityApi.baseUrl=http://localhost:8381/
-
-#disable default error page
-server.error.whitelabel.enabled=false
-
-github.accessTokenBaseUrl=https://github.com/login/oauth/access_token
-```
-
-Email specific settings are below.  Additionally, these can be added to the same `properties` file located at:
-* `${ProjectRoot}/iridium-core-server/src/main/resources/application.properties`
-```properties
-spring.mail.host={YourSMTPHost}
-spring.mail.username={YourSMTPUserName}
-spring.mail.password={YourSMTPSecretKey}
-spring.mail.properties.mail.transport.protocol=smtp
-spring.mail.properties.mail.smtp.port=25
-spring.mail.properties.mail.smtp.auth=true
-spring.mail.properties.mail.smtp.starttls.enable=true
-spring.mail.properties.mail.smtp.starttls.required=true
-spring.mail.fromAddress=noreply@somwhere.com
-spring.thymeleaf.prefix=classpath:/templates/
-spring.thymeleaf.suffix=.html
+```shell
+      - SERVER_PORT=8381
+      - LOGGING_LEVEL_ROOT=info
+      - LOGGING_LEVEL_SOFTWARE_IRIDIUM=DEBUG
+      - SPRING_JMX_ENABLED=false
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB=DEBUG
+      - SPRING_MVC_LOG-REQUEST-DETAILS=true
+      - SPRING_MVC_DISPATCH-OPTIONS-REQUEST=true
+      - SPRING_JPA_HIBERNATE_SHOW_SQL=false
+      - SPRING_JPA_HIBERNATE_FORMAT_SQL=true
+      - SPRING_JPA_PROPERTIES_HIBERNATE_HBM2DDL_DELIMITER=;
+      - SPRING_JPA_PROPERTIES_HIBERNATE_GLOBALLY_QUOTED_IDENTIFIERS=true
+      - SPRING_JPA_PROPERTIES_HIBERNATE-GLOBALLY_QUOTED_IDENTIFIERS_SKIP_COLUMN_DEFINITIONS=true
+#      - SPRING_JPA_PROPERTIES_JAKARTA_PERSISTENCE.SCHEMA-GENERATION_CREATE-SOURCE=metadata <- this property is optional
+#      - SPRING_JPA_PROPERTIES_JAKARTA_PERSISTENCE.SCHEMA-GENERATION_SCRIPTS_ACTION=create <- this property is optional
+#      - SPRING_JPA_PROPERTIES_JAKARTA_PERSISTENCE.SCHEMA-GENERATION_SCRIPTS_CREATE-TARGET=create.sql <- this property is optional
+#      - SPRING_JPA_PROPERTIES_JAKARTA_PERSISTENCE.SCHEMA-GENERATION_SCRIPTS_DROP-TARGET=drop.sql <- this property is optional
+#      - SPRING_JPA_PROPERTIES_JAKARTA_PERSISTENCE.SCHEMA-GENERATION_DATABASE_ACTION=drop-and-create <- this property is optional
+      - SPRING_DATASOURCE_DRIVER-CLASS=com.mysql.jdbc.Driver
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mariadb/identities?useSSL=false
+      - SPRING_DATASOURCE_USERNAME=iridium
+      - SPRING_DATASOURCE_PASSWORD=sug4rn3ss&
+      - SPRING_DATASOURCE_TOMCAT_MAX-ACTIVE=5
+      - SPRING_DATASOURCE_TEST-WHILE-IDLE=true
+      - SPRING_DATASOURCE_VALIDATION_QUERY=SELECT 1 FROM DUEL
+      - SPRING_DATASOURCE_VALIDATION_INTERVAL=180000
+      - PASSWORD_RESET_TOKEN_LIFETIME_HOURS=4
+      - SOFTWARE.IRIDIUM.PASSWORDRESET.CLIENT.BASEURL=http://localhost:8381/
+      - SOFTWARE.IRIDIUM.EMAILNOTIFICATION.CLIENT.BASEURL=http://localhost:8381/
+      - SOFTWARE.IRIDIUM.API.TTL.MINUTES=30
+      - SERVER_ERROR_WHITELABEL_ENABLED=false
+      - SPRING_MAIL_FROM_ADDRESS=noreply@yourdomain.com
+      - SPRING_THYMELEAF_PREFIX=classpath:/templates/
+      - SPRING_THYMELEAF_SUFFIX=.html
+      - SPRING_MAIL_HOST=someMailHost
+      - SPRING_MAIL_USERNAME=mailUsername
+      - SPRING_MAIL_PASSWORD=mailPassword
+      - SPRING_MAIL_PROPERTIES_MAIL_TRANSPORT_PROTOCOL=smtp
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_PORT=465
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED=true
 ```
 

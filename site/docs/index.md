@@ -1,4 +1,5 @@
-# Open Source Identity Management
+# Customer Identity and Access Management
+
 
 ![iridium](images/iridiumxl.png "Iridium")
 
