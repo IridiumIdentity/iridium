@@ -35,13 +35,14 @@
 
     <properties>
       <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
-      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
-      <property name="jakarta.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+      <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
       <property name="hibernate.show_sql" value="false" />
       <property name="hibernate.transaction.flush_before_completion" value="true" />
       <property name="hibernate.hbm2ddl.delimiter" value=";"/>
       <property name="hibernate.id.new_generator_mappings" value="true"/>
       <property name="toplink.logging.level" value="OFF"/>
+      <property name="spring.jpa.show-sql" value="false"/>
 
     </properties>
   </persistence-unit>
