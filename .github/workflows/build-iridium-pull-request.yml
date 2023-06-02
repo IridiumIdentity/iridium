@@ -39,6 +39,9 @@ jobs:
        uses: actions/setup-node@v3
        with:
          node-version: '18.x'
+     - name: install node deps
+       run: npm ci
+       working-directory: ./iridium-angular-client
      - name: build angular clients
        run: npm run build-all
        working-directory: ./iridium-angular-client
