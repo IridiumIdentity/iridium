@@ -21,5 +21,9 @@ jobs:
         working-directory: ./site
       - run: pip install mike
         working-directory: ./site
-      - run: mike deploy --push --update-aliases  0.1.0-beta latest
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@iridium.software
+          mike deploy --push --update-aliases  0.1.0-beta latest
+
         working-directory: ./site
