@@ -3,6 +3,7 @@ repo_url: https://github.com/IridiumIdentity/iridium
 
 plugins:
   - search
+  - mike
 theme:
   name: material
   custom_dir: overrides
