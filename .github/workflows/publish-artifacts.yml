@@ -1,7 +1,8 @@
-name: Create and publish iridium core server docker image
+name: Publish iridium artifacts based on a tag
 
 on:
   push:
+
     tags: [ "v*" ]
 
 env:
@@ -17,7 +18,7 @@ jobs:
       packages: write
 
     steps:
-      - name: Checkout repository and set version
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: set version
@@ -37,10 +38,29 @@ jobs:
           java-package: jdk
           architecture: x64
           server-id: maven
-      - run: ./tools/scripts/build-docker.sh ${{ env.NAMESPACE }} ${{ env.IMAGE_NAME }}
+
+      - name: build docker image
+        run: ./tools/scripts/build-docker.sh ${{ env.NAMESPACE }} ${{ env.IMAGE_NAME }}
+
       - name: upload tar.gz
         uses: actions/upload-artifact@v3
         with:
           name: iridium-${{ env.version }}-bin
           path: iridium-cli/target/iridium-*-bin.tar.gz
+
+      - name: set up node 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@iridiumidentity'
+      - name: build ngx-iridium-client
+        run: ng build ngx-iridium-client
+        working-directory: ./iridium-angular-client
+      - name: publish library
+        run: npm publish
+        working-directory: ./iridium-angular-client
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
