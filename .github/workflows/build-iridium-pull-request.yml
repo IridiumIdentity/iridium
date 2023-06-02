@@ -35,6 +35,13 @@ jobs:
          architecture: x64
          server-id: maven
      - run: mvn clean package
+     - name: set up node 18
+       uses: actions/setup-node@v3
+       with:
+         node-version: '18.x'
+     - name: build angular clients
+       run: npm run build-all
+       working-directory: ./iridium-angular-client
 
      
       
