@@ -6,6 +6,7 @@ iridium-email-server/src/main/resources/application.properties
 tools/images/iridium-core-server*.jar
 iridium-core-server-*.jar
 iridium-*-bin
+iridium-*-bin.tar.gz
 # generated sql
 create.sql
 drop.sql
