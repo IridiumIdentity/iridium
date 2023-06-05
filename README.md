@@ -19,7 +19,7 @@ We are just getting started!
 
 ## Why build Iridium?
 
-Ever hear the statement "Don't roll your own auth".  Authentication/Authorization
+Ever hear the statement "Don't roll your own auth"?  Authentication/Authorization
 is a problem that must be solved for all applications to function securely. But that doesn't mean it should require you
 to be stuck with vendor lock-in. We've used other providers and found that the biggest issue when things go wrong is
 the options for support are minimal, communities don't exist, and because of this people are often left making best guesses
