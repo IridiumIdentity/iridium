@@ -16,8 +16,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.email.domain.EmailSendRequest;
 import software.iridium.api.instantiator.EmailSendRequestInstantiator;
+import software.iridium.api.repository.ApplicationEntityRepository;
+import software.iridium.api.repository.TenantEntityRepository;
 import software.iridium.api.service.EmailService;
 import software.iridium.entity.IdentityEntity;
 
@@ -27,15 +30,35 @@ public class NewIdentityEventHandler {
 
   @Autowired private EmailService emailService;
 
+  @Autowired private ApplicationEntityRepository applicationRepository;
+
+  @Autowired private TenantEntityRepository tenantRepository;
+
   @Value("${software.iridium.emailNotification.client.baseUrl}")
   private String verifyEmailLink;
 
   public void handleEvent(final IdentityEntity identity, final String clientId) {
     Map<String, Object> props = new HashMap<>();
     final var primaryEmail = identity.getPrimaryEmail();
+    // todo (josh fischer) this is where we start to split the API apart
+    final var application =
+        applicationRepository
+            .findByClientId(clientId)
+            .orElseThrow(
+                () ->
+                    new ResourceNotFoundException(
+                        "application not found for clientId: " + clientId));
+
+    final var tenant =
+        tenantRepository
+            .findById(application.getTenantId())
+            .orElseThrow(
+                () -> new ResourceNotFoundException("tenant not found in clientId: " + clientId));
+
     props.put(
         "verifyEmailLink",
         verifyEmailLink + "login?id=" + primaryEmail.getEmailAddress() + "&client_id=" + clientId);
+    props.put("tenantName", tenant.getSubdomain());
     final var emailRequest = new EmailSendRequest();
     emailService.send(
         emailSendRequestInstantiator.instantiate(
