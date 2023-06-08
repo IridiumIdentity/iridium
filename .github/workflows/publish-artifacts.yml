@@ -65,7 +65,7 @@ jobs:
         working-directory: ./iridium-angular-client
       - name: publish library
         run: npm publish
-        working-directory: ./iridium-angular-client
+        working-directory: ./iridium-angular-client/ngx-iridium-client
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
