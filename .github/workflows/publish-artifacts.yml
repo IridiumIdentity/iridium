@@ -54,8 +54,11 @@ jobs:
           node-version: '18.x'
           registry-url: 'https://npm.pkg.github.com'
           scope: '@iridiumidentity'
-      - name: install angular deps
-        run: npm install
+      - name: install angular cli
+        run: npm install @angular/cli@15
+        working-directory: ./iridium-angular-client
+      - name: npm install deps
+        run:  npm install
         working-directory: ./iridium-angular-client
       - name: build ngx-iridium-client
         run: ng build ngx-iridium-client
