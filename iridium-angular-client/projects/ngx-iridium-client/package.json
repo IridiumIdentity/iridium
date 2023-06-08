@@ -1,6 +1,6 @@
 {
   "name": "@iridiumidentity/ngx-iridium-client",
-  "version": "0.1.0-beta",
+  "version": "0.1.1",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
