@@ -379,8 +379,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tell-me-more-about-the-code-structure" class="md-nav__link">
-    Tell me more about the code structure
+  <a href="#tell-me-more-about-the-database-entities" class="md-nav__link">
+    Tell me more about the database entities
   </a>
   
 </li>
@@ -621,8 +621,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tell-me-more-about-the-code-structure" class="md-nav__link">
-    Tell me more about the code structure
+  <a href="#tell-me-more-about-the-database-entities" class="md-nav__link">
+    Tell me more about the database entities
   </a>
   
 </li>
@@ -678,21 +678,10 @@
 <p>Iridium has been built with simplicity in the front of our minds as we build as flexible a model as we can. Iridium is served from a single jar tied to a relational database. 
 The system expects specific seed data to exist in the database to allow for the system to successfully authenticate, authorize, and provision access tokens to your users.</p>
 <p><img alt="iridium system overview" src="../../images/iridium-overview.png" title="iridium system overview" /></p>
-<h2 id="tell-me-more-about-the-code-structure">Tell me more about the code structure</h2>
-<p>The project is a multi-module Maven project.  There are a few top level folders to be aware of, we will add descriptions below. As the project progresses, expect to find different languages across the code base.  The server-side implementation is in Java, but there will need to be many frameworks, languages, and clients we will add support for.</p>
-<p>The modules to understand at  the moment are:</p>
-<ul>
-<li><code>iridium-cli</code></li>
-<li>The is management CLI for iridium.  Consider this module experimental</li>
-<li><code>iridium-client</code></li>
-<li>This is the spring implementation for a few RESTful endpoints to interact with iridium.   This module will be changed to support several languages.</li>
-<li><code>iridium-core-server</code></li>
-<li>This is the core authorization and authentication server based on the 0Auth 2.x specification</li>
-<li><code>iridium-server-base</code></li>
-<li>This is a reusable module for database entities and components across the system.</li>
-<li>infra</li>
-<li>This is a folder that contains iridium deployment-related resources</li>
-</ul>
+<h2 id="tell-me-more-about-the-database-entities">Tell me more about the database entities</h2>
+<p>As Iridium is a configurable system, there are many details to go through.  At a high level, the important database relationships 
+are below as follows:</p>
+<p><img alt="iridium entity relationships" src="../../images/entity-relationship-view.png" /></p>
 
 
   

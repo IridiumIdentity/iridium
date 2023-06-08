@@ -407,9 +407,40 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          3. Initialize the Iridium Database
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         3. Initialize the Iridium Database
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#initialize-with-iridium-with-github-login" class="md-nav__link">
+    Initialize with Iridium with Github Login
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -533,6 +564,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#initialize-with-iridium-with-github-login" class="md-nav__link">
+    Initialize with Iridium with Github Login
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -554,20 +600,48 @@
 to execute this task.  This document assumes you have downloaded and unpacked the binary distribution of Iridium in a
 previous step as detail <a href="../2.Install-the-CLI/">here</a>.</p>
 <p>To initialize the database execute the following command.  Again we are expecting you to be in the top level folder of 
-expanded tar.gz distribution you downloaded and unpacked earlier.  In this example we are passing the flag to allow users to register 
-with the Iridium tenant using github by passing the flag <code>--allow-github=true</code>.</p>
-<pre><code class="language-shell">$ ./bin/iridium init \
-  --host=localhost \
-  --port=3306 \
-  --user=root \
-  --allow-github=true \
-  --password
+expanded tar.gz distribution you downloaded and unpacked earlier.  </p>
+<pre><code class="language-shell">$ ./bin/iridium  init \
+--host=localhost \
+--port=3306 \
+--user=root \
+--password \
+--admin-password \
+--admin-email=you@somewhere.com
 </code></pre>
 <p>The CLI tool should prompt your for the database password.  Enter the password you configured upon standing up
 the database.</p>
 <pre><code class="language-shell">$ Enter value for --password (the database password): 
 </code></pre>
-<p>Next the CLI will prompt for a Github Oauth application credentials.  If you don't have a github application ready to use,
+<p>Next, it will ask for your admin user password.  This is the password you will use along with the admin-email you passed
+to login to the management UI</p>
+<pre><code class="language-shell">$ Enter value for --admin-password (the admin password):
+</code></pre>
+<p>Upon successful initialization of the database you'll see similar output </p>
+<pre><code class="language-shell">06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - ########################################
+06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - Database successfully initialized
+06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - ########################################
+06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - Iridium Management Application ID is ${someApplicationId}
+06:22:59.885 [main] INFO  software.iridium.cli.command.InitCommand - Be sure to place this in the appropriate environment.ts file
+</code></pre>
+<h3 id="initialize-with-iridium-with-github-login">Initialize with Iridium with Github Login</h3>
+<p>If you want to allow users to login to the Iridium Management app with their Github account you can allow this here 
+following the directions below:</p>
+<p>Again we are expecting you to be in the top level folder of
+expanded tar.gz distribution you downloaded and unpacked earlier. In this example, we are passing the flag to allow users to register
+with the Iridium tenant using GitHub by passing the flag <code>--allow-github=true</code>.</p>
+<pre><code class="language-shell">$ ./bin/iridium  init \
+--host=localhost \
+--port=3306 \
+--user=root \
+--allow-github=true \
+--password 
+</code></pre>
+<p>The CLI tool should prompt your for the database password.  Enter the password you configured upon standing up
+the database.</p>
+<pre><code class="language-shell">$ Enter value for --password (the database password): 
+</code></pre>
+<p>Next the CLI will prompt for a GitHub Oauth application credentials.  If you don't have a GitHub application ready to use,
 you can <a href="../create-github-application/">follow the directions here to create one</a></p>
 <p>Enter your Github OAuth application id</p>
 <pre><code class="language-shell">$ Enter value for github client id: my-client-id
@@ -575,16 +649,17 @@ you can <a href="../create-github-application/">follow the directions here to cr
 <p>Enter your Github OAuth application secret</p>
 <pre><code class="language-shell">$ Enter value for github client secret: my-client-secret
 </code></pre>
-<p>Upon successful execution of the command you'll see similar output </p>
-<pre><code class="language-shell">06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - ########################################
-06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - Database successfully initialized
-06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - ########################################
-06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - Iridium Management Application ID is xd4rtddkthdfh234r
-06:22:59.885 [main] INFO  software.iridium.cli.command.InitCommand - Be sure to place this in the appropriate environment.ts file
-</code></pre>
-<p>From here, you should be able to log in to the Iridium Management UI using your Github account. At this point you've 
-stood up the system, with tenant for managing Iridium. At this point you can start to create your own tenant and applications
+<p>From here, you should be able to log in to the Iridium Management UI using your GitHub account. At this point you've 
+stood up the system with an Iridium tenant for and application for managing Iridium. At this point you can start to create your own tenant and applications
 in Iridium to be secured. </p>
+<p>Next the CLI will prompt for a GitHub Oauth application credentials.  If you don't have a GitHub application ready to use,
+you can <a href="../create-github-application/">follow the directions here to create one</a></p>
+<p>Enter your Github OAuth application id</p>
+<pre><code class="language-shell">$ Enter value for github client id: my-client-id
+</code></pre>
+<p>Enter your Github OAuth application secret</p>
+<pre><code class="language-shell">$ Enter value for github client secret: my-client-secret
+</code></pre>
 
 
   

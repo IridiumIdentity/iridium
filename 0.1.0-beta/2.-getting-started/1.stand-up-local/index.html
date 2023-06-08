@@ -605,15 +605,6 @@
 <li><a href="https://www.docker.com/">Docker</a></li>
 </ul>
 <p>Iridium is dependent on an RDBMS system such as <a href="https://www.mysql.com/">MySQL</a> or <a href="https://mariadb.org/">MariaDB</a>.</p>
-<p><strong>Note</strong>: Currently, the management UI is managed by separate build process.  In future revisions will work to consolidate the
-separate build processes into easier to manage commands.  You can build the management UI by following the commands below.
-All commands are assuming you are starting at the top level directory of the Iridium project.  We will work to improve 
-this build process in future releases.</p>
-<pre><code class="language-shell">$ cd iridium-angular-client
-$ npm install
-$ ng build ngx-iridium-client
-$ ng serve
-</code></pre>
 <p>We will use Docker Compose to simplify the setup process.  </p>
 <p>Clone the repo</p>
 <pre><code class="language-shell">$ git clone git@github.com:IridiumIdentity/iridium.git
@@ -624,7 +615,7 @@ $ ng serve
 <p>Stand up mariadb, the latest version of the core iridium server, and the admin UI.</p>
 <pre><code class="language-shell">$ docker-compose -f tools/schedulers/compose/local-iridium-compose.yml up -d
 </code></pre>
-<p>At this point you have a version of the Iridium core server, an instance of an RDBMS system, and the Iridium management UI.
+<p>At this point you have a version of the Iridium core server, an instance of MariaDB, and the Iridium management UI.
 We still need to init the database with specific data for Iridium to function. </p>
 <p><a href="../2.Install-the-CLI/">Follow the steps here to install the CLI.</a></p>
 
