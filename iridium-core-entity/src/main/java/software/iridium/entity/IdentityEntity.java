@@ -40,14 +40,14 @@ public class IdentityEntity extends AbstractEntity {
   @Column(name = "requires_password_change", nullable = false)
   private Boolean requiresPasswordChange = false;
 
-  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
       name = "tenants_identities_xref",
       joinColumns = {@JoinColumn(name = "identity_id")},
       inverseJoinColumns = {@JoinColumn(name = "tenant_id")})
   private List<TenantEntity> managedTenants = new ArrayList<>();
 
-  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
       name = "identities_applications",
       joinColumns = @JoinColumn(name = "identity_id"),

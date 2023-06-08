@@ -37,6 +37,17 @@ public class InitCommand implements Runnable {
   private char[] password;
 
   @Option(
+      names = {"-x", "--admin-password"},
+      description = "the admin password",
+      interactive = true)
+  private char[] adminPassword;
+
+  @Option(
+      names = {"-e", "--admin-email"},
+      description = "the admin email")
+  private String adminEmail;
+
+  @Option(
       names = {"-u", "--user"},
       description = "the database user")
   private String user;
@@ -48,7 +59,8 @@ public class InitCommand implements Runnable {
 
   @Option(
       names = {"-g", "--allow-github"},
-      description = "allow github login")
+      description = "allow github login",
+      defaultValue = "false")
   private Boolean allowGithub;
 
   private String githubClientId;
@@ -72,6 +84,9 @@ public class InitCommand implements Runnable {
       final var applicationTypes = ApplicationTypeGenerator.generateApplicationTypes(entityManager);
 
       final TenantEntity iridiumTenant = TenantGenerator.generateTenant(entityManager);
+
+      LocalIdentityGenerator.generate(
+          iridiumTenant, String.valueOf(adminPassword), adminEmail, entityManager);
 
       LoginDescriptorGenerator.generateLoginDescriptor(entityManager, iridiumTenant);
 

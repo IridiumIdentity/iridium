@@ -34,19 +34,13 @@ The system expects specific seed data to exist in the database to allow for the 
 
 ![iridium system overview](../images/iridium-overview.png "iridium system overview")
 
-## Tell me more about the code structure
-The project is a multi-module Maven project.  There are a few top level folders to be aware of, we will add descriptions below. As the project progresses, expect to find different languages across the code base.  The server-side implementation is in Java, but there will need to be many frameworks, languages, and clients we will add support for.
+## Tell me more about the database entities
+As Iridium is a configurable system, there are many details to go through.  At a high level, the important database relationships 
+are below as follows:
 
-The modules to understand at  the moment are:
+![iridium entity relationships](../images/entity-relationship-view.png)
 
- * `iridium-cli`
-   * The is management CLI for iridium.  Consider this module experimental
- * `iridium-client`
-   * This is the spring implementation for a few RESTful endpoints to interact with iridium.   This module will be changed to support several languages.
- * `iridium-core-server`
-   * This is the core authorization and authentication server based on the 0Auth 2.x specification
- * `iridium-server-base`
-   * This is a reusable module for database entities and components across the system.
- * infra
-   * This is a folder that contains iridium deployment-related resources
+
+
+
 

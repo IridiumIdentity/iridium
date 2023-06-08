@@ -12,7 +12,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: iridium
       MYSQL_DATABASE: identities
-      MYSQL_USER: identity-api
+      MYSQL_USER: iridium
       MYSQL_PASSWORD: "sug4rn3ss&"
     networks:
       - iridium

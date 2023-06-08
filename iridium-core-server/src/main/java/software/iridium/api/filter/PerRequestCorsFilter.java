@@ -39,7 +39,7 @@ public class PerRequestCorsFilter extends OncePerRequestFilter {
       final FilterChain filterChain)
       throws ServletException, IOException {
     // todo (josh fischer) make this configurable
-    response.addHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+    response.addHeader("Access-Control-Allow-Origin", "*");
 
     logger.info("Sending Header....");
     response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, HEAD, DELETE, OPTIONS");
