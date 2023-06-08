@@ -18,12 +18,12 @@ mvn package -Dmaven.test.skip=true
 
 mv iridium-core-server/target/iridium-core-server-*.jar ./
 
-docker build -t ghcr.io/$namespace/$image_name:$version -f tools/images/Dockerfile.core .
+docker build -t $namespace/$image_name:$version -f tools/images/Dockerfile.core .
 
-docker tag ghcr.io/$namespace/$image_name:$version ghcr.io/$namespace/$image_name:latest
+docker tag $namespace/$image_name:$version $namespace/$image_name:latest
 
-docker push ghcr.io/$namespace/iridium-core-server:$version
+docker push $namespace/iridium-core-server:$version
 
-docker push ghcr.io/$namespace/$image_name:latest
+docker push $namespace/$image_name:latest
 
 
