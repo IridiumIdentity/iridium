@@ -174,7 +174,7 @@ public class AuthorizationService {
 
     final var authentication =
         authenticationRepository
-            .findFirstByAuthTokenAndExpirationAfter(
+            .findByAuthTokenAndExpirationAfter(
                 formRequest.getUserToken(), Calendar.getInstance().getTime())
             .orElseThrow(NotAuthorizedException::new);
 
@@ -362,7 +362,7 @@ public class AuthorizationService {
       final var codeVerifier = params.get(AuthorizationCodeFlowConstants.CODE_VERIFIER.getValue());
       // check code_verifier / pkce
       if (authorizationCode.getCodeChallengeMethod().equals(CodeChallengeMethod.S256)) {
-        // todo UrlEncoding is adding == for some reason.  Not sure.  Need to look into this.
+        // todo UrlEncoding is adding ==.  Need to address at some point.
         final String otherOutStr =
             Base64.getUrlEncoder()
                 .encodeToString(sha256Hasher.hash(codeVerifier).getBytes(StandardCharsets.UTF_8))

@@ -430,7 +430,7 @@ class AuthorizationServiceTest {
     when(mockApplicationRepository.findByClientId(same(clientId)))
         .thenReturn(Optional.of(application));
     when(mockTenantRepository.findBySubdomain(eq("iridium"))).thenReturn(Optional.of(tenant));
-    when(mockAuthenticationRepository.findFirstByAuthTokenAndExpirationAfter(
+    when(mockAuthenticationRepository.findByAuthTokenAndExpirationAfter(
             same(userToken), any(Date.class)))
         .thenReturn(Optional.of(authentication));
     when(mockRequestParameterValidator.validateAndOptionallyRedirect(
@@ -455,7 +455,7 @@ class AuthorizationServiceTest {
     verify(mockSubdomainExtractor).extract(eq(requestUrl));
     verify(mockTenantRepository).findBySubdomain(eq("iridium"));
     verify(mockAuthenticationRepository)
-        .findFirstByAuthTokenAndExpirationAfter(same(userToken), any(Date.class));
+        .findByAuthTokenAndExpirationAfter(same(userToken), any(Date.class));
     verify(mockApplicationRepository).findByClientId(same(clientId));
     verify(mockRequestParameterValidator)
         .validateAndOptionallyRedirect(same(redirectUri), same(params));
@@ -492,7 +492,7 @@ class AuthorizationServiceTest {
     when(mockServletRequest.getRequestURL()).thenReturn(urlStrBuffer);
     when(mockSubdomainExtractor.extract(eq(requestUrl))).thenReturn(subdomain);
     when(mockTenantRepository.findBySubdomain(same(subdomain))).thenReturn(Optional.of(tenant));
-    when(mockAuthenticationRepository.findFirstByAuthTokenAndExpirationAfter(
+    when(mockAuthenticationRepository.findByAuthTokenAndExpirationAfter(
             same(userToken), any(Date.class)))
         .thenReturn(Optional.of(authentication));
     when(mockApplicationRepository.findByClientId(same(clientId)))
@@ -510,7 +510,7 @@ class AuthorizationServiceTest {
     verify(mockSubdomainExtractor).extract(eq(requestUrl));
     verify(mockTenantRepository).findBySubdomain(same(subdomain));
     verify(mockAuthenticationRepository)
-        .findFirstByAuthTokenAndExpirationAfter(same(userToken), any(Date.class));
+        .findByAuthTokenAndExpirationAfter(same(userToken), any(Date.class));
     verify(mockApplicationRepository).findByClientId(same(clientId));
     verify(mockAttributeValidator).isNotBlank(same(redirectUri));
     verify(mockAttributeValidator).equals(same(redirectUri), same(redirectUri));
@@ -542,7 +542,7 @@ class AuthorizationServiceTest {
     when(mockServletRequest.getRequestURL()).thenReturn(urlStrBuffer);
     when(mockSubdomainExtractor.extract(eq(requestUrl))).thenReturn(subdomain);
     when(mockTenantRepository.findBySubdomain(same(subdomain))).thenReturn(Optional.of(tenant));
-    when(mockAuthenticationRepository.findFirstByAuthTokenAndExpirationAfter(
+    when(mockAuthenticationRepository.findByAuthTokenAndExpirationAfter(
             same(userToken), any(Date.class)))
         .thenReturn(Optional.of(authentication));
     when(mockApplicationRepository.findByClientId(same(clientId))).thenReturn(Optional.empty());
@@ -557,7 +557,7 @@ class AuthorizationServiceTest {
     verify(mockSubdomainExtractor).extract(eq(requestUrl));
     verify(mockTenantRepository).findBySubdomain(same(subdomain));
     verify(mockAuthenticationRepository)
-        .findFirstByAuthTokenAndExpirationAfter(same(userToken), any(Date.class));
+        .findByAuthTokenAndExpirationAfter(same(userToken), any(Date.class));
     verify(mockApplicationRepository).findByClientId(same(clientId));
     assertThat(
         exception.getMessage(), is(equalTo("application not found for client_id: " + clientId)));

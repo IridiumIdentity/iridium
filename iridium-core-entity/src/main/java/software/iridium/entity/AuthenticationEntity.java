@@ -32,9 +32,7 @@ public class AuthenticationEntity implements Serializable {
   @Column(name = "id", length = 36, nullable = false)
   private String id;
 
-  @ManyToOne(
-      cascade = {CascadeType.PERSIST},
-      optional = false)
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "identity_id")
   private IdentityEntity identity;
 

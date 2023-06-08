@@ -34,8 +34,14 @@ public class NewIdentityEventHandler {
 
   @Autowired private TenantEntityRepository tenantRepository;
 
-  @Value("${software.iridium.emailNotification.client.baseUrl}")
-  private String verifyEmailLink;
+  //  @Value("${software.iridium.emailNotification.client.baseUrl}")
+  //  private String verifyEmailLink;
+
+  @Value("${server.port}")
+  private String port;
+
+  @Value("${run.profile:prod}")
+  private String runProfile;
 
   public void handleEvent(final IdentityEntity identity, final String clientId) {
     Map<String, Object> props = new HashMap<>();
@@ -55,9 +61,15 @@ public class NewIdentityEventHandler {
             .orElseThrow(
                 () -> new ResourceNotFoundException("tenant not found in clientId: " + clientId));
 
+    var baseEmailUrl = "";
+    if (runProfile.equalsIgnoreCase("local")) {
+      baseEmailUrl = "http://localhost:" + port + "/";
+    } else {
+      baseEmailUrl = "http://" + tenant.getSubdomain() + ".iridium.software/";
+    }
     props.put(
         "verifyEmailLink",
-        verifyEmailLink + "login?id=" + primaryEmail.getEmailAddress() + "&client_id=" + clientId);
+        baseEmailUrl + "login?id=" + primaryEmail.getEmailAddress() + "&client_id=" + clientId);
     props.put("tenantName", tenant.getSubdomain());
     final var emailRequest = new EmailSendRequest();
     emailService.send(

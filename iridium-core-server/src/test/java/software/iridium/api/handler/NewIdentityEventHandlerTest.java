@@ -25,6 +25,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 import software.iridium.api.email.domain.EmailSendRequest;
 import software.iridium.api.instantiator.EmailSendRequestInstantiator;
 import software.iridium.api.repository.ApplicationEntityRepository;
@@ -57,6 +58,8 @@ class NewIdentityEventHandlerTest {
 
   @Test
   public void handleEvent_AllGood_HandlesAsExpected() {
+    ReflectionTestUtils.setField(subject, "runProfile", "local");
+
     final var primaryEmail = new IdentityEmailEntity();
     primaryEmail.setPrimary(true);
     final var identity = new IdentityEntity();

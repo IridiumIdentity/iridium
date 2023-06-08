@@ -26,6 +26,7 @@ services:
       - LOGGING_LEVEL_SOFTWARE_IRIDIUM=DEBUG
       - SPRING_JMX_ENABLED=false
       - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB=DEBUG
+      - RUN_PROFILE=local
       - SPRING_MVC_LOG-REQUEST-DETAILS=true
       - SPRING_MVC_DISPATCH-OPTIONS-REQUEST=true
       - SPRING_JPA_HIBERNATE_SHOW_SQL=false
@@ -54,14 +55,14 @@ services:
       - SPRING_MAIL_FROM_ADDRESS=noreply@yourdomain.com
       - SPRING_THYMELEAF_PREFIX=classpath:/templates/
       - SPRING_THYMELEAF_SUFFIX=.html
-      - SPRING_MAIL_HOST=someMailHost
+      - SPRING_MAIL_HOST=fake-smtp
       - SPRING_MAIL_USERNAME=mailUsername
       - SPRING_MAIL_PASSWORD=mailPassword
       - SPRING_MAIL_PROPERTIES_MAIL_TRANSPORT_PROTOCOL=smtp
-      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_PORT=465
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_PORT=8025
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
-      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED=true
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED=false
     networks:
       - iridium
 
@@ -79,6 +80,10 @@ services:
       MYSQL_PASSWORD: sug4rn3ss&
     networks:
       - iridium
+  fake-smtp:
+    image: gessnerfl/fake-smtp-server
+    ports:
+      - "8080:8080"
 
 networks:
   iridium:
