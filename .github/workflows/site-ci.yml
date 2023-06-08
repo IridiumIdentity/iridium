@@ -25,6 +25,6 @@ jobs:
           git fetch origin gh-pages --depth=1
           git config user.name github-actions
           git config user.email github-actions@iridium.software
-          mike deploy --push --update-aliases  0.1.0-beta latest
+          mike deploy --push DRAFT
 
         working-directory: ./site
