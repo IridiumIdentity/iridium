@@ -6,7 +6,6 @@ on:
     tags: [ "v*" ]
 
 env:
-  REGISTRY: ghcr.io
   NAMESPACE: iridiumidentity
   IMAGE_NAME: iridium-core-server
 
@@ -28,9 +27,8 @@ jobs:
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_SECRET }}
 
       - uses: actions/setup-java@v1.4.4
         with:
