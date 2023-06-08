@@ -55,7 +55,7 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@iridiumidentity'
       - name: install angular cli
-        run: npm install @angular/cli@15
+        run: npm install -g @angular/cli@15
         working-directory: ./iridium-angular-client
       - name: npm install deps
         run:  npm install
