@@ -45,17 +45,25 @@ public class ApplicationEntity extends AbstractEntity {
   @Column(name = "client_id", length = 32, nullable = false)
   private String clientId;
 
-  @ManyToMany(mappedBy = "authorizedApplications")
+  @ManyToMany(mappedBy = "authorizedApplications", fetch = FetchType.LAZY)
   private Set<IdentityEntity> identities = new HashSet<>();
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "application_type_id")
   private ApplicationTypeEntity applicationType;
 
-  @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(
+      mappedBy = "application",
+      cascade = CascadeType.ALL,
+      orphanRemoval = true,
+      fetch = FetchType.LAZY)
   private List<ClientSecretEntity> clientSecrets = new ArrayList<>();
 
-  @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(
+      mappedBy = "application",
+      cascade = CascadeType.ALL,
+      orphanRemoval = true,
+      fetch = FetchType.LAZY)
   private List<ScopeEntity> scopes = new ArrayList<>();
 
   public String getName() {

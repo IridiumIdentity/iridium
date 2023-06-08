@@ -51,6 +51,10 @@ public class SecurityConfig {
                         "/oauth/external/authorize",
                         "/identities",
                         "/authorize",
+                        "/authenticate",
+                        "oauth/authorize",
+                        "register",
+                        "reset-password",
                         "/oauth/token")
                     .permitAll()
                     .anyRequest()

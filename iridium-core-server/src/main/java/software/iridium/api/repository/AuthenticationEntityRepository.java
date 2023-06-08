@@ -21,6 +21,6 @@ public interface AuthenticationEntityRepository
 
   Optional<AuthenticationEntity> findFirstByIdentityIdOrderByCreatedDesc(final String userId);
 
-  Optional<AuthenticationEntity> findFirstByAuthTokenAndExpirationAfter(
+  Optional<AuthenticationEntity> findByAuthTokenAndExpirationAfter(
       final String token, final Date now);
 }
