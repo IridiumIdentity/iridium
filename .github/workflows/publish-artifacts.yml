@@ -6,7 +6,6 @@ on:
     tags: [ "v*" ]
 
 env:
-  REGISTRY: ghcr.io
   NAMESPACE: iridiumidentity
   IMAGE_NAME: iridium-core-server
 
@@ -28,9 +27,8 @@ jobs:
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_SECRET }}
 
       - uses: actions/setup-java@v1.4.4
         with:
@@ -52,15 +50,20 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@iridiumidentity'
+          registry-url: 'https://registry.npmjs.org'
+      - name: install angular cli
+        run: npm install -g @angular/cli@15
+        working-directory: ./iridium-angular-client
+      - name: npm install deps
+        run:  npm install
+        working-directory: ./iridium-angular-client
       - name: build ngx-iridium-client
         run: ng build ngx-iridium-client
         working-directory: ./iridium-angular-client
       - name: publish library
-        run: npm publish
-        working-directory: ./iridium-angular-client
+        run: npm publish --access public
+        working-directory: ./iridium-angular-client/projects/ngx-iridium-client
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 

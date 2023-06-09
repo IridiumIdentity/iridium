@@ -19,7 +19,7 @@
 
     <artifactId>iridium</artifactId>
     <groupId>software.iridium</groupId>
-    <version>0.1.0-beta</version>
+    <version>0.1.1</version>
 
     <developers>
         <developer>
