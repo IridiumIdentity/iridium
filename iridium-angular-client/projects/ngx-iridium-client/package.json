@@ -1,6 +1,6 @@
 {
   "name": "@iridiumidentity/ngx-iridium-client",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "Apache-2.0",
   "author": "Josh Fischer <josh@joshfischer.io>",
   "repository": "git@github.com:IridiumIdentity/iridium.git",
