@@ -12,14 +12,14 @@
         <link rel="prev" href="../../1.-overview/overview/">
       
       
-        <link rel="next" href="../2.Install-the-CLI/">
+        <link rel="next" href="../2.stand-up-local/">
       
       <link rel="icon" href="../../images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.6">
     
     
       
-        <title>1. Stand up a locally - Iridium</title>
+        <title>Install the CLI - Iridium</title>
       
     
     
@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#1-stand-up-a-locally" class="md-skip">
+        <a href="#install-the-cli" class="md-skip">
           Skip to content
         </a>
       
@@ -153,7 +153,7 @@
                 <div class="md-header__topic" data-md-component="header-topic">
 <!--          <span class="md-ellipsis">-->
 <!--            -->
-<!--              1. Stand up a locally-->
+<!--              Install the CLI-->
 <!--            -->
 <!--          </span>-->
                 </div>
@@ -382,12 +382,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          1. Stand up a locally
+          Install the CLI
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        1. Stand up a locally
+        Install the CLI
       </a>
       
         
@@ -406,8 +406,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    Prerequisites
+  <a href="#youll-need-the-node-18x-and-java-jre-17-to-run-iridium-locally" class="md-nav__link">
+    You'll need the node 18.x and Java JRE 17 to run iridium locally
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#download-the-release-package" class="md-nav__link">
+    Download the release package:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unzip-the-package" class="md-nav__link">
+    Unzip the package
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-installation" class="md-nav__link">
+    Verify Installation
   </a>
   
 </li>
@@ -427,8 +448,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../2.Install-the-CLI/" class="md-nav__link">
-        2.Install the CLI
+      <a href="../2.stand-up-local/" class="md-nav__link">
+        Stand up a locally
       </a>
     </li>
   
@@ -442,7 +463,7 @@
   
     <li class="md-nav__item">
       <a href="../3.initialize-iridium/" class="md-nav__link">
-        3. Initialize the Iridium Database
+        Initialize the Iridium Database
       </a>
     </li>
   
@@ -573,8 +594,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    Prerequisites
+  <a href="#youll-need-the-node-18x-and-java-jre-17-to-run-iridium-locally" class="md-nav__link">
+    You'll need the node 18.x and Java JRE 17 to run iridium locally
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#download-the-release-package" class="md-nav__link">
+    Download the release package:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unzip-the-package" class="md-nav__link">
+    Unzip the package
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-installation" class="md-nav__link">
+    Verify Installation
   </a>
   
 </li>
@@ -597,29 +639,32 @@
   
 
 
-<h1 id="1-stand-up-a-locally">1. Stand up a locally</h1>
-<h3 id="prerequisites">Prerequisites</h3>
-<p>You will need.</p>
-<ul>
-<li><a href="https://nodejs.org/en">Node 18</a></li>
-<li><a href="https://adoptium.net/">Java 17</a></li>
-<li><a href="https://maven.apache.org/">Maven 3.8.4</a> or greater</li>
-<li><a href="https://www.docker.com/">Docker</a></li>
-</ul>
-<p>Iridium is dependent on an RDBMS system such as <a href="https://www.mysql.com/">MySQL</a> or <a href="https://mariadb.org/">MariaDB</a>.</p>
-<p>We will use Docker Compose to simplify the setup process.  </p>
-<p>Clone the repo</p>
-<pre><code class="language-shell">$ git clone git@github.com:IridiumIdentity/iridium.git
+<h1 id="install-the-cli">Install the CLI</h1>
+<h3 id="youll-need-the-node-18x-and-java-jre-17-to-run-iridium-locally">You'll need the node 18.x and Java JRE 17 to run iridium locally</h3>
+<h3 id="download-the-release-package">Download the release package:</h3>
+<pre><code class="language-shell">$ wget https://github.com/IridiumIdentity/iridium/releases/download/v0.1.0-beta/iridium-0.1.0-beta-bin.tar.gz
 </code></pre>
-<p><code>cd</code> into the project</p>
-<pre><code class="language-shell">$ cd iridium
+<h3 id="unzip-the-package">Unzip the package</h3>
+<pre><code class="language-shell">$ tar -xzf iridium-0.1.0-beta-bin.tar.gz
 </code></pre>
-<p>Stand up mariadb, the latest version of the core iridium server, and the admin UI.</p>
-<pre><code class="language-shell">$ docker-compose -f tools/schedulers/compose/local-iridium-compose.yml up -d
+<p>For the rest of this setup all commands are run from the root of the distribution folder, so switch to it:</p>
+<pre><code class="language-shell">$ cd iridium-0.1.0-beta-bin
 </code></pre>
-<p>At this point you have a version of the Iridium core server, an instance of MariaDB, and the Iridium management UI.
-We still need to init the database with specific data for Iridium to function. </p>
-<p><a href="../2.Install-the-CLI/">Follow the steps here to install the CLI.</a></p>
+<h3 id="verify-installation">Verify Installation</h3>
+<p>You can check that you successfully installed iridium by executing the cli tool</p>
+<pre><code class="language-shell">$ bin/iridium --help
+</code></pre>
+<p>Your output should be similar to the following</p>
+<pre><code class="language-shell">bin/iridium --help
+Usage: iridium [-hV] [COMMAND]
+iridium management cli
+  -h, --help      Show this help message and exit.
+  -V, --version   Print version information and exit.
+Commands:
+  init  inits the system
+  run   run iridium
+</code></pre>
+<p><a href="../2.stand-up-local/">Now you can stand up Iridium locally</a></p>
 
 
   

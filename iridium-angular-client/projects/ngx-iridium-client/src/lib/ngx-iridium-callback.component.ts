@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccessTokenResponse } from './domain/access-token-response';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthorizationService } from './service/authorization.service';
 import { NgxIridiumClientService } from './ngx-iridium-client.service';
 
@@ -15,7 +15,8 @@ export class NgxIridiumCallbackComponent implements OnInit {
   iridiumImagePath: string;
 
   constructor(
-    private route: ActivatedRoute,
+    private router: Router,
+
     private iridiumClient: NgxIridiumClientService
   ) {
     this.iridiumImagePath = '/assets/iridium-3C-xl.png';
@@ -23,7 +24,15 @@ export class NgxIridiumCallbackComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.iridiumClient.authorize();
+    this.iridiumClient.authorize()
+      .then((successful) => {
+        console.log('is successful: ' + successful)
+        this.router.navigateByUrl("/")
+        }
+      ).catch((error) => {
+        console.error("error! ", error)
+      }
+    )
   }
 
 }

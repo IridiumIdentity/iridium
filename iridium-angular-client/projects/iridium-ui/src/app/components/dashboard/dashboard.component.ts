@@ -69,7 +69,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   @Input() view!: DynamicContentView;
   tenants: TenantSelectItem[] = [];
   selectedTenant!: string;
-  loggedIn = false;
 
   constructor(private router: Router, private contentViewService: DynamicContentViewService, private dialog: MatDialog, private iridiumClient: NgxIridiumClientService, private tenantService: TenantService, private menuItemService: MenuItemService) {
     this.menuItemNodes = this.menuItemService.getMenuItems();
@@ -77,19 +76,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.views = this.contentViewService.getViews();
     this.view = this.views['system overview']
-    this.iridiumClient.authorize()
-      .then(successful => {
-        if (successful) {
-          console.log('auth was successful')
-          this.loggedIn = true
 
-          this.getTenantSummaries();
+    this.getTenantSummaries();
 
-        } else {
-          console.log('auth was not successful')
-        }
-
-      });
   }
 
   getTenantSummaries() {

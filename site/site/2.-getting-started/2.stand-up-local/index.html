@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="../1.stand-up-local/">
+        <link rel="prev" href="../1.Install-the-CLI/">
       
       
         <link rel="next" href="../3.initialize-iridium/">
@@ -19,7 +19,7 @@
     
     
       
-        <title>2.Install the CLI - Iridium</title>
+        <title>Stand up a locally - Iridium</title>
       
     
     
@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#install-the-cli" class="md-skip">
+        <a href="#stand-up-a-locally" class="md-skip">
           Skip to content
         </a>
       
@@ -153,7 +153,7 @@
                 <div class="md-header__topic" data-md-component="header-topic">
 <!--          <span class="md-ellipsis">-->
 <!--            -->
-<!--              2.Install the CLI-->
+<!--              Stand up a locally-->
 <!--            -->
 <!--          </span>-->
                 </div>
@@ -372,8 +372,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../1.stand-up-local/" class="md-nav__link">
-        1. Stand up a locally
+      <a href="../1.Install-the-CLI/" class="md-nav__link">
+        Install the CLI
       </a>
     </li>
   
@@ -392,14 +392,16 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          2.Install the CLI
+          Stand up a locally
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        2.Install the CLI
+        Stand up a locally
       </a>
       
         
@@ -407,6 +409,8 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
+  
+    
   
   
     <label class="md-nav__title" for="__toc">
@@ -416,43 +420,23 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install-the-cli" class="md-nav__link">
-    Install the CLI
-  </a>
-  
-    <nav class="md-nav" aria-label="Install the CLI">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#youll-need-the-node-18x-and-java-jre-17-to-run-iridium-locally" class="md-nav__link">
-    You'll need the node 18.x and Java JRE 17 to run iridium locally
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#download-the-release-package" class="md-nav__link">
-    Download the release package:
+      
+        <li class="md-nav__item">
+  <a href="#check-out-the-repo" class="md-nav__link">
+    Check out the repo
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#unzip-the-package" class="md-nav__link">
-    Unzip the package
+      
+        <li class="md-nav__item">
+  <a href="#docker-compose-file-contents" class="md-nav__link">
+    Docker Compose File Contents
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#verify-installation" class="md-nav__link">
-    Verify Installation
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -472,7 +456,7 @@
   
     <li class="md-nav__item">
       <a href="../3.initialize-iridium/" class="md-nav__link">
-        3. Initialize the Iridium Database
+        Initialize the Iridium Database
       </a>
     </li>
   
@@ -593,6 +577,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -601,43 +587,23 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install-the-cli" class="md-nav__link">
-    Install the CLI
-  </a>
-  
-    <nav class="md-nav" aria-label="Install the CLI">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#youll-need-the-node-18x-and-java-jre-17-to-run-iridium-locally" class="md-nav__link">
-    You'll need the node 18.x and Java JRE 17 to run iridium locally
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#download-the-release-package" class="md-nav__link">
-    Download the release package:
+      
+        <li class="md-nav__item">
+  <a href="#check-out-the-repo" class="md-nav__link">
+    Check out the repo
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#unzip-the-package" class="md-nav__link">
-    Unzip the package
+      
+        <li class="md-nav__item">
+  <a href="#docker-compose-file-contents" class="md-nav__link">
+    Docker Compose File Contents
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#verify-installation" class="md-nav__link">
-    Verify Installation
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -659,34 +625,115 @@
   
 
 
-  <h1>2.Install the CLI</h1>
+<h1 id="stand-up-a-locally">Stand up a locally</h1>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>You will need.</p>
+<ul>
+<li><a href="https://nodejs.org/en">Node 18</a></li>
+<li><a href="https://adoptium.net/">Java 17</a></li>
+<li><a href="https://maven.apache.org/">Maven 3.8.4</a> or greater</li>
+<li><a href="https://www.docker.com/">Docker</a></li>
+</ul>
+<p>Iridium is dependent on an RDBMS system such as <a href="https://www.mysql.com/">MySQL</a> or <a href="https://mariadb.org/">MariaDB</a>.</p>
+<p>We will use Docker Compose to simplify the setup process.  You can go about completing this step by either checking out the repo locally or
+using the Docker Compose file contents below.</p>
+<h3 id="check-out-the-repo">Check out the repo</h3>
+<p>Clone the repo</p>
+<pre><code class="language-shell">$ git clone git@github.com:IridiumIdentity/iridium.git
+</code></pre>
+<p><code>cd</code> into the project</p>
+<pre><code class="language-shell">$ cd iridium
+</code></pre>
+<p>Stand up mariadb, the latest version of the core iridium server, and the admin UI.</p>
+<pre><code class="language-shell">$ docker compose -f tools/schedulers/compose/local-iridium-compose.yml up -d
+</code></pre>
+<p>At this point you have a version of the Iridium core server, an instance of MariaDB, and the Iridium management UI.
+We still need to initialize the database with specific data for Iridium to function. </p>
+<p><a href="../3.initialize-iridium/">Next, you should initialize the database</a></p>
+<h3 id="docker-compose-file-contents">Docker Compose File Contents</h3>
+<p>Place the below yaml in file to stand up Iridium locally. </p>
+<pre><code class="language-yaml">version: '3.8'
 
-<h2 id="install-the-cli">Install the CLI</h2>
-<h3 id="youll-need-the-node-18x-and-java-jre-17-to-run-iridium-locally">You'll need the node 18.x and Java JRE 17 to run iridium locally</h3>
-<h3 id="download-the-release-package">Download the release package:</h3>
-<pre><code class="language-shell">$ wget https://github.com/IridiumIdentity/iridium/releases/download/v0.1.0-beta/iridium-0.1.0-beta-bin.tar.gz
+services:
+
+  iridium:
+    image: iridiumidentity/iridium-core-server:latest
+    container_name: iridium
+    restart: always
+    pull_policy: always
+    ports:
+      - &quot;8381:8381&quot;
+    environment:
+      - SERVER_PORT=8381
+      - LOGGING_LEVEL_ROOT=info
+      - LOGGING_LEVEL_SOFTWARE_IRIDIUM=DEBUG
+      - SPRING_JMX_ENABLED=false
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB=DEBUG
+      - RUN_PROFILE=local
+      - SPRING_MVC_LOG-REQUEST-DETAILS=true
+      - SPRING_MVC_DISPATCH-OPTIONS-REQUEST=true
+      - SPRING_JPA_HIBERNATE_SHOW_SQL=false
+      - SPRING_JPA_HIBERNATE_FORMAT_SQL=true
+      - SPRING_JPA_PROPERTIES_HIBERNATE_HBM2DDL_DELIMITER=;
+      - SPRING_JPA_PROPERTIES_HIBERNATE_GLOBALLY_QUOTED_IDENTIFIERS=true
+      - SPRING_JPA_PROPERTIES_HIBERNATE-GLOBALLY_QUOTED_IDENTIFIERS_SKIP_COLUMN_DEFINITIONS=true
+      - SPRING_DATASOURCE_DRIVER-CLASS=com.mysql.jdbc.Driver
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mariadb/identities?useSSL=false
+      - SPRING_DATASOURCE_USERNAME=iridium
+      - SPRING_DATASOURCE_PASSWORD=sug4rn3ss&amp;
+      - SPRING_DATASOURCE_TOMCAT_MAX-ACTIVE=5
+      - SPRING_DATASOURCE_TEST-WHILE-IDLE=true
+      - SPRING_DATASOURCE_VALIDATION_QUERY=SELECT 1 FROM DUEL
+      - SPRING_DATASOURCE_VALIDATION_INTERVAL=180000
+      - PASSWORD_RESET_TOKEN_LIFETIME_HOURS=4
+      - SOFTWARE.IRIDIUM.PASSWORDRESET.CLIENT.BASEURL=http://localhost:8381/
+      - SOFTWARE.IRIDIUM.EMAILNOTIFICATION.CLIENT.BASEURL=http://localhost:8381/
+      - SOFTWARE.IRIDIUM.API.TTL.MINUTES=30
+      - SERVER_ERROR_WHITELABEL_ENABLED=false
+      - SPRING_MAIL_FROM_ADDRESS=noreply@yourdomain.com
+      - SPRING_THYMELEAF_PREFIX=classpath:/templates/
+      - SPRING_THYMELEAF_SUFFIX=.html
+      - SPRING_MAIL_HOST=fake-smtp
+      - SPRING_MAIL_USERNAME=mailUsername
+      - SPRING_MAIL_PASSWORD=mailPassword
+      - SPRING_MAIL_PROPERTIES_MAIL_TRANSPORT_PROTOCOL=smtp
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_PORT=8025
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED=false
+    networks:
+      - iridium
+
+  mariadb:
+    image: mariadb:10.6.11
+    container_name: mariadb
+    restart: always
+    ports:
+      - &quot;3306:3306&quot;
+    environment:
+      MYSQL_ROOT_PASSWORD: iridium
+      MYSQL_DATABASE: identities
+      MYSQL_USER: iridium
+      MYSQL_PASSWORD: sug4rn3ss&amp;
+    networks:
+      - iridium
+
+  fake-smtp:
+    image: gessnerfl/fake-smtp-server
+    container_name: fake-smtp-server
+    ports:
+      - &quot;8080:8080&quot;
+    networks:
+      - iridium
+
+networks:
+  iridium:
+    driver: bridge
+
 </code></pre>
-<h3 id="unzip-the-package">Unzip the package</h3>
-<pre><code class="language-shell">$ tar -xzf iridium-0.1.0-beta-bin.tar.gz
+<p>You can use Docker Compose to create the system locally by executing the below:</p>
+<pre><code class="language-shell">$ docker compose -f path/to/your/compose.yml 
 </code></pre>
-<p>For the rest of this setup all commands are run from the root of the distribution folder, so switch to it:</p>
-<pre><code class="language-shell">$ cd iridium-0.1.0-beta-bin
-</code></pre>
-<h3 id="verify-installation">Verify Installation</h3>
-<p>You can check that you successfully installed iridium by executing the cli tool</p>
-<pre><code class="language-shell">$ bin/iridium --help
-</code></pre>
-<p>Your output should be similar to the following</p>
-<pre><code class="language-shell">bin/iridium --help
-Usage: iridium [-hV] [COMMAND]
-iridium management cli
-  -h, --help      Show this help message and exit.
-  -V, --version   Print version information and exit.
-Commands:
-  init  inits the system
-  run   run iridium
-</code></pre>
-<p><a href="../3.initialize-iridium/">Now you can initialize Iridium</a></p>
 
 
   

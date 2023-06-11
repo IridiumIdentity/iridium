@@ -1,0 +1,31 @@
+
+version: '3.8'
+
+services:
+
+  mariadb:
+    image: mariadb:10.6.11
+    container_name: mariadb
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: iridium
+      MYSQL_DATABASE: identities
+      MYSQL_USER: iridium
+      MYSQL_PASSWORD: iridium
+    networks:
+      - iridium
+  fake-smtp:
+    image: gessnerfl/fake-smtp-server:2.0.3
+    container_name: fake-smtp-server
+    ports:
+      - 8025:8025      #expose smtp port
+      - 8080:8080      #expose web ui
+      - 8081:8081      #expose management api
+    networks:
+      - iridium
+
+networks:
+  iridium:
+    driver: bridge
