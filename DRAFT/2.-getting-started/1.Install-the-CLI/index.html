@@ -9,17 +9,17 @@
       
       
       
-        <link rel="prev" href="../2.Install-the-CLI/">
+        <link rel="prev" href="../../1.-overview/overview/">
       
       
-        <link rel="next" href="../create-github-application/">
+        <link rel="next" href="../2.stand-up-local/">
       
       <link rel="icon" href="../../images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
     
     
       
-        <title>3. Initialize the Iridium Database - Iridium</title>
+        <title>Install the CLI - Iridium</title>
       
     
     
@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#3-initialize-the-iridium-database" class="md-skip">
+        <a href="#install-the-cli" class="md-skip">
           Skip to content
         </a>
       
@@ -147,7 +147,7 @@
                 <div class="md-header__topic" data-md-component="header-topic">
 <!--          <span class="md-ellipsis">-->
 <!--            -->
-<!--              3. Initialize the Iridium Database-->
+<!--              Install the CLI-->
 <!--            -->
 <!--          </span>-->
                 </div>
@@ -368,34 +368,6 @@
               
   
   
-  
-    <li class="md-nav__item">
-      <a href="../1.stand-up-local/" class="md-nav__link">
-        1. Stand up a locally
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2.Install-the-CLI/" class="md-nav__link">
-        2.Install the CLI
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
     
   
   
@@ -408,12 +380,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          3. Initialize the Iridium Database
+          Install the CLI
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        3. Initialize the Iridium Database
+        Install the CLI
       </a>
       
         
@@ -432,8 +404,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#initialize-with-iridium-with-github-login" class="md-nav__link">
-    Initialize with Iridium with Github Login
+  <a href="#youll-need-the-node-18x-and-java-jre-17-to-run-iridium-locally" class="md-nav__link">
+    You'll need the node 18.x and Java JRE 17 to run iridium locally
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#download-the-release-package" class="md-nav__link">
+    Download the release package:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unzip-the-package" class="md-nav__link">
+    Unzip the package
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-installation" class="md-nav__link">
+    Verify Installation
   </a>
   
 </li>
@@ -453,8 +446,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../create-github-application/" class="md-nav__link">
-        Create a Github Application
+      <a href="../2.stand-up-local/" class="md-nav__link">
+        Stand up a locally
       </a>
     </li>
   
@@ -544,6 +537,55 @@
   
 
         
+        
+        
+        
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          4. connecting social identity providers
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          4. connecting social identity providers
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4.-connecting-social-identity-providers/create-github-application/" class="md-nav__link">
+        Create a Github Application
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+        
     </ul>
 </nav>
                   </div>
@@ -571,8 +613,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#initialize-with-iridium-with-github-login" class="md-nav__link">
-    Initialize with Iridium with Github Login
+  <a href="#youll-need-the-node-18x-and-java-jre-17-to-run-iridium-locally" class="md-nav__link">
+    You'll need the node 18.x and Java JRE 17 to run iridium locally
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#download-the-release-package" class="md-nav__link">
+    Download the release package:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unzip-the-package" class="md-nav__link">
+    Unzip the package
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-installation" class="md-nav__link">
+    Verify Installation
   </a>
   
 </li>
@@ -595,71 +658,32 @@
   
 
 
-<h1 id="3-initialize-the-iridium-database">3. Initialize the Iridium Database</h1>
-<p>Iridium needs specific data entities to exist for it to function. This guide demonstrates how to use the iridium CLI
-to execute this task.  This document assumes you have downloaded and unpacked the binary distribution of Iridium in a
-previous step as detail <a href="../2.Install-the-CLI/">here</a>.</p>
-<p>To initialize the database execute the following command.  Again we are expecting you to be in the top level folder of 
-expanded tar.gz distribution you downloaded and unpacked earlier.  </p>
-<pre><code class="language-shell">$ ./bin/iridium  init \
---host=localhost \
---port=3306 \
---user=root \
---password \
---admin-password \
---admin-email=you@somewhere.com
+<h1 id="install-the-cli">Install the CLI</h1>
+<h3 id="youll-need-the-node-18x-and-java-jre-17-to-run-iridium-locally">You'll need the node 18.x and Java JRE 17 to run iridium locally</h3>
+<h3 id="download-the-release-package">Download the release package:</h3>
+<pre><code class="language-shell">$ wget https://github.com/IridiumIdentity/iridium/releases/download/v0.1.0-beta/iridium-0.1.0-beta-bin.tar.gz
 </code></pre>
-<p>The CLI tool should prompt your for the database password.  Enter the password you configured upon standing up
-the database.</p>
-<pre><code class="language-shell">$ Enter value for --password (the database password): 
+<h3 id="unzip-the-package">Unzip the package</h3>
+<pre><code class="language-shell">$ tar -xzf iridium-0.1.0-beta-bin.tar.gz
 </code></pre>
-<p>Next, it will ask for your admin user password.  This is the password you will use along with the admin-email you passed
-to login to the management UI</p>
-<pre><code class="language-shell">$ Enter value for --admin-password (the admin password):
+<p>For the rest of this setup all commands are run from the root of the distribution folder, so switch to it:</p>
+<pre><code class="language-shell">$ cd iridium-0.1.0-beta-bin
 </code></pre>
-<p>Upon successful initialization of the database you'll see similar output </p>
-<pre><code class="language-shell">06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - ########################################
-06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - Database successfully initialized
-06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - ########################################
-06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - Iridium Management Application ID is ${someApplicationId}
-06:22:59.885 [main] INFO  software.iridium.cli.command.InitCommand - Be sure to place this in the appropriate environment.ts file
+<h3 id="verify-installation">Verify Installation</h3>
+<p>You can check that you successfully installed iridium by executing the cli tool</p>
+<pre><code class="language-shell">$ bin/iridium --help
 </code></pre>
-<h3 id="initialize-with-iridium-with-github-login">Initialize with Iridium with Github Login</h3>
-<p>If you want to allow users to login to the Iridium Management app with their Github account you can allow this here 
-following the directions below:</p>
-<p>Again we are expecting you to be in the top level folder of
-expanded tar.gz distribution you downloaded and unpacked earlier. In this example, we are passing the flag to allow users to register
-with the Iridium tenant using GitHub by passing the flag <code>--allow-github=true</code>.</p>
-<pre><code class="language-shell">$ ./bin/iridium  init \
---host=localhost \
---port=3306 \
---user=root \
---allow-github=true \
---password 
+<p>Your output should be similar to the following</p>
+<pre><code class="language-shell">bin/iridium --help
+Usage: iridium [-hV] [COMMAND]
+iridium management cli
+  -h, --help      Show this help message and exit.
+  -V, --version   Print version information and exit.
+Commands:
+  init  inits the system
+  run   run iridium
 </code></pre>
-<p>The CLI tool should prompt your for the database password.  Enter the password you configured upon standing up
-the database.</p>
-<pre><code class="language-shell">$ Enter value for --password (the database password): 
-</code></pre>
-<p>Next the CLI will prompt for a GitHub Oauth application credentials.  If you don't have a GitHub application ready to use,
-you can <a href="../create-github-application/">follow the directions here to create one</a></p>
-<p>Enter your Github OAuth application id</p>
-<pre><code class="language-shell">$ Enter value for github client id: my-client-id
-</code></pre>
-<p>Enter your Github OAuth application secret</p>
-<pre><code class="language-shell">$ Enter value for github client secret: my-client-secret
-</code></pre>
-<p>From here, you should be able to log in to the Iridium Management UI using your GitHub account. At this point you've 
-stood up the system with an Iridium tenant for and application for managing Iridium. At this point you can start to create your own tenant and applications
-in Iridium to be secured. </p>
-<p>Next the CLI will prompt for a GitHub Oauth application credentials.  If you don't have a GitHub application ready to use,
-you can <a href="../create-github-application/">follow the directions here to create one</a></p>
-<p>Enter your Github OAuth application id</p>
-<pre><code class="language-shell">$ Enter value for github client id: my-client-id
-</code></pre>
-<p>Enter your Github OAuth application secret</p>
-<pre><code class="language-shell">$ Enter value for github client secret: my-client-secret
-</code></pre>
+<p><a href="../2.stand-up-local/">Now you can stand up Iridium locally</a></p>
 
 
   
