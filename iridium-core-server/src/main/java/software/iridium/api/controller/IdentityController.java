@@ -20,7 +20,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import software.iridium.api.authentication.domain.CreateIdentityRequest;
 import software.iridium.api.authentication.domain.IdentityResponse;
+import software.iridium.api.authentication.domain.IdentitySummaryResponse;
 import software.iridium.api.base.domain.ApiDataResponse;
+import software.iridium.api.base.domain.PagedListResponse;
 import software.iridium.api.service.IdentityService;
 
 @CrossOrigin
@@ -35,6 +37,18 @@ public class IdentityController {
       produces = IdentityResponse.MEDIA_TYPE)
   public ApiDataResponse<IdentityResponse> getIdentity(HttpServletRequest request) {
     return new ApiDataResponse<>(identityService.getIdentity(request));
+  }
+
+  @GetMapping(
+      value = "/tenants/{tenant-id}/identities",
+      produces = IdentitySummaryResponse.MEDIA_TYPE_LIST)
+  public PagedListResponse<IdentitySummaryResponse> getPage(
+      final HttpServletRequest servletRequest,
+      @PathVariable("tenant-id") final String tenantId,
+      @RequestParam(value = "page", required = false, defaultValue = "0") final Integer page,
+      @RequestParam(value = "size", required = false, defaultValue = "20") final Integer size,
+      @RequestParam(value = "active", defaultValue = "true") final Boolean active) {
+    return identityService.getPage(servletRequest, tenantId, page, size, active);
   }
 
   @PostMapping(value = "/identities")

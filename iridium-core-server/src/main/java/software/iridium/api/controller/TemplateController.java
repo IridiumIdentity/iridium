@@ -51,7 +51,7 @@ public class TemplateController {
   }
 
   @GetMapping("/reset-password")
-  public String retrieveRestPasswordForm(
+  public String retrieveResetPasswordForm(
       final PasswordResetRequest passwordResetRequest,
       final Model model,
       final HttpServletRequest servletRequest) {
@@ -59,7 +59,7 @@ public class TemplateController {
   }
 
   @GetMapping("/initiate-reset-password")
-  public String retrieveRestPasswordForm(
+  public String retrieveInitiateResetPasswordForm(
       final InitiatePasswordResetRequest initiatePasswordResetRequest,
       final Model model,
       final HttpServletRequest servletRequest) {
@@ -76,9 +76,9 @@ public class TemplateController {
       final CreateIdentityRequest createIdentityRequest,
       final Model model,
       final HttpServletRequest servletRequest) {
-    logger.info("loading login for: {}", servletRequest.getRequestURL().toString());
+    logger.info("loading register for: {}", servletRequest.getRequestURL().toString());
     logger.info(
-        "loading login for subdomain: {}",
+        "loading register for subdomain: {}",
         servletRequest.getRequestURL().toString().split("\\.")[0]);
     return templateService.describeRegister(model, servletRequest);
   }
@@ -86,8 +86,6 @@ public class TemplateController {
   @GetMapping(value = "/authorize")
   public String retrieveAuthorizationPage(
       ModelMap model, HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
-    logger.info("request headers: {}", servletRequest.getHeaderNames().toString());
-    logger.info("response headers: {}", servletResponse.getHeaderNames());
     Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(servletRequest);
     if (inputFlashMap != null) {
       String token = (String) inputFlashMap.get(ServletTokenExtractor.IRIDIUM_TOKEN_HEADER_VALUE);
