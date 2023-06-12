@@ -5,9 +5,10 @@ namespace=$1
 
 image_name=$2
 
-version=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+version=$3
+
 echo "#############"
-echo "building iridium version ${version}"
+echo "building namespace: ${namespace} image: ${image_name}  version: ${version}"
 echo "#############"
 
 mvn --version
@@ -22,7 +23,7 @@ docker build -t $namespace/$image_name:$version -f tools/images/Dockerfile.core 
 
 docker tag $namespace/$image_name:$version $namespace/$image_name:latest
 
-docker push $namespace/iridium-core-server:$version
+docker push $namespace/$image_name:$version
 
 docker push $namespace/$image_name:latest
 

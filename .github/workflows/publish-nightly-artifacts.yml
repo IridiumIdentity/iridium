@@ -1,13 +1,13 @@
-name: Publish iridium artifacts based on a tag
+name: Publish nightly artifacts
 
 on:
   push:
-
-    tags: [ "v*" ]
+    branches:
+      - main
 
 env:
   NAMESPACE: iridiumidentity
-  IMAGE_NAME: iridium-core-server
+  IMAGE_NAME: iridium-core-server-nightly
 
 jobs:
   build-and-push-image:
@@ -22,7 +22,7 @@ jobs:
 
       - name: set version
         id: vars
-        run: echo "version=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_ENV
+        run: echo "version=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -46,24 +46,5 @@ jobs:
           name: iridium-${{ env.version }}-bin
           path: iridium-cli/target/iridium-*-bin.tar.gz
 
-      - name: set up node 18
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          registry-url: 'https://registry.npmjs.org'
-      - name: install angular cli
-        run: npm install -g @angular/cli@15
-        working-directory: ./iridium-angular-client
-      - name: npm install deps
-        run:  npm install
-        working-directory: ./iridium-angular-client
-      - name: build ngx-iridium-client
-        run: ng build ngx-iridium-client
-        working-directory: ./iridium-angular-client
-      - name: publish library
-        run: npm publish --access public
-        working-directory: ./iridium-angular-client/dist/ngx-iridium-client
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 

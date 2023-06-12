@@ -12,6 +12,8 @@
 package software.iridium.api.repository;
 
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import software.iridium.entity.IdentityEntity;
 
@@ -19,4 +21,7 @@ public interface IdentityEntityRepository extends JpaRepository<IdentityEntity, 
 
   Optional<IdentityEntity> findByProvider_IdAndExternalId(
       final String providerId, final String externalId);
+
+  Page<IdentityEntity> findAllByParentTenantIdAndActive(
+      String tenantId, Boolean active, PageRequest of);
 }

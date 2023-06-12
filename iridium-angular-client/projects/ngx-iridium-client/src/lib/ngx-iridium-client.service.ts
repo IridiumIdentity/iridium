@@ -48,14 +48,9 @@ export class NgxIridiumClientService {
 
       try {
         const accessCodeResponse = await this.authorizationService.exchange(code)
+        console.log("local exchanged access code is ", accessCodeResponse)
         if (accessCodeResponse != undefined) {
           this.cookieService.setCookie('iridium-token', accessCodeResponse.access_token, 1, OauthConstants.COOKIE_PATH);
-          return true;
-        } else {
-          const externalAccessCodeResponse = await this.authorizationService.exchangeForExternalIdentity(code, state);
-          if (externalAccessCodeResponse != undefined) {
-            this.cookieService.setCookie('iridium-token', externalAccessCodeResponse.access_token, 1, OauthConstants.COOKIE_PATH);
-          }
           return true;
         }
       } catch (error) {

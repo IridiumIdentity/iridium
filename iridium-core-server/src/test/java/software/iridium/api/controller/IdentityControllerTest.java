@@ -49,4 +49,16 @@ class IdentityControllerTest {
 
     verify(mockIdentityService).getIdentity(same(mockServletRequest));
   }
+
+  @Test
+  public void getPage_AllGood_BehavesAsExpected() {
+    final var tenantId = "the tenant id";
+    final var page = 1;
+    final var size = 20;
+    final var active = true;
+
+    subject.getPage(mockServletRequest, tenantId, page, size, active);
+
+    verify(mockIdentityService).getPage(mockServletRequest, tenantId, page, size, active);
+  }
 }

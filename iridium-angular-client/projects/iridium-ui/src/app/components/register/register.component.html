@@ -1,16 +1,29 @@
 <div class="register-container">
+  <div class="logo-wrapper">
+    <img src="assets/iridium-3C-xl.png" alt="iridium-home">
+
+  </div>
     <div class="register-wrapper">
 
-        <form [formGroup]="registerForm" (ngSubmit)="register()">
-        <mat-form-field appearance="outline" floatLabel="always">
-            <mat-label>Email</mat-label>
-            <input type="email" placeholder="you@example.com"  formControlName="emailAddress" ngModel [email]="true" matInput>
-        </mat-form-field>
 
-        <button mat-raised-button color="primary">Register</button>
-        <div [hidden]="notProcessing">
-            <app-spinner></app-spinner>
-        </div>
-    </form>
+          <mat-card>
+            <mat-card-content>
+              <div class="sign-in-button-container">
+                <button mat-raised-button class="sign-in-button" (click)="signIn()" >Sign In</button>
+              </div>
+              <mat-divider style="width: 40%; display: inline-block;"></mat-divider>
+              <span style="padding: 20px; font-weight: 500;">OR</span>
+              <mat-divider style="width: 40%; display: inline-block;"></mat-divider>
+              <div class="register-button-container">
+                <button mat-raised-button class="register-button" (click)="register()">Register</button>
+              </div>
+
+            </mat-card-content>
+          </mat-card>
+
+
+
+
+
     </div>
 </div>

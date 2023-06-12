@@ -4,12 +4,7 @@
 
 
   <span class="menu-spacer"></span>
-  <div *ngIf="!loggedIn">
-    <button (click)="register()" mat-button>Register</button>
-    <button (click)="login()" mat-button>Login</button>
-  </div>
 
-  <div *ngIf="loggedIn">
 
   <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="user menu">
     <mat-icon>menu</mat-icon>
@@ -24,7 +19,6 @@
       <span>Logout</span>
     </button>
   </mat-menu>
-  </div>
 
 </mat-toolbar>
 

@@ -85,8 +85,10 @@ public class InitCommand implements Runnable {
 
       final TenantEntity iridiumTenant = TenantGenerator.generateTenant(entityManager);
 
-      LocalIdentityGenerator.generate(
-          iridiumTenant, String.valueOf(adminPassword), adminEmail, entityManager);
+      if (adminEmail != null) {
+        LocalIdentityGenerator.generate(
+            iridiumTenant, String.valueOf(adminPassword), adminEmail, entityManager);
+      }
 
       LoginDescriptorGenerator.generateLoginDescriptor(entityManager, iridiumTenant);
 

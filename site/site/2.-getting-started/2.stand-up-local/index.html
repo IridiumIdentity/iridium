@@ -9,17 +9,17 @@
       
       
       
-        <link rel="prev" href="../2.Install-the-CLI/">
+        <link rel="prev" href="../1.Install-the-CLI/">
       
       
-        <link rel="next" href="../create-github-application/">
+        <link rel="next" href="../../3.-for-developers/building-from-source/">
       
       <link rel="icon" href="../../images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.6">
     
     
       
-        <title>3. Initialize the Iridium Database - Iridium</title>
+        <title>Stand up a locally - Iridium</title>
       
     
     
@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#3-initialize-the-iridium-database" class="md-skip">
+        <a href="#stand-up-a-locally" class="md-skip">
           Skip to content
         </a>
       
@@ -153,7 +153,7 @@
                 <div class="md-header__topic" data-md-component="header-topic">
 <!--          <span class="md-ellipsis">-->
 <!--            -->
-<!--              3. Initialize the Iridium Database-->
+<!--              Stand up a locally-->
 <!--            -->
 <!--          </span>-->
                 </div>
@@ -372,22 +372,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../1.stand-up-local/" class="md-nav__link">
-        1. Stand up a locally
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../2.Install-the-CLI/" class="md-nav__link">
-        2.Install the CLI
+      <a href="../1.Install-the-CLI/" class="md-nav__link">
+        Install the CLI
       </a>
     </li>
   
@@ -410,12 +396,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          3. Initialize the Iridium Database
+          Stand up a locally
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        3. Initialize the Iridium Database
+        Stand up a locally
       </a>
       
         
@@ -434,9 +420,50 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#initialize-with-iridium-with-github-login" class="md-nav__link">
-    Initialize with Iridium with Github Login
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#serve-iridium-from-the-repo" class="md-nav__link">
+    Serve Iridium from the repo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-compose-file-contents" class="md-nav__link">
+    Docker Compose File Contents
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initialize-the-iridium-database" class="md-nav__link">
+    Initialize the Iridium Database
+  </a>
+  
+    <nav class="md-nav" aria-label="Initialize the Iridium Database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initialize-with-iridium-without-a-social-provider" class="md-nav__link">
+    Initialize with Iridium without a social provider
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialize-with-iridium-with-github-login" class="md-nav__link">
+    Initialize with Iridium with GitHub Login
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -444,20 +471,6 @@
   
 </nav>
       
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../create-github-application/" class="md-nav__link">
-        Create a Github Application
-      </a>
     </li>
   
 
@@ -546,6 +559,55 @@
   
 
         
+        
+        
+        
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          4. connecting social identity providers
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          4. connecting social identity providers
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4.-connecting-social-identity-providers/create-github-application/" class="md-nav__link">
+        Create a Github Application
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+        
     </ul>
 </nav>
                   </div>
@@ -573,9 +635,50 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#initialize-with-iridium-with-github-login" class="md-nav__link">
-    Initialize with Iridium with Github Login
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#serve-iridium-from-the-repo" class="md-nav__link">
+    Serve Iridium from the repo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-compose-file-contents" class="md-nav__link">
+    Docker Compose File Contents
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initialize-the-iridium-database" class="md-nav__link">
+    Initialize the Iridium Database
+  </a>
+  
+    <nav class="md-nav" aria-label="Initialize the Iridium Database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initialize-with-iridium-without-a-social-provider" class="md-nav__link">
+    Initialize with Iridium without a social provider
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialize-with-iridium-with-github-login" class="md-nav__link">
+    Initialize with Iridium with GitHub Login
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -597,12 +700,122 @@
   
 
 
-<h1 id="3-initialize-the-iridium-database">3. Initialize the Iridium Database</h1>
+<h1 id="stand-up-a-locally">Stand up a locally</h1>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>You will need.</p>
+<ul>
+<li><a href="https://nodejs.org/en">Node 18</a></li>
+<li><a href="https://www.docker.com/">Docker</a></li>
+</ul>
+<p>Iridium is dependent on an RDBMS system such as <a href="https://www.mysql.com/">MySQL</a> or <a href="https://mariadb.org/">MariaDB</a> and a
+SMTP server.</p>
+<p>We will use Docker Compose to simplify the setup process.  You can go about completing this step by either checking out the <a href="#serve-iridium-from-the-repo">repo locally</a> or
+using the <a href="#docker-compose-file-contents">Docker Compose file contents below</a>.</p>
+<h3 id="serve-iridium-from-the-repo">Serve Iridium from the repo</h3>
+<p>Clone the repo</p>
+<pre><code class="language-shell">$ git clone git@github.com:IridiumIdentity/iridium.git
+</code></pre>
+<p><code>cd</code> into the project</p>
+<pre><code class="language-shell">$ cd iridium
+</code></pre>
+<p>Stand up mariadb, the latest version of the core iridium server, and the fake smtp server</p>
+<pre><code class="language-shell">$ docker compose -f tools/schedulers/compose/local-iridium-compose.yml up -d
+</code></pre>
+<p>At this point you have a version of the Iridium core server, an instance of MariaDB, and an instance of <a href="https://github.com/gessnerfl/fake-smtp-server">Fake SMTP Server</a>
+We still need to initialize the database with specific data for Iridium to function. </p>
+<p><a href="#initialize-with-iridium-without-a-social-provider">Next, you should initialize the database</a></p>
+<h3 id="docker-compose-file-contents">Docker Compose File Contents</h3>
+<p>Place the below yaml in file to stand up Iridium locally. </p>
+<pre><code class="language-yaml">version: '3.8'
+
+services:
+
+  iridium:
+    image: iridiumidentity/iridium-core-server:latest
+    container_name: iridium
+    restart: always
+    pull_policy: always
+    ports:
+      - &quot;8381:8381&quot;
+    environment:
+      - SERVER_PORT=8381
+      - LOGGING_LEVEL_ROOT=info
+      - LOGGING_LEVEL_SOFTWARE_IRIDIUM=DEBUG
+      - SPRING_JMX_ENABLED=false
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB=DEBUG
+      - RUN_PROFILE=local
+      - SPRING_MVC_LOG-REQUEST-DETAILS=true
+      - SPRING_MVC_DISPATCH-OPTIONS-REQUEST=true
+      - SPRING_JPA_HIBERNATE_SHOW_SQL=false
+      - SPRING_JPA_HIBERNATE_FORMAT_SQL=true
+      - SPRING_JPA_PROPERTIES_HIBERNATE_HBM2DDL_DELIMITER=;
+      - SPRING_JPA_PROPERTIES_HIBERNATE_GLOBALLY_QUOTED_IDENTIFIERS=true
+      - SPRING_JPA_PROPERTIES_HIBERNATE-GLOBALLY_QUOTED_IDENTIFIERS_SKIP_COLUMN_DEFINITIONS=true
+      - SPRING_DATASOURCE_DRIVER-CLASS=com.mysql.jdbc.Driver
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mariadb/identities?useSSL=false
+      - SPRING_DATASOURCE_USERNAME=iridium
+      - SPRING_DATASOURCE_PASSWORD=sug4rn3ss&amp;
+      - SPRING_DATASOURCE_TOMCAT_MAX-ACTIVE=5
+      - SPRING_DATASOURCE_TEST-WHILE-IDLE=true
+      - SPRING_DATASOURCE_VALIDATION_QUERY=SELECT 1 FROM DUEL
+      - SPRING_DATASOURCE_VALIDATION_INTERVAL=180000
+      - PASSWORD_RESET_TOKEN_LIFETIME_HOURS=4
+      - SOFTWARE.IRIDIUM.PASSWORDRESET.CLIENT.BASEURL=http://localhost:8381/
+      - SOFTWARE.IRIDIUM.EMAILNOTIFICATION.CLIENT.BASEURL=http://localhost:8381/
+      - SOFTWARE.IRIDIUM.API.TTL.MINUTES=30
+      - SERVER_ERROR_WHITELABEL_ENABLED=false
+      - SPRING_MAIL_FROM_ADDRESS=noreply@yourdomain.com
+      - SPRING_THYMELEAF_PREFIX=classpath:/templates/
+      - SPRING_THYMELEAF_SUFFIX=.html
+      - SPRING_MAIL_HOST=fake-smtp
+      - SPRING_MAIL_USERNAME=mailUsername
+      - SPRING_MAIL_PASSWORD=mailPassword
+      - SPRING_MAIL_PROPERTIES_MAIL_TRANSPORT_PROTOCOL=smtp
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_PORT=8025
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED=false
+    networks:
+      - iridium
+
+  mariadb:
+    image: mariadb:10.6.11
+    container_name: mariadb
+    restart: always
+    ports:
+      - &quot;3306:3306&quot;
+    environment:
+      MYSQL_ROOT_PASSWORD: iridium
+      MYSQL_DATABASE: identities
+      MYSQL_USER: iridium
+      MYSQL_PASSWORD: sug4rn3ss&amp;
+    networks:
+      - iridium
+
+  fake-smtp:
+    image: gessnerfl/fake-smtp-server
+    container_name: fake-smtp-server
+    ports:
+      - &quot;8080:8080&quot;
+    networks:
+      - iridium
+
+networks:
+  iridium:
+    driver: bridge
+
+</code></pre>
+<p>You can use Docker Compose to create the system locally by executing the below:</p>
+<pre><code class="language-shell">$ docker compose -f path/to/your/compose/file.yml up -d
+</code></pre>
+<h2 id="initialize-the-iridium-database">Initialize the Iridium Database</h2>
 <p>Iridium needs specific data entities to exist for it to function. This guide demonstrates how to use the iridium CLI
 to execute this task.  This document assumes you have downloaded and unpacked the binary distribution of Iridium in a
-previous step as detail <a href="../2.Install-the-CLI/">here</a>.</p>
-<p>To initialize the database execute the following command.  Again we are expecting you to be in the top level folder of 
-expanded tar.gz distribution you downloaded and unpacked earlier.  </p>
+previous step as detail <a href="../1.Install-the-CLI/">here</a>.</p>
+<p>To initialize the database execute the following command.  Again we are expecting you to be in the top level folder of
+expanded tar.gz distribution you downloaded and unpacked earlier.</p>
+<h3 id="initialize-with-iridium-without-a-social-provider">Initialize with Iridium without a social provider</h3>
+<p>This will initialize the system to only accept a username (email) and password as user credentials.</p>
 <pre><code class="language-shell">$ ./bin/iridium  init \
 --host=localhost \
 --port=3306 \
@@ -616,50 +829,50 @@ the database.</p>
 <pre><code class="language-shell">$ Enter value for --password (the database password): 
 </code></pre>
 <p>Next, it will ask for your admin user password.  This is the password you will use along with the admin-email you passed
-to login to the management UI</p>
+to log in to the management UI</p>
 <pre><code class="language-shell">$ Enter value for --admin-password (the admin password):
 </code></pre>
-<p>Upon successful initialization of the database you'll see similar output </p>
+<p>Upon successful initialization of the database you'll see similar output</p>
 <pre><code class="language-shell">06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - ########################################
 06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - Database successfully initialized
 06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - ########################################
 06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - Iridium Management Application ID is ${someApplicationId}
 06:22:59.885 [main] INFO  software.iridium.cli.command.InitCommand - Be sure to place this in the appropriate environment.ts file
 </code></pre>
-<h3 id="initialize-with-iridium-with-github-login">Initialize with Iridium with Github Login</h3>
-<p>If you want to allow users to login to the Iridium Management app with their Github account you can allow this here 
+<h3 id="initialize-with-iridium-with-github-login">Initialize with Iridium with GitHub Login</h3>
+<p>If you want to allow users to log in to the Iridium Management app with their GitHub account you can allow this here
 following the directions below:</p>
 <p>Again we are expecting you to be in the top level folder of
 expanded tar.gz distribution you downloaded and unpacked earlier. In this example, we are passing the flag to allow users to register
 with the Iridium tenant using GitHub by passing the flag <code>--allow-github=true</code>.</p>
-<pre><code class="language-shell">$ ./bin/iridium  init \
+<pre><code class="language-shell">$ ./bin/iridium init \
 --host=localhost \
 --port=3306 \
 --user=root \
---allow-github=true \
---password 
+--password \
+--allow-github=true
 </code></pre>
 <p>The CLI tool should prompt your for the database password.  Enter the password you configured upon standing up
 the database.</p>
 <pre><code class="language-shell">$ Enter value for --password (the database password): 
 </code></pre>
 <p>Next the CLI will prompt for a GitHub Oauth application credentials.  If you don't have a GitHub application ready to use,
-you can <a href="../create-github-application/">follow the directions here to create one</a></p>
-<p>Enter your Github OAuth application id</p>
+you can <a href="../../4.-connecting-social-identity-providers/create-github-application/">follow the directions here to create one</a></p>
+<p>Enter your GitHub OAuth application id</p>
 <pre><code class="language-shell">$ Enter value for github client id: my-client-id
 </code></pre>
-<p>Enter your Github OAuth application secret</p>
+<p>Enter your GitHub OAuth application secret</p>
 <pre><code class="language-shell">$ Enter value for github client secret: my-client-secret
 </code></pre>
-<p>From here, you should be able to log in to the Iridium Management UI using your GitHub account. At this point you've 
+<p>From here, you should be able to log in to the Iridium Management UI using your GitHub account. At this point you've
 stood up the system with an Iridium tenant for and application for managing Iridium. At this point you can start to create your own tenant and applications
-in Iridium to be secured. </p>
+in Iridium to be secured.</p>
 <p>Next the CLI will prompt for a GitHub Oauth application credentials.  If you don't have a GitHub application ready to use,
-you can <a href="../create-github-application/">follow the directions here to create one</a></p>
-<p>Enter your Github OAuth application id</p>
+you can <a href="../../4.-connecting-social-identity-providers/create-github-application/">follow the directions here to create one</a></p>
+<p>Enter your GitHub OAuth application id</p>
 <pre><code class="language-shell">$ Enter value for github client id: my-client-id
 </code></pre>
-<p>Enter your Github OAuth application secret</p>
+<p>Enter your GitHub OAuth application secret</p>
 <pre><code class="language-shell">$ Enter value for github client secret: my-client-secret
 </code></pre>
 

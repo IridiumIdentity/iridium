@@ -25,4 +25,8 @@ export class IdentityService {
     return this.http.post<TenantCreateResponse>(environment.iridium.domain + 'tenants', request, options)
 
   }
+
+  getIdentitySummaries(tenantId: string) {
+    // todo
+  }
 }
