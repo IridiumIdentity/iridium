@@ -44,4 +44,17 @@ cd iridium
 mvn clean package
 ```
 
+Please note if you have trouble with building the project you can use the command 
+```
+mvn -version
+
+Apache Maven 3.6.0 (97c98ec64a1fdfee7767ce5ffb20918da4f719f3; 2018-10-24T13:41:47-05:00)
+Maven home: /usr/local/Cellar/maven/3.6.0/libexec
+Java version: 17.0.7, vendor: Homebrew, runtime: /usr/local/Cellar/openjdk@17/17.0.7/libexec/openjdk.jdk/Contents/Home
+Default locale: en_US, platform encoding: UTF-8
+OS name: "mac os x", version: "11.4", arch: "x86_64", family: "mac"
+```
+
+It should be apparent from the output above that the version command will tell you where maven is picking up your java environment from.  Please remember if you have to upgrade or align your java version you will need to set the JAVA_HOME variable and put JAVA_HOME/bin in your path. 
+
 We are actively updating the documentation as quickly as we can, we'd appreciate your help and/or feedback. https://docs.iridium.software/
