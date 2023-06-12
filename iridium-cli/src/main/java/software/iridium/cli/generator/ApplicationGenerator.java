@@ -33,7 +33,7 @@ public class ApplicationGenerator extends AbstractGenerator {
     final var iridiumManagementApp = new ApplicationEntity();
     iridiumManagementApp.setHomePageUrl("http://localhost:4200");
     iridiumManagementApp.setName("iridium management app");
-    iridiumManagementApp.setRedirectUri("http://localhost:4200/dashboard");
+    iridiumManagementApp.setRedirectUri("http://localhost:4200/callback");
     iridiumManagementApp.setTenantId(iridiumTenant.getId());
     iridiumManagementApp.setClientId(encoderUtils.cryptoSecureToHex(CLIENT_ID_SEED_LENGTH));
     iridiumManagementApp.setApplicationType(applicationType);
