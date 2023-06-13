@@ -37,4 +37,4 @@ $ export PATH="/Users/<you>/Library/Python/3.9/bin:$PATH"
 ## Commands
 
 * `mike serve` - Start the live-reloading docs server.
-* `mike deploy DRAFT` - Publish a new revision of `DRAFT` version
+* `mike deploy DRAFT` - Publish a new revision of `DRAFT` version locally
