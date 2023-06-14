@@ -444,8 +444,8 @@ You're not viewing the latest version.
 </li>
       
         <li class="md-nav__item">
-  <a href="#docker-compose-file-contents" class="md-nav__link">
-    Docker Compose File Contents
+  <a href="#serve-iridium-using-the-docker-compose-file-contents-below" class="md-nav__link">
+    Serve Iridium using the Docker Compose file contents below
   </a>
   
 </li>
@@ -666,8 +666,8 @@ You're not viewing the latest version.
 </li>
       
         <li class="md-nav__item">
-  <a href="#docker-compose-file-contents" class="md-nav__link">
-    Docker Compose File Contents
+  <a href="#serve-iridium-using-the-docker-compose-file-contents-below" class="md-nav__link">
+    Serve Iridium using the Docker Compose file contents below
   </a>
   
 </li>
@@ -734,7 +734,7 @@ You're not viewing the latest version.
 <p>Iridium is dependent on an RDBMS system such as <a href="https://www.mysql.com/">MySQL</a> or <a href="https://mariadb.org/">MariaDB</a> and a
 SMTP server.</p>
 <p>We will use Docker Compose to simplify the setup process.  You can go about completing this step by either checking out the <a href="#serve-iridium-from-the-repo">repo locally</a> or
-using the <a href="#docker-compose-file-contents">Docker Compose file contents below</a>.</p>
+using the <a href="#serve-iridium-using-the-docker-compose-file-contents-below">Docker Compose file contents below</a>.</p>
 <h3 id="serve-iridium-from-the-repo">Serve Iridium from the repo</h3>
 <p>Clone the repo</p>
 <pre><code class="language-shell">$ git clone git@github.com:IridiumIdentity/iridium.git
@@ -746,9 +746,22 @@ using the <a href="#docker-compose-file-contents">Docker Compose file contents b
 <pre><code class="language-shell">$ docker compose -f tools/schedulers/compose/local-iridium-compose.yml up -d
 </code></pre>
 <p>At this point you have a version of the Iridium core server, an instance of MariaDB, and an instance of <a href="https://github.com/gessnerfl/fake-smtp-server">Fake SMTP Server</a>
-We still need to initialize the database with specific data for Iridium to function. </p>
+We still need to initialize the database with specific data for Iridium to function.  </p>
+<p>You can verify this by executing <code>docker ps</code>, you should see similar output like below</p>
+<pre><code class="language-shell"> docker ps
+CONTAINER ID   IMAGE                                        COMMAND                  CREATED         STATUS         PORTS                                        NAMES
+a44c37b6d4c1   mariadb:10.6.11                              &quot;docker-entrypoint.s…&quot;   6 seconds ago   Up 3 seconds   0.0.0.0:3306-&gt;3306/tcp                       mariadb
+9b9005ad9662   gessnerfl/fake-smtp-server                   &quot;java -Djava.securit…&quot;   6 seconds ago   Up 4 seconds   8025/tcp, 8081/tcp, 0.0.0.0:8080-&gt;8080/tcp   fake-smtp-server
+b919d4ffcf56   iridiumidentity/iridium-core-server:latest   &quot;java -jar /opt/java…&quot;   6 seconds ago   Up 4 seconds   0.0.0.0:8381-&gt;8381/tcp                       iridium
+</code></pre>
+<p>It may take the iridium core server about 30 seconds to fully come up.  You can verify all is good by watching the logs by 
+executing <code>docker logs iridium -f</code>.  </p>
+<p>When you see the following, the server is ready to go.</p>
+<pre><code class="language-shell">main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8381 (http) with context path ''
+main] software.iridium.api.Iridium             : Started Iridium in 64.841 seconds (process running for 74.472)
+</code></pre>
 <p><a href="#initialize-with-iridium-without-a-social-provider">Next, you should initialize the database</a></p>
-<h3 id="docker-compose-file-contents">Docker Compose File Contents</h3>
+<h3 id="serve-iridium-using-the-docker-compose-file-contents-below">Serve Iridium using the Docker Compose file contents below</h3>
 <p>Place the below yaml in file to stand up Iridium locally. </p>
 <pre><code class="language-yaml">version: '3.8'
 
@@ -778,7 +791,7 @@ services:
       - SPRING_DATASOURCE_DRIVER-CLASS=com.mysql.jdbc.Driver
       - SPRING_DATASOURCE_URL=jdbc:mysql://mariadb/identities?useSSL=false
       - SPRING_DATASOURCE_USERNAME=iridium
-      - SPRING_DATASOURCE_PASSWORD=sug4rn3ss&amp;
+      - SPRING_DATASOURCE_PASSWORD=iridium
       - SPRING_DATASOURCE_TOMCAT_MAX-ACTIVE=5
       - SPRING_DATASOURCE_TEST-WHILE-IDLE=true
       - SPRING_DATASOURCE_VALIDATION_QUERY=SELECT 1 FROM DUEL
@@ -910,12 +923,10 @@ you can <a href="../../4.-connecting-social-identity-providers/create-github-app
 <p>From here you need to take your generated id <code>${someApplicationId}</code> and <a href="#stand-up-the-iridium-management-ui">stand up the Iridium Management UI</a>.</p>
 <h2 id="stand-up-the-iridium-management-ui">Stand up the Iridium Management UI</h2>
 <p>The rest of this document assumes you have cloned the iridium repository, and you are in the root directory of project. </p>
-<p>Clone the repo</p>
-<pre><code class="language-shell">$ git clone git@github.com:IridiumIdentity/iridium.git &amp;&amp; cd iridium
-</code></pre>
 <p>Update your environment.ts file with correct application ID.  From the top level directory it's located at:</p>
-<p>iridium-angular-client/projects/iridium-ui/src/environments/environment.ts
-The file should look like this before you add your client id</p>
+<pre><code class="language-shell">iridium-angular-client/projects/iridium-ui/src/environments/environment.ts
+</code></pre>
+<p>The file should look like this before you add your client id</p>
 <pre><code class="language-shell">export const environment = {
   production: false,
   iridium: {
@@ -937,17 +948,17 @@ The file should look like this before you add your client id</p>
   }
 };
 </code></pre>
-<p><code>cd</code> into the Angular project within the Iridium project</p>
+<p><code>cd</code> into the Angular project</p>
 <pre><code class="language-shell">$ cd iridium-angular-client/
 </code></pre>
 <p>build the <code>ngx-iridium-client</code> and the management UI.</p>
 <pre><code class="language-shell">$ ng build ngx-iridium-client &amp;&amp; ng serve
 </code></pre>
 <p>At this point you are ready to use Iridium to secure your system.<br />
-You've stood up the  Iridium Core Server, A Fake SMTP Server, and the management UI.<br />
-The next step is log in the management UI using either the local user you created (username/password) or the by using 
-a social provider (such as GitHub) to access the system.  </p>
-<p>From here, you can create single page applications or server apps in the UI to be secured by Iridium.</p>
+You've stood up the  Iridium Core Server, A Fake SMTP Server, and the management UI.  </p>
+<p>The next step is log in the management UI using either the local user you created (username/password) or the by using 
+a social provider (such as GitHub) to access the system by visiting <a href="http://localhost:4200">http://localhost:4200</a> in your browser.</p>
+<p>From here, you can create tenants and associate single page applications or server apps in the UI to be secured by Iridium.</p>
 
 
   
