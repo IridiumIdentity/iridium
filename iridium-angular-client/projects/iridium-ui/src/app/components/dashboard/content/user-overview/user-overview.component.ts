@@ -1,10 +1,11 @@
-import { Component, Input, } from '@angular/core';
+import { Component, Input, OnInit, } from '@angular/core';
 import { DynamicContentViewItem } from '../dynamic-content-view-item';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CookieService } from '../../../../services/cookie.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicationSummary } from '../../domain/application-summary';
+import { IdentityService } from '../../../../services/identity.service';
+import { IdentitySummaryResponse } from '../../domain/identity-summary-response';
 
 @Component({
   selector: 'add-user-dialog',
@@ -25,17 +26,20 @@ export class AddUserDialog {
     console.log('yes')
   }
 }
-
+type IdentitySummaryMapType = {
+  [id: string]: IdentitySummaryResponse;
+}
 @Component({
   selector: 'app-user-overview',
   templateUrl: './user-overview.component.html',
   styleUrls: ['./user-overview.component.css']
 })
-export class UserOverviewComponent implements DynamicContentViewItem {
+export class UserOverviewComponent implements DynamicContentViewItem, OnInit {
   @Input() data: any;
-  displayedColumns: string[] = ['name', 'clientId', 'type'];
-  dataSource: ApplicationSummary[] = [];
-  constructor(private cookieService: CookieService, private route: ActivatedRoute, private _formBuilder: UntypedFormBuilder, private router: Router, private dialog: MatDialog) { }
+  displayedColumns: string[] = ['id', 'emailAddress'];
+  dataSource: IdentitySummaryResponse[] = [];
+
+  constructor(private identityServie: IdentityService, private cookieService: CookieService, private route: ActivatedRoute, private _formBuilder: UntypedFormBuilder, private router: Router, private dialog: MatDialog) { }
 
 
   create() {
@@ -49,5 +53,29 @@ export class UserOverviewComponent implements DynamicContentViewItem {
   }
   onRowClick(index: number) {
     console.log('clicked on row: ', index)
+  }
+
+  ngOnInit(): void {
+    this.refreshDataSource();
+
+  }
+
+  private refreshDataSource() {
+    this.dataSource = [];
+    this.identityServie.getSummariesByParentTenant(this.data.tenantId, 100)
+      .subscribe(identitySummaries => {
+        console.log('identity summaries is ', identitySummaries)
+        for (let i = 0; i < identitySummaries.data.length; i++) {
+          let summary = identitySummaries.data[i];
+          console.log('summary is', summary)
+          const newRow = {
+            id: summary.id,
+            emailAddress: summary.emailAddress,
+          };
+          console.log('adding new row', newRow)
+          this.dataSource = [...this.dataSource, newRow]
+        }
+
+      })
   }
 }

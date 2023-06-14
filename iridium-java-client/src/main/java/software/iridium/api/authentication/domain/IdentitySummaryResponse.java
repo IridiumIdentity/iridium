@@ -27,6 +27,8 @@ public class IdentitySummaryResponse implements Serializable {
 
   private String lastName;
 
+  private String emailAddress;
+
   public String getId() {
     return id;
   }
@@ -49,5 +51,13 @@ public class IdentitySummaryResponse implements Serializable {
 
   public void setLastName(final String lastName) {
     this.lastName = lastName;
+  }
+
+  public String getEmailAddress() {
+    return emailAddress;
+  }
+
+  public void setEmailAddress(final String emailAddress) {
+    this.emailAddress = emailAddress;
   }
 }
