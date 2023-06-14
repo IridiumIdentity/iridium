@@ -8,15 +8,15 @@
       <mat-table cdk-table [dataSource]="dataSource" class="data-table">
 
 
-        <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{element.name}}
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="clientId">
-          <mat-header-cell *matHeaderCellDef>Client ID</mat-header-cell>
+        <ng-container matColumnDef="lastName">
+          <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{element.clientId}}
           </mat-cell>
@@ -25,8 +25,8 @@
 
 
 
-        <ng-container matColumnDef="type">
-          <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+        <ng-container matColumnDef="firstName">
+          <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{element.type}}
           </mat-cell>

@@ -40,7 +40,7 @@ public class IdentityEntity extends AbstractEntity {
   @Column(name = "requires_password_change", nullable = false)
   private Boolean requiresPasswordChange = false;
 
-  @ManyToMany(fetch = FetchType.LAZY)
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
       name = "tenants_identities_xref",
       joinColumns = {@JoinColumn(name = "identity_id")},

@@ -11,7 +11,7 @@ import { NgxIridiumClientService } from './ngx-iridium-client.service';
 })
 export class NgxIridiumCallbackComponent implements OnInit {
 
-  hasError: boolean;
+  hasError!: boolean;
   iridiumImagePath: string;
   environment: any;
   constructor(
@@ -20,7 +20,7 @@ export class NgxIridiumCallbackComponent implements OnInit {
     private iridiumClient: NgxIridiumClientService
   ) {
     this.iridiumImagePath = '/assets/iridium-3C-xl.png';
-    this.hasError = false;
+
     console.log('in constructor env is ', environment)
     this.environment = environment;
   }
@@ -28,12 +28,17 @@ export class NgxIridiumCallbackComponent implements OnInit {
   ngOnInit(): void {
     this.iridiumClient.authorize()
       .then((successful) => {
-        console.log('is successful: ' + successful)
-        console.log('navigating to: ' + this.environment.iridium.successfulAuthDestination)
-        this.router.navigateByUrl(this.environment.iridium.successfulAuthDestination)
+        if (successful) {
+          this.hasError = false;
         }
+        if (this.environment.iridium.successfulAuthDestination !== null && this.environment.iridium.successfulAuthDestination !== undefined) {
+          this.router.navigateByUrl(this.environment.iridium.successfulAuthDestination)
+        }
+      }
+
       ).catch((error) => {
         console.error("error! ", error)
+        this.hasError = true;
       }
     )
   }
