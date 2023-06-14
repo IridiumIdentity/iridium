@@ -16,7 +16,6 @@ export class PKCEService {
   }
 
   public async generateBase64EncodedChallenge(verifier: string) {
-    console.log('using verifier ', verifier);
     const signature = await this.generateSha256Signature(verifier);
     return this.base64UrlEncode(signature);
   }
@@ -30,9 +29,8 @@ export class PKCEService {
     const data = new TextEncoder().encode(clearText);
     const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
-    console.log('hash hex', hashHex);
-    return hashHex;
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+
   }
 
   base64UrlEncode(input: string) {
