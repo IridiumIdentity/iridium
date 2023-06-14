@@ -32,8 +32,14 @@ public class IdentitySummaryResponseMapper {
     final var response = new IdentitySummaryResponse();
     response.setId(entity.getId());
     final var profile = entity.getProfile();
-    response.setFirstName(profile.getFirstName());
-    response.setLastName(profile.getLastName());
+
+    if (profile != null) {
+      response.setFirstName(profile.getFirstName());
+      response.setLastName(profile.getLastName());
+    }
+
+    response.setEmailAddress(entity.getPrimaryEmail().getEmailAddress());
+
     return response;
   }
 }

@@ -22,14 +22,6 @@ $ deactivate
 $ pip freeze > requirements.txt
 ```
 
-## In case mkdocs isn't found
-
-### OSX
-Add the correct python version to your path
-```shell
-$ export PATH="/Users/<you>/Library/Python/3.9/bin:$PATH"
-```
-
 ### Doc info
 
 * [mkdocs.org](https://www.mkdocs.org).
@@ -38,3 +30,11 @@ $ export PATH="/Users/<you>/Library/Python/3.9/bin:$PATH"
 
 * `mike serve` - Start the live-reloading docs server.
 * `mike deploy DRAFT` - Publish a new revision of `DRAFT` version locally
+
+## In case mkdocs or mike isn't found
+
+### OSX
+Add the correct python version to your path
+```shell
+$ export PATH="/Users/<you>/Library/Python/3.9/bin:$PATH"
+```
