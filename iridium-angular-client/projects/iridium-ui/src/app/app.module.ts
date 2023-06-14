@@ -54,7 +54,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxIridiumClientModule } from 'ngx-iridium-client';
 import { NoopInterceptor } from './http-interceptors/http-interceptor';
-import { CallbackComponent } from './components/callback/callback.component';
+import { NgxIridiumCallbackComponent } from '../../../ngx-iridium-client/src/lib/ngx-iridium-callback.component';
 
 @NgModule({
   declarations: [
@@ -76,8 +76,7 @@ import { CallbackComponent } from './components/callback/callback.component';
     UpdateApplicationDialog,
     CreateAPIDialog,
     AddUserDialog,
-    CreateRoleDialog,
-    CallbackComponent
+    CreateRoleDialog
   ],
   imports: [
     BrowserModule,
@@ -113,7 +112,8 @@ import { CallbackComponent } from './components/callback/callback.component';
       provide: HTTP_INTERCEPTORS,
       useClass: NoopInterceptor,
       multi: true
-    }],
+    },
+  {provide: 'environment', useValue: environment}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
