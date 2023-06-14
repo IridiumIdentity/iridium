@@ -11,26 +11,26 @@
         <ng-container matColumnDef="id">
           <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{element.name}}
+            {{element.id}}
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="lastName">
+        <ng-container matColumnDef="emailAddress">
           <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{element.clientId}}
+            {{element.emailAddress}}
           </mat-cell>
         </ng-container>
 
 
 
 
-        <ng-container matColumnDef="firstName">
-          <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            {{element.type}}
-          </mat-cell>
-        </ng-container>
+<!--        <ng-container matColumnDef="firstName">-->
+<!--          <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>-->
+<!--          <mat-cell *matCellDef="let element">-->
+<!--            {{element.firstName}}-->
+<!--          </mat-cell>-->
+<!--        </ng-container>-->
 
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

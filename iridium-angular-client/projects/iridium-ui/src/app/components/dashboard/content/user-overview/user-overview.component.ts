@@ -36,9 +36,8 @@ type IdentitySummaryMapType = {
 })
 export class UserOverviewComponent implements DynamicContentViewItem, OnInit {
   @Input() data: any;
-  displayedColumns: string[] = ['id', 'lastName', 'firstName'];
+  displayedColumns: string[] = ['id', 'emailAddress'];
   dataSource: IdentitySummaryResponse[] = [];
-  applicationTypeMap: IdentitySummaryMapType = {};
 
   constructor(private identityServie: IdentityService, private cookieService: CookieService, private route: ActivatedRoute, private _formBuilder: UntypedFormBuilder, private router: Router, private dialog: MatDialog) { }
 
@@ -68,11 +67,12 @@ export class UserOverviewComponent implements DynamicContentViewItem, OnInit {
         console.log('identity summaries is ', identitySummaries)
         for (let i = 0; i < identitySummaries.data.length; i++) {
           let summary = identitySummaries.data[i];
+          console.log('summary is', summary)
           const newRow = {
             id: summary.id,
-            firstName: summary.firstName,
-            lastName: summary.lastName,
+            emailAddress: summary.emailAddress,
           };
+          console.log('adding new row', newRow)
           this.dataSource = [...this.dataSource, newRow]
         }
 
