@@ -42,7 +42,7 @@ services:
       - SPRING_DATASOURCE_DRIVER-CLASS=com.mysql.jdbc.Driver
       - SPRING_DATASOURCE_URL=jdbc:mysql://mariadb/identities?useSSL=false
       - SPRING_DATASOURCE_USERNAME=iridium
-      - SPRING_DATASOURCE_PASSWORD=sug4rn3ss&
+      - SPRING_DATASOURCE_PASSWORD=iridium
       - SPRING_DATASOURCE_TOMCAT_MAX-ACTIVE=5
       - SPRING_DATASOURCE_TEST-WHILE-IDLE=true
       - SPRING_DATASOURCE_VALIDATION_QUERY=SELECT 1 FROM DUEL
@@ -76,7 +76,7 @@ services:
       MYSQL_ROOT_PASSWORD: iridium
       MYSQL_DATABASE: identities
       MYSQL_USER: iridium
-      MYSQL_PASSWORD: sug4rn3ss&
+      MYSQL_PASSWORD: iridium
     networks:
       - iridium
 

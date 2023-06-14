@@ -8,10 +8,9 @@ import { NgxIridiumCallbackComponent } from 'ngx-iridium-client';
 
 
 const routes: Routes = [
-  { path: 'register', component: RegisterComponent},
+  { path: '', component: RegisterComponent},
   { path: 'dashboard', component: DashboardComponent},
   { path: 'callback', component: NgxIridiumCallbackComponent },
-  { path: '',   redirectTo: '/dashboard', pathMatch: 'full' },
 ];
 
 @NgModule({
