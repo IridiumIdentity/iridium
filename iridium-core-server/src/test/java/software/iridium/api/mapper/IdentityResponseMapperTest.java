@@ -73,4 +73,29 @@ class IdentityResponseMapperTest {
     MatcherAssert.assertThat(response.getAppBaseUrl(), is(equalTo(appBaseUrl)));
     MatcherAssert.assertThat(response.getUserToken(), is(equalTo(userToken)));
   }
+
+  @Test
+  public void map_EntityAlone_BehavesAsExpected() {
+    final var entity = new IdentityEntity();
+    final var id = "the id";
+    final var emailAddress = "you@somwhere.com";
+    final var email = new IdentityEmailEntity();
+    final var profile = new ProfileEntity();
+    entity.setId(id);
+    email.setEmailAddress(emailAddress);
+    email.setPrimary(true);
+    entity.getEmails().add(email);
+    entity.setProfile(profile);
+    final var profileResponse = new ProfileResponse();
+
+    when(mockProfileMapper.map(same(profile))).thenReturn(profileResponse);
+
+    final var response = subject.map(entity);
+
+    verify(mockProfileMapper).map(same(profile));
+
+    MatcherAssert.assertThat(response.getId(), is(equalTo(id)));
+    MatcherAssert.assertThat(response.getUsername(), is(equalTo(emailAddress)));
+    MatcherAssert.assertThat(response.getProfile(), is(equalTo(profileResponse)));
+  }
 }
