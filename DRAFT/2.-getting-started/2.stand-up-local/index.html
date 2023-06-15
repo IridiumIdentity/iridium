@@ -838,11 +838,12 @@ only allow users to use social providers to access your applications. </p>
 --admin-email=you@somewhere.com
 </code></pre>
 <p>The CLI tool should prompt your for the database password.  Enter the password you configured upon standing up
-the database.</p>
+the database.  If you used the Docker Compose to stand up the Iridium the password in this case will be <code>iridium</code> .</p>
 <pre><code class="language-shell">$ Enter value for --password (the database password): 
 </code></pre>
-<p>Next, it will ask for your admin user password.  This is the password you will use along with the admin-email you passed
-to log in to the management UI</p>
+<p>Next, it will ask for your admin user password.  You may choose any value you like.
+This is the password you will use along with the <code>--admin-email</code> argument you passed to the Iridium CLI to
+init the system.  You will use these credentials to sign into the Iridium management UI.</p>
 <pre><code class="language-shell">$ Enter value for --admin-password (the admin password):
 </code></pre>
 <p>Upon successful initialization of the database you'll see similar output</p>
