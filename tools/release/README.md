@@ -23,6 +23,11 @@ $ git tag -a v${my-version-number} -m "some message"
 $ git push origin v${my-version-number} 
 ```
 
+## Create Tar file for distribution
+```shell
+$ tar -czvf iridium-${my-version-number}-bin.tar.gz ./iridium-${my-version-number}-bin
+```
+
 ## Check that artifacts were built and uploaded correctly to GitHub
 If they are continue on to publishing the release in GitHub
 
