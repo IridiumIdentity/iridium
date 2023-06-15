@@ -465,22 +465,8 @@ You're not viewing the latest version.
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#initialize-with-iridium-with-github-login" class="md-nav__link">
-    Initialize with Iridium with GitHub Login
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stand-up-the-iridium-management-ui" class="md-nav__link">
-    Stand up the Iridium Management UI
-  </a>
   
 </li>
       
@@ -687,22 +673,8 @@ You're not viewing the latest version.
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#initialize-with-iridium-with-github-login" class="md-nav__link">
-    Initialize with Iridium with GitHub Login
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stand-up-the-iridium-management-ui" class="md-nav__link">
-    Stand up the Iridium Management UI
-  </a>
   
 </li>
       
@@ -852,6 +824,10 @@ previous step as detail <a href="../1.Install-the-CLI/">here</a>.</p>
 <p>To initialize the database execute the following command.  Again we are expecting you to be in the top level folder of
 expanded tar.gz distribution you downloaded and unpacked earlier.</p>
 <h3 id="initialize-with-iridium-without-a-social-provider">Initialize with Iridium without a social provider</h3>
+<h1 id="warning"><strong>!!!!!!!! WARNING !!!!!!!!</strong></h1>
+<p>We will be deprecating the use of passwords within Iridium entirely in future releases.  Some password functionality 
+may not work as intended (password resets, etc) as we are in progress of deprecating their usage.  To get around this you can 
+only allow users to use social providers to access your applications. </p>
 <p>This will initialize the system to only accept a username (email) and password as user credentials.</p>
 <pre><code class="language-shell">$ ./bin/iridium  init \
 --host=localhost \
