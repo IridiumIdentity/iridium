@@ -13,7 +13,7 @@ drop.sql
 
 # site
 site/.venv/
-
+site/site
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
