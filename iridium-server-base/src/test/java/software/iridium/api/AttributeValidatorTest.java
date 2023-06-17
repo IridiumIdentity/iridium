@@ -60,7 +60,7 @@ public class AttributeValidatorTest {
   }
 
   @Test
-  public void isValidSubDomain_ContainsDot_IsNotValidSubdomain() {
+  public void isValidSubdomain_ContainsDot_IsNotValidSubdomain() {
     final var candidate = "abc.def";
     final var isValidSubdomain = subject.isValidSubdomain(candidate);
 
@@ -99,7 +99,7 @@ public class AttributeValidatorTest {
 
   @Test
   public void
-      ifPresentAndIsNotBlankAndNoLongerThan_AllGood_ifPresentAndIsNotBlankAndNoLongerThanFive() {
+  ifPresentAndIsNotBlankAndNoLongerThan_AllGood_isPresentAndIsNotBlankAndNoLongerThanFive() {
     final var candidate = "abc";
     final var maxLength = 5;
     final var ifPresentAndIsNotBlankAndNoLongerThan =
@@ -109,7 +109,7 @@ public class AttributeValidatorTest {
   }
 
   @Test
-  public void ifPresentAndIsNotBlankAndNoLongerThan_Empty() {
+  public void ifPresentAndIsNotBlankAndNoLongerThan_Empty_IsNotPresent() {
     final var candidate = "";
     final var maxLength = 5;
     final var ifPresentAndIsNotBlankAndNoLongerThan =
@@ -119,7 +119,7 @@ public class AttributeValidatorTest {
   }
 
   @Test
-  public void ifPresentAndIsNotBlankAndNoLongerThan_Null() {
+  public void ifPresentAndIsNotBlankAndNoLongerThan_Null_IsNotPresent() {
     final String candidate = null;
     final var maxLength = 5;
     final var ifPresentAndIsNotBlankAndNoLongerThan =
