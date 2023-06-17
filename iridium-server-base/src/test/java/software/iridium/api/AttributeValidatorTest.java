@@ -99,7 +99,7 @@ public class AttributeValidatorTest {
 
   @Test
   public void
-  ifPresentAndIsNotBlankAndNoLongerThan_AllGood_isPresentAndIsNotBlankAndNoLongerThanFive() {
+      ifPresentAndIsNotBlankAndNoLongerThan_AllGood_isPresentAndIsNotBlankAndNoLongerThanFive() {
     final var candidate = "abc";
     final var maxLength = 5;
     final var ifPresentAndIsNotBlankAndNoLongerThan =
