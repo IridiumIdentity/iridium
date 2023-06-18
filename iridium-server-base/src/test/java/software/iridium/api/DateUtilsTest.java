@@ -20,31 +20,31 @@ import software.iridium.api.util.DateUtils;
 
 public class DateUtilsTest {
 
-    @Test
-    public void addHoursToCurrentTime_AllGood_FiveHoursAdded() {
-        final var hours = 5;
+  @Test
+  public void addHoursToCurrentTime_AllGood_FiveHoursAdded() {
+    final var hours = 5;
 
-        final var calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.HOUR_OF_DAY, hours);
-        final var dateFiveHoursAhead = calendar.getTime();
+    final var calendar = Calendar.getInstance();
+    calendar.setTime(new Date());
+    calendar.add(Calendar.HOUR_OF_DAY, hours);
+    final var dateFiveHoursAhead = calendar.getTime();
 
-        Date dateAfterAddingFiveHoursToCurrentTime = DateUtils.addHoursToCurrentTime(hours);
+    Date dateAfterAddingFiveHoursToCurrentTime = DateUtils.addHoursToCurrentTime(hours);
 
-        assertTrue(dateAfterAddingFiveHoursToCurrentTime.getTime() >= dateFiveHoursAhead.getTime());
-    }
+    assertTrue(dateAfterAddingFiveHoursToCurrentTime.getTime() >= dateFiveHoursAhead.getTime());
+  }
 
-    @Test
-    public void addMinutesToCurrentTime_AllGood_FiveMinutesAdded() {
-        final var minutes = 5;
+  @Test
+  public void addMinutesToCurrentTime_AllGood_FiveMinutesAdded() {
+    final var minutes = 5;
 
-        final var calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.MINUTE, minutes);
-        final var dateFiveMinutesAhead = calendar.getTime();
+    final var calendar = Calendar.getInstance();
+    calendar.setTime(new Date());
+    calendar.add(Calendar.MINUTE, minutes);
+    final var dateFiveMinutesAhead = calendar.getTime();
 
-        Date dateAfterAddingFiveMinutesToCurrentTime = DateUtils.addMinutesToCurrentTime(minutes);
+    Date dateAfterAddingFiveMinutesToCurrentTime = DateUtils.addMinutesToCurrentTime(minutes);
 
-        assertTrue(dateAfterAddingFiveMinutesToCurrentTime.getTime() >= dateFiveMinutesAhead.getTime());
-    }
+    assertTrue(dateAfterAddingFiveMinutesToCurrentTime.getTime() >= dateFiveMinutesAhead.getTime());
+  }
 }
