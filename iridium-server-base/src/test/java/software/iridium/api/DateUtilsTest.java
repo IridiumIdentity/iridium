@@ -32,9 +32,9 @@ public class DateUtilsTest {
 
   @Test
   public void addHoursToCurrentTime_AllGood_FiveHoursAdded() {
-    try (MockedStatic<Calendar> calendarMock = Mockito.mockStatic(Calendar.class)) {
+    try (MockedStatic<Calendar> calendarClassMock = Mockito.mockStatic(Calendar.class)) {
       when(calendarInstanceMock.getTime()).thenReturn(new Date());
-      calendarMock.when(Calendar::getInstance).thenReturn(calendarInstanceMock);
+      calendarClassMock.when(Calendar::getInstance).thenReturn(calendarInstanceMock);
 
       final var hours = 5;
       Date dateAfterAddingFiveHoursToCurrentTime = DateUtils.addHoursToCurrentTime(hours);
