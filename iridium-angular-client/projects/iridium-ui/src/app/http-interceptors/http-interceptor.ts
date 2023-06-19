@@ -18,11 +18,9 @@ export class NoopInterceptor implements HttpInterceptor {
       // const authReq = req.clone({
       //   headers: req.headers.set('Authorization', authToken)
       // });
-      console.log('request', req)
       return next.handle(req).pipe(map((event: HttpEvent<any>) => {
 
         if (event instanceof HttpResponse) {
-          console.log('response headers  is', event);
           event = event.clone({body: this.modifyBody(event.body)});
         }
         return event;

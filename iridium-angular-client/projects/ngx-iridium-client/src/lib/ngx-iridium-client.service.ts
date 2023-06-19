@@ -67,4 +67,8 @@ export class NgxIridiumClientService {
 
   }
 
+  public isAuthenticated() {
+    return this.authorizationService.getIdentity(this.cookieService.getCookie('iridium-token'));
+  }
+
 }

@@ -55,7 +55,7 @@ public class TokenAuthenticationFilter extends AbstractPreAuthenticatedProcessin
   private String extractBearerToken(final HttpServletRequest request) {
     final var header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-    if (header != null && !header.isBlank()) {
+    if (header != null && header.length() > BEARER_PREFIX_WITH_SPACE.length()) {
       return header.substring(BEARER_PREFIX_WITH_SPACE.length());
     }
     return null;

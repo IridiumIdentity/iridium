@@ -70,6 +70,6 @@ export class AuthorizationService extends AbstractBaseService {
 
     return this.http.get<IdentityResponse>(
       this.config.iridium.domain
-      + 'identities', httpOptions).toPromise()
+      + 'identities', httpOptions)
   }
 }

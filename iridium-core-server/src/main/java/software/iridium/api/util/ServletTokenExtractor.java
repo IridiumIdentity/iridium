@@ -26,7 +26,7 @@ public class ServletTokenExtractor {
   public String extractBearerToken(final HttpServletRequest request) {
     final var header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-    if (header == null || header.isBlank()) {
+    if (header == null || header.length() < BEARER_PREFIX_WITH_SPACE.length()) {
       throw new NotAuthorizedException("authorization blank");
     }
     return header.substring(BEARER_PREFIX_WITH_SPACE.length());

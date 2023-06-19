@@ -31,6 +31,7 @@ export class NgxIridiumCallbackComponent implements OnInit {
         if (successful) {
           this.hasError = false;
         }
+        console.log('auth destination: ', this.environment.iridium.successfulAuthDestination)
         if (this.environment.iridium.successfulAuthDestination !== null && this.environment.iridium.successfulAuthDestination !== undefined) {
           this.router.navigateByUrl(this.environment.iridium.successfulAuthDestination)
         }

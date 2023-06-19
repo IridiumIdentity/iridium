@@ -27,6 +27,7 @@ export class CreateTenantPromptDialog {
     private tenantService: TenantService,
     private formBuilder: FormBuilder
   ) {
+    console.log("dashboard constructed")
     this.createTenantFormGroup = this.formBuilder.group({
       tenantName: ['', Validators.required],
       environment: ['', Validators.required],
