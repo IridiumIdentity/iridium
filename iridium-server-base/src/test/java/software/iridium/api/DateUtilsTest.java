@@ -11,40 +11,50 @@
  */
 package software.iridium.api;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Calendar;
 import java.util.Date;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.util.DateUtils;
 
+@ExtendWith(MockitoExtension.class)
 public class DateUtilsTest {
+
+  @Mock private Calendar calendarInstanceMock;
 
   @Test
   public void addHoursToCurrentTime_AllGood_FiveHoursAdded() {
-    final var hours = 5;
+    try (MockedStatic<Calendar> calendarClassMock = Mockito.mockStatic(Calendar.class)) {
+      when(calendarInstanceMock.getTime()).thenReturn(new Date());
+      calendarClassMock.when(Calendar::getInstance).thenReturn(calendarInstanceMock);
 
-    final var calendar = Calendar.getInstance();
-    calendar.setTime(new Date());
-    calendar.add(Calendar.HOUR_OF_DAY, hours);
-    final var dateFiveHoursAhead = calendar.getTime();
+      final var hours = 5;
+      Date dateAfterAddingFiveHoursToCurrentTime = DateUtils.addHoursToCurrentTime(hours);
 
-    Date dateAfterAddingFiveHoursToCurrentTime = DateUtils.addHoursToCurrentTime(hours);
-
-    assertTrue(dateAfterAddingFiveHoursToCurrentTime.getTime() >= dateFiveHoursAhead.getTime());
+      verify(calendarInstanceMock).add(Calendar.HOUR_OF_DAY, hours);
+      assertNotNull(dateAfterAddingFiveHoursToCurrentTime);
+    }
   }
 
   @Test
   public void addMinutesToCurrentTime_AllGood_FiveMinutesAdded() {
-    final var minutes = 5;
+    try (MockedStatic<Calendar> calendarClassMock = Mockito.mockStatic(Calendar.class)) {
+      when(calendarInstanceMock.getTime()).thenReturn(new Date());
+      calendarClassMock.when(Calendar::getInstance).thenReturn(calendarInstanceMock);
 
-    final var calendar = Calendar.getInstance();
-    calendar.setTime(new Date());
-    calendar.add(Calendar.MINUTE, minutes);
-    final var dateFiveMinutesAhead = calendar.getTime();
+      final var minutes = 5;
+      Date dateAfterAddingFiveMinutesToCurrentTime = DateUtils.addMinutesToCurrentTime(minutes);
 
-    Date dateAfterAddingFiveMinutesToCurrentTime = DateUtils.addMinutesToCurrentTime(minutes);
-
-    assertTrue(dateAfterAddingFiveMinutesToCurrentTime.getTime() >= dateFiveMinutesAhead.getTime());
+      verify(calendarInstanceMock).add(Calendar.MINUTE, minutes);
+      assertNotNull(dateAfterAddingFiveMinutesToCurrentTime);
+    }
   }
 }
