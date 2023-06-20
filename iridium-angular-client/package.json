@@ -6,7 +6,7 @@
     "start": "ng serve",
     "lint-ui": "ng lint iridium-ui",
     "lint-client": "ng lint ngx-iridium-client",
-    "lint-all": "npm run lint-ui && npm run lint-client",
+    "lint": "npm run lint-ui && npm run lint-client",
     "build": "ng build",
     "build-all": "ng build ngx-iridium-client && ng build iridium-ui",
     "watch": "ng build --watch --configuration development",
