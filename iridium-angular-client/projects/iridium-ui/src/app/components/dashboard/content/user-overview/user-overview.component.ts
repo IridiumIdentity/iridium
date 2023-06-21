@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, } from '@angular/core';
 import { DynamicContentViewItem } from '../dynamic-content-view-item';
 import { UntypedFormBuilder } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { CookieService } from '../../../../services/cookie.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IdentityService } from '../../../../services/identity.service';

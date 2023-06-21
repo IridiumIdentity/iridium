@@ -14,12 +14,12 @@
         </ng-container>
 
         <ng-container matColumnDef="emailAddress">
-          <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>Email Address</mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{element.emailAddress}}
           </mat-cell>
         </ng-container>
-        
+
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns; index as i" (click)="onRowClick(i)"></mat-row>
       </mat-table>
