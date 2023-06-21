@@ -25,7 +25,7 @@ import software.iridium.entity.AccessTokenEntity;
 
 public class TokenAuthenticationFilter extends AbstractPreAuthenticatedProcessingFilter {
 
-  private AccessTokenEntityRepository tokenEntityRepository;
+  private AccessTokenEntityRepository tokenRepository;
 
   public static final String BEARER_PREFIX_WITH_SPACE = "Bearer ";
 
@@ -33,7 +33,7 @@ public class TokenAuthenticationFilter extends AbstractPreAuthenticatedProcessin
       final AuthenticationManager authenticationManager,
       final AccessTokenEntityRepository accessTokenEntityRepository) {
     super.setAuthenticationManager(authenticationManager);
-    this.tokenEntityRepository = accessTokenEntityRepository;
+    this.tokenRepository = accessTokenEntityRepository;
   }
 
   @Override
@@ -43,7 +43,7 @@ public class TokenAuthenticationFilter extends AbstractPreAuthenticatedProcessin
 
     if (StringUtils.isNotBlank(token)) {
       final AccessTokenEntity entity =
-          tokenEntityRepository
+          tokenRepository
               .findFirstByAccessTokenAndExpirationAfter(token, new Date())
               .orElseThrow(NotAuthorizedException::new);
 
@@ -52,6 +52,7 @@ public class TokenAuthenticationFilter extends AbstractPreAuthenticatedProcessin
     return null;
   }
 
+  // todo (joshfischer) need to consolidate this
   private String extractBearerToken(final HttpServletRequest request) {
     final var header = request.getHeader(HttpHeaders.AUTHORIZATION);
 

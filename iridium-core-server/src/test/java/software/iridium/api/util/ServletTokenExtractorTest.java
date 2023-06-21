@@ -11,6 +11,10 @@
  */
 package software.iridium.api.util;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -24,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
+import software.iridium.api.base.error.NotAuthorizedException;
 
 @ExtendWith(MockitoExtension.class)
 class ServletTokenExtractorTest {
@@ -37,7 +42,7 @@ class ServletTokenExtractorTest {
   }
 
   @Test
-  public void extract_AllGood_ExtractsAsExpected() {
+  public void extractBearerToken_AllGood_ExtractsAsExpected() {
     final var headerValue = "Bearer someTokenValue";
 
     when(mockServletRequest.getHeader(same(HttpHeaders.AUTHORIZATION))).thenReturn(headerValue);
@@ -45,5 +50,47 @@ class ServletTokenExtractorTest {
     final var response = subject.extractBearerToken(mockServletRequest);
 
     verify(mockServletRequest).getHeader(same(HttpHeaders.AUTHORIZATION));
+    assertThat(response, is(equalTo("someTokenValue")));
+  }
+
+  @Test
+  public void extractBearerToken_TokenValueMissing_NotAuthorizedExceptionThrown() {
+    final var headerValue = "Bearer";
+
+    when(mockServletRequest.getHeader(same(HttpHeaders.AUTHORIZATION))).thenReturn(headerValue);
+
+    final var exception =
+        assertThrows(
+            NotAuthorizedException.class, () -> subject.extractBearerToken(mockServletRequest));
+
+    verify(mockServletRequest).getHeader(same(HttpHeaders.AUTHORIZATION));
+    assertThat(exception.getMessage(), is(equalTo("NOT AUTHORIZED")));
+  }
+
+  @Test
+  public void extractBearerToken_BearerWithAddedSpace_NotAuthorizedExceptionThrown() {
+    final var headerValue = "Bearer ";
+
+    when(mockServletRequest.getHeader(same(HttpHeaders.AUTHORIZATION))).thenReturn(headerValue);
+
+    final var exception =
+        assertThrows(
+            NotAuthorizedException.class, () -> subject.extractBearerToken(mockServletRequest));
+
+    verify(mockServletRequest).getHeader(same(HttpHeaders.AUTHORIZATION));
+    assertThat(exception.getMessage(), is(equalTo("NOT AUTHORIZED")));
+  }
+
+  @Test
+  public void extractBearerToken_NullHeader_NotAuthorizedExceptionThrown() {
+
+    when(mockServletRequest.getHeader(same(HttpHeaders.AUTHORIZATION))).thenReturn(null);
+
+    final var exception =
+        assertThrows(
+            NotAuthorizedException.class, () -> subject.extractBearerToken(mockServletRequest));
+
+    verify(mockServletRequest).getHeader(same(HttpHeaders.AUTHORIZATION));
+    assertThat(exception.getMessage(), is(equalTo("NOT AUTHORIZED")));
   }
 }

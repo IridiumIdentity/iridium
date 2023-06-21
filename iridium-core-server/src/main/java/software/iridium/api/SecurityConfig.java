@@ -34,7 +34,6 @@ public class SecurityConfig {
   @Resource private RequestLoggingFilter requestLoggingFilter;
   @Resource private PreAuthMdcFilter preAuthMdcFilter;
   @Resource private PostAuthMdcFilter postAuthMdcFilter;
-
   @Resource private AccessTokenEntityRepository accessTokenRepository;
 
   @Bean
