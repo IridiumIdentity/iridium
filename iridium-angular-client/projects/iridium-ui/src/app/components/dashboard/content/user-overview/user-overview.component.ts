@@ -7,25 +7,25 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IdentityService } from '../../../../services/identity.service';
 import { IdentitySummaryResponse } from '../../domain/identity-summary-response';
 
-@Component({
-  selector: 'add-user-dialog',
-  templateUrl: './add-user-dialog.html',
-  styleUrls: ['./add-user-dialog.css']
-})
-export class AddUserDialog {
-  createUserFormGroup: UntypedFormGroup;
-
-  constructor(public dialogRef: MatDialogRef<UserOverviewComponent>, private _formBuilder: UntypedFormBuilder) {
-    this.createUserFormGroup = this._formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-    });
-  }
-
-  create() {
-    console.log('yes')
-  }
-}
+// @Component({
+//   selector: 'add-user-dialog',
+//   templateUrl: './add-user-dialog.html',
+//   styleUrls: ['./add-user-dialog.css']
+// })
+// export class AddUserDialog {
+//   createUserFormGroup: UntypedFormGroup;
+//
+//   constructor(public dialogRef: MatDialogRef<UserOverviewComponent>, private _formBuilder: UntypedFormBuilder) {
+//     this.createUserFormGroup = this._formBuilder.group({
+//       username: ['', Validators.required],
+//       password: ['', Validators.required],
+//     });
+//   }
+//
+//   create() {
+//     console.log('yes')
+//   }
+// }
 type IdentitySummaryMapType = {
   [id: string]: IdentitySummaryResponse;
 }
@@ -42,15 +42,15 @@ export class UserOverviewComponent implements DynamicContentViewItem, OnInit {
   constructor(private identityServie: IdentityService, private cookieService: CookieService, private route: ActivatedRoute, private _formBuilder: UntypedFormBuilder, private router: Router, private dialog: MatDialog) { }
 
 
-  create() {
-    const dialogRef = this.dialog.open(AddUserDialog, {
-      data: {},
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
+  // create() {
+  //   const dialogRef = this.dialog.open(AddUserDialog, {
+  //     data: {},
+  //   });
+  //
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log('The dialog was closed');
+  //   });
+  // }
   onRowClick(index: number) {
     console.log('clicked on row: ', index)
   }

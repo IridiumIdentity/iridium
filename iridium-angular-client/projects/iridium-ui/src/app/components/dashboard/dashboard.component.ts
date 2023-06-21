@@ -10,7 +10,6 @@ import { MatSelectChange } from '@angular/material/select';
 import { MenuItemNode } from './domain/menu-item-node';
 import { MenuItemService } from '../../services/menu-item.service';
 import { Router } from '@angular/router';
-import { AddUserDialog } from './content/user-overview/user-overview.component';
 
 
 

@@ -1,18 +1,20 @@
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxIridiumClientService } from 'ngx-iridium-client';
+import { tap } from 'rxjs';
 
 export const authGuard = async () => {
   const router = inject(Router);
   const authService = inject(NgxIridiumClientService);
-
-  const result = (await authService.isAuthenticated())
-    .subscribe((result) => {
-        console.log('subscribe result', result)
-    });
-  console.log('auth result is, ', result)
-  if (result) {
-    return true;
-  }
-  return router.createUrlTree(['/']);
+  console.log('in auth guard')
+  authService.isAuthenticated().subscribe({
+    next: (value) => {
+      console.log('next', value)
+      return true;
+    },
+    error: (error) => {
+      console.error('error', error)
+      router.navigateByUrl('/')
+    },
+  })
 };

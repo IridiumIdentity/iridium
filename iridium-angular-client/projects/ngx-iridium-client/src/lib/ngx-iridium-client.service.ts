@@ -9,6 +9,7 @@ import { AuthorizationService } from './service/authorization.service';
 import { OauthConstants } from './service/oauth-constants';
 import { AccessTokenResponse } from './domain/access-token-response';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { IdentityResponse } from './domain/identity-response';
 
 @Injectable({
   providedIn: 'root'
@@ -67,8 +68,8 @@ export class NgxIridiumClientService {
 
   }
 
-  public isAuthenticated() {
-    return this.authorizationService.getIdentity(this.cookieService.getCookie('iridium-token'));
+  public isAuthenticated(): Observable<IdentityResponse> {
+      return this.authorizationService.getIdentity(this.cookieService.getCookie('iridium-token'))
   }
 
 }
