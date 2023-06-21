@@ -35,15 +35,12 @@ export class UserOverviewComponent implements DynamicContentViewItem, OnInit {
     this.dataSource = [];
     this.identityServie.getSummariesByParentTenant(this.data.tenantId, 100)
       .subscribe(identitySummaries => {
-        console.log('identity summaries is ', identitySummaries)
         for (let i = 0; i < identitySummaries.data.length; i++) {
           let summary = identitySummaries.data[i];
-          console.log('summary is', summary)
           const newRow = {
             id: summary.id,
             emailAddress: summary.emailAddress,
           };
-          console.log('adding new row', newRow)
           this.dataSource = [...this.dataSource, newRow]
         }
 
