@@ -12,7 +12,6 @@
 package software.iridium.api.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +22,7 @@ import software.iridium.api.authentication.domain.IdentityResponse;
 import software.iridium.api.authentication.domain.IdentitySummaryResponse;
 import software.iridium.api.base.domain.ApiDataResponse;
 import software.iridium.api.base.domain.PagedListResponse;
+import software.iridium.api.model.AuthorizationRequestHolder;
 import software.iridium.api.service.IdentityService;
 
 @CrossOrigin
@@ -63,14 +63,15 @@ public class IdentityController {
       @RequestParam(value = "code_challenge", required = false) final String codeChallenge,
       final ModelMap model,
       final RedirectAttributes redirectAttributes) {
-    final var paramMap = new HashMap<String, String>();
-    paramMap.put("response_type", responseType);
-    paramMap.put("state", state);
-    paramMap.put("redirect_uri", redirectUri);
-    paramMap.put("client_id", clientId);
-    paramMap.put("code_challenge_method", codeChallengeMethod);
-    paramMap.put("code_challenge", codeChallenge);
-    final var response = identityService.create(request, paramMap);
+    final AuthorizationRequestHolder holder = new AuthorizationRequestHolder();
+
+    holder.setResponseType(responseType);
+    holder.setState(state);
+    holder.setRedirectUri(redirectUri);
+    holder.setClientId(clientId);
+    holder.setCodeChallengeMethod(codeChallengeMethod);
+    holder.setCodeChallenge(codeChallenge);
+    final var response = identityService.create(request, holder);
 
     redirectAttributes.addAttribute("response_type", responseType);
     redirectAttributes.addAttribute("state", state);

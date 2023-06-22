@@ -19,7 +19,6 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +26,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import software.iridium.api.model.AuthorizationRequestHolder;
 import software.iridium.api.util.AttributeValidator;
 import software.iridium.api.util.AuthorizationCodeFlowConstants;
 
@@ -44,15 +44,20 @@ class AuthorizationGrantTypeParamAttributeValidatorTest {
   @Test
   public void validate_AllGood_BehavesAsExpected() {
     final var clientId = "the client id";
-    final var params = new HashMap<String, String>();
-    params.put(
-        AuthorizationCodeFlowConstants.RESPONSE_TYPE.getValue(),
-        AuthorizationCodeFlowConstants.AUTHORIZATION_CODE.getValue());
-    params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
+
+    final AuthorizationRequestHolder holder = new AuthorizationRequestHolder();
+    holder.setClientId(clientId);
+    holder.setResponseType(AuthorizationCodeFlowConstants.AUTHORIZATION_CODE.getValue());
+
+    // final var params = new HashMap<String, String>();
+    // params.put(
+    //     AuthorizationCodeFlowConstants.RESPONSE_TYPE.getValue(),
+    //     AuthorizationCodeFlowConstants.AUTHORIZATION_CODE.getValue());
+    // params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
 
     when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
 
-    subject.validate(params);
+    subject.validate(holder);
 
     verify(mockAttributeValidator)
         .isNotBlank(eq(AuthorizationCodeFlowConstants.AUTHORIZATION_CODE.getValue()));
@@ -61,12 +66,12 @@ class AuthorizationGrantTypeParamAttributeValidatorTest {
 
   @Test
   public void validate_responseTypeIsBlank_ExceptionThrown() {
-    final var params = new HashMap<String, String>();
+    final AuthorizationRequestHolder holder = new AuthorizationRequestHolder();
 
     when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
 
     final var exception =
-        assertThrows(IllegalArgumentException.class, () -> subject.validate(params));
+        assertThrows(IllegalArgumentException.class, () -> subject.validate(holder));
 
     assertThat(exception.getMessage(), is(equalTo("response_type must not be blank")));
 
@@ -75,15 +80,14 @@ class AuthorizationGrantTypeParamAttributeValidatorTest {
 
   @Test
   public void validate_ClientIdIsBlank_ExceptionThrown() {
-    final var params = new HashMap<String, String>();
-    params.put(
-        AuthorizationCodeFlowConstants.RESPONSE_TYPE.getValue(),
-        AuthorizationCodeFlowConstants.AUTHORIZATION_CODE.getValue());
+    final AuthorizationRequestHolder holder = new AuthorizationRequestHolder();
+
+    holder.setResponseType(AuthorizationCodeFlowConstants.AUTHORIZATION_CODE.getValue());
 
     when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
 
     final var exception =
-        assertThrows(IllegalArgumentException.class, () -> subject.validate(params));
+        assertThrows(IllegalArgumentException.class, () -> subject.validate(holder));
 
     assertThat(exception.getMessage(), is(equalTo("client_id must not be blank")));
 

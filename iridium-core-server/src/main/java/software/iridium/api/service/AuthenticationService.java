@@ -12,7 +12,6 @@
 package software.iridium.api.service;
 
 import java.util.Date;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +22,7 @@ import software.iridium.api.authentication.domain.AuthenticationResponse;
 import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.instantiator.AuthorizationCodeEntityInstantiator;
+import software.iridium.api.model.AuthorizationRequestHolder;
 import software.iridium.api.repository.*;
 import software.iridium.api.validator.AuthenticationRequestParamValidator;
 import software.iridium.api.validator.AuthenticationRequestValidator;
@@ -44,9 +44,9 @@ public class AuthenticationService {
 
   @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = NotAuthorizedException.class)
   public AuthenticationResponse authenticate(
-      final AuthenticationRequest request, final Map<String, String> params) {
+      final AuthenticationRequest request, final AuthorizationRequestHolder holder) {
     authenticationRequestValidator.validate(request);
-    authRequestParamValidator.validate(params);
+    authRequestParamValidator.validate(holder);
 
     var application =
         applicationRepository
@@ -82,7 +82,7 @@ public class AuthenticationService {
                           new ResourceNotFoundException(
                               "Tenant not found for id: " + application.getTenantId()));
           if (isAuthorized) {
-            final var authCode = authCodeInstantiator.instantiate(identity, params);
+            final var authCode = authCodeInstantiator.instantiate(identity, holder);
             authCodeEntityRepository.save(authCode);
             identity.setLastSuccessfulLogin(new Date());
             identity.setFailedLoginAttempts(0);

@@ -15,7 +15,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Calendar;
-import java.util.Map;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +40,7 @@ import software.iridium.api.instantiator.IdentityEntityInstantiator;
 import software.iridium.api.mapper.IdentityEntityMapper;
 import software.iridium.api.mapper.IdentityResponseMapper;
 import software.iridium.api.mapper.IdentitySummaryResponseMapper;
+import software.iridium.api.model.AuthorizationRequestHolder;
 import software.iridium.api.repository.*;
 import software.iridium.api.util.AttributeValidator;
 import software.iridium.api.util.ServletTokenExtractor;
@@ -91,7 +91,7 @@ public class IdentityService {
 
   @Transactional(propagation = Propagation.REQUIRED)
   public IdentityResponse create(
-      final CreateIdentityRequest request, final Map<String, String> requestParams) {
+      final CreateIdentityRequest request, final AuthorizationRequestHolder holder) {
     final var emailAddress = request.getUsername();
     checkArgument(
         EmailValidator.getInstance().isValid(emailAddress),
@@ -126,14 +126,14 @@ public class IdentityService {
         identityRepository.save(
             identityInstantiator.instantiate(
                 request, encoder.encode(request.getPassword()), application.getTenantId()));
-    final var sessionDetails = requestDetailsInstantiator.instantiate(requestParams, identity);
+    final var sessionDetails = requestDetailsInstantiator.instantiate(holder, identity);
     identity.setCreateSessionDetails(sessionDetails);
 
     eventHandler.handleEvent(identity, application.getClientId());
     final AuthenticationRequest authenticationRequest =
         authenticationRequestInstantiator.instantiate(request);
     final var authenticationResponse =
-        authenticationService.authenticate(authenticationRequest, requestParams);
+        authenticationService.authenticate(authenticationRequest, holder);
     return responseMapper.map(identity, authenticationResponse);
   }
 

@@ -12,7 +12,6 @@
 package software.iridium.api.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import software.iridium.api.authentication.domain.AuthenticationRequest;
+import software.iridium.api.model.AuthorizationRequestHolder;
 import software.iridium.api.service.AuthenticationService;
 
 @CrossOrigin
@@ -46,10 +46,11 @@ public class AuthenticationController {
 
     logger.info("query String {}", servletRequest.getQueryString());
     logger.info("request url {}", servletRequest.getRequestURL().toString());
-    final var paramMap =
-        addToMap(responseType, state, redirectUri, clientId, codeChallengeMethod, codeChallenge);
+    final AuthorizationRequestHolder authRequest =
+        createAuthorizationRequestHolder(
+            responseType, state, redirectUri, clientId, codeChallengeMethod, codeChallenge);
 
-    final var response = authenticationService.authenticate(request, paramMap);
+    final var response = authenticationService.authenticate(request, authRequest);
     if (response.getUserToken() != null) {
       if (response.applicationIsAuthorized()) {
 
@@ -76,20 +77,21 @@ public class AuthenticationController {
     return new RedirectView("/error", true);
   }
 
-  private HashMap<String, String> addToMap(
+  private AuthorizationRequestHolder createAuthorizationRequestHolder(
       final String responseType,
       final String state,
       final String redirectUri,
       final String clientId,
       final String codeChallengeMethod,
       final String codeChallenge) {
-    final var paramMap = new HashMap<String, String>();
-    paramMap.put("response_type", responseType);
-    paramMap.put("state", state);
-    paramMap.put("redirect_uri", redirectUri);
-    paramMap.put("client_id", clientId);
-    paramMap.put("code_challenge_method", codeChallengeMethod);
-    paramMap.put("code_challenge", codeChallenge);
-    return paramMap;
+
+    final AuthorizationRequestHolder request = new AuthorizationRequestHolder();
+    request.setResponseType(responseType);
+    request.setState(state);
+    request.setRedirectUri(redirectUri);
+    request.setClientId(clientId);
+    request.setCodeChallengeMethod(codeChallengeMethod);
+    request.setCodeChallenge(codeChallenge);
+    return request;
   }
 }

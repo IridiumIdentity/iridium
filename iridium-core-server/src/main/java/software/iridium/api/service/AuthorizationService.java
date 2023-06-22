@@ -41,6 +41,8 @@ import software.iridium.api.generator.SuccessAuthorizationParameterGenerator;
 import software.iridium.api.instantiator.*;
 import software.iridium.api.mapper.AccessTokenResponseMapper;
 import software.iridium.api.mapper.IdentityResponseMapper;
+import software.iridium.api.model.AuthorizationRequestHolder;
+import software.iridium.api.model.AuthorizationRequestHolderFactory;
 import software.iridium.api.repository.*;
 import software.iridium.api.util.AttributeValidator;
 import software.iridium.api.util.AuthorizationCodeFlowConstants;
@@ -83,6 +85,7 @@ public class AuthorizationService {
   @Autowired private SubdomainExtractor subdomainExtractor;
   @Autowired private TenantEntityRepository tenantRepository;
   @Autowired private AuthenticationEntityRepository authenticationRepository;
+  @Autowired private AuthorizationRequestHolderFactory requestHolderFactory;
 
   @Autowired
   private InProgressExternalIdentityProviderAuthorizationInstantiator inProgressAuthInstantiator;
@@ -163,7 +166,10 @@ public class AuthorizationService {
       final ApplicationAuthorizationFormRequest formRequest,
       final Map<String, String> params,
       final HttpServletRequest servletRequest) {
-    grantTypeValidator.validate(params);
+
+    AuthorizationRequestHolder holder =
+        requestHolderFactory.createAuthorizationRequestHolder(params);
+    grantTypeValidator.validate(holder);
 
     final var subdomain = subdomainExtractor.extract(servletRequest.getRequestURL().toString());
 
@@ -180,25 +186,21 @@ public class AuthorizationService {
 
     final var application =
         applicationRepository
-            .findByClientId(params.get(AuthorizationCodeFlowConstants.CLIENT_ID.getValue()))
+            .findByClientId(holder.getClientId())
             .orElseThrow(
                 () ->
                     new ResourceNotFoundException(
-                        "application not found for client_id: "
-                            + params.get(AuthorizationCodeFlowConstants.CLIENT_ID.getValue())));
+                        "application not found for client_id: " + holder.getClientId()));
 
-    if (attributeValidator.isNotBlank(
-        params.getOrDefault(AuthorizationCodeFlowConstants.REDIRECT_URI.getValue(), ""))) {
+    if (attributeValidator.isNotBlank(holder.getRedirectUri())) {
       checkArgument(
-          attributeValidator.equals(
-              application.getRedirectUri(),
-              params.get(AuthorizationCodeFlowConstants.REDIRECT_URI.getValue())),
+          attributeValidator.equals(application.getRedirectUri(), holder.getRedirectUri()),
           "redirect_url is not valid");
     }
     // after this point we need to redirect all errors back to the client
     final var redirectUri =
         requestParameterValidator.validateAndOptionallyRedirect(
-            application.getRedirectUri(), params);
+            application.getRedirectUri(), holder.getParams());
     if (attributeValidator.isNotBlank(redirectUri)) {
       return redirectUri;
     }
@@ -207,12 +209,12 @@ public class AuthorizationService {
     identity.getAuthorizedApplications().add(application);
 
     // todo: think about what to do if there is an authorization code already present for the user
-    final var authCode = authCodeInstantiator.instantiate(identity, params);
+    final var authCode = authCodeInstantiator.instantiate(identity, holder);
 
     return redirectUrlGenerator.generate(
         application.getRedirectUri(),
         successParamGenerator.generate(
-            params, authCodeRepository.save(authCode).getAuthorizationCode()));
+            holder.getParams(), authCodeRepository.save(authCode).getAuthorizationCode()));
   }
 
   @Transactional(propagation = Propagation.REQUIRED)

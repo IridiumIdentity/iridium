@@ -21,7 +21,6 @@ import static org.mockito.Mockito.*;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -43,9 +42,10 @@ import software.iridium.api.generator.SuccessAuthorizationParameterGenerator;
 import software.iridium.api.instantiator.AuthorizationCodeEntityInstantiator;
 import software.iridium.api.instantiator.IdentityEntityInstantiator;
 import software.iridium.api.mapper.IdentityResponseMapper;
+import software.iridium.api.model.AuthorizationRequestHolder;
+import software.iridium.api.model.AuthorizationRequestHolderFactory;
 import software.iridium.api.repository.*;
 import software.iridium.api.util.AttributeValidator;
-import software.iridium.api.util.AuthorizationCodeFlowConstants;
 import software.iridium.api.util.SubdomainExtractor;
 import software.iridium.api.validator.AuthorizationGrantTypeParamValidator;
 import software.iridium.api.validator.AuthorizationRequestParameterValidator;
@@ -74,6 +74,8 @@ class AuthorizationServiceTest {
   @Mock private IdentityEmailEntityRepository mockEmailRepository;
   @Mock private SubdomainExtractor mockSubdomainExtractor;
   @Mock private AuthenticationEntityRepository mockAuthenticationRepository;
+  @Mock private AuthorizationRequestHolderFactory mockRequestHolderFactory;
+
   @InjectMocks private AuthorizationService subject;
 
   @AfterEach
@@ -97,7 +99,8 @@ class AuthorizationServiceTest {
         mockEmailRepository,
         mockIdentity,
         mockSubdomainExtractor,
-        mockAuthenticationRepository);
+        mockAuthenticationRepository,
+        mockRequestHolderFactory);
   }
 
   @Test
@@ -401,8 +404,8 @@ class AuthorizationServiceTest {
 
   @Test
   public void authorize_AllGood_BehavesAsExpected() {
+    final var holder = new AuthorizationRequestHolder();
 
-    final var params = new HashMap<String, String>();
     final var clientId = "the client id";
     final var userToken = "theUsertoken";
     final var redirectUri = "http://localhost:4200";
@@ -411,8 +414,8 @@ class AuthorizationServiceTest {
     requestUrlBuffer.append(requestUrl);
     final var formRequest = new ApplicationAuthorizationFormRequest();
     formRequest.setUserToken(userToken);
-    params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
-    params.put(AuthorizationCodeFlowConstants.REDIRECT_URI.getValue(), redirectUri);
+    holder.setRedirectUri(redirectUri);
+    holder.setClientId(clientId);
     final var tenant = new TenantEntity();
     final var authentication = new AuthenticationEntity();
     authentication.setIdentity(mockIdentity);
@@ -425,6 +428,8 @@ class AuthorizationServiceTest {
     final var generatedRedirectUri = "http://localhost:4200/redirect";
     final var authorizedApplications = new ArrayList<ApplicationEntity>();
 
+    when(mockRequestHolderFactory.createAuthorizationRequestHolder(holder.getParams()))
+        .thenReturn(holder);
     when(mockSubdomainExtractor.extract(eq(requestUrl))).thenReturn("iridium");
     when(mockServletRequest.getRequestURL()).thenReturn(requestUrlBuffer);
     when(mockApplicationRepository.findByClientId(same(clientId)))
@@ -434,34 +439,34 @@ class AuthorizationServiceTest {
             same(userToken), any(Date.class)))
         .thenReturn(Optional.of(authentication));
     when(mockRequestParameterValidator.validateAndOptionallyRedirect(
-            same(redirectUri), same(params)))
+            same(redirectUri), same(holder.getParams())))
         .thenReturn("");
     when(mockIdentity.getAuthorizedApplications()).thenReturn(authorizedApplications);
-    when(mockAuthCodeInstantiator.instantiate(same(mockIdentity), same(params)))
+    when(mockAuthCodeInstantiator.instantiate(same(mockIdentity), same(holder)))
         .thenReturn(authorizationCodeEntity);
     when(mockAuthCodeRepository.save(same(authorizationCodeEntity)))
         .thenReturn(authorizationCodeEntity);
-    when(mockSuccessParamGenerator.generate(same(params), same(authorizationCode)))
+    when(mockSuccessParamGenerator.generate(same(holder.getParams()), same(authorizationCode)))
         .thenReturn(paramMap);
     when(mockRedirectUrlGenerator.generate(same(redirectUri), same(paramMap)))
         .thenReturn(generatedRedirectUri);
     when(mockAttributeValidator.equals(anyString(), anyString())).thenCallRealMethod();
     when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
 
-    final var response = subject.authorize(formRequest, params, mockServletRequest);
+    final var response = subject.authorize(formRequest, holder.getParams(), mockServletRequest);
 
     assertThat(response, is(equalTo(generatedRedirectUri)));
-    verify(mockGrantTypeValidator).validate(same(params));
+    verify(mockGrantTypeValidator).validate(same(holder));
     verify(mockSubdomainExtractor).extract(eq(requestUrl));
     verify(mockTenantRepository).findBySubdomain(eq("iridium"));
     verify(mockAuthenticationRepository)
         .findByAuthTokenAndExpirationAfter(same(userToken), any(Date.class));
     verify(mockApplicationRepository).findByClientId(same(clientId));
     verify(mockRequestParameterValidator)
-        .validateAndOptionallyRedirect(same(redirectUri), same(params));
-    verify(mockAuthCodeInstantiator).instantiate(same(mockIdentity), same(params));
+        .validateAndOptionallyRedirect(same(redirectUri), same(holder.getParams()));
+    verify(mockAuthCodeInstantiator).instantiate(same(mockIdentity), same(holder));
     verify(mockAuthCodeRepository).save(same(authorizationCodeEntity));
-    verify(mockSuccessParamGenerator).generate(same(params), same(authorizationCode));
+    verify(mockSuccessParamGenerator).generate(same(holder.getParams()), same(authorizationCode));
     verify(mockRedirectUrlGenerator).generate(same(redirectUri), same(paramMap));
     verify(mockAttributeValidator).isNotBlank("");
     verify(mockAttributeValidator).equals(same(redirectUri), same(redirectUri));
@@ -471,15 +476,16 @@ class AuthorizationServiceTest {
 
   @Test
   public void authorize_RedirectsBecauseOfError_BehavesAsExpected() {
-    final var params = new HashMap<String, String>();
+    final var holder = new AuthorizationRequestHolder();
     final var clientId = "the client id";
     final var redirectUri = "http://localhost:4200";
     final var requestUrl = "http://iridium.iridium.com";
     final var subdomain = "iridium";
     final var errorRedirectUri = "http://localhost:8009/error";
 
-    params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
-    params.put(AuthorizationCodeFlowConstants.REDIRECT_URI.getValue(), redirectUri);
+    holder.setClientId(clientId);
+    holder.setRedirectUri(redirectUri);
+
     final var application = new ApplicationEntity();
     application.setRedirectUri(redirectUri);
     final var userToken = "shortlived";
@@ -489,6 +495,8 @@ class AuthorizationServiceTest {
     formRequest.setUserToken(userToken);
     final var authentication = new AuthenticationEntity();
 
+    when(mockRequestHolderFactory.createAuthorizationRequestHolder(holder.getParams()))
+        .thenReturn(holder);
     when(mockServletRequest.getRequestURL()).thenReturn(urlStrBuffer);
     when(mockSubdomainExtractor.extract(eq(requestUrl))).thenReturn(subdomain);
     when(mockTenantRepository.findBySubdomain(same(subdomain))).thenReturn(Optional.of(tenant));
@@ -500,12 +508,12 @@ class AuthorizationServiceTest {
     when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
     when(mockAttributeValidator.equals(anyString(), anyString())).thenCallRealMethod();
     when(mockRequestParameterValidator.validateAndOptionallyRedirect(
-            same(redirectUri), same(params)))
+            same(redirectUri), same(holder.getParams())))
         .thenReturn(errorRedirectUri);
 
-    final var response = subject.authorize(formRequest, params, mockServletRequest);
+    final var response = subject.authorize(formRequest, holder.getParams(), mockServletRequest);
 
-    verify(mockGrantTypeValidator).validate(same(params));
+    verify(mockGrantTypeValidator).validate(same(holder));
     verify(mockServletRequest).getRequestURL();
     verify(mockSubdomainExtractor).extract(eq(requestUrl));
     verify(mockTenantRepository).findBySubdomain(same(subdomain));
@@ -516,20 +524,21 @@ class AuthorizationServiceTest {
     verify(mockAttributeValidator).equals(same(redirectUri), same(redirectUri));
     verify(mockAttributeValidator).isNotBlank(same(errorRedirectUri));
     verify(mockRequestParameterValidator)
-        .validateAndOptionallyRedirect(same(redirectUri), same(params));
+        .validateAndOptionallyRedirect(same(redirectUri), same(holder.getParams()));
     assertThat(response, is(equalTo(errorRedirectUri)));
   }
 
   @Test
   public void authorize_ApplicationNotFound_ExceptionThrown() {
-    final var params = new HashMap<String, String>();
+    final var holder = new AuthorizationRequestHolder();
     final var clientId = "the client id";
     final var redirectUri = "http://localhost:4200";
     final var requestUrl = "http://iridium.iridium.com";
     final var subdomain = "iridium";
 
-    params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
-    params.put(AuthorizationCodeFlowConstants.REDIRECT_URI.getValue(), redirectUri);
+    holder.setClientId(clientId);
+    holder.setRedirectUri(redirectUri);
+
     final var application = new ApplicationEntity();
     application.setRedirectUri(redirectUri);
     final var userToken = "shortlived";
@@ -539,6 +548,8 @@ class AuthorizationServiceTest {
     formRequest.setUserToken(userToken);
     final var authentication = new AuthenticationEntity();
 
+    when(mockRequestHolderFactory.createAuthorizationRequestHolder(holder.getParams()))
+        .thenReturn(holder);
     when(mockServletRequest.getRequestURL()).thenReturn(urlStrBuffer);
     when(mockSubdomainExtractor.extract(eq(requestUrl))).thenReturn(subdomain);
     when(mockTenantRepository.findBySubdomain(same(subdomain))).thenReturn(Optional.of(tenant));
@@ -550,9 +561,9 @@ class AuthorizationServiceTest {
     final var exception =
         assertThrows(
             ResourceNotFoundException.class,
-            () -> subject.authorize(formRequest, params, mockServletRequest));
+            () -> subject.authorize(formRequest, holder.getParams(), mockServletRequest));
 
-    verify(mockGrantTypeValidator).validate(same(params));
+    verify(mockGrantTypeValidator).validate(same(holder));
     verify(mockServletRequest).getRequestURL();
     verify(mockSubdomainExtractor).extract(eq(requestUrl));
     verify(mockTenantRepository).findBySubdomain(same(subdomain));

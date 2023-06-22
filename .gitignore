@@ -10,6 +10,9 @@ iridium-*-bin.tar.gz
 # generated sql
 create.sql
 drop.sql
+bin/
+*.tar
+
 
 # site
 site/.venv/
@@ -67,3 +70,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/.metadata/

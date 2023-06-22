@@ -28,6 +28,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import software.iridium.api.authentication.domain.ApplicationAuthorizationFormRequest;
+import software.iridium.api.model.AuthorizationRequestHolder;
 import software.iridium.api.service.AuthorizationService;
 
 @ExtendWith(MockitoExtension.class)
@@ -74,6 +75,8 @@ class AuthorizationControllerTest {
     final var params = new HashMap<String, String>();
     final var redirectUri = "htp://localhost/redirect";
     final var formRequest = new ApplicationAuthorizationFormRequest();
+    final var holder = new AuthorizationRequestHolder();
+    holder.setParams(params);
 
     when(mockAuthorizationService.authorize(
             same(formRequest), same(params), same(mockServletRequest)))

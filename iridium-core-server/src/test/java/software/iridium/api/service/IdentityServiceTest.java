@@ -45,6 +45,7 @@ import software.iridium.api.instantiator.IdentityEntityInstantiator;
 import software.iridium.api.mapper.IdentityEntityMapper;
 import software.iridium.api.mapper.IdentityResponseMapper;
 import software.iridium.api.mapper.IdentitySummaryResponseMapper;
+import software.iridium.api.model.AuthorizationRequestHolder;
 import software.iridium.api.repository.*;
 import software.iridium.api.util.AttributeValidator;
 import software.iridium.api.util.ServletTokenExtractor;
@@ -165,6 +166,7 @@ class IdentityServiceTest {
     application.setClientId(clientId);
     application.setTenantId(tenantId);
     final var sessionDetails = new IdentityCreateSessionDetails();
+    final var holder = new AuthorizationRequestHolder();
 
     when(mockEncoder.encode(same(password))).thenReturn(encodedTempPassword);
     when(mockIdentityInstantiator.instantiate(
@@ -175,17 +177,17 @@ class IdentityServiceTest {
     when(mockAttributeValidator.isNotBlank(same(clientId))).thenReturn(true);
     when(mockTenantRepository.findById(same(tenantId))).thenReturn(Optional.of(tenant));
     when(mockRequestInstantiator.instantiate(same(request))).thenReturn(authenticationRequest);
-    when(mockAuthenticationService.authenticate(same(authenticationRequest), same(requestParams)))
+    when(mockAuthenticationService.authenticate(same(authenticationRequest), same(holder)))
         .thenReturn(authenticationResponse);
     when(mockApplicationRepository.findByClientId(same(clientId)))
         .thenReturn(Optional.of(application));
     when(mockEmailRepository.findByEmailAddressAndIdentity_ParentTenantId(
             same(emailAddress), same(tenantId)))
         .thenReturn(Optional.empty());
-    when(mockRequestDetailsInstantiator.instantiate(same(requestParams), same(entity)))
+    when(mockRequestDetailsInstantiator.instantiate(same(holder), same(entity)))
         .thenReturn(sessionDetails);
 
-    subject.create(request, requestParams);
+    subject.create(request, holder);
 
     verify(mockEmailRepository)
         .findByEmailAddressAndIdentity_ParentTenantId(same(emailAddress), same(tenantId));
@@ -198,11 +200,10 @@ class IdentityServiceTest {
     verify(mockAttributeValidator).isNotBlank(same(clientId));
     verify(mockTenantRepository).findById(same(tenantId));
     verify(mockRequestInstantiator).instantiate(same(request));
-    verify(mockAuthenticationService)
-        .authenticate(same(authenticationRequest), same(requestParams));
+    verify(mockAuthenticationService).authenticate(same(authenticationRequest), same(holder));
     verify(mockEmailRepository)
         .findByEmailAddressAndIdentity_ParentTenantId(same(emailAddress), same(tenantId));
-    verify(mockRequestDetailsInstantiator).instantiate(same(requestParams), same(entity));
+    verify(mockRequestDetailsInstantiator).instantiate(same(holder), same(entity));
   }
 
   @Test
@@ -220,6 +221,7 @@ class IdentityServiceTest {
     final var requestParams = new HashMap<String, String>();
     application.setTenantId(tenantId);
     final var email = new IdentityEmailEntity();
+    final var holder = new AuthorizationRequestHolder();
 
     when(mockAttributeValidator.isNotBlank(same(clientId))).thenReturn(true);
     when(mockTenantRepository.findById(same(tenantId))).thenReturn(Optional.of(tenant));
@@ -230,8 +232,7 @@ class IdentityServiceTest {
         .thenReturn(Optional.of(email));
 
     final var exception =
-        assertThrows(
-            DuplicateResourceException.class, () -> subject.create(request, requestParams));
+        assertThrows(DuplicateResourceException.class, () -> subject.create(request, holder));
 
     verify(mockAttributeValidator).isNotBlank(same(clientId));
     verify(mockTenantRepository).findById(same(tenantId));
@@ -256,12 +257,13 @@ class IdentityServiceTest {
     emailEntity.setIdentity(entity);
 
     final var paramMap = new HashMap<String, String>();
+    final var holder = new AuthorizationRequestHolder();
 
     when(mockAttributeValidator.isNotBlank(same(clientId))).thenReturn(true);
     when(mockApplicationRepository.findByClientId(same(clientId))).thenReturn(Optional.empty());
 
     final var exception =
-        assertThrows(ResourceNotFoundException.class, () -> subject.create(request, paramMap));
+        assertThrows(ResourceNotFoundException.class, () -> subject.create(request, holder));
 
     assertThat(
         exception.getMessage(), is(equalTo("application not found for clientId: " + clientId)));
@@ -283,7 +285,8 @@ class IdentityServiceTest {
     final var tenantId = "the-tenantId";
     application.setTenantId(tenantId);
 
-    final var paramMap = new HashMap<String, String>();
+    // final var paramMap = new HashMap<String, String>();
+    AuthorizationRequestHolder holder = new AuthorizationRequestHolder();
 
     when(mockAttributeValidator.isNotBlank(same(clientId))).thenReturn(true);
     when(mockApplicationRepository.findByClientId(same(clientId)))
@@ -291,7 +294,7 @@ class IdentityServiceTest {
     when(mockTenantRepository.findById(same(tenantId))).thenReturn(Optional.empty());
 
     final var exception =
-        assertThrows(ResourceNotFoundException.class, () -> subject.create(request, paramMap));
+        assertThrows(ResourceNotFoundException.class, () -> subject.create(request, holder));
 
     assertThat(exception.getMessage(), is(equalTo("tenant not found for id: " + tenantId)));
     verify(mockAttributeValidator).isNotBlank(same(clientId));

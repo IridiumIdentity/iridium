@@ -11,11 +11,11 @@
  */
 package software.iridium.api.instantiator;
 
-import java.util.Map;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import software.iridium.api.authentication.domain.CodeChallengeMethod;
+import software.iridium.api.model.AuthorizationRequestHolder;
 import software.iridium.entity.IdentityCreateSessionDetails;
 import software.iridium.entity.IdentityEntity;
 
@@ -24,15 +24,14 @@ public class IdentityCreateRequestDetailsInstantiator {
 
   @Transactional(propagation = Propagation.REQUIRED)
   public IdentityCreateSessionDetails instantiate(
-      final Map<String, String> requestParamMap, final IdentityEntity identity) {
+      final AuthorizationRequestHolder holder, final IdentityEntity identity) {
     final var entity = new IdentityCreateSessionDetails();
-    entity.setCodeChallenge(requestParamMap.get("code_challenge"));
-    entity.setCodeChallengeMethod(
-        CodeChallengeMethod.valueOf(requestParamMap.get("code_challenge_method")));
-    entity.setClientId(requestParamMap.get("client_id"));
-    entity.setState(requestParamMap.get("state"));
-    entity.setResponseType(requestParamMap.get("response_type"));
-    entity.setRedirectUri(requestParamMap.get("redirect_uri"));
+    entity.setCodeChallenge(holder.getCodeChallenge());
+    entity.setCodeChallengeMethod(CodeChallengeMethod.valueOf(holder.getCodeChallengeMethod()));
+    entity.setClientId(holder.getClientId());
+    entity.setState(holder.getState());
+    entity.setResponseType(holder.getResponseType());
+    entity.setRedirectUri(holder.getRedirectUri());
     entity.setIdentity(identity);
     return entity;
   }

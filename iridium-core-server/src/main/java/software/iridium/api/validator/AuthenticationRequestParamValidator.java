@@ -13,34 +13,26 @@ package software.iridium.api.validator;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import software.iridium.api.model.AuthorizationRequestHolder;
 import software.iridium.api.util.AttributeValidator;
-import software.iridium.api.util.AuthorizationCodeFlowConstants;
 
 @Component
 public class AuthenticationRequestParamValidator {
 
   @Autowired private AttributeValidator attributeValidator;
 
-  public void validate(final Map<String, String> params) {
+  public void validate(final AuthorizationRequestHolder holder) {
     checkArgument(
-        attributeValidator.isNotBlank(
-            params.getOrDefault(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), "")),
-        "clientId must not be blank");
+        attributeValidator.isNotBlank(holder.getClientId()), "clientId must not be blank");
     checkArgument(
-        attributeValidator.isNotBlank(
-            params.getOrDefault(
-                AuthorizationCodeFlowConstants.CODE_CHALLENGE_METHOD.getValue(), "")),
+        attributeValidator.isNotBlank(holder.getCodeChallengeMethod()),
         "code_challenge_method must not be blank");
     checkArgument(
-        attributeValidator.isNotBlank(
-            params.getOrDefault(AuthorizationCodeFlowConstants.CODE_CHALLENGE.getValue(), "")),
+        attributeValidator.isNotBlank(holder.getCodeChallenge()),
         "code_challenge must not be blank");
     checkArgument(
-        attributeValidator.isNotBlank(
-            params.getOrDefault(AuthorizationCodeFlowConstants.REDIRECT_URI.getValue(), "")),
-        "redirect_uri must not be blank");
+        attributeValidator.isNotBlank(holder.getRedirectUri()), "redirect_uri must not be blank");
   }
 }

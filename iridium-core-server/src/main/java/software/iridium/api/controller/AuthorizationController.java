@@ -70,6 +70,7 @@ public class AuthorizationController {
       HttpServletRequest servletRequest,
       final ApplicationAuthorizationFormRequest formRequest,
       @RequestParam Map<String, String> params) {
+
     logger.info("initiating authorization");
     final var redirectUri = authorizationService.authorize(formRequest, params, servletRequest);
     RedirectView redirectView = new RedirectView();

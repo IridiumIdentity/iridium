@@ -22,7 +22,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
 import java.util.Optional;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.hamcrest.MatcherAssert;
@@ -37,6 +36,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import software.iridium.api.authentication.domain.AuthenticationRequest;
 import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.base.error.ResourceNotFoundException;
+import software.iridium.api.model.AuthorizationRequestHolder;
 import software.iridium.api.repository.*;
 import software.iridium.api.validator.AuthenticationRequestParamValidator;
 import software.iridium.api.validator.AuthenticationRequestValidator;
@@ -97,7 +97,7 @@ class AuthenticationServiceTest {
     final var application = new ApplicationEntity();
     application.setTenantId(tenantId);
     request.setClientId(applicationClientId);
-    final var params = new HashMap<String, String>();
+    final var holder = new AuthorizationRequestHolder();
     final var tenant = new TenantEntity();
 
     when(mockEmailRepository.findByEmailAddressAndIdentity_ParentTenantId(
@@ -109,7 +109,7 @@ class AuthenticationServiceTest {
         .thenReturn(Optional.of(application));
     when(mockTenantRepository.findById(tenantId)).thenReturn(Optional.of(tenant));
 
-    final var response = subject.authenticate(request, params);
+    final var response = subject.authenticate(request, holder);
 
     verify(mockEmailRepository)
         .findByEmailAddressAndIdentity_ParentTenantId(same(username), same(tenantId));
@@ -117,7 +117,7 @@ class AuthenticationServiceTest {
     verify(mockTokenManager).getOrGenerateToken(same(identity));
     verify(mockIdentityRepository).save(same(identity));
     verify(mockRequestValidator).validate(request);
-    verify(mockAuthRequestParamValidator).validate(same(params));
+    verify(mockAuthRequestParamValidator).validate(same(holder));
     verify(mockApplicationRepository).findByClientId(same(applicationClientId));
     verify(mockTenantRepository).findById(tenantId);
 
@@ -141,7 +141,7 @@ class AuthenticationServiceTest {
     final var application = new ApplicationEntity();
     application.setTenantId(tenantId);
     request.setClientId(applicationClientId);
-    final var params = new HashMap<String, String>();
+    final var holder = new AuthorizationRequestHolder();
 
     when(mockEmailRepository.findByEmailAddressAndIdentity_ParentTenantId(
             same(username), same(tenantId)))
@@ -150,7 +150,7 @@ class AuthenticationServiceTest {
         .thenReturn(Optional.of(application));
 
     final var exception =
-        assertThrows(NotAuthorizedException.class, () -> subject.authenticate(request, params));
+        assertThrows(NotAuthorizedException.class, () -> subject.authenticate(request, holder));
 
     verify(mockEmailRepository)
         .findByEmailAddressAndIdentity_ParentTenantId(same(username), same(tenantId));
@@ -159,7 +159,7 @@ class AuthenticationServiceTest {
     verify(mockIdentityRepository).save(same(identity));
     verify(mockRequestValidator).validate(request);
     verify(mockApplicationRepository).findByClientId(same(applicationClientId));
-    verify(mockAuthRequestParamValidator).validate(same(params));
+    verify(mockAuthRequestParamValidator).validate(same(holder));
 
     assertThat(exception.getMessage(), is(equalTo("NOT AUTHORIZED")));
   }
@@ -187,7 +187,7 @@ class AuthenticationServiceTest {
     final var application = new ApplicationEntity();
     application.setTenantId(tenantId);
     request.setClientId(applicationClientId);
-    final var params = new HashMap<String, String>();
+    final var authenticationRequestHolder = new AuthorizationRequestHolder();
 
     when(mockEmailRepository.findByEmailAddressAndIdentity_ParentTenantId(
             same(username), same(tenantId)))
@@ -198,14 +198,16 @@ class AuthenticationServiceTest {
         .thenReturn(Optional.of(application));
 
     final var exception =
-        assertThrows(NotAuthorizedException.class, () -> subject.authenticate(request, params));
+        assertThrows(
+            NotAuthorizedException.class,
+            () -> subject.authenticate(request, authenticationRequestHolder));
 
     verify(mockEmailRepository)
         .findByEmailAddressAndIdentity_ParentTenantId(same(username), same(tenantId));
     verify(mockEncoder).matches(same(rawPassword), same(encodedPassword));
     verify(mockTokenManager).getOrGenerateToken(same(identity));
     verify(mockRequestValidator).validate(request);
-    verify(mockAuthRequestParamValidator).validate(same(params));
+    verify(mockAuthRequestParamValidator).validate(same(authenticationRequestHolder));
     verify(mockApplicationRepository).findByClientId(same(applicationClientId));
     verify(mockIdentityRepository).save(same(identity));
 
@@ -233,7 +235,7 @@ class AuthenticationServiceTest {
     final var application = new ApplicationEntity();
     application.setTenantId(tenantId);
     request.setClientId(applicationClientId);
-    final var params = new HashMap<String, String>();
+    final var authenticationRequestHolder = new AuthorizationRequestHolder();
 
     when(mockEmailRepository.findByEmailAddressAndIdentity_ParentTenantId(
             same(username), same(tenantId)))
@@ -243,7 +245,9 @@ class AuthenticationServiceTest {
         .thenReturn(Optional.of(application));
 
     final var exception =
-        assertThrows(NotAuthorizedException.class, () -> subject.authenticate(request, params));
+        assertThrows(
+            NotAuthorizedException.class,
+            () -> subject.authenticate(request, authenticationRequestHolder));
 
     verify(mockEmailRepository)
         .findByEmailAddressAndIdentity_ParentTenantId(same(username), same(tenantId));
@@ -251,7 +255,7 @@ class AuthenticationServiceTest {
     verify(mockTokenManager, never()).getOrGenerateToken(same(identity));
     verify(mockIdentityRepository).save(same(identity));
     verify(mockRequestValidator).validate(request);
-    verify(mockAuthRequestParamValidator).validate(same(params));
+    verify(mockAuthRequestParamValidator).validate(same(authenticationRequestHolder));
     verify(mockApplicationRepository).findByClientId(same(applicationClientId));
 
     assertThat(exception.getMessage(), is(equalTo("NOT AUTHORIZED")));
@@ -268,7 +272,7 @@ class AuthenticationServiceTest {
     final var application = new ApplicationEntity();
     application.setTenantId(tenantId);
     request.setClientId(applicationClientId);
-    final var params = new HashMap<String, String>();
+    final var authenticationRequestHolder = new AuthorizationRequestHolder();
 
     when(mockEmailRepository.findByEmailAddressAndIdentity_ParentTenantId(
             same(username), same(tenantId)))
@@ -277,10 +281,12 @@ class AuthenticationServiceTest {
         .thenReturn(Optional.of(application));
 
     final var exception =
-        assertThrows(NotAuthorizedException.class, () -> subject.authenticate(request, params));
+        assertThrows(
+            NotAuthorizedException.class,
+            () -> subject.authenticate(request, authenticationRequestHolder));
 
     verify(mockRequestValidator).validate(request);
-    verify(mockAuthRequestParamValidator).validate(same(params));
+    verify(mockAuthRequestParamValidator).validate(same(authenticationRequestHolder));
     verify(mockEmailRepository)
         .findByEmailAddressAndIdentity_ParentTenantId(same(username), same(tenantId));
     verify(mockApplicationRepository).findByClientId(same(applicationClientId));
@@ -299,16 +305,18 @@ class AuthenticationServiceTest {
     final var application = new ApplicationEntity();
     application.setTenantId(tenantId);
     request.setClientId(applicationClientId);
-    final var params = new HashMap<String, String>();
+    final var authenticationRequestHolder = new AuthorizationRequestHolder();
 
     when(mockApplicationRepository.findByClientId(same(applicationClientId)))
         .thenReturn(Optional.empty());
 
     final var exception =
-        assertThrows(ResourceNotFoundException.class, () -> subject.authenticate(request, params));
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> subject.authenticate(request, authenticationRequestHolder));
 
     verify(mockRequestValidator).validate(request);
-    verify(mockAuthRequestParamValidator).validate(same(params));
+    verify(mockAuthRequestParamValidator).validate(same(authenticationRequestHolder));
     verify(mockApplicationRepository).findByClientId(same(applicationClientId));
     assertThat(
         exception.getMessage(),

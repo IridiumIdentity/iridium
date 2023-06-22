@@ -18,7 +18,6 @@ import static org.mockito.Mockito.*;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +27,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.authentication.domain.CodeChallengeMethod;
-import software.iridium.api.util.AuthorizationCodeFlowConstants;
+import software.iridium.api.model.AuthorizationRequestHolder;
 import software.iridium.api.util.EncoderUtils;
 import software.iridium.api.util.SHA256Hasher;
 import software.iridium.entity.IdentityEntity;
@@ -47,26 +46,30 @@ class AuthorizationCodeEntityInstantiatorTest {
 
   @Test
   public void instantiate_AllGoodS56_InstantiatesAsExpected() {
-    final var params = new HashMap<String, String>();
+    final var holder = new AuthorizationRequestHolder();
+
     final var clientId = "the client id";
-    params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
-    final var identityId = "the identity id";
+    holder.setClientId(clientId);
+
     final var codeChallengeMethod = "S256";
-    params.put(
-        AuthorizationCodeFlowConstants.CODE_CHALLENGE_METHOD.getValue(), codeChallengeMethod);
+    holder.setCodeChallengeMethod(codeChallengeMethod);
+
     final var codeChallenge = "the code challenge";
-    params.put(AuthorizationCodeFlowConstants.CODE_CHALLENGE.getValue(), codeChallenge);
+    holder.setCodeChallenge(codeChallenge);
+
     final var redirectUri = "http://localhost:4200";
-    params.put(AuthorizationCodeFlowConstants.REDIRECT_URI.getValue(), redirectUri);
+    holder.setRedirectUri(redirectUri);
+
+    final var identityId = "the identity id";
     final var identity = new IdentityEntity();
     identity.setId(identityId);
-    final var authorizationCode = "the auth code";
 
+    final var authorizationCode = "the auth code";
     when(mockEncoderUtils.generateCryptoSecureString(
             same(AuthorizationCodeEntityInstantiator.AUTHORIZATION_CODE_MAX_LENGTH)))
         .thenReturn(authorizationCode);
 
-    final var entity = subject.instantiate(identity, params);
+    final var entity = subject.instantiate(identity, holder);
 
     verify(mockEncoderUtils)
         .generateCryptoSecureString(

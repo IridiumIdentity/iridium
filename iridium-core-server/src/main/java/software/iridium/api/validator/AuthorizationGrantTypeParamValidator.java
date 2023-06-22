@@ -13,10 +13,10 @@ package software.iridium.api.validator;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import java.util.Map;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import software.iridium.api.model.AuthorizationRequestHolder;
 import software.iridium.api.util.AttributeValidator;
 import software.iridium.api.util.AuthorizationCodeFlowConstants;
 
@@ -25,18 +25,13 @@ public class AuthorizationGrantTypeParamValidator {
 
   @Autowired private AttributeValidator attributeValidator;
 
-  public void validate(final Map<String, String> params) {
+  public void validate(final AuthorizationRequestHolder holder) {
     checkArgument(
-        attributeValidator.isNotBlank(
-            params.getOrDefault(AuthorizationCodeFlowConstants.RESPONSE_TYPE.getValue(), "")),
-        "response_type must not be blank");
+        attributeValidator.isNotBlank(holder.getResponseType()), "response_type must not be blank");
     if (Objects.equals(
-        params.get(AuthorizationCodeFlowConstants.RESPONSE_TYPE.getValue()),
-        AuthorizationCodeFlowConstants.AUTHORIZATION_CODE.getValue())) {
+        holder.getResponseType(), AuthorizationCodeFlowConstants.AUTHORIZATION_CODE.getValue())) {
       checkArgument(
-          attributeValidator.isNotBlank(
-              params.getOrDefault(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), "")),
-          "client_id must not be blank");
+          attributeValidator.isNotBlank(holder.getClientId()), "client_id must not be blank");
     }
   }
 }
