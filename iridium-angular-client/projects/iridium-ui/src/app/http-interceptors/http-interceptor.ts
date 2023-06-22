@@ -5,24 +5,14 @@ import {
 
 import { map, Observable } from 'rxjs';
 
-/** Pass untouched request through to the next request handler. */
 @Injectable()
 export class NoopInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
-      // Get the auth token from the service.
-      //const authToken = this.auth.getAuthorizationToken();
 
-      // Clone the request and replace the original headers with
-      // cloned headers, updated with the authorization.
-      // const authReq = req.clone({
-      //   headers: req.headers.set('Authorization', authToken)
-      // });
-      console.log('request', req)
       return next.handle(req).pipe(map((event: HttpEvent<any>) => {
 
         if (event instanceof HttpResponse) {
-          console.log('response headers  is', event);
           event = event.clone({body: this.modifyBody(event.body)});
         }
         return event;

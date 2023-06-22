@@ -1,7 +1,5 @@
 <div class="main-container">
-  <div class="create-button-container">
-    <button mat-raised-button (click)="create()" class="create-button">Create User</button>
-  </div>
+
   <div class="user-table-container">
     <h3>Current Users</h3>
     <div class="table-container">
@@ -16,22 +14,11 @@
         </ng-container>
 
         <ng-container matColumnDef="emailAddress">
-          <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>Email Address</mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{element.emailAddress}}
           </mat-cell>
         </ng-container>
-
-
-
-
-<!--        <ng-container matColumnDef="firstName">-->
-<!--          <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>-->
-<!--          <mat-cell *matCellDef="let element">-->
-<!--            {{element.firstName}}-->
-<!--          </mat-cell>-->
-<!--        </ng-container>-->
-
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns; index as i" (click)="onRowClick(i)"></mat-row>

@@ -10,22 +10,10 @@ export class MenuItemService {
   constructor() {
     this.menuItems = [
       {
-        name: 'System Metrics',
-        children: [
-          {
-            name: 'System Overview'
-          },
-
-        ],
-      },
-      {
         name: 'Application Management',
         children: [
           {
             name: 'Applications'
-          },
-          {
-            name: 'APIs'
           }
         ],
       },
@@ -34,10 +22,7 @@ export class MenuItemService {
         children: [
           {
             name: 'Users'
-          },
-          {
-            name: 'Roles'
-          },
+          }
         ],
       }
     ];

@@ -30,7 +30,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { DynamicContentViewService } from './components/dashboard/content/dynamic-content-view.service';
 import { DynamicContentViewDirective } from './components/dashboard/content/dynamic-content-view.directive';
 import {
-  AddUserDialog,
   UserOverviewComponent
 } from './components/dashboard/content/user-overview/user-overview.component';
 import {
@@ -75,7 +74,6 @@ import { NgxIridiumCallbackComponent } from '../../../ngx-iridium-client/src/lib
     CreateApplicationDialog,
     UpdateApplicationDialog,
     CreateAPIDialog,
-    AddUserDialog,
     CreateRoleDialog
   ],
   imports: [
