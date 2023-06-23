@@ -33,8 +33,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import software.iridium.api.authentication.domain.AuthenticationRequest;
 import software.iridium.api.authentication.domain.CreateIdentityRequest;
-import software.iridium.api.authentication.domain.InitiatePasswordResetRequest;
-import software.iridium.api.authentication.domain.PasswordResetRequest;
 import software.iridium.api.service.TemplateService;
 import software.iridium.api.util.ServletTokenExtractor;
 
@@ -66,24 +64,6 @@ class TemplateControllerTest {
     verify(mockServletRequest, times(2)).getRequestURL();
     verify(mockTemplateService)
         .describeIndex(same(mockModel), same(mockServletRequest), same(params));
-  }
-
-  @Test
-  public void retrievePasswordResetForm_AllGood_BehavesAsExpected() {
-    final var request = new PasswordResetRequest();
-
-    assertThat(
-        subject.retrieveResetPasswordForm(request, mockModel, mockServletRequest),
-        is(equalTo("reset-password")));
-  }
-
-  @Test
-  public void retrieveInitiateResetPasswordForm_AllGood_BehavesAsExpected() {
-    final var request = new InitiatePasswordResetRequest();
-
-    assertThat(
-        subject.retrieveInitiateResetPasswordForm(request, mockModel, mockServletRequest),
-        is(equalTo("initiate-reset-password")));
   }
 
   @Test

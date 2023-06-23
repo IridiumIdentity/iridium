@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import software.iridium.api.authentication.domain.AuthenticationRequest;
 import software.iridium.api.authentication.domain.CreateIdentityRequest;
-import software.iridium.api.authentication.domain.InitiatePasswordResetRequest;
-import software.iridium.api.authentication.domain.PasswordResetRequest;
 import software.iridium.api.service.TemplateService;
 import software.iridium.api.util.ServletTokenExtractor;
 
@@ -48,22 +46,6 @@ public class TemplateController {
         "loading login for subdomain: {}",
         servletRequest.getRequestURL().toString().split("\\.")[0]);
     return templateService.describeIndex(model, servletRequest, params);
-  }
-
-  @GetMapping("/reset-password")
-  public String retrieveResetPasswordForm(
-      final PasswordResetRequest passwordResetRequest,
-      final Model model,
-      final HttpServletRequest servletRequest) {
-    return "reset-password";
-  }
-
-  @GetMapping("/initiate-reset-password")
-  public String retrieveInitiateResetPasswordForm(
-      final InitiatePasswordResetRequest initiatePasswordResetRequest,
-      final Model model,
-      final HttpServletRequest servletRequest) {
-    return "initiate-reset-password";
   }
 
   @GetMapping("/confirmation")
