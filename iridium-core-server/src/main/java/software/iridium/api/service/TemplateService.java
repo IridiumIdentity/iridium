@@ -42,19 +42,4 @@ public class TemplateService {
 
     return "index";
   }
-
-  @Transactional(propagation = Propagation.SUPPORTS)
-  public String describeRegister(final Model model, final HttpServletRequest servletRequest) {
-    final var subdomain = subdomainExtractor.extract(servletRequest.getRequestURL().toString());
-
-    final var loginDescriptor = loginDescriptorService.getBySubdomain(subdomain);
-
-    model.addAttribute("displayName", loginDescriptor.getDisplayName());
-    //        model.addAttribute("allowGithub", loginDescriptor.getAllowGithub());
-    //        model.addAttribute("allowGoogle", loginDescriptor.getAllowGoogle());
-    //        model.addAttribute("allowApple", loginDescriptor.getAllowApple());
-    //        model.addAttribute("allowMicrosoft", loginDescriptor.getAllowMicrosoft());
-
-    return "register";
-  }
 }
