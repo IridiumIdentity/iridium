@@ -35,7 +35,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import software.iridium.api.authentication.domain.*;
 import software.iridium.api.base.error.NotAuthorizedException;
-import software.iridium.api.instantiator.AuthenticationRequestInstantiator;
 import software.iridium.api.instantiator.IdentityCreateRequestDetailsInstantiator;
 import software.iridium.api.instantiator.IdentityEntityInstantiator;
 import software.iridium.api.mapper.IdentityEntityMapper;
@@ -55,14 +54,11 @@ class IdentityServiceTest {
   @Mock private IdentityEntityRepository mockIdentityRepository;
   @Mock private IdentityResponseMapper mockResponseMapper;
   @Mock private BCryptPasswordEncoder mockEncoder;
-  @Mock private IdentityEmailEntityRepository mockEmailRepository;
   @Mock private HttpServletRequest mockServletRequest;
   @Mock private ServletTokenExtractor mockTokenExtractor;
   @Mock private AttributeValidator mockAttributeValidator;
   @Mock private TenantEntityRepository mockTenantRepository;
   @Mock private ApplicationEntityRepository mockApplicationRepository;
-  @Mock private AuthenticationRequestInstantiator mockRequestInstantiator;
-  @Mock private AuthenticationService mockAuthenticationService;
   @Mock private IdentityCreateRequestDetailsInstantiator mockRequestDetailsInstantiator;
   @Mock private IdentitySummaryResponseMapper mockSummaryMapper;
   @Mock private AccessTokenEntityRepository accessTokenRepository;
@@ -82,8 +78,6 @@ class IdentityServiceTest {
         mockAttributeValidator,
         mockTenantRepository,
         mockApplicationRepository,
-        mockRequestInstantiator,
-        mockAuthenticationService,
         accessTokenRepository,
         mockRequestDetailsInstantiator,
         mockSummaryMapper);
@@ -197,8 +191,6 @@ class IdentityServiceTest {
     final var page = 1;
     final var size = 3;
     final var active = true;
-    final var identityList = new ArrayList<IdentityEntity>();
-    identityList.add(new IdentityEntity());
 
     final var userAuthToken = "userAuthToken";
     final var identityId = "the identity id";

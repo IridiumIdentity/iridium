@@ -20,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import software.iridium.api.authentication.domain.AuthenticationRequest;
 import software.iridium.api.service.TemplateService;
 
 @Controller
@@ -32,7 +31,6 @@ public class TemplateController {
 
   @GetMapping("/login")
   public String retrieveLoginForm(
-      final AuthenticationRequest request,
       final Model model,
       final @RequestParam Map<String, String> params,
       final HttpServletRequest servletRequest) {

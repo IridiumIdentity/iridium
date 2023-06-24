@@ -26,7 +26,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import software.iridium.api.authentication.domain.AuthenticationRequest;
 import software.iridium.api.service.TemplateService;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,12 +46,11 @@ class TemplateControllerTest {
 
   @Test
   public void retrieveLoginForm_AllGood_BehavesAsExpected() {
-    final var authRequest = new AuthenticationRequest();
     final var params = new HashMap<String, String>();
 
     when(mockServletRequest.getRequestURL()).thenReturn(new StringBuffer("http://someurl.com"));
 
-    subject.retrieveLoginForm(authRequest, mockModel, params, mockServletRequest);
+    subject.retrieveLoginForm(mockModel, params, mockServletRequest);
 
     verify(mockServletRequest, times(2)).getRequestURL();
     verify(mockTemplateService)

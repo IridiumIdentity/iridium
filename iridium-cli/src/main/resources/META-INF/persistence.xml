@@ -25,7 +25,6 @@
     <class>software.iridium.entity.IdentityPropertyEntity</class>
     <class>software.iridium.entity.InProgressExternalIdentityProviderAuthorizationEntity</class>
     <class>software.iridium.entity.LoginDescriptorEntity</class>
-    <class>software.iridium.entity.PasswordResetTokenEntity</class>
     <class>software.iridium.entity.ProfileEntity</class>
     <class>software.iridium.entity.RefreshTokenEntity</class>
     <class>software.iridium.entity.RoleEntity</class>

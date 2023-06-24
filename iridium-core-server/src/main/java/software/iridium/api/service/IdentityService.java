@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,11 +27,7 @@ import software.iridium.api.authentication.domain.IdentityResponse;
 import software.iridium.api.authentication.domain.IdentitySummaryResponse;
 import software.iridium.api.base.domain.PagedListResponse;
 import software.iridium.api.base.error.NotAuthorizedException;
-import software.iridium.api.instantiator.AuthenticationRequestInstantiator;
-import software.iridium.api.instantiator.IdentityCreateRequestDetailsInstantiator;
-import software.iridium.api.instantiator.IdentityEntityInstantiator;
 import software.iridium.api.mapper.IdentityEntityMapper;
-import software.iridium.api.mapper.IdentityResponseMapper;
 import software.iridium.api.mapper.IdentitySummaryResponseMapper;
 import software.iridium.api.repository.*;
 import software.iridium.api.util.AttributeValidator;
@@ -43,20 +38,10 @@ import software.iridium.entity.TenantEntity;
 @Service
 public class IdentityService {
 
-  @Autowired private AuthenticationEntityRepository authenticationRepository;
   @Autowired private IdentityEntityMapper identityEntityMapper;
-  @Autowired private IdentityEntityInstantiator identityInstantiator;
   @Autowired private IdentityEntityRepository identityRepository;
-  @Autowired private IdentityResponseMapper responseMapper;
-  @Autowired private BCryptPasswordEncoder encoder;
-  @Autowired private IdentityEmailEntityRepository emailRepository;
   @Autowired private ServletTokenExtractor tokenExtractor;
-  @Autowired private TenantEntityRepository tenantRepository;
-  @Autowired private ApplicationEntityRepository applicationRepository;
   @Autowired private AttributeValidator attributeValidator;
-  @Autowired private IdentityCreateRequestDetailsInstantiator requestDetailsInstantiator;
-  @Autowired private AuthenticationService authenticationService;
-  @Autowired private AuthenticationRequestInstantiator authenticationRequestInstantiator;
   @Autowired private AccessTokenEntityRepository accessTokenRepository;
   @Autowired private IdentitySummaryResponseMapper summaryResponseMapper;
 
