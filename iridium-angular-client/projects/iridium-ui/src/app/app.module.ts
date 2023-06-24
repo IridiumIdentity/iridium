@@ -53,7 +53,6 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxIridiumClientModule } from 'ngx-iridium-client';
 import { NoopInterceptor } from './http-interceptors/http-interceptor';
-import { NgxIridiumCallbackComponent } from '../../../ngx-iridium-client/src/lib/ngx-iridium-callback.component';
 
 @NgModule({
   declarations: [
