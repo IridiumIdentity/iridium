@@ -53,8 +53,6 @@ public class SecurityConfig {
                         "/authenticate",
                         "oauth/authorize",
                         "register",
-                        "reset-password",
-                        "initiate-reset-password",
                         "/oauth/token")
                     .permitAll()
                     .anyRequest()

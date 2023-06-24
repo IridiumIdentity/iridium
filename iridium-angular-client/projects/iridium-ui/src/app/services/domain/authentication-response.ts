@@ -1,7 +1,6 @@
 export interface AuthenticationResponse {
-    data: { 
+    data: {
         userToken: string;
         userRefreshToken: string;
-        passwordResetLink: string;
     }
 }

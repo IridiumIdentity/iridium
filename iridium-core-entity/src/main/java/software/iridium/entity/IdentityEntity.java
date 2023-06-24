@@ -24,9 +24,6 @@ public class IdentityEntity extends AbstractEntity {
   @Column(name = "failed_login_attempts", nullable = false)
   private Integer failedLoginAttempts = 0;
 
-  @Column(name = "encoded_password", length = 255, nullable = true)
-  private String encodedPassword;
-
   @Column(name = "external_id", length = 255, nullable = true)
   private String externalId;
 
@@ -36,9 +33,6 @@ public class IdentityEntity extends AbstractEntity {
 
   @Column(name = "locked", nullable = false)
   private Boolean locked = false;
-
-  @Column(name = "requires_password_change", nullable = false)
-  private Boolean requiresPasswordChange = false;
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
@@ -61,10 +55,6 @@ public class IdentityEntity extends AbstractEntity {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "create_session_details_id")
   private IdentityCreateSessionDetails createSessionDetails;
-
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "password_reset_token_id")
-  private PasswordResetTokenEntity passwordResetToken;
 
   @ManyToOne(optional = true)
   @JoinColumn(name = "provider_id")
@@ -147,34 +137,6 @@ public class IdentityEntity extends AbstractEntity {
 
   public void setProfile(final ProfileEntity profile) {
     this.profile = profile;
-  }
-
-  public String getEncodedPassword() {
-    return encodedPassword;
-  }
-
-  public void setEncodedPassword(final String encodedPassword) {
-    this.encodedPassword = encodedPassword;
-  }
-
-  public Boolean doesNotRequirePasswordChange() {
-    return !requiresPasswordChange;
-  }
-
-  public Boolean doesRequiresPasswordChange() {
-    return requiresPasswordChange;
-  }
-
-  public void setRequiresPasswordChange(final Boolean requiresPasswordChange) {
-    this.requiresPasswordChange = requiresPasswordChange;
-  }
-
-  public PasswordResetTokenEntity getPasswordResetToken() {
-    return passwordResetToken;
-  }
-
-  public void setPasswordResetToken(final PasswordResetTokenEntity passwordResetToken) {
-    this.passwordResetToken = passwordResetToken;
   }
 
   public ExternalIdentityProviderEntity getProvider() {
