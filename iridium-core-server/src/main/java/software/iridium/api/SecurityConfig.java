@@ -34,7 +34,6 @@ public class SecurityConfig {
   @Resource private RequestLoggingFilter requestLoggingFilter;
   @Resource private PreAuthMdcFilter preAuthMdcFilter;
   @Resource private PostAuthMdcFilter postAuthMdcFilter;
-
   @Resource private AccessTokenEntityRepository accessTokenRepository;
 
   @Bean
@@ -54,8 +53,6 @@ public class SecurityConfig {
                         "/authenticate",
                         "oauth/authorize",
                         "register",
-                        "reset-password",
-                        "initiate-reset-password",
                         "/oauth/token")
                     .permitAll()
                     .anyRequest()

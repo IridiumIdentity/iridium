@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import software.iridium.api.authentication.domain.CreateIdentityRequest;
 import software.iridium.api.authentication.domain.GithubProfileResponse;
 import software.iridium.entity.ExternalIdentityProviderEntity;
 import software.iridium.entity.IdentityEmailEntity;
@@ -26,17 +25,6 @@ public class IdentityEntityInstantiator {
 
   @Autowired private EmailEntityInstantiator emailInstantiator;
   @Autowired private IdentityPropertyEntityInstantiator propertyInstantiator;
-
-  @Transactional(propagation = Propagation.REQUIRED)
-  public IdentityEntity instantiate(
-      final CreateIdentityRequest request,
-      final String encodedTempPassword,
-      final String tenantId) {
-    final IdentityEntity entity = instantiateIdentityAndAssociate(request.getUsername());
-    entity.setEncodedPassword(encodedTempPassword);
-    entity.setParentTenantId(tenantId);
-    return entity;
-  }
 
   @Transactional(propagation = Propagation.REQUIRED)
   public IdentityEntity instantiateFromGithub(

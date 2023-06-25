@@ -19,18 +19,19 @@ import org.springframework.security.core.userdetails.User;
 public class PrincipalUser extends User implements Principal {
   private static final long serialVersionUID = -3997242419392271736L;
 
-  private String emailAddress;
+  private String username;
   private String authToken;
 
   public PrincipalUser(
-      final String authToken, final String emailAddress, final List<GrantedAuthority> authorities) {
-    super(emailAddress, "password", authorities);
+      final String authToken, final String username, final List<GrantedAuthority> authorities) {
+    super(username, "password", authorities);
     this.authToken = authToken;
+    this.username = username;
   }
 
   @Override
   public String getName() {
-    return emailAddress;
+    return username;
   }
 
   public String getAuthToken() {

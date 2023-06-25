@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { ApiDataResponse } from '../domain/api-data-response';
 import { AccessTokenResponse } from '../domain/access-token-response';
@@ -70,6 +70,7 @@ export class AuthorizationService extends AbstractBaseService {
 
     return this.http.get<IdentityResponse>(
       this.config.iridium.domain
-      + 'identities', httpOptions).toPromise()
+      + 'identities', httpOptions);
   }
+
 }

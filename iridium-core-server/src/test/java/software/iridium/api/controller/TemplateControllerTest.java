@@ -11,9 +11,6 @@
  */
 package software.iridium.api.controller;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.*;
 
@@ -25,18 +22,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.servlet.support.RequestContextUtils;
-import software.iridium.api.authentication.domain.AuthenticationRequest;
-import software.iridium.api.authentication.domain.CreateIdentityRequest;
-import software.iridium.api.authentication.domain.InitiatePasswordResetRequest;
-import software.iridium.api.authentication.domain.PasswordResetRequest;
 import software.iridium.api.service.TemplateService;
-import software.iridium.api.util.ServletTokenExtractor;
 
 @ExtendWith(MockitoExtension.class)
 class TemplateControllerTest {
@@ -56,70 +46,14 @@ class TemplateControllerTest {
 
   @Test
   public void retrieveLoginForm_AllGood_BehavesAsExpected() {
-    final var authRequest = new AuthenticationRequest();
     final var params = new HashMap<String, String>();
 
     when(mockServletRequest.getRequestURL()).thenReturn(new StringBuffer("http://someurl.com"));
 
-    subject.retrieveLoginForm(authRequest, mockModel, params, mockServletRequest);
+    subject.retrieveLoginForm(mockModel, params, mockServletRequest);
 
     verify(mockServletRequest, times(2)).getRequestURL();
     verify(mockTemplateService)
         .describeIndex(same(mockModel), same(mockServletRequest), same(params));
-  }
-
-  @Test
-  public void retrievePasswordResetForm_AllGood_BehavesAsExpected() {
-    final var request = new PasswordResetRequest();
-
-    assertThat(
-        subject.retrieveResetPasswordForm(request, mockModel, mockServletRequest),
-        is(equalTo("reset-password")));
-  }
-
-  @Test
-  public void retrieveInitiateResetPasswordForm_AllGood_BehavesAsExpected() {
-    final var request = new InitiatePasswordResetRequest();
-
-    assertThat(
-        subject.retrieveInitiateResetPasswordForm(request, mockModel, mockServletRequest),
-        is(equalTo("initiate-reset-password")));
-  }
-
-  @Test
-  public void confirmRegistration_AllGood_BehavesAsExpected() {
-
-    assertThat(subject.confirmRegistration(mockModel), is(equalTo("confirmation")));
-  }
-
-  @Test
-  public void register_AllGood_BehavesAsExpected() {
-    final var request = new CreateIdentityRequest();
-
-    when(mockServletRequest.getRequestURL()).thenReturn(new StringBuffer("http://someurl.com"));
-
-    subject.register(request, mockModel, mockServletRequest);
-
-    verify(mockServletRequest, times(2)).getRequestURL();
-    verify(mockTemplateService).describeRegister(same(mockModel), same(mockServletRequest));
-  }
-
-  @Test
-  public void retrieveAuthorizationPage_AllGood_BehavesAsExpected() {
-    final var userToken = "the user token";
-    final var inputFlashMap = new HashMap<String, String>();
-    inputFlashMap.put(ServletTokenExtractor.IRIDIUM_TOKEN_HEADER_VALUE, userToken);
-    try (MockedStatic<RequestContextUtils> mockContext =
-        Mockito.mockStatic(RequestContextUtils.class)) {
-      mockContext
-          .when(() -> RequestContextUtils.getInputFlashMap(mockServletRequest))
-          .thenReturn(inputFlashMap);
-
-      assertThat(
-          subject.retrieveAuthorizationPage(mockModelMap, mockServletRequest, mockResponse),
-          is(equalTo("authorize")));
-
-      verify(mockModelMap).addAttribute(eq("userToken"), same(userToken));
-    }
   }
 }

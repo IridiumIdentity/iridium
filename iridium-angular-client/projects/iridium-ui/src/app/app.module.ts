@@ -30,7 +30,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { DynamicContentViewService } from './components/dashboard/content/dynamic-content-view.service';
 import { DynamicContentViewDirective } from './components/dashboard/content/dynamic-content-view.directive';
 import {
-  AddUserDialog,
   UserOverviewComponent
 } from './components/dashboard/content/user-overview/user-overview.component';
 import {
@@ -54,7 +53,6 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxIridiumClientModule } from 'ngx-iridium-client';
 import { NoopInterceptor } from './http-interceptors/http-interceptor';
-import { NgxIridiumCallbackComponent } from '../../../ngx-iridium-client/src/lib/ngx-iridium-callback.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +73,6 @@ import { NgxIridiumCallbackComponent } from '../../../ngx-iridium-client/src/lib
     CreateApplicationDialog,
     UpdateApplicationDialog,
     CreateAPIDialog,
-    AddUserDialog,
     CreateRoleDialog
   ],
   imports: [
