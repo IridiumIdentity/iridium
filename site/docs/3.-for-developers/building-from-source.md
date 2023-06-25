@@ -13,19 +13,19 @@ Iridium is with Maven.  From the top level directory you can execute a `mvn clea
 You should see the following if you are successful.
 ```
 [INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary for iridium 0.1.0-beta:
+[INFO] Reactor Summary for iridium 0.1.4:
 [INFO] 
-[INFO] iridium ............................................ SUCCESS [  0.941 s]
-[INFO] iridium-java-client ................................ SUCCESS [  6.240 s]
-[INFO] iridium-core-entity ................................ SUCCESS [  2.420 s]
-[INFO] iridium-server-base ................................ SUCCESS [  1.002 s]
-[INFO] iridium-core-server ................................ SUCCESS [ 20.816 s]
-[INFO] iridium-cli ........................................ SUCCESS [  8.923 s]
+[INFO] iridium ............................................ SUCCESS [  0.979 s]
+[INFO] iridium-java-client ................................ SUCCESS [  7.152 s]
+[INFO] iridium-core-entity ................................ SUCCESS [  2.365 s]
+[INFO] iridium-server-base ................................ SUCCESS [  5.724 s]
+[INFO] iridium-core-server ................................ SUCCESS [ 15.957 s]
+[INFO] iridium-cli ........................................ SUCCESS [ 11.330 s]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  40.978 s
-[INFO] Finished at: 2023-05-29T09:55:51-05:00
+[INFO] Total time:  44.164 s
+[INFO] Finished at: 2023-06-24T20:08:32-05:00
 [INFO] ------------------------------------------------------------------------
 ```
 

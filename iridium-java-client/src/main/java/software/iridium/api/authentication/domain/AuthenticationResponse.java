@@ -24,8 +24,6 @@ public class AuthenticationResponse implements Serializable {
 
   private String userRefreshToken;
 
-  private String passwordResetLink;
-
   private boolean applicationIsAuthorized;
 
   private String applicationName;
@@ -66,10 +64,6 @@ public class AuthenticationResponse implements Serializable {
     this.authorizationCode = authorizationCode;
   }
 
-  public AuthenticationResponse(final String passwordResetLink) {
-    this.passwordResetLink = passwordResetLink;
-  }
-
   public AuthenticationResponse() {}
 
   public String getUserToken() {
@@ -78,10 +72,6 @@ public class AuthenticationResponse implements Serializable {
 
   public String getUserRefreshToken() {
     return userRefreshToken;
-  }
-
-  public String getPasswordResetLink() {
-    return passwordResetLink;
   }
 
   public boolean applicationIsAuthorized() {
@@ -115,10 +105,6 @@ public class AuthenticationResponse implements Serializable {
   public static AuthenticationResponse of(
       final String userToken, final String userRefreshToken, final Boolean isAuthorized) {
     return new AuthenticationResponse(userToken, userRefreshToken, isAuthorized);
-  }
-
-  public static AuthenticationResponse of(final String passwordResetLink) {
-    return new AuthenticationResponse(passwordResetLink);
   }
 
   public String getApplicationRedirectUrl() {
