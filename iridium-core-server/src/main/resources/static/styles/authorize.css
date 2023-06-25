@@ -1,17 +1,3 @@
-
-body {
-    background: rgb(208,207,205);
-    background: radial-gradient(circle, rgba(208,207,205,1) 0%, rgba(91,137,180,1) 100%);
-    font-family: 'Open Sans';font-size: 16px;
-}
-
-html, body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-}
-
 .card-container {
     height:650px;
     width: 350px;
@@ -51,10 +37,4 @@ html, body {
 
 .text-container {
     margin-top: 10%;
-}
-
-.logo-container {
-    height: 10%;
-    background: url('/img/iridium-3C-large.png')  center center no-repeat;
-    background-size: contain;
 }
