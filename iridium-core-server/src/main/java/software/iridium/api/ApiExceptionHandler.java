@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
 import software.iridium.api.base.domain.ApiResponse;
 import software.iridium.api.base.error.*;
 
@@ -30,13 +31,20 @@ public class ApiExceptionHandler {
 
   @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
   @ExceptionHandler(NotAuthorizedException.class)
-  public @ResponseBody ApiResponse handleNotAuthorizedException(final Exception e) {
-    return new ApiResponse(HttpStatus.UNAUTHORIZED.toString(), e.getMessage());
+  public @ResponseBody ModelAndView handleNotAuthorizedException(final NotAuthorizedException e) {
+    ModelAndView modelAndView = new ModelAndView();
+
+    modelAndView.addObject("statusCode", e.getCode());
+    modelAndView.addObject("errorMessage", e.getMessage());
+
+    modelAndView.setViewName("error");
+
+    return modelAndView;
   }
 
   @ResponseStatus(value = HttpStatus.CONFLICT)
   @ExceptionHandler(DuplicateResourceException.class)
-  public @ResponseBody ApiResponse handeDuplicateResourceException(final Exception e) {
+  public @ResponseBody ApiResponse handleDuplicateResourceException(final Exception e) {
     return new ApiResponse(HttpStatus.CONFLICT.toString(), e.getMessage());
   }
 
