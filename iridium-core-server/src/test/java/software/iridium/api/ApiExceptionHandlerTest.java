@@ -12,11 +12,13 @@
 package software.iridium.api;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -77,8 +79,24 @@ public class ApiExceptionHandlerTest {
   }
 
   @Test
-  public void handleNotAuthorizedException_AllGood_ExceptionHandledProperly() throws Exception {
-    mockMvc.perform(get("/tests/notauthorized")).andExpect(status().isUnauthorized());
+  public void handleNotAuthorizedException_AcceptJSON_ExceptionHandledProperly_And_JSONReturned()
+      throws Exception {
+    mockMvc
+        .perform(get("/tests/notauthorized").accept(MediaType.APPLICATION_JSON_VALUE))
+        .andExpect(status().isUnauthorized())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+  }
+
+  @Test
+  public void
+      handleNotAuthorizedException_AllGood_ExceptionHandledProperly_And_HTMLErrorPageReturned()
+          throws Exception {
+    mockMvc
+        .perform(get("/tests/notauthorized"))
+        .andExpect(status().isUnauthorized())
+        .andExpect(view().name("error"))
+        .andExpect(model().attribute("statusCode", String.valueOf(HttpStatus.UNAUTHORIZED.value())))
+        .andExpect(model().attributeExists("errorMessage"));
   }
 
   @Test

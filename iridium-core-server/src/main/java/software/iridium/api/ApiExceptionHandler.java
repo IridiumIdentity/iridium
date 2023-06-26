@@ -11,11 +11,14 @@
  */
 package software.iridium.api;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import software.iridium.api.base.domain.ApiResponse;
 import software.iridium.api.base.error.*;
@@ -31,12 +34,20 @@ public class ApiExceptionHandler {
 
   @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
   @ExceptionHandler(NotAuthorizedException.class)
-  public @ResponseBody ModelAndView handleNotAuthorizedException(final NotAuthorizedException e) {
-    ModelAndView modelAndView = new ModelAndView();
+  public @ResponseBody Object handleNotAuthorizedException(
+      final NotAuthorizedException e, final WebRequest request) {
+    final var acceptHeader = request.getHeader(HttpHeaders.ACCEPT);
+    final var shouldReturnJson =
+        acceptHeader != null && acceptHeader.contains(MediaType.APPLICATION_JSON_VALUE);
+
+    if (shouldReturnJson) {
+      return new ApiResponse(HttpStatus.UNAUTHORIZED.toString(), e.getMessage());
+    }
+
+    final var modelAndView = new ModelAndView();
 
     modelAndView.addObject("statusCode", e.getCode());
     modelAndView.addObject("errorMessage", e.getMessage());
-
     modelAndView.setViewName("error");
 
     return modelAndView;
