@@ -11,18 +11,26 @@
  */
 package software.iridium.cli.generator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import software.iridium.cli.domain.PersistenceProperties;
 
-public class PersistenePropertyGenerator extends AbstractGenerator {
+public class PersistencePropertyGenerator extends AbstractGenerator {
 
   public static Map<String, String> generatePersistenceProperties(
-      final String host, final String port, final String user, final char[] password) {
+      final ObjectMapper objectMapper, final String confPath) throws IOException {
+    final var properties =
+        objectMapper.readValue(
+            new File(confPath + "persistence.yaml"), PersistenceProperties.class);
     Map<String, String> addedOrOverridenProperties = new HashMap<>();
     addedOrOverridenProperties.put(
-        "jakarta.persistence.jdbc.url", "jdbc:mysql://" + host + ":" + port + "/identities");
-    addedOrOverridenProperties.put("jakarta.persistence.jdbc.user", user);
-    addedOrOverridenProperties.put("jakarta.persistence.jdbc.password", new String(password));
+        "jakarta.persistence.jdbc.url",
+        "jdbc:mysql://" + properties.getHost() + ":" + properties.getPort() + "/identities");
+    addedOrOverridenProperties.put("jakarta.persistence.jdbc.user", properties.getUsername());
+    addedOrOverridenProperties.put("jakarta.persistence.jdbc.password", properties.getPassword());
     return addedOrOverridenProperties;
   }
 }

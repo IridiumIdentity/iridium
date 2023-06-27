@@ -1,0 +1,4 @@
+username: "iridium-api"
+password: "iridium"
+host: "localhost"
+port: "3306"

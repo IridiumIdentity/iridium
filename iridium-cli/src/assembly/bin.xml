@@ -46,6 +46,16 @@
             </includes>
         </fileSet>
 
+        <fileSet>
+            <directory>../conf</directory>
+            <outputDirectory>conf</outputDirectory>
+            <includes>
+                <include>*</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0755</fileMode>
+        </fileSet>
+
     </fileSets>
     <dependencySets>
         <dependencySet>

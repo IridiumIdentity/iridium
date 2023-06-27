@@ -11,23 +11,31 @@
  */
 package software.iridium.cli.generator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import software.iridium.entity.ExternalIdentityProviderTemplateEntity;
 
 public class IdentityProviderTemplateGenerator extends AbstractGenerator {
 
-  public static ExternalIdentityProviderTemplateEntity generateGithubProviderTemplate(
-      final EntityManager entityManager) {
+  public static List<ExternalIdentityProviderTemplateEntity> generateGithubProviderTemplate(
+      final EntityManager entityManager, final ObjectMapper objectMapper, final String confPath)
+      throws IOException {
     beginTransaction(entityManager);
-    final var identityProviderTemplate = new ExternalIdentityProviderTemplateEntity();
-    identityProviderTemplate.setAccessTokenRequestBaseUrl(
-        "https://github.com/login/oauth/access_token");
-    identityProviderTemplate.setProfileRequestBaseUrl("https://api.github.com/user");
-    identityProviderTemplate.setName("github");
-    identityProviderTemplate.setIconPath("https://avatars.githubusercontent.com/in/15368");
-    identityProviderTemplate.setBaseAuthorizationUrl("https://github.com/login/oauth/authorize?");
-    entityManager.persist(identityProviderTemplate);
+    final var externalProviderTemplates =
+        objectMapper.readValue(
+            new File(confPath + "external-provider-templates.yaml"),
+            new TypeReference<ArrayList<ExternalIdentityProviderTemplateEntity>>() {});
+    for (ExternalIdentityProviderTemplateEntity externalProviderTemplate :
+        externalProviderTemplates) {
+      entityManager.persist(externalProviderTemplate);
+    }
+
     flushAndCommitTransaction(entityManager);
-    return identityProviderTemplate;
+    return externalProviderTemplates;
   }
 }

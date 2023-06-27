@@ -1,0 +1,17 @@
+
+
+
+final var identityProvider = new ExternalIdentityProviderEntity();
+identityProvider.setName(identityProviderTemplate.getName());
+identityProvider.setTemplate(identityProviderTemplate);
+identityProvider.setAccessTokenRequestBaseUrl(
+identityProviderTemplate.getAccessTokenRequestBaseUrl());
+identityProvider.setProfileRequestBaseUrl(identityProviderTemplate.getProfileRequestBaseUrl());
+identityProvider.setClientId(githubClientId);
+identityProvider.setClientSecret(githubClientSecret);
+identityProvider.setTenant(iridiumTenant);
+identityProvider.setIconPath(identityProviderTemplate.getIconPath());
+identityProvider.setScope("user:email");
+identityProvider.setRedirectUri("http://localhost:4200/dashboard");
+identityProvider.setBaseAuthorizationUrl(identityProviderTemplate.getBaseAuthorizationUrl());
+entityManager.persist(identityProvider);

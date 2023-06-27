@@ -11,13 +11,17 @@
  */
 package software.iridium.cli.command;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Persistence;
+import java.io.IOException;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
 import software.iridium.cli.generator.*;
+import software.iridium.cli.util.PathUtils;
 import software.iridium.entity.*;
 
 @Command(name = "init", description = "inits the system")
@@ -25,77 +29,41 @@ public class InitCommand implements Runnable {
 
   private static final Logger logger = LoggerFactory.getLogger(InitCommand.class);
 
-  @Option(
-      names = {"-h", "--host"},
-      description = "localhost, your-domain.xyz, ...")
-  private String host;
-
-  @Option(
-      names = {"-p", "--password"},
-      description = "the database password",
-      interactive = true)
-  private char[] password;
-
-  @Option(
-      names = {"-x", "--admin-password"},
-      description = "the admin password",
-      interactive = true)
-  private char[] adminPassword;
-
-  @Option(
-      names = {"-e", "--admin-email"},
-      description = "the admin email")
-  private String adminEmail;
-
-  @Option(
-      names = {"-u", "--user"},
-      description = "the database user")
-  private String user;
-
-  @Option(
-      names = {"-P", "--port"},
-      description = "the database port")
-  private String port;
-
-  @Option(
-      names = {"-g", "--allow-github"},
-      description = "allow github login",
-      defaultValue = "false")
-  private Boolean allowGithub;
-
-  private String githubClientId;
-  private String githubClientSecret;
-
   private String iridiumAppId;
 
   @Override
   public void run() {
-    if (allowGithub) {
-      githubClientId = System.console().readLine("Enter value for github client id: ");
-      githubClientSecret = System.console().readLine("Enter value for github client secret: ");
-    }
+    final var confPath = PathUtils.getJarPath();
 
-    final var properties =
-        PersistenePropertyGenerator.generatePersistenceProperties(host, port, user, password);
+    final Map<String, String> properties;
+    try {
+      properties =
+          PersistencePropertyGenerator.generatePersistenceProperties(
+              new ObjectMapper(new YAMLFactory()), confPath);
+    } catch (IOException e) {
+      throw new RuntimeException("Error reading persistence properties", e);
+    }
     try (var entityManagerFactory =
             Persistence.createEntityManagerFactory("persistence", properties);
         EntityManager entityManager = entityManagerFactory.createEntityManager()) {
 
-      final var applicationTypes = ApplicationTypeGenerator.generateApplicationTypes(entityManager);
+      final var applicationTypes =
+          ApplicationTypeGenerator.generateApplicationTypes(
+              entityManager, new ObjectMapper(new YAMLFactory()), confPath);
 
-      final TenantEntity iridiumTenant = TenantGenerator.generateTenant(entityManager);
+      final TenantEntity iridiumTenant =
+          TenantGenerator.generateTenant(
+              entityManager, new ObjectMapper(new YAMLFactory()), confPath);
 
       LoginDescriptorGenerator.generateLoginDescriptor(entityManager, iridiumTenant);
 
-      if (allowGithub) {
-
-        IdentityProviderGenerator.generateIdentityProvider(
-            entityManager,
-            IdentityProviderTemplateGenerator.generateGithubProviderTemplate(entityManager),
-            iridiumTenant,
-            githubClientId,
-            githubClientSecret);
-      }
+      IdentityProviderGenerator.generateIdentityProvider(
+          entityManager,
+          IdentityProviderTemplateGenerator.generateGithubProviderTemplate(
+              entityManager, new ObjectMapper(new YAMLFactory()), confPath),
+          iridiumTenant,
+          new ObjectMapper(new YAMLFactory()),
+          confPath);
 
       for (ApplicationTypeEntity typeEntity : applicationTypes) {
         if (typeEntity.getType().equals(ApplicationType.SINGLE_PAGE)) {

@@ -11,20 +11,24 @@
  */
 package software.iridium.cli.generator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
-import software.iridium.api.authentication.domain.Environment;
+import java.io.File;
+import java.io.IOException;
 import software.iridium.entity.TenantEntity;
 
 public class TenantGenerator extends AbstractGenerator {
 
-  public static TenantEntity generateTenant(final EntityManager entityManager) {
+  public static TenantEntity generateTenant(
+      final EntityManager entityManager, final ObjectMapper objectMapper, final String confPath)
+      throws IOException {
+
     beginTransaction(entityManager);
-    final var iridiumTenant = new TenantEntity();
-    iridiumTenant.setEnvironment(Environment.PRODUCTION);
-    iridiumTenant.setSubdomain("localhost");
-    iridiumTenant.setWebsiteUrl("iridium.software");
-    entityManager.persist(iridiumTenant);
+    final var tenant =
+        objectMapper.readValue(new File(confPath + "tenant.yaml"), TenantEntity.class);
+
+    entityManager.persist(tenant);
     flushAndCommitTransaction(entityManager);
-    return iridiumTenant;
+    return tenant;
   }
 }

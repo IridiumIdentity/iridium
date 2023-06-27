@@ -11,35 +11,42 @@
  */
 package software.iridium.cli.generator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import software.iridium.entity.ExternalIdentityProviderEntity;
 import software.iridium.entity.ExternalIdentityProviderTemplateEntity;
 import software.iridium.entity.TenantEntity;
 
 public class IdentityProviderGenerator extends AbstractGenerator {
 
-  public static ExternalIdentityProviderEntity generateIdentityProvider(
+  public static List<ExternalIdentityProviderEntity> generateIdentityProvider(
       final EntityManager entityManager,
-      final ExternalIdentityProviderTemplateEntity identityProviderTemplate,
+      final List<ExternalIdentityProviderTemplateEntity> identityProviderTemplates,
       final TenantEntity iridiumTenant,
-      final String githubClientId,
-      final String githubClientSecret) {
+      final ObjectMapper objectMapper,
+      final String confPath)
+      throws IOException {
     beginTransaction(entityManager);
-    final var identityProvider = new ExternalIdentityProviderEntity();
-    identityProvider.setName(identityProviderTemplate.getName());
-    identityProvider.setTemplate(identityProviderTemplate);
-    identityProvider.setAccessTokenRequestBaseUrl(
-        identityProviderTemplate.getAccessTokenRequestBaseUrl());
-    identityProvider.setProfileRequestBaseUrl(identityProviderTemplate.getProfileRequestBaseUrl());
-    identityProvider.setClientId(githubClientId);
-    identityProvider.setClientSecret(githubClientSecret);
-    identityProvider.setTenant(iridiumTenant);
-    identityProvider.setIconPath(identityProviderTemplate.getIconPath());
-    identityProvider.setScope("user:email");
-    identityProvider.setRedirectUri("http://localhost:4200/dashboard");
-    identityProvider.setBaseAuthorizationUrl(identityProviderTemplate.getBaseAuthorizationUrl());
-    entityManager.persist(identityProvider);
+    final List<ExternalIdentityProviderEntity> externalProviders =
+        objectMapper.readValue(
+            new File(confPath + "external-providers.yaml"),
+            new TypeReference<List<ExternalIdentityProviderEntity>>() {});
+    for (ExternalIdentityProviderTemplateEntity externalProviderTemplate :
+        identityProviderTemplates) {
+      for (ExternalIdentityProviderEntity externalProvider : externalProviders) {
+        if (externalProviderTemplate.getName().equals(externalProvider.getName())) {
+          externalProvider.setTemplate(externalProviderTemplate);
+          externalProvider.setIconPath(externalProviderTemplate.getIconPath());
+          entityManager.persist(externalProvider);
+        }
+      }
+    }
+
     flushAndCommitTransaction(entityManager);
-    return identityProvider;
+    return externalProviders;
   }
 }
