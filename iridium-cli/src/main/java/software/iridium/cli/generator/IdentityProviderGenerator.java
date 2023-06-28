@@ -40,7 +40,14 @@ public class IdentityProviderGenerator extends AbstractGenerator {
       for (ExternalIdentityProviderEntity externalProvider : externalProviders) {
         if (externalProviderTemplate.getName().equals(externalProvider.getName())) {
           externalProvider.setTemplate(externalProviderTemplate);
+          externalProvider.setAccessTokenRequestBaseUrl(
+              externalProviderTemplate.getAccessTokenRequestBaseUrl());
+          externalProvider.setProfileRequestBaseUrl(
+              externalProviderTemplate.getProfileRequestBaseUrl());
           externalProvider.setIconPath(externalProviderTemplate.getIconPath());
+          externalProvider.setTenant(iridiumTenant);
+          externalProvider.setBaseAuthorizationUrl(
+              externalProviderTemplate.getBaseAuthorizationUrl());
           entityManager.persist(externalProvider);
         }
       }

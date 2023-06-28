@@ -11,6 +11,7 @@
  */
 package software.iridium.cli.generator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import software.iridium.entity.LoginDescriptorEntity;
 import software.iridium.entity.TenantEntity;
@@ -18,7 +19,10 @@ import software.iridium.entity.TenantEntity;
 public class LoginDescriptorGenerator extends AbstractGenerator {
 
   public static LoginDescriptorEntity generateLoginDescriptor(
-      final EntityManager entityManager, final TenantEntity iridiumTenant) {
+      final EntityManager entityManager,
+      final TenantEntity iridiumTenant,
+      final ObjectMapper objectMapper,
+      final String confPath) {
     beginTransaction(entityManager);
     final var loginDescriptor = new LoginDescriptorEntity();
     iridiumTenant.setLoginDescriptor(loginDescriptor);

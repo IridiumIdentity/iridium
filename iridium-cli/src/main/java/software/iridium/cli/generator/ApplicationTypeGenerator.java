@@ -29,12 +29,11 @@ public class ApplicationTypeGenerator extends AbstractGenerator {
       throws IOException {
     logger.info("generating application types");
 
+    beginTransaction(entityManager);
     final var applicationTypes =
         objectMapper.readValue(
             new File(confPath + "application-types.yaml"),
             new TypeReference<ArrayList<ApplicationTypeEntity>>() {});
-
-    beginTransaction(entityManager);
 
     applicationTypes.forEach(entityManager::persist);
 

@@ -1,9 +1,6 @@
-- name: ""
-  accessTokenRequestBaseUrl: ""
-  profileRequestBaseUrl: ""
-  iconPath: ""
-  authorizationBaseUrl: ""
-
-
-
+- name: "github"
+  accessTokenRequestBaseUrl: "https://github.com/login/oauth/access_token"
+  profileRequestBaseUrl: "https://api.github.com/user"
+  iconPath: "https://avatars.githubusercontent.com/in/15368"
+  baseAuthorizationUrl: "https://github.com/login/oauth/authorize?"
 

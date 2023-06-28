@@ -16,15 +16,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import software.iridium.cli.domain.PersistenceProperties;
 
 public class PersistencePropertyGenerator extends AbstractGenerator {
+  private static final Logger logger = LoggerFactory.getLogger(PersistencePropertyGenerator.class);
 
   public static Map<String, String> generatePersistenceProperties(
       final ObjectMapper objectMapper, final String confPath) throws IOException {
     final var properties =
         objectMapper.readValue(
             new File(confPath + "persistence.yaml"), PersistenceProperties.class);
+    logger.info("creating persistence properties ");
+    logger.info(objectMapper.writeValueAsString(properties));
+
     Map<String, String> addedOrOverridenProperties = new HashMap<>();
     addedOrOverridenProperties.put(
         "jakarta.persistence.jdbc.url",

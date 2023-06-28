@@ -33,13 +33,14 @@ public class InitCommand implements Runnable {
 
   @Override
   public void run() {
-    final var confPath = PathUtils.getJarPath();
-
+    final var configurationPath = PathUtils.getJarPath();
+    ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
     final Map<String, String> properties;
+
     try {
       properties =
           PersistencePropertyGenerator.generatePersistenceProperties(
-              new ObjectMapper(new YAMLFactory()), confPath);
+              objectMapper, configurationPath);
     } catch (IOException e) {
       throw new RuntimeException("Error reading persistence properties", e);
     }
@@ -49,27 +50,27 @@ public class InitCommand implements Runnable {
 
       final var applicationTypes =
           ApplicationTypeGenerator.generateApplicationTypes(
-              entityManager, new ObjectMapper(new YAMLFactory()), confPath);
+              entityManager, objectMapper, configurationPath);
 
       final TenantEntity iridiumTenant =
-          TenantGenerator.generateTenant(
-              entityManager, new ObjectMapper(new YAMLFactory()), confPath);
+          TenantGenerator.generateTenant(entityManager, objectMapper, configurationPath);
 
-      LoginDescriptorGenerator.generateLoginDescriptor(entityManager, iridiumTenant);
+      LoginDescriptorGenerator.generateLoginDescriptor(
+          entityManager, iridiumTenant, objectMapper, configurationPath);
 
       IdentityProviderGenerator.generateIdentityProvider(
           entityManager,
           IdentityProviderTemplateGenerator.generateGithubProviderTemplate(
-              entityManager, new ObjectMapper(new YAMLFactory()), confPath),
+              entityManager, objectMapper, configurationPath),
           iridiumTenant,
-          new ObjectMapper(new YAMLFactory()),
-          confPath);
+          objectMapper,
+          configurationPath);
 
       for (ApplicationTypeEntity typeEntity : applicationTypes) {
         if (typeEntity.getType().equals(ApplicationType.SINGLE_PAGE)) {
           final var application =
               ApplicationGenerator.generateIridiumApplication(
-                  entityManager, iridiumTenant, typeEntity);
+                  entityManager, iridiumTenant, typeEntity, objectMapper, configurationPath);
           this.iridiumAppId = application.getClientId();
         }
       }
