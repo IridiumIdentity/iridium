@@ -12,23 +12,21 @@
 package software.iridium.cli.generator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import software.iridium.cli.util.YamlParser;
 import software.iridium.entity.ExternalIdentityProviderTemplateEntity;
 
 public class IdentityProviderTemplateGenerator extends AbstractGenerator {
 
-  public static List<ExternalIdentityProviderTemplateEntity> generateGithubProviderTemplate(
-      final EntityManager entityManager, final ObjectMapper objectMapper, final String confPath)
-      throws IOException {
+  public static List<ExternalIdentityProviderTemplateEntity> generateGithubProviderTemplates(
+      final EntityManager entityManager) throws IOException {
     beginTransaction(entityManager);
     final var externalProviderTemplates =
-        objectMapper.readValue(
-            new File(confPath + "external-provider-templates.yaml"),
+        YamlParser.readValue(
+            "external-provider-templates.yaml",
             new TypeReference<ArrayList<ExternalIdentityProviderTemplateEntity>>() {});
     for (ExternalIdentityProviderTemplateEntity externalProviderTemplate :
         externalProviderTemplates) {

@@ -11,17 +11,13 @@
  */
 package software.iridium.cli.command;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Persistence;
-import java.io.IOException;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine.Command;
 import software.iridium.cli.generator.*;
-import software.iridium.cli.util.PathUtils;
 import software.iridium.entity.*;
 
 @Command(name = "init", description = "inits the system")
@@ -33,44 +29,31 @@ public class InitCommand implements Runnable {
 
   @Override
   public void run() {
-    final var configurationPath = PathUtils.getJarPath();
-    ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
-    final Map<String, String> properties;
 
-    try {
-      properties =
-          PersistencePropertyGenerator.generatePersistenceProperties(
-              objectMapper, configurationPath);
-    } catch (IOException e) {
-      throw new RuntimeException("Error reading persistence properties", e);
-    }
+    final Map<String, String> properties =
+        PersistencePropertyGenerator.generatePersistenceProperties();
+
     try (var entityManagerFactory =
             Persistence.createEntityManagerFactory("persistence", properties);
         EntityManager entityManager = entityManagerFactory.createEntityManager()) {
 
-      final var applicationTypes =
-          ApplicationTypeGenerator.generateApplicationTypes(
-              entityManager, objectMapper, configurationPath);
+      final var applicationTypes = ApplicationTypeGenerator.generateApplicationTypes(entityManager);
 
-      final TenantEntity iridiumTenant =
-          TenantGenerator.generateTenant(entityManager, objectMapper, configurationPath);
+      final TenantEntity iridiumTenant = TenantGenerator.generateTenant(entityManager);
 
-      LoginDescriptorGenerator.generateLoginDescriptor(
-          entityManager, iridiumTenant, objectMapper, configurationPath);
+      LoginDescriptorGenerator.generateLoginDescriptor(entityManager, iridiumTenant);
 
-      IdentityProviderGenerator.generateIdentityProvider(
-          entityManager,
-          IdentityProviderTemplateGenerator.generateGithubProviderTemplate(
-              entityManager, objectMapper, configurationPath),
-          iridiumTenant,
-          objectMapper,
-          configurationPath);
+      final var identityProviderTemplates =
+          IdentityProviderTemplateGenerator.generateGithubProviderTemplates(entityManager);
+
+      IdentityProviderGenerator.generateIdentityProviders(
+          entityManager, identityProviderTemplates, iridiumTenant);
 
       for (ApplicationTypeEntity typeEntity : applicationTypes) {
         if (typeEntity.getType().equals(ApplicationType.SINGLE_PAGE)) {
           final var application =
               ApplicationGenerator.generateIridiumApplication(
-                  entityManager, iridiumTenant, typeEntity, objectMapper, configurationPath);
+                  entityManager, iridiumTenant, typeEntity);
           this.iridiumAppId = application.getClientId();
         }
       }

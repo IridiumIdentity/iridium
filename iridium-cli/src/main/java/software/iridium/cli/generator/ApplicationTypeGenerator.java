@@ -12,28 +12,25 @@
 package software.iridium.cli.generator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import software.iridium.cli.util.YamlParser;
 import software.iridium.entity.ApplicationTypeEntity;
 
 public class ApplicationTypeGenerator extends AbstractGenerator {
   private static final Logger logger = LoggerFactory.getLogger(ApplicationTypeGenerator.class);
 
   public static ArrayList<ApplicationTypeEntity> generateApplicationTypes(
-      final EntityManager entityManager, final ObjectMapper objectMapper, final String confPath)
-      throws IOException {
+      final EntityManager entityManager) throws IOException {
     logger.info("generating application types");
 
     beginTransaction(entityManager);
     final var applicationTypes =
-        objectMapper.readValue(
-            new File(confPath + "application-types.yaml"),
-            new TypeReference<ArrayList<ApplicationTypeEntity>>() {});
+        YamlParser.readValue(
+            "application-types.yaml", new TypeReference<ArrayList<ApplicationTypeEntity>>() {});
 
     applicationTypes.forEach(entityManager::persist);
 

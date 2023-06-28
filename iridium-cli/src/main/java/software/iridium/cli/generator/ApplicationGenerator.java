@@ -11,13 +11,11 @@
  */
 package software.iridium.cli.generator;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
-import java.io.File;
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import org.apache.commons.lang3.StringUtils;
 import software.iridium.cli.util.EncoderUtils;
+import software.iridium.cli.util.YamlParser;
 import software.iridium.entity.ApplicationEntity;
 import software.iridium.entity.ApplicationTypeEntity;
 import software.iridium.entity.TenantEntity;
@@ -29,17 +27,14 @@ public class ApplicationGenerator extends AbstractGenerator {
   public static ApplicationEntity generateIridiumApplication(
       final EntityManager entityManager,
       final TenantEntity iridiumTenant,
-      final ApplicationTypeEntity applicationType,
-      final ObjectMapper objectMapper,
-      final String confPath)
-      throws NoSuchAlgorithmException, IOException {
+      final ApplicationTypeEntity applicationType)
+      throws NoSuchAlgorithmException {
     final var encoderUtils = new EncoderUtils();
 
     beginTransaction(entityManager);
 
     final var iridiumManagementApp =
-        objectMapper.readValue(
-            new File(confPath + "management-application.yaml"), ApplicationEntity.class);
+        YamlParser.readValue("management-application.yaml", ApplicationEntity.class);
     iridiumManagementApp.setTenantId(iridiumTenant.getId());
     if (StringUtils.isBlank(iridiumManagementApp.getClientId())) {
       iridiumManagementApp.setClientId(encoderUtils.cryptoSecureToHex(CLIENT_ID_SEED_LENGTH));

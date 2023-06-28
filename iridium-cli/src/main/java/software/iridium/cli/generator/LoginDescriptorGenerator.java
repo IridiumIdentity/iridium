@@ -11,27 +11,20 @@
  */
 package software.iridium.cli.generator;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
+import software.iridium.cli.util.YamlParser;
 import software.iridium.entity.LoginDescriptorEntity;
 import software.iridium.entity.TenantEntity;
 
 public class LoginDescriptorGenerator extends AbstractGenerator {
 
   public static LoginDescriptorEntity generateLoginDescriptor(
-      final EntityManager entityManager,
-      final TenantEntity iridiumTenant,
-      final ObjectMapper objectMapper,
-      final String confPath) {
+      final EntityManager entityManager, final TenantEntity iridiumTenant) {
     beginTransaction(entityManager);
-    final var loginDescriptor = new LoginDescriptorEntity();
+    final var loginDescriptor =
+        YamlParser.readValue("login-descriptor.yaml", LoginDescriptorEntity.class);
     iridiumTenant.setLoginDescriptor(loginDescriptor);
     loginDescriptor.setTenant(iridiumTenant);
-    loginDescriptor.setDisplayName("Iridium");
-    loginDescriptor.setUsernameErrorHint("Please enter a valid email");
-    loginDescriptor.setUsernameLabel("Please enter a valid email");
-    loginDescriptor.setUsernamePlaceholder("ex: you@somewhere.com");
-    loginDescriptor.setUsernameType("email");
     loginDescriptor.setAllowGithub(false);
     entityManager.persist(loginDescriptor);
     flushAndCommitTransaction(entityManager);
