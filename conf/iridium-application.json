@@ -1,5 +1,0 @@
-{
-  "name": "iridium management app",
-  "homePageUrl": "http://localhost:4200",
-  "redirectUri": "http://localhost:4200/callback"
-}
