@@ -16,6 +16,8 @@ services:
   iridium:
     image: iridiumidentity/iridium-core-server:latest
     container_name: iridium
+    depends_on: 
+      - mariadb
     restart: always
     pull_policy: always
     ports:
@@ -47,6 +49,8 @@ services:
       - SPRING_MAIL_FROM_ADDRESS=noreply@yourdomain.com
       - SPRING_THYMELEAF_PREFIX=classpath:/templates/
       - SPRING_THYMELEAF_SUFFIX=.html
+    extra_hosts:
+      - "host.docker.internal:${HOST_INTERNAL}"
 
     networks:
       - iridium
