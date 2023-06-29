@@ -716,7 +716,10 @@ using the <a href="#serve-iridium-using-the-docker-compose-file-contents-below">
 <p><code>cd</code> into the project</p>
 <pre><code class="language-shell">$ cd iridium
 </code></pre>
-<p>Stand up mariadb, the latest version of the core iridium server, and the fake smtp server</p>
+<p>Before running the compose command below be sure to set the environment variable HOST_INTERNAL.  This ip address should be set to whatever your default gateway is.  This is typically the ip address of your router on a home network.  The address below is just an example. </p>
+<pre><code class="language-shell">export HOST_INTERNAL=192.168.1.x
+</code></pre>
+<p>Stand up mariadb, the latest version of the core iridium server</p>
 <pre><code class="language-shell">$ docker compose -f tools/schedulers/compose/local-iridium-compose.yml up -d
 </code></pre>
 <p>At this point you have a version of the Iridium core server and an instance of MariaDB
