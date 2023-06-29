@@ -11,35 +11,38 @@
  */
 package software.iridium.cli.generator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.persistence.EntityManager;
+import java.util.List;
+import software.iridium.cli.util.YamlParser;
 import software.iridium.entity.ExternalIdentityProviderEntity;
 import software.iridium.entity.ExternalIdentityProviderTemplateEntity;
 import software.iridium.entity.TenantEntity;
 
 public class IdentityProviderGenerator extends AbstractGenerator {
 
-  public static ExternalIdentityProviderEntity generateIdentityProvider(
+  public static List<ExternalIdentityProviderEntity> generateIdentityProviders(
       final EntityManager entityManager,
-      final ExternalIdentityProviderTemplateEntity identityProviderTemplate,
-      final TenantEntity iridiumTenant,
-      final String githubClientId,
-      final String githubClientSecret) {
+      final List<ExternalIdentityProviderTemplateEntity> templates,
+      final TenantEntity iridiumTenant) {
     beginTransaction(entityManager);
-    final var identityProvider = new ExternalIdentityProviderEntity();
-    identityProvider.setName(identityProviderTemplate.getName());
-    identityProvider.setTemplate(identityProviderTemplate);
-    identityProvider.setAccessTokenRequestBaseUrl(
-        identityProviderTemplate.getAccessTokenRequestBaseUrl());
-    identityProvider.setProfileRequestBaseUrl(identityProviderTemplate.getProfileRequestBaseUrl());
-    identityProvider.setClientId(githubClientId);
-    identityProvider.setClientSecret(githubClientSecret);
-    identityProvider.setTenant(iridiumTenant);
-    identityProvider.setIconPath(identityProviderTemplate.getIconPath());
-    identityProvider.setScope("user:email");
-    identityProvider.setRedirectUri("http://localhost:4200/dashboard");
-    identityProvider.setBaseAuthorizationUrl(identityProviderTemplate.getBaseAuthorizationUrl());
-    entityManager.persist(identityProvider);
+    final List<ExternalIdentityProviderEntity> externalProviders =
+        YamlParser.readValue("external-providers.yaml", new TypeReference<>() {});
+    for (ExternalIdentityProviderTemplateEntity template : templates) {
+      for (ExternalIdentityProviderEntity externalProvider : externalProviders) {
+        if (template.getName().equals(externalProvider.getName())) {
+          externalProvider.setTemplate(template);
+          externalProvider.setAccessTokenRequestBaseUrl(template.getAccessTokenRequestBaseUrl());
+          externalProvider.setProfileRequestBaseUrl(template.getProfileRequestBaseUrl());
+          externalProvider.setIconPath(template.getIconPath());
+          externalProvider.setTenant(iridiumTenant);
+          externalProvider.setBaseAuthorizationUrl(template.getBaseAuthorizationUrl());
+          entityManager.persist(externalProvider);
+        }
+      }
+    }
+
     flushAndCommitTransaction(entityManager);
-    return identityProvider;
+    return externalProviders;
   }
 }

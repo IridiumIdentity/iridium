@@ -12,19 +12,19 @@
 package software.iridium.cli.generator;
 
 import jakarta.persistence.EntityManager;
-import software.iridium.api.authentication.domain.Environment;
+import java.io.IOException;
+import software.iridium.cli.util.YamlParser;
 import software.iridium.entity.TenantEntity;
 
 public class TenantGenerator extends AbstractGenerator {
 
-  public static TenantEntity generateTenant(final EntityManager entityManager) {
+  public static TenantEntity generateTenant(final EntityManager entityManager) throws IOException {
+
     beginTransaction(entityManager);
-    final var iridiumTenant = new TenantEntity();
-    iridiumTenant.setEnvironment(Environment.PRODUCTION);
-    iridiumTenant.setSubdomain("localhost");
-    iridiumTenant.setWebsiteUrl("iridium.software");
-    entityManager.persist(iridiumTenant);
+    final var tenant = YamlParser.readValue("tenant.yaml", TenantEntity.class);
+
+    entityManager.persist(tenant);
     flushAndCommitTransaction(entityManager);
-    return iridiumTenant;
+    return tenant;
   }
 }

@@ -40,6 +40,7 @@ public class LoginDescriptorEntity extends AbstractEntity {
   @Column(name = "icon_path", length = 255, nullable = false)
   private String iconPath = "some path for now";
 
+  // todo (josh fischer) remove booleans
   @Column(name = "allow_github", nullable = false)
   private Boolean allowGithub = false;
 

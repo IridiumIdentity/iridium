@@ -1,0 +1,4 @@
+environment: "PRODUCTION"
+subdomain: "localhost"
+websiteUrl: "iridium.software"
+
