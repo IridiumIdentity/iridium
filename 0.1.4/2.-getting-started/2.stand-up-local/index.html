@@ -15,15 +15,18 @@
         <link rel="next" href="../../3.-for-developers/building-from-source/">
       
       <link rel="icon" href="../../images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.16">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.6">
     
     
       
-        <title>Stand up a locally - Iridium</title>
+        <title>Stand up locally - Iridium</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.26e3688c.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
       
       
 
@@ -61,11 +64,14 @@
   </head>
   
   
-    <body dir="ltr">
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
   
     
-    
-      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -73,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#stand-up-a-locally" class="md-skip">
+        <a href="#stand-up-locally" class="md-skip">
           Skip to content
         </a>
       
@@ -159,7 +165,7 @@ You're not viewing the latest version.
                 <div class="md-header__topic" data-md-component="header-topic">
 <!--          <span class="md-ellipsis">-->
 <!--            -->
-<!--              Stand up a locally-->
+<!--              Stand up locally-->
 <!--            -->
 <!--          </span>-->
                 </div>
@@ -167,10 +173,6 @@ You're not viewing the latest version.
         </div>
 
         <!-- Color palette -->
-        
-        <form class="md-header__option" data-md-component="palette">
-            
-        </form>
         
 
         <!-- Site language selector -->
@@ -406,12 +408,12 @@ You're not viewing the latest version.
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Stand up a locally
+          Stand up locally
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Stand up a locally
+        Stand up locally
       </a>
       
         
@@ -444,29 +446,23 @@ You're not viewing the latest version.
 </li>
       
         <li class="md-nav__item">
-  <a href="#serve-iridium-using-the-docker-compose-file-contents-below" class="md-nav__link">
-    Serve Iridium using the Docker Compose file contents below
+  <a href="#initialize-the-iridium-database" class="md-nav__link">
+    Initialize the Iridium Database
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#initialize-the-iridium-database" class="md-nav__link">
-    Initialize the Iridium Database
-  </a>
-  
-    <nav class="md-nav" aria-label="Initialize the Iridium Database">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#initialize-with-iridium-without-a-social-provider" class="md-nav__link">
-    Initialize with Iridium without a social provider
+  <a href="#initialize-with-iridium-with-the-github-login-provider" class="md-nav__link">
+    Initialize with Iridium with the GitHub Login Provider
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#stand-up-the-iridium-management-ui" class="md-nav__link">
+    Stand up the Iridium Management UI
+  </a>
   
 </li>
       
@@ -522,6 +518,20 @@ You're not viewing the latest version.
     <li class="md-nav__item">
       <a href="../../3.-for-developers/building-from-source/" class="md-nav__link">
         Building Iridium from source
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.-for-developers/developing-with-intellij/" class="md-nav__link">
+        Developing with intellij
       </a>
     </li>
   
@@ -652,29 +662,23 @@ You're not viewing the latest version.
 </li>
       
         <li class="md-nav__item">
-  <a href="#serve-iridium-using-the-docker-compose-file-contents-below" class="md-nav__link">
-    Serve Iridium using the Docker Compose file contents below
+  <a href="#initialize-the-iridium-database" class="md-nav__link">
+    Initialize the Iridium Database
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#initialize-the-iridium-database" class="md-nav__link">
-    Initialize the Iridium Database
-  </a>
-  
-    <nav class="md-nav" aria-label="Initialize the Iridium Database">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#initialize-with-iridium-without-a-social-provider" class="md-nav__link">
-    Initialize with Iridium without a social provider
+  <a href="#initialize-with-iridium-with-the-github-login-provider" class="md-nav__link">
+    Initialize with Iridium with the GitHub Login Provider
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#stand-up-the-iridium-management-ui" class="md-nav__link">
+    Stand up the Iridium Management UI
+  </a>
   
 </li>
       
@@ -696,7 +700,7 @@ You're not viewing the latest version.
   
 
 
-<h1 id="stand-up-a-locally">Stand up a locally</h1>
+<h1 id="stand-up-locally">Stand up locally</h1>
 <h3 id="prerequisites">Prerequisites</h3>
 <p>You will need.</p>
 <ul>
@@ -714,16 +718,18 @@ using the <a href="#serve-iridium-using-the-docker-compose-file-contents-below">
 <p><code>cd</code> into the project</p>
 <pre><code class="language-shell">$ cd iridium
 </code></pre>
-<p>Stand up mariadb, the latest version of the core iridium server, and the fake smtp server</p>
+<p>Before running the compose command below be sure to set the environment variable HOST_INTERNAL.  This ip address should be set to whatever your default gateway is.  This is typically the ip address of your router on a home network.  The address below is just an example. </p>
+<pre><code class="language-shell">export HOST_INTERNAL=192.168.1.x
+</code></pre>
+<p>Stand up mariadb, the latest version of the core iridium server</p>
 <pre><code class="language-shell">$ docker compose -f tools/schedulers/compose/local-iridium-compose.yml up -d
 </code></pre>
-<p>At this point you have a version of the Iridium core server, an instance of MariaDB, and an instance of <a href="https://github.com/gessnerfl/fake-smtp-server">Fake SMTP Server</a>
+<p>At this point you have a version of the Iridium core server and an instance of MariaDB
 We still need to initialize the database with specific data for Iridium to function.  </p>
 <p>You can verify this by executing <code>docker ps</code>, you should see similar output like below</p>
 <pre><code class="language-shell"> docker ps
 CONTAINER ID   IMAGE                                        COMMAND                  CREATED         STATUS         PORTS                                        NAMES
 a44c37b6d4c1   mariadb:10.6.11                              &quot;docker-entrypoint.s…&quot;   6 seconds ago   Up 3 seconds   0.0.0.0:3306-&gt;3306/tcp                       mariadb
-9b9005ad9662   gessnerfl/fake-smtp-server                   &quot;java -Djava.securit…&quot;   6 seconds ago   Up 4 seconds   8025/tcp, 8081/tcp, 0.0.0.0:8080-&gt;8080/tcp   fake-smtp-server
 b919d4ffcf56   iridiumidentity/iridium-core-server:latest   &quot;java -jar /opt/java…&quot;   6 seconds ago   Up 4 seconds   0.0.0.0:8381-&gt;8381/tcp                       iridium
 </code></pre>
 <p>It may take the iridium core server about 30 seconds to fully come up.  You can verify all is good by watching the logs by 
@@ -733,90 +739,6 @@ executing <code>docker logs iridium -f</code>.  </p>
 main] software.iridium.api.Iridium             : Started Iridium in 64.841 seconds (process running for 74.472)
 </code></pre>
 <p><a href="#initialize-with-iridium-without-a-social-provider">Next, you should initialize the database</a></p>
-<h3 id="serve-iridium-using-the-docker-compose-file-contents-below">Serve Iridium using the Docker Compose file contents below</h3>
-<p>Place the below yaml in file to stand up Iridium locally. </p>
-<pre><code class="language-yaml">version: '3.8'
-
-services:
-
-  iridium:
-    image: iridiumidentity/iridium-core-server:latest
-    container_name: iridium
-    restart: always
-    pull_policy: always
-    ports:
-      - &quot;8381:8381&quot;
-    environment:
-      - SERVER_PORT=8381
-      - LOGGING_LEVEL_ROOT=info
-      - LOGGING_LEVEL_SOFTWARE_IRIDIUM=DEBUG
-      - SPRING_JMX_ENABLED=false
-      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB=DEBUG
-      - RUN_PROFILE=local
-      - SPRING_MVC_LOG-REQUEST-DETAILS=true
-      - SPRING_MVC_DISPATCH-OPTIONS-REQUEST=true
-      - SPRING_JPA_HIBERNATE_SHOW_SQL=false
-      - SPRING_JPA_HIBERNATE_FORMAT_SQL=true
-      - SPRING_JPA_PROPERTIES_HIBERNATE_HBM2DDL_DELIMITER=;
-      - SPRING_JPA_PROPERTIES_HIBERNATE_GLOBALLY_QUOTED_IDENTIFIERS=true
-      - SPRING_JPA_PROPERTIES_HIBERNATE-GLOBALLY_QUOTED_IDENTIFIERS_SKIP_COLUMN_DEFINITIONS=true
-      - SPRING_DATASOURCE_DRIVER-CLASS=com.mysql.jdbc.Driver
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mariadb/identities?useSSL=false
-      - SPRING_DATASOURCE_USERNAME=iridium
-      - SPRING_DATASOURCE_PASSWORD=iridium
-      - SPRING_DATASOURCE_TOMCAT_MAX-ACTIVE=5
-      - SPRING_DATASOURCE_TEST-WHILE-IDLE=true
-      - SPRING_DATASOURCE_VALIDATION_QUERY=SELECT 1 FROM DUEL
-      - SPRING_DATASOURCE_VALIDATION_INTERVAL=180000
-      - PASSWORD_RESET_TOKEN_LIFETIME_HOURS=4
-      - SOFTWARE.IRIDIUM.PASSWORDRESET.CLIENT.BASEURL=http://localhost:8381/
-      - SOFTWARE.IRIDIUM.EMAILNOTIFICATION.CLIENT.BASEURL=http://localhost:8381/
-      - SOFTWARE.IRIDIUM.API.TTL.MINUTES=30
-      - SERVER_ERROR_WHITELABEL_ENABLED=false
-      - SPRING_MAIL_FROM_ADDRESS=noreply@yourdomain.com
-      - SPRING_THYMELEAF_PREFIX=classpath:/templates/
-      - SPRING_THYMELEAF_SUFFIX=.html
-      - SPRING_MAIL_HOST=fake-smtp
-      - SPRING_MAIL_USERNAME=mailUsername
-      - SPRING_MAIL_PASSWORD=mailPassword
-      - SPRING_MAIL_PROPERTIES_MAIL_TRANSPORT_PROTOCOL=smtp
-      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_PORT=8025
-      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
-      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
-      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED=false
-    networks:
-      - iridium
-
-  mariadb:
-    image: mariadb:10.6.11
-    container_name: mariadb
-    restart: always
-    ports:
-      - &quot;3306:3306&quot;
-    environment:
-      MYSQL_ROOT_PASSWORD: iridium
-      MYSQL_DATABASE: identities
-      MYSQL_USER: iridium
-      MYSQL_PASSWORD: sug4rn3ss&amp;
-    networks:
-      - iridium
-
-  fake-smtp:
-    image: gessnerfl/fake-smtp-server
-    container_name: fake-smtp-server
-    ports:
-      - &quot;8080:8080&quot;
-    networks:
-      - iridium
-
-networks:
-  iridium:
-    driver: bridge
-
-</code></pre>
-<p>You can use Docker Compose to create the system locally by executing the below:</p>
-<pre><code class="language-shell">$ docker compose -f path/to/your/compose/file.yml up -d
-</code></pre>
 <h2 id="initialize-the-iridium-database">Initialize the Iridium Database</h2>
 <p>Iridium needs specific data entities to exist for it to function. This guide demonstrates how to use the iridium CLI
 to execute this task.  This document assumes you have downloaded and unpacked the binary distribution of Iridium in a
@@ -832,37 +754,6 @@ containers all the way down to run the <code>init</code> function again. </p>
 OR   </li>
 <li><a href="#initialize-with-iridium-with-the-github-login-provider">Initialize with the GitHub social provider</a></li>
 </ol>
-<h3 id="initialize-with-iridium-without-a-social-provider">Initialize with Iridium without a social provider</h3>
-<h1 id="warning"><strong>!!!!!!!! WARNING !!!!!!!!</strong></h1>
-<p>We will be deprecating the use of passwords within Iridium entirely in future releases.  Some password functionality 
-may not work as intended (password resets, etc) as we are in progress of deprecating their usage.  To get around this you can 
-only allow users to use social providers to access your applications. </p>
-<p>This will initialize the system to only accept a username (email) and password as user credentials.</p>
-<pre><code class="language-shell">$ ./bin/iridium  init \
---host=localhost \
---port=3306 \
---user=root \
---password \
---admin-password \
---admin-email=you@somewhere.com
-</code></pre>
-<p>The CLI tool should prompt your for the database password.  Enter the password you configured upon standing up
-the database.  If you used the Docker Compose to stand up the Iridium the password in this case will be <code>iridium</code> .</p>
-<pre><code class="language-shell">$ Enter value for --password (the database password): 
-</code></pre>
-<p>Next, it will ask for your admin user password.  You may choose any value you like.
-This is the password you will use along with the <code>--admin-email</code> argument you passed to the Iridium CLI to
-init the system.  You will use these credentials to sign into the Iridium management UI.</p>
-<pre><code class="language-shell">$ Enter value for --admin-password (the admin password):
-</code></pre>
-<p>Upon successful initialization of the database you'll see similar output</p>
-<pre><code class="language-shell">06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - ########################################
-06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - Database successfully initialized
-06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - ########################################
-06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - Iridium Management Application ID is ${someApplicationId}
-06:22:59.885 [main] INFO  software.iridium.cli.command.InitCommand - Be sure to place this in the appropriate environment.ts file
-</code></pre>
-<p>From here you need to take your generated id <code>${someApplicationId}</code> and <a href="#stand-up-the-iridium-management-ui">stand up the Iridium Management UI</a>.</p>
 <h2 id="initialize-with-iridium-with-the-github-login-provider">Initialize with Iridium with the GitHub Login Provider</h2>
 <p>If you want to allow users to log in to the Iridium Management app with their GitHub account you can allow this here
 following the directions below:</p>
@@ -1006,7 +897,7 @@ a social provider (such as GitHub) to access the system by visiting <a href="htt
     <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.a51614de.min.js"></script>
+      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
       
     
   </body>
