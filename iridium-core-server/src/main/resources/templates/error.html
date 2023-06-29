@@ -3,54 +3,41 @@
   ~ * Unauthorized copying of this file, via any medium is strictly prohibited
   ~ * Proprietary and confidential
   ~ * Written by Josh Fischer <josh@joshfischer.io>, 2022.
+  ~ * Changed by Tim Grein <grein.tim97@gmail.com>, 2023.
   -->
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <style>
-        table td{
-            vertical-align:top;
-            border:solid 1px #888;
-            padding:10px;
-        }
+    <title>Error | Iridium</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <link th:href="@{/styles/common.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/error.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/styles.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <!-- Required Material Web JavaScript library -->
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <!-- Instantiate single textfield component rendered in the document -->
 
-    </style>
 </head>
 <body>
-<h1>My Thymeleaf Error Page</h1>
-<table>
-    <tr>
-        <td>Date</td>
-        <td th:text="${timestamp}"/>
-    </tr>
-    <tr>
-        <td>Path</td>
-        <td th:text="${path}"/>
-    </tr>
-    <tr>
-        <td>Error</td>
-        <td th:text="${error}"/>
-    </tr>
-    <tr>
-        <td>Status</td>
-        <td th:text="${status}"/>
-    </tr>
-    <tr>
-        <td>Message</td>
-        <td th:text="${message}"/>
-    </tr>
-    <tr>
-        <td>Exception</td>
-        <td th:text="${exception}"/>
-    </tr>
-    <tr>
-        <td>Trace</td>
-        <td>
-            <pre th:text="${trace}"/>
-        </td>
-    </tr>
-</table>
+<div class="mdc-card card-container">
+    <div class="error-container" style="height: ${containerHeight}">
+        <div class="logo-container">
+        </div>
+
+        <h2>Error</h2>
+        <h3>Status Code: <span th:text="${statusCode}"></span> </h3>
+        <p th:text="${errorMessage}"></p>
+
+        <a href="#" onclick="window.history.back();">Go Back</a>
+
+        <b style="margin-top: 20px">Secured by</b>
+        <div class="logo-container">
+        </div>
+    </div>
+</div>
 </body>
 </html>
