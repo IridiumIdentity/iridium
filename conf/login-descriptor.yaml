@@ -1,0 +1,4 @@
+displayName: "Iridium"
+usernameErrorHint: "Please enter a valid email"
+usernamePlaceholder: "ex: you@somewhere.com"
+usernameType: "email"

@@ -1,0 +1,9 @@
+- name: "github"
+  clientId: ""
+  clientSecret: ""
+  scope: "user:email"
+  redirectUri: "http://localhost:4200/callback"
+
+
+
+

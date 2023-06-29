@@ -13,10 +13,10 @@ package software.iridium.cli.command;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Persistence;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
 import software.iridium.cli.generator.*;
 import software.iridium.entity.*;
 
@@ -25,58 +25,14 @@ public class InitCommand implements Runnable {
 
   private static final Logger logger = LoggerFactory.getLogger(InitCommand.class);
 
-  @Option(
-      names = {"-h", "--host"},
-      description = "localhost, your-domain.xyz, ...")
-  private String host;
-
-  @Option(
-      names = {"-p", "--password"},
-      description = "the database password",
-      interactive = true)
-  private char[] password;
-
-  @Option(
-      names = {"-x", "--admin-password"},
-      description = "the admin password",
-      interactive = true)
-  private char[] adminPassword;
-
-  @Option(
-      names = {"-e", "--admin-email"},
-      description = "the admin email")
-  private String adminEmail;
-
-  @Option(
-      names = {"-u", "--user"},
-      description = "the database user")
-  private String user;
-
-  @Option(
-      names = {"-P", "--port"},
-      description = "the database port")
-  private String port;
-
-  @Option(
-      names = {"-g", "--allow-github"},
-      description = "allow github login",
-      defaultValue = "false")
-  private Boolean allowGithub;
-
-  private String githubClientId;
-  private String githubClientSecret;
-
   private String iridiumAppId;
 
   @Override
   public void run() {
-    if (allowGithub) {
-      githubClientId = System.console().readLine("Enter value for github client id: ");
-      githubClientSecret = System.console().readLine("Enter value for github client secret: ");
-    }
 
-    final var properties =
-        PersistenePropertyGenerator.generatePersistenceProperties(host, port, user, password);
+    final Map<String, String> properties =
+        PersistencePropertyGenerator.generatePersistenceProperties();
+
     try (var entityManagerFactory =
             Persistence.createEntityManagerFactory("persistence", properties);
         EntityManager entityManager = entityManagerFactory.createEntityManager()) {
@@ -87,15 +43,11 @@ public class InitCommand implements Runnable {
 
       LoginDescriptorGenerator.generateLoginDescriptor(entityManager, iridiumTenant);
 
-      if (allowGithub) {
+      final var identityProviderTemplates =
+          IdentityProviderTemplateGenerator.generateGithubProviderTemplates(entityManager);
 
-        IdentityProviderGenerator.generateIdentityProvider(
-            entityManager,
-            IdentityProviderTemplateGenerator.generateGithubProviderTemplate(entityManager),
-            iridiumTenant,
-            githubClientId,
-            githubClientSecret);
-      }
+      IdentityProviderGenerator.generateIdentityProviders(
+          entityManager, identityProviderTemplates, iridiumTenant);
 
       for (ApplicationTypeEntity typeEntity : applicationTypes) {
         if (typeEntity.getType().equals(ApplicationType.SINGLE_PAGE)) {

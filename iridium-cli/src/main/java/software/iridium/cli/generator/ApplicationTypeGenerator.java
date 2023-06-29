@@ -11,37 +11,29 @@
  */
 package software.iridium.cli.generator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.persistence.EntityManager;
+import java.io.IOException;
 import java.util.ArrayList;
-import software.iridium.entity.ApplicationType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import software.iridium.cli.util.YamlParser;
 import software.iridium.entity.ApplicationTypeEntity;
 
 public class ApplicationTypeGenerator extends AbstractGenerator {
+  private static final Logger logger = LoggerFactory.getLogger(ApplicationTypeGenerator.class);
 
   public static ArrayList<ApplicationTypeEntity> generateApplicationTypes(
-      final EntityManager entityManager) {
+      final EntityManager entityManager) throws IOException {
+    logger.info("generating application types");
+
     beginTransaction(entityManager);
-    // create application_types
-    final var singlePageApplicationType = new ApplicationTypeEntity();
-    singlePageApplicationType.setName("Single Page Application");
-    singlePageApplicationType.setDescription(
-        "Applications running in the browser.  Angular, React, Vue, etc.");
-    singlePageApplicationType.setType(ApplicationType.SINGLE_PAGE);
-    singlePageApplicationType.setRequiresSecret(false);
+    final var applicationTypes =
+        YamlParser.readValue(
+            "application-types.yaml", new TypeReference<ArrayList<ApplicationTypeEntity>>() {});
 
-    entityManager.persist(singlePageApplicationType);
+    applicationTypes.forEach(entityManager::persist);
 
-    final var webServiceApplicationType = new ApplicationTypeEntity();
-    webServiceApplicationType.setName("Web Service Application");
-    webServiceApplicationType.setDescription(
-        "A regular web app running on a remote server. Spring, Ruby on Rails, etc.");
-    webServiceApplicationType.setType(ApplicationType.WEB_SERVICE);
-    webServiceApplicationType.setRequiresSecret(true);
-
-    final var applicationTypes = new ArrayList<ApplicationTypeEntity>();
-    applicationTypes.add(singlePageApplicationType);
-    applicationTypes.add(webServiceApplicationType);
-    entityManager.persist(webServiceApplicationType);
     flushAndCommitTransaction(entityManager);
     return applicationTypes;
   }

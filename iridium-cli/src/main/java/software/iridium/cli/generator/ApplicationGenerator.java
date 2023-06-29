@@ -13,7 +13,9 @@ package software.iridium.cli.generator;
 
 import jakarta.persistence.EntityManager;
 import java.security.NoSuchAlgorithmException;
+import org.apache.commons.lang3.StringUtils;
 import software.iridium.cli.util.EncoderUtils;
+import software.iridium.cli.util.YamlParser;
 import software.iridium.entity.ApplicationEntity;
 import software.iridium.entity.ApplicationTypeEntity;
 import software.iridium.entity.TenantEntity;
@@ -30,12 +32,13 @@ public class ApplicationGenerator extends AbstractGenerator {
     final var encoderUtils = new EncoderUtils();
 
     beginTransaction(entityManager);
-    final var iridiumManagementApp = new ApplicationEntity();
-    iridiumManagementApp.setHomePageUrl("http://localhost:4200");
-    iridiumManagementApp.setName("iridium management app");
-    iridiumManagementApp.setRedirectUri("http://localhost:4200/callback");
+
+    final var iridiumManagementApp =
+        YamlParser.readValue("management-application.yaml", ApplicationEntity.class);
     iridiumManagementApp.setTenantId(iridiumTenant.getId());
-    iridiumManagementApp.setClientId(encoderUtils.cryptoSecureToHex(CLIENT_ID_SEED_LENGTH));
+    if (StringUtils.isBlank(iridiumManagementApp.getClientId())) {
+      iridiumManagementApp.setClientId(encoderUtils.cryptoSecureToHex(CLIENT_ID_SEED_LENGTH));
+    }
     iridiumManagementApp.setApplicationType(applicationType);
     entityManager.persist(iridiumManagementApp);
     flushAndCommitTransaction(entityManager);
