@@ -13,7 +13,6 @@ package software.iridium.api;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,8 +36,7 @@ public class ApiExceptionHandler {
   public @ResponseBody Object handleNotAuthorizedException(
       final NotAuthorizedException e, final WebRequest request) {
     final var acceptHeader = request.getHeader(HttpHeaders.ACCEPT);
-    final var shouldReturnJson =
-        acceptHeader != null && acceptHeader.contains(MediaType.APPLICATION_JSON_VALUE);
+    final var shouldReturnJson = acceptHeader != null && acceptHeader.contains("json");
 
     if (shouldReturnJson) {
       return new ApiResponse(HttpStatus.UNAUTHORIZED.toString(), e.getMessage());
