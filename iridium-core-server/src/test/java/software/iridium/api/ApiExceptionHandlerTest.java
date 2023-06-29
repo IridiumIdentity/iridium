@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import software.iridium.api.authentication.domain.TenantSummary;
 import software.iridium.api.base.error.BadRequestException;
 import software.iridium.api.base.error.DuplicateResourceException;
 import software.iridium.api.base.error.NotAuthorizedException;
@@ -85,6 +86,16 @@ public class ApiExceptionHandlerTest {
         .perform(get("/tests/notauthorized").accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isUnauthorized())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+  }
+
+  @Test
+  public void
+      handleNotAuthorizedException_AcceptJSONCustomMediaType_ExceptionHandledProperly_And_JSONReturned()
+          throws Exception {
+    mockMvc
+        .perform(get("/tests/notauthorized").accept(TenantSummary.MEDIA_TYPE_LIST))
+        .andExpect(status().isUnauthorized())
+        .andExpect(content().contentType(TenantSummary.MEDIA_TYPE_LIST));
   }
 
   @Test
