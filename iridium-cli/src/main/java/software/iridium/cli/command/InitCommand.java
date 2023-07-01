@@ -44,10 +44,9 @@ public class InitCommand implements Runnable {
       LoginDescriptorGenerator.generateLoginDescriptor(entityManager, iridiumTenant);
 
       final var identityProviderTemplates =
-          IdentityProviderTemplateGenerator.generateGithubProviderTemplates(entityManager);
+          IdentityProviderTemplateGenerator.generate(entityManager);
 
-      IdentityProviderGenerator.generateIdentityProviders(
-          entityManager, identityProviderTemplates, iridiumTenant);
+      IdentityProviderGenerator.generate(entityManager, identityProviderTemplates, iridiumTenant);
 
       for (ApplicationTypeEntity typeEntity : applicationTypes) {
         if (typeEntity.getType().equals(ApplicationType.SINGLE_PAGE)) {

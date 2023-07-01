@@ -13,7 +13,9 @@ package software.iridium.entity;
 
 import jakarta.persistence.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "external_identity_provider_id"))
@@ -62,6 +64,30 @@ public class ExternalIdentityProviderEntity extends AbstractEntity {
       mappedBy = "provider",
       orphanRemoval = true)
   private List<ExternalIdentityProviderPropertyEntity> properties = new ArrayList<>();
+
+  @ElementCollection
+  @CollectionTable(
+      name = "authorization_parameters",
+      joinColumns = {
+        @JoinColumn(
+            name = "external_identity_provider_id",
+            referencedColumnName = "external_identity_provider_id")
+      })
+  @MapKeyColumn(name = "param_key")
+  @Column(name = "param_value")
+  private Map<String, String> authorizationParameters = new HashMap<>();
+
+  @ElementCollection
+  @CollectionTable(
+      name = "access_token_parameters",
+      joinColumns = {
+        @JoinColumn(
+            name = "external_identity_provider_id",
+            referencedColumnName = "external_identity_provider_id")
+      })
+  @MapKeyColumn(name = "param_key")
+  @Column(name = "param_value")
+  private Map<String, String> accessTokenParameters = new HashMap<>();
 
   public ExternalIdentityProviderTemplateEntity getTemplate() {
     return template;
@@ -157,5 +183,21 @@ public class ExternalIdentityProviderEntity extends AbstractEntity {
 
   public void setName(final String name) {
     this.name = name;
+  }
+
+  public Map<String, String> getAuthorizationParameters() {
+    return authorizationParameters;
+  }
+
+  public void setAuthorizationParameters(final Map<String, String> authorizationParameters) {
+    this.authorizationParameters = authorizationParameters;
+  }
+
+  public Map<String, String> getAccessTokenParameters() {
+    return accessTokenParameters;
+  }
+
+  public void setAccessTokenParameters(final Map<String, String> accessTokenParameters) {
+    this.accessTokenParameters = accessTokenParameters;
   }
 }

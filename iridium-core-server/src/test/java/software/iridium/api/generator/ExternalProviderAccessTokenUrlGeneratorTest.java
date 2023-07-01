@@ -15,17 +15,18 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import software.iridium.entity.ExternalIdentityProviderEntity;
 
-class ProviderUrlGeneratorTest {
+class ExternalProviderAccessTokenUrlGeneratorTest {
 
-  private ProviderUrlGenerator subject;
+  private ExternalProviderAccessTokenUrlGenerator subject;
 
   @BeforeEach
   public void setupForEachTestCase() {
-    subject = new ProviderUrlGenerator();
+    subject = new ExternalProviderAccessTokenUrlGenerator();
   }
 
   @Test
@@ -48,7 +49,35 @@ class ProviderUrlGeneratorTest {
         is(
             equalTo(
                 String.format(
-                    "%s?client_id=%s&client_secret=%s&code=%s&redirect_url=%s",
-                    baseUrl, clientId, clientSecret, code, redirectUrl))));
+                    "%s?code=%s&client_secret=%s&redirect_uri=%s&client_id=%s",
+                    baseUrl, code, clientSecret, redirectUrl, clientId))));
+  }
+
+  @Test
+  public void generate_CustomProviderParameters_GeneratesAsExpected() {
+    final var baseUrl = "http://somewhere.com";
+    final var clientId = "theclientId";
+    final var clientSecret = "theClientSecret";
+    final var code = "code";
+    final var redirectUrl = "http://localhost/redirect";
+    final var someParamValue = "some_param_value";
+    final var provider = new ExternalIdentityProviderEntity();
+    final var providerSpecificParams = new HashMap<String, String>();
+    providerSpecificParams.put("some_param", someParamValue);
+    provider.setAccessTokenParameters(providerSpecificParams);
+    provider.setAccessTokenRequestBaseUrl(baseUrl);
+    provider.setClientId(clientId);
+    provider.setClientSecret(clientSecret);
+    provider.setRedirectUri(redirectUrl);
+
+    final var response = subject.generate(provider, code);
+
+    assertThat(
+        response,
+        is(
+            equalTo(
+                String.format(
+                    "%s?some_param=%s&code=%s&client_secret=%s&redirect_uri=%s&client_id=%s",
+                    baseUrl, someParamValue, code, clientSecret, redirectUrl, clientId))));
   }
 }

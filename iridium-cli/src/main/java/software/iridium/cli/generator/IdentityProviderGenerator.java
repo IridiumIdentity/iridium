@@ -21,7 +21,7 @@ import software.iridium.entity.TenantEntity;
 
 public class IdentityProviderGenerator extends AbstractGenerator {
 
-  public static List<ExternalIdentityProviderEntity> generateIdentityProviders(
+  public static List<ExternalIdentityProviderEntity> generate(
       final EntityManager entityManager,
       final List<ExternalIdentityProviderTemplateEntity> templates,
       final TenantEntity iridiumTenant) {

@@ -35,7 +35,7 @@ import software.iridium.api.authentication.domain.IdentityResponse;
 import software.iridium.api.base.error.BadRequestException;
 import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.base.error.ResourceNotFoundException;
-import software.iridium.api.generator.ProviderUrlGenerator;
+import software.iridium.api.generator.ExternalProviderAccessTokenUrlGenerator;
 import software.iridium.api.generator.RedirectUrlGenerator;
 import software.iridium.api.generator.SuccessAuthorizationParameterGenerator;
 import software.iridium.api.instantiator.*;
@@ -58,7 +58,7 @@ import software.iridium.entity.ExternalIdentityProviderEntity;
 public class AuthorizationService {
 
   // todo may need to break this out into smaller classes
-  @Autowired private ProviderUrlGenerator providerUrlGenerator;
+  @Autowired private ExternalProviderAccessTokenUrlGenerator externalAccessTokenUrlGenerator;
   @Autowired private ProviderAccessTokenRequestor accessTokenRequestor;
   @Autowired private ProviderProfileRequestor providerProfileRequestor;
   @Autowired private IdentityEntityInstantiator identityInstantiator;
@@ -131,7 +131,7 @@ public class AuthorizationService {
     }
 
     if (providerFound) {
-      final var providerUrl = providerUrlGenerator.generate(provider, code);
+      final var providerUrl = externalAccessTokenUrlGenerator.generate(provider, code);
 
       final var response = accessTokenRequestor.requestAccessToken(providerUrl);
 

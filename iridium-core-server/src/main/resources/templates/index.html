@@ -30,7 +30,7 @@
                        class="mdc-button mdc-button--outlined mdc-button--icon-leading github-button">
                         <span class="mdc-button__ripple"></span>
                         <span class="mdc-button__focus-ring"></span>
-                        <span class="mdc-button__label">Login with Github</span>
+                        <span class="mdc-button__label"  th:text="'Login with ' + ${externalDescriptor.name}"></span>
                     </button>
                 </form>
             </div>

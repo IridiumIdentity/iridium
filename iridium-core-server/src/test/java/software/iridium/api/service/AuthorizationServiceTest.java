@@ -37,7 +37,7 @@ import software.iridium.api.authentication.domain.ApplicationAuthorizationFormRe
 import software.iridium.api.authentication.domain.AuthorizationResponse;
 import software.iridium.api.authentication.domain.GithubProfileResponse;
 import software.iridium.api.base.error.ResourceNotFoundException;
-import software.iridium.api.generator.ProviderUrlGenerator;
+import software.iridium.api.generator.ExternalProviderAccessTokenUrlGenerator;
 import software.iridium.api.generator.RedirectUrlGenerator;
 import software.iridium.api.generator.SuccessAuthorizationParameterGenerator;
 import software.iridium.api.instantiator.AuthorizationCodeEntityInstantiator;
@@ -55,7 +55,7 @@ import software.iridium.entity.*;
 class AuthorizationServiceTest {
 
   @Mock private AttributeValidator mockAttributeValidator;
-  @Mock private ProviderUrlGenerator mockUrlGenerator;
+  @Mock private ExternalProviderAccessTokenUrlGenerator mockUrlGenerator;
   @Mock private ProviderAccessTokenRequestor mockAccessTokenRequestor;
   @Mock private IdentityEntityRepository mockIdentityRepository;
   @Mock private IdentityResponseMapper mockIdentityResponseMapper;

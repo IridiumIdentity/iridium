@@ -16,12 +16,18 @@ import jakarta.persistence.EntityManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import software.iridium.cli.util.YamlParser;
+import software.iridium.entity.ExternalIdentityProviderParameterTemplateEntity;
 import software.iridium.entity.ExternalIdentityProviderTemplateEntity;
 
 public class IdentityProviderTemplateGenerator extends AbstractGenerator {
 
-  public static List<ExternalIdentityProviderTemplateEntity> generateGithubProviderTemplates(
+  private static final Logger logger =
+      LoggerFactory.getLogger(IdentityProviderTemplateGenerator.class);
+
+  public static List<ExternalIdentityProviderTemplateEntity> generate(
       final EntityManager entityManager) throws IOException {
     beginTransaction(entityManager);
     final var externalProviderTemplates =
@@ -30,6 +36,16 @@ public class IdentityProviderTemplateGenerator extends AbstractGenerator {
             new TypeReference<ArrayList<ExternalIdentityProviderTemplateEntity>>() {});
     for (ExternalIdentityProviderTemplateEntity externalProviderTemplate :
         externalProviderTemplates) {
+      logger.info(
+          "parameter size: " + externalProviderTemplate.getAuthorizationParameters().size());
+      for (ExternalIdentityProviderParameterTemplateEntity authorizationParam :
+          externalProviderTemplate.getAuthorizationParameters()) {
+        authorizationParam.setProvider(externalProviderTemplate);
+      }
+      for (ExternalIdentityProviderParameterTemplateEntity accessTokenParams :
+          externalProviderTemplate.getAccessTokenParameters()) {
+        accessTokenParams.setProvider(externalProviderTemplate);
+      }
       entityManager.persist(externalProviderTemplate);
     }
 
