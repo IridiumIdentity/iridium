@@ -63,7 +63,7 @@ public class ExternalIdentityProviderEntity extends AbstractEntity {
       fetch = FetchType.LAZY,
       mappedBy = "provider",
       orphanRemoval = true)
-  private List<ExternalIdentityProviderPropertyEntity> properties = new ArrayList<>();
+  private List<ExternalIdentityProviderParameterEntity> properties = new ArrayList<>();
 
   @ElementCollection
   @CollectionTable(
@@ -121,11 +121,11 @@ public class ExternalIdentityProviderEntity extends AbstractEntity {
     this.tenant = tenant;
   }
 
-  public List<ExternalIdentityProviderPropertyEntity> getProperties() {
+  public List<ExternalIdentityProviderParameterEntity> getProperties() {
     return properties;
   }
 
-  public void setProperties(final List<ExternalIdentityProviderPropertyEntity> properties) {
+  public void setProperties(final List<ExternalIdentityProviderParameterEntity> properties) {
     this.properties = properties;
   }
 

@@ -16,7 +16,7 @@
     <class>software.iridium.entity.ClientSecretEntity</class>
     <class>software.iridium.entity.EmailVerificationTokenEntity</class>
     <class>software.iridium.entity.ExternalIdentityProviderEntity</class>
-    <class>software.iridium.entity.ExternalIdentityProviderPropertyEntity</class>
+    <class>software.iridium.entity.ExternalIdentityProviderParameterEntity</class>
     <class>software.iridium.entity.ExternalIdentityProviderTemplateEntity</class>
     <class>software.iridium.entity.ExternalIdentityProviderParameterTemplateEntity</class>
     <class>software.iridium.entity.IdentityCreateSessionDetails</class>

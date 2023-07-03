@@ -448,7 +448,7 @@ public class AuthorizationService {
       params.add("client_id", provider.getClientId());
       params.add("state", state);
 
-      return redirectUrlGenerator.generate(provider.getBaseAuthorizationUrl(), params);
+      return redirectUrlGenerator.generate(provider.getBaseAuthorizationUrl(), provider, state);
     }
     // todo: throw exception for provider not found
     return null;
