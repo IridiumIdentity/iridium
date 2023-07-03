@@ -15,13 +15,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
-import software.iridium.api.authentication.domain.ProviderSummaryResponse;
+import software.iridium.api.authentication.domain.ExternalProviderTemplateSummaryResponse;
 import software.iridium.entity.ExternalIdentityProviderTemplateEntity;
 
 @Component
-public class ProviderSummaryResponseMapper {
+public class ProviderTemplateSummaryResponseMapper {
 
-  public List<ProviderSummaryResponse> mapList(
+  public List<ExternalProviderTemplateSummaryResponse> mapList(
       final List<ExternalIdentityProviderTemplateEntity> entities) {
     if (entities.isEmpty()) {
       return Collections.emptyList();
@@ -30,8 +30,8 @@ public class ProviderSummaryResponseMapper {
     return entities.stream().map(this::map).collect(Collectors.toList());
   }
 
-  public ProviderSummaryResponse map(final ExternalIdentityProviderTemplateEntity entity) {
-    final var summary = new ProviderSummaryResponse();
+  public ExternalProviderTemplateSummaryResponse map(final ExternalIdentityProviderTemplateEntity entity) {
+    final var summary = new ExternalProviderTemplateSummaryResponse();
     summary.setId(entity.getId());
     summary.setName(entity.getName());
     summary.setIconPath(entity.getIconPath());

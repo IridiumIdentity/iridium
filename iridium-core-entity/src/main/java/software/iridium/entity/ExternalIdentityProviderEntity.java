@@ -43,9 +43,6 @@ public class ExternalIdentityProviderEntity extends AbstractEntity {
   @Column(name = "icon_path", length = 255, nullable = false)
   private String iconPath;
 
-  @Column(name = "redirect_uri", length = 255, nullable = false)
-  private String redirectUri;
-
   @Column(name = "base_authorization_url", length = 2355, nullable = false)
   private String baseAuthorizationUrl;
 
@@ -127,14 +124,6 @@ public class ExternalIdentityProviderEntity extends AbstractEntity {
 
   public void setProperties(final List<ExternalIdentityProviderParameterEntity> properties) {
     this.properties = properties;
-  }
-
-  public String getRedirectUri() {
-    return redirectUri;
-  }
-
-  public void setRedirectUri(final String redirectUrl) {
-    this.redirectUri = redirectUrl;
   }
 
   public String getAccessTokenRequestBaseUrl() {

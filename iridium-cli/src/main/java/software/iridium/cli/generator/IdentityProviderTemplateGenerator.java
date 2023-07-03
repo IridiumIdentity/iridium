@@ -36,8 +36,6 @@ public class IdentityProviderTemplateGenerator extends AbstractGenerator {
             new TypeReference<ArrayList<ExternalIdentityProviderTemplateEntity>>() {});
     for (ExternalIdentityProviderTemplateEntity externalProviderTemplate :
         externalProviderTemplates) {
-      logger.info(
-          "parameter size: " + externalProviderTemplate.getAuthorizationParameters().size());
       for (ExternalIdentityProviderParameterTemplateEntity authorizationParam :
           externalProviderTemplate.getAuthorizationParameters()) {
         authorizationParam.setProvider(externalProviderTemplate);

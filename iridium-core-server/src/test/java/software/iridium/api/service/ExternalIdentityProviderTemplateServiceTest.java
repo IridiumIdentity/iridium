@@ -24,16 +24,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import software.iridium.api.mapper.ProviderSummaryResponseMapper;
+import software.iridium.api.mapper.ProviderTemplateSummaryResponseMapper;
 import software.iridium.api.repository.ExternalIdentityProviderTemplateEntityRepository;
 import software.iridium.entity.ExternalIdentityProviderTemplateEntity;
 
 @ExtendWith(MockitoExtension.class)
-class ProviderServiceTest {
+class ExternalIdentityProviderTemplateServiceTest {
 
   @Mock private ExternalIdentityProviderTemplateEntityRepository mockProviderRepository;
-  @Mock private ProviderSummaryResponseMapper mockResponseMapper;
-  @InjectMocks private ProviderService subject;
+  @Mock private ProviderTemplateSummaryResponseMapper mockResponseMapper;
+  @InjectMocks private ExternalIdentityProviderTemplateService subject;
 
   @AfterEach
   public void ensureNoUnexpectedMockInteractions() {

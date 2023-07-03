@@ -53,6 +53,11 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxIridiumClientModule } from 'ngx-iridium-client';
 import { NoopInterceptor } from './http-interceptors/http-interceptor';
+import {
+  AddExternalProviderDialog,
+  LoginBoxOverviewComponent
+} from './components/dashboard/content/login-box-overview/login-box-overview.component';
+import { AutocompleteOffDirective } from './autocomplete-off.directive';
 
 @NgModule({
   declarations: [
@@ -73,7 +78,11 @@ import { NoopInterceptor } from './http-interceptors/http-interceptor';
     CreateApplicationDialog,
     UpdateApplicationDialog,
     CreateAPIDialog,
-    CreateRoleDialog
+    CreateRoleDialog,
+    LoginBoxOverviewComponent,
+    AddExternalProviderDialog,
+    AutocompleteOffDirective,
+    AutocompleteOffDirective
   ],
   imports: [
     BrowserModule,

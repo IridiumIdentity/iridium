@@ -2,12 +2,10 @@
   clientId: ""
   clientSecret: ""
   scope: "user:email"
-  redirectUri: "http://localhost:4200/callback"
 - name: "google"
   clientId: ""
   clientSecret: ""
   scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
-  redirectUri: "http://localhost:4200/callback"
 
 
 

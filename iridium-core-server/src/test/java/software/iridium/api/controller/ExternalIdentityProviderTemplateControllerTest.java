@@ -20,13 +20,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import software.iridium.api.service.ProviderService;
+import software.iridium.api.service.ExternalIdentityProviderTemplateService;
 
 @ExtendWith(MockitoExtension.class)
-class ProviderControllerTest {
+class ExternalIdentityProviderTemplateControllerTest {
 
-  @Mock private ProviderService mockProviderService;
-  @InjectMocks private ProviderController subject;
+  @Mock private ExternalIdentityProviderTemplateService mockProviderService;
+  @InjectMocks private ExternalIdentityProviderTemplateController subject;
 
   @AfterEach
   public void verifyNoMoreInteractions() {

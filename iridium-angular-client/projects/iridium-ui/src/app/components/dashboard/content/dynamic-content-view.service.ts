@@ -7,6 +7,7 @@ import { ApplicationOverviewComponent } from './application-overview/application
 import { ApiOverviewComponent } from './api-overview/api-overview.component';
 import { SystemOverviewComponent } from './system-overview/system-overview.component';
 import { TenantOverviewComponent } from './tenant-overview/tenant-overview.component';
+import { LoginBoxOverviewComponent } from './login-box-overview/login-box-overview.component';
 
 @Injectable()
 export class DynamicContentViewService {
@@ -35,6 +36,10 @@ export class DynamicContentViewService {
 
     this.viewDictionary['tenant overview'] = new DynamicContentView(
       TenantOverviewComponent, {}
+    )
+
+    this.viewDictionary['login box settings'] = new DynamicContentView(
+      LoginBoxOverviewComponent, {}
     )
   }
 
