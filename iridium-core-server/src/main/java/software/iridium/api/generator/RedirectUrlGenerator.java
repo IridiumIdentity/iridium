@@ -11,12 +11,37 @@
  */
 package software.iridium.api.generator;
 
+import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
+import software.iridium.entity.ApplicationEntity;
+import software.iridium.entity.ExternalIdentityProviderEntity;
 
 @Component
 public class RedirectUrlGenerator {
+
+  public String generate(
+      final String redirectBaseUrl,
+      final ApplicationEntity application,
+      final ExternalIdentityProviderEntity provider,
+      final String state) {
+    final var requestParams = new LinkedMultiValueMap<String, String>();
+    final var params = provider.getAuthorizationParameters();
+    params.put("client_id", provider.getClientId());
+    params.put("state", state);
+    params.put("redirect_uri", application.getRedirectUri());
+    params.put("scope", provider.getScope());
+    for (Map.Entry<String, String> entry : params.entrySet()) {
+      requestParams.put(entry.getKey(), List.of(entry.getValue()));
+    }
+    return UriComponentsBuilder.fromUriString(redirectBaseUrl)
+        .queryParams(requestParams)
+        .buildAndExpand()
+        .toUriString();
+  }
 
   public String generate(final String redirectBaseUrl, final MultiValueMap<String, String> params) {
     return UriComponentsBuilder.fromUriString(redirectBaseUrl)

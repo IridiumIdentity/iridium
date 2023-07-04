@@ -35,7 +35,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import software.iridium.api.authentication.domain.*;
 import software.iridium.api.base.error.NotAuthorizedException;
-import software.iridium.api.instantiator.IdentityCreateRequestDetailsInstantiator;
 import software.iridium.api.instantiator.IdentityEntityInstantiator;
 import software.iridium.api.mapper.IdentityEntityMapper;
 import software.iridium.api.mapper.IdentityResponseMapper;
@@ -59,7 +58,6 @@ class IdentityServiceTest {
   @Mock private AttributeValidator mockAttributeValidator;
   @Mock private TenantEntityRepository mockTenantRepository;
   @Mock private ApplicationEntityRepository mockApplicationRepository;
-  @Mock private IdentityCreateRequestDetailsInstantiator mockRequestDetailsInstantiator;
   @Mock private IdentitySummaryResponseMapper mockSummaryMapper;
   @Mock private AccessTokenEntityRepository accessTokenRepository;
   @InjectMocks private IdentityService subject;
@@ -79,7 +77,6 @@ class IdentityServiceTest {
         mockTenantRepository,
         mockApplicationRepository,
         accessTokenRepository,
-        mockRequestDetailsInstantiator,
         mockSummaryMapper);
   }
 

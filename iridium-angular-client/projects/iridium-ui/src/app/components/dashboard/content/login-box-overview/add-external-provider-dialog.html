@@ -1,0 +1,46 @@
+<h1 mat-dialog-title>Add Identity Provider</h1>
+<div mat-dialog-content>
+  Enter details for your application
+
+  <form appAutocompleteOff [formGroup]="addProviderDialogFormGroup" class="dialog-form">
+    <section>
+      <h4>Select Provider Type</h4>
+      <mat-form-field>
+        <mat-label>Choose an option</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let item of data.externalProviderTemplates" [value]="item.id">{{item.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+
+    <div class="app-form-container">
+
+      <mat-form-field appearance="fill" class="form-input">
+        <mat-label>Client ID</mat-label>
+        <input appAutocompleteOff matInput formControlName="clientId" required>
+      </mat-form-field>
+
+      <div>
+        <mat-form-field appearance="fill" class="form-input">
+          <mat-label>Client Secret</mat-label>
+          <input appAutocompleteOff type="password" matInput formControlName="clientSecret" required>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="fill" class="form-input">
+          <mat-label>Scope</mat-label>
+          You can leave the below blank and Iridium will select a sensible default for you.
+          <input matInput formControlName="scope" required>
+        </mat-form-field>
+
+      </div>
+      <div>
+        <button mat-button type="submit" [disabled]="!addProviderDialogFormGroup.valid" (click)="create()">
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+

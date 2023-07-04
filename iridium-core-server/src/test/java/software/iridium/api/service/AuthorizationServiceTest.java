@@ -37,7 +37,7 @@ import software.iridium.api.authentication.domain.ApplicationAuthorizationFormRe
 import software.iridium.api.authentication.domain.AuthorizationResponse;
 import software.iridium.api.authentication.domain.GithubProfileResponse;
 import software.iridium.api.base.error.ResourceNotFoundException;
-import software.iridium.api.generator.ProviderUrlGenerator;
+import software.iridium.api.generator.ExternalProviderAccessTokenUrlGenerator;
 import software.iridium.api.generator.RedirectUrlGenerator;
 import software.iridium.api.generator.SuccessAuthorizationParameterGenerator;
 import software.iridium.api.instantiator.AuthorizationCodeEntityInstantiator;
@@ -55,7 +55,7 @@ import software.iridium.entity.*;
 class AuthorizationServiceTest {
 
   @Mock private AttributeValidator mockAttributeValidator;
-  @Mock private ProviderUrlGenerator mockUrlGenerator;
+  @Mock private ExternalProviderAccessTokenUrlGenerator mockUrlGenerator;
   @Mock private ProviderAccessTokenRequestor mockAccessTokenRequestor;
   @Mock private IdentityEntityRepository mockIdentityRepository;
   @Mock private IdentityResponseMapper mockIdentityResponseMapper;
@@ -140,7 +140,8 @@ class AuthorizationServiceTest {
     when(mockApplicationRepository.findByClientId(same(clientId)))
         .thenReturn(Optional.of(application));
     when(mockTenantRepository.findById(same(tenantId))).thenReturn(Optional.of(tenant));
-    when(mockUrlGenerator.generate(same(externalProvider), same(code))).thenReturn(providerUrl);
+    when(mockUrlGenerator.generate(same(externalProvider), same(application), same(code)))
+        .thenReturn(providerUrl);
     when(mockAccessTokenRequestor.requestAccessToken(same(providerUrl)))
         .thenReturn(authorizationResponse);
     when(mockProviderProfileRequestor.requestGithubProfile(
@@ -158,7 +159,7 @@ class AuthorizationServiceTest {
     verify(mockAttributeValidator).isNotBlank(same(state));
     verify(mockApplicationRepository).findByClientId(same(clientId));
     verify(mockTenantRepository).findById(same(tenantId));
-    verify(mockUrlGenerator).generate(same(externalProvider), same(code));
+    verify(mockUrlGenerator).generate(same(externalProvider), same(application), same(code));
     verify(mockAccessTokenRequestor).requestAccessToken(same(providerUrl));
     verify(mockProviderProfileRequestor)
         .requestGithubProfile(same(providerProfileUrl), same(providerAccessToken));
@@ -205,7 +206,8 @@ class AuthorizationServiceTest {
     when(mockApplicationRepository.findByClientId(same(clientId)))
         .thenReturn(Optional.of(application));
     when(mockTenantRepository.findById(same(tenantId))).thenReturn(Optional.of(tenant));
-    when(mockUrlGenerator.generate(same(externalProvider), same(code))).thenReturn(providerUrl);
+    when(mockUrlGenerator.generate(same(externalProvider), same(application), same(code)))
+        .thenReturn(providerUrl);
     when(mockAccessTokenRequestor.requestAccessToken(same(providerUrl)))
         .thenReturn(authorizationResponse);
     when(mockProviderProfileRequestor.requestGithubProfile(
@@ -228,7 +230,7 @@ class AuthorizationServiceTest {
     verify(mockAttributeValidator).isNotBlank(same(state));
     verify(mockApplicationRepository).findByClientId(same(clientId));
     verify(mockTenantRepository).findById(same(tenantId));
-    verify(mockUrlGenerator).generate(same(externalProvider), same(code));
+    verify(mockUrlGenerator).generate(same(externalProvider), same(application), same(code));
     verify(mockAccessTokenRequestor).requestAccessToken(same(providerUrl));
     verify(mockProviderProfileRequestor)
         .requestGithubProfile(same(providerProfileUrl), same(providerAccessToken));

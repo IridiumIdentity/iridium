@@ -42,7 +42,16 @@ public class ExternalIdentityProviderTemplateEntity extends AbstractEntity {
       fetch = FetchType.LAZY,
       mappedBy = "provider",
       orphanRemoval = true)
-  private List<ExternalIdentityProviderPropertyTemplateEntity> properties = new ArrayList<>();
+  private List<ExternalIdentityProviderParameterTemplateEntity> accessTokenParameters =
+      new ArrayList<>();
+
+  @OneToMany(
+      cascade = CascadeType.ALL,
+      fetch = FetchType.LAZY,
+      mappedBy = "provider",
+      orphanRemoval = true)
+  private List<ExternalIdentityProviderParameterTemplateEntity> authorizationParameters =
+      new ArrayList<>();
 
   public String getName() {
     return name;
@@ -84,11 +93,21 @@ public class ExternalIdentityProviderTemplateEntity extends AbstractEntity {
     this.baseAuthorizationUrl = baseAuthorizationUrl;
   }
 
-  public List<ExternalIdentityProviderPropertyTemplateEntity> getProperties() {
-    return properties;
+  public List<ExternalIdentityProviderParameterTemplateEntity> getAuthorizationParameters() {
+    return authorizationParameters;
   }
 
-  public void setProperties(final List<ExternalIdentityProviderPropertyTemplateEntity> properties) {
-    this.properties = properties;
+  public void setAuthorizationParameters(
+      final List<ExternalIdentityProviderParameterTemplateEntity> properties) {
+    this.authorizationParameters = properties;
+  }
+
+  public List<ExternalIdentityProviderParameterTemplateEntity> getAccessTokenParameters() {
+    return accessTokenParameters;
+  }
+
+  public void setAccessTokenParameters(
+      final List<ExternalIdentityProviderParameterTemplateEntity> accessTokenParameters) {
+    this.accessTokenParameters = accessTokenParameters;
   }
 }

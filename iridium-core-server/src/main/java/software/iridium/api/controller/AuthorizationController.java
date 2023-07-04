@@ -22,7 +22,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import software.iridium.api.authentication.domain.AccessTokenResponse;
 import software.iridium.api.authentication.domain.ApplicationAuthorizationFormRequest;
-import software.iridium.api.authentication.domain.IdentityResponse;
 import software.iridium.api.service.AuthorizationService;
 
 @CrossOrigin
@@ -32,18 +31,6 @@ public class AuthorizationController {
   private static final Logger logger = LoggerFactory.getLogger(AuthorizationController.class);
 
   @Autowired private AuthorizationService authorizationService;
-
-  @GetMapping(value = "/oauth/change-mel/authorize/", produces = IdentityResponse.MEDIA_TYPE)
-  public RedirectView completeAuthorizationWithProvider(
-      @RequestParam(name = "code") final String code,
-      @RequestParam(name = "client_id") final String clientId,
-      @RequestParam(name = "state") final String state,
-      @RequestParam(name = "provider_name") final String providerName) {
-
-    logger.info("authorizing with provider {} for client {}", providerName, clientId);
-    authorizationService.completeAuthorizationWithProvider(code, providerName, clientId, state);
-    return new RedirectView();
-  }
 
   @PostMapping(value = "/oauth/external/authorize")
   public RedirectView proxyAuthorizationRequestToProvider(

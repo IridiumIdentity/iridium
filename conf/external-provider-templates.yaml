@@ -1,6 +1,35 @@
 - name: "github"
   accessTokenRequestBaseUrl: "https://github.com/login/oauth/access_token"
+  accessTokenParameters:
+    - name: "client_id"
+    - name: "client_secret"
+    - name: "code"
+    - name: "redirect_url"
   profileRequestBaseUrl: "https://api.github.com/user"
   iconPath: "https://avatars.githubusercontent.com/in/15368"
   baseAuthorizationUrl: "https://github.com/login/oauth/authorize?"
+  authorizationParameters:
+    - name: "client_id"
+    - name: "scope"
+    - name: "state"
+
+- name: "google"
+  accessTokenRequestBaseUrl: "https://oauth2.googleapis.com/token"
+  accessTokenParameters:
+    - name: "client_id"
+    - name: "client_secret"
+    - name: "code"
+    - name: "redirect_url"
+    - name: "grant_type"
+      value: "authorization_code"
+  profileRequestBaseUrl: "https://oauth2.googleapis.com/tokeninfo?id_token="
+  iconPath: "https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
+  baseAuthorizationUrl: "https://accounts.google.com/o/oauth2/v2/auth"
+  authorizationParameters:
+    - name: "client_id"
+    - name: "scope"
+    - name: "state"
+    - name: "response_type"
+      value: "code"
+    - name: "redirect_uri"
 

@@ -13,11 +13,11 @@ package software.iridium.api.authentication.domain;
 
 import java.io.Serializable;
 
-public class ProviderSummaryResponse implements Serializable {
+public class ExternalProviderTemplateSummaryResponse implements Serializable {
   private static final long serialVersionUID = -9112248887244862882L;
 
   public static final String MEDIA_TYPE_LIST =
-      "application/vnd.iridium.id.provider-summary-list.1+json";
+      "application/vnd.iridium.id.external-provider-template-summary-list.1+json";
 
   private String id;
 

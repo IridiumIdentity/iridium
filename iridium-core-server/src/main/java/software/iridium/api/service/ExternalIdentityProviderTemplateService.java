@@ -16,19 +16,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import software.iridium.api.authentication.domain.ProviderSummaryResponse;
-import software.iridium.api.mapper.ProviderSummaryResponseMapper;
+import software.iridium.api.authentication.domain.ExternalProviderTemplateSummaryResponse;
+import software.iridium.api.mapper.ProviderTemplateSummaryResponseMapper;
 import software.iridium.api.repository.ExternalIdentityProviderTemplateEntityRepository;
 
 @Service
-public class ProviderService {
+public class ExternalIdentityProviderTemplateService {
 
-  @Autowired private ExternalIdentityProviderTemplateEntityRepository providerRepository;
-  @Autowired private ProviderSummaryResponseMapper responseMapper;
+  @Autowired private ExternalIdentityProviderTemplateEntityRepository providerTemplateRepository;
+  @Autowired private ProviderTemplateSummaryResponseMapper responseMapper;
 
   @Transactional(propagation = Propagation.SUPPORTS)
-  public List<ProviderSummaryResponse> retrieveAllSummaries() {
+  public List<ExternalProviderTemplateSummaryResponse> retrieveAllSummaries() {
 
-    return responseMapper.mapList(providerRepository.findAll());
+    return responseMapper.mapList(providerTemplateRepository.findAll());
   }
 }

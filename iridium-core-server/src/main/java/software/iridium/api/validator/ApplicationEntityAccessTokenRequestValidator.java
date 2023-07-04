@@ -14,7 +14,6 @@ package software.iridium.api.validator;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import software.iridium.api.base.error.BadRequestException;
 import software.iridium.api.util.AttributeValidator;
 import software.iridium.api.util.AuthorizationCodeFlowConstants;
 import software.iridium.entity.ApplicationEntity;
@@ -31,7 +30,7 @@ public class ApplicationEntityAccessTokenRequestValidator {
       if (attributeValidator.doesNotEqual(
           application.getRedirectUri(),
           params.get(AuthorizationCodeFlowConstants.REDIRECT_URI.getValue()))) {
-        throw new BadRequestException("redirect_uri is not valid");
+        throw new IllegalArgumentException("redirect_uri is not valid");
       }
     }
   }

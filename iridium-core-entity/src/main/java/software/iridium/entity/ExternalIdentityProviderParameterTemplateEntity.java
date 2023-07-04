@@ -17,17 +17,17 @@ import java.io.Serial;
 @Entity
 @AttributeOverride(
     name = "id",
-    column = @Column(name = "external_identity_provider_property_template_id"))
-@Table(name = "external_identity_provider_property_templates")
-public class ExternalIdentityProviderPropertyTemplateEntity extends AbstractEntity {
+    column = @Column(name = "external_identity_provider_parameter_template_id"))
+@Table(name = "external_identity_provider_parameter_templates")
+public class ExternalIdentityProviderParameterTemplateEntity extends AbstractEntity {
 
   @Serial private static final long serialVersionUID = -7423569043340485808L;
 
-  @Column(name = "value")
-  private String value;
-
   @Column(name = "name")
   private String name;
+
+  @Column(name = "value")
+  private String value;
 
   @ManyToOne(optional = false)
   @JoinColumn(name = "external_identity_provider_template_id")
