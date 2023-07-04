@@ -1,11 +1,10 @@
 - name: "github"
   clientId: ""
   clientSecret: ""
-  scope: "user:email"
+
 - name: "google"
   clientId: ""
   clientSecret: ""
-  scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
 
 
 
