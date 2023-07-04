@@ -10,6 +10,14 @@ export class MenuItemService {
   constructor() {
     this.menuItems = [
       {
+        name: 'Login Box',
+        children: [
+          {
+            name: 'Login Box Settings'
+          }
+        ],
+      },
+      {
         name: 'Application Management',
         children: [
           {

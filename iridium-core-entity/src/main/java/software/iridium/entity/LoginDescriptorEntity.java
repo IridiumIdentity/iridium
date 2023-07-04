@@ -37,21 +37,8 @@ public class LoginDescriptorEntity extends AbstractEntity {
   @Column(name = "page_title", length = 50, nullable = false)
   private String pageTitle = "Login | Powered by Iridium";
 
-  @Column(name = "icon_path", length = 255, nullable = false)
-  private String iconPath = "some path for now";
-
-  // todo (josh fischer) remove booleans
-  @Column(name = "allow_github", nullable = false)
-  private Boolean allowGithub = false;
-
-  @Column(name = "allow_google", nullable = false)
-  private Boolean allowGoogle = false;
-
-  @Column(name = "allow_apple", nullable = false)
-  private Boolean allowApple = false;
-
-  @Column(name = "allow_microsoft", nullable = false)
-  private Boolean allowMicrosoft = false;
+  @Column(name = "icon_url", length = 2048, nullable = false)
+  private String iconUrl = "";
 
   @OneToOne(mappedBy = "loginDescriptor", optional = false)
   private TenantEntity tenant;
@@ -104,28 +91,12 @@ public class LoginDescriptorEntity extends AbstractEntity {
     this.pageTitle = pageTitle;
   }
 
-  public String getIconPath() {
-    return iconPath;
+  public String getIconUrl() {
+    return iconUrl;
   }
 
-  public void setIconPath(final String iconPath) {
-    this.iconPath = iconPath;
-  }
-
-  public Boolean getAllowGithub() {
-    return allowGithub;
-  }
-
-  public void setAllowGithub(final Boolean allowGithub) {
-    this.allowGithub = allowGithub;
-  }
-
-  public Boolean getAllowGoogle() {
-    return allowGoogle;
-  }
-
-  public void setAllowGoogle(final Boolean allowGoogle) {
-    this.allowGoogle = allowGoogle;
+  public void setIconUrl(final String iconPath) {
+    this.iconUrl = iconPath;
   }
 
   public TenantEntity getTenant() {
@@ -134,21 +105,5 @@ public class LoginDescriptorEntity extends AbstractEntity {
 
   public void setTenant(final TenantEntity tenant) {
     this.tenant = tenant;
-  }
-
-  public Boolean getAllowApple() {
-    return allowApple;
-  }
-
-  public void setAllowApple(final Boolean allowApple) {
-    this.allowApple = allowApple;
-  }
-
-  public Boolean getAllowMicrosoft() {
-    return allowMicrosoft;
-  }
-
-  public void setAllowMicrosoft(final Boolean allowMicrosoft) {
-    this.allowMicrosoft = allowMicrosoft;
   }
 }

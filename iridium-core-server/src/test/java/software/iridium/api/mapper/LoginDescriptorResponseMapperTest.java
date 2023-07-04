@@ -38,10 +38,6 @@ class LoginDescriptorResponseMapperTest {
 
   @Test
   public void map_AllGood_MapsAsExpected() {
-    final var allowGoogle = true;
-    final var allowGithub = false;
-    final var allowMicrosoft = true;
-    final var allowApple = false;
     final var iconPath = "the path";
     final var pageTitle = "the page title";
     final var tenantName = "the tenant";
@@ -50,11 +46,7 @@ class LoginDescriptorResponseMapperTest {
     final var usernameType = "the type";
     final var usernamePlaceholder = "the placeholder";
     final var entity = new LoginDescriptorEntity();
-    entity.setAllowGithub(allowGithub);
-    entity.setAllowGoogle(allowGoogle);
-    entity.setAllowMicrosoft(allowMicrosoft);
-    entity.setAllowApple(allowApple);
-    entity.setIconPath(iconPath);
+    entity.setIconUrl(iconPath);
     entity.setPageTitle(pageTitle);
     entity.setDisplayName(tenantName);
     entity.setUsernameLabel(usernameLabel);
@@ -63,7 +55,6 @@ class LoginDescriptorResponseMapperTest {
     entity.setUsernamePlaceholder(usernamePlaceholder);
     final var tenant = new TenantEntity();
     entity.setTenant(tenant);
-    final var externalProvider = new ExternalIdentityProviderEntity();
     final var externalProviders = new ArrayList<ExternalIdentityProviderEntity>();
     final var descriptorResponses = new ArrayList<ExternalProviderLoginDescriptorResponse>();
     tenant.setExternalIdentityProviders(externalProviders);

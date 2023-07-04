@@ -25,7 +25,7 @@ public class SuccessAuthorizationParameterGenerator {
     final var responseParamMap = new LinkedMultiValueMap<String, String>();
     responseParamMap.put("code", List.of(authCode));
     responseParamMap.put(
-        "state", List.of(params.get(AuthorizationCodeFlowConstants.STATE.getValue())));
+        "state", List.of(params.getOrDefault(AuthorizationCodeFlowConstants.STATE.getValue(), "")));
     return responseParamMap;
   }
 }

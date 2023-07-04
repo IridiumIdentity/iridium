@@ -1,0 +1,69 @@
+.main-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.form-container {
+  /*display: flex;*/
+  flex-direction: row;
+  align-items: flex-end;
+  /*justify-content: space-between;*/
+  /*margin-right: 25px;*/
+}
+
+.provider-table-container {
+  width: 80%;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.table-container {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+}
+
+.icon-url-field {
+  width: 500px;
+}
+
+.data-table {
+  min-width: 100%;
+}
+
+.add-logo-url-container {
+  padding-top: 25px;
+  width: 80%;
+  justify-content: flex-start;
+  flex-direction: column;
+  display: flex;
+}
+
+.add-logo-button {
+  background-color: #ff671d;
+  color: #fafafa;
+  justify-content: end;
+  /*max-width: 200px;*/
+}
+
+.add-logo-button-container {
+  padding-top: 25px;
+  justify-content: flex-start;
+  display: flex;
+}
+
+.create-button-container {
+  padding-top: 25px;
+  width: 80%;
+  justify-content: flex-end;
+  display: flex;
+}
+
+.create-button {
+  background-color: #ff671d;
+  color: #fafafa;
+  justify-content: end;
+}

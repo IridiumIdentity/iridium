@@ -25,12 +25,12 @@
 
 
             <div class="button-container">
-                <form method="post" th:action="@{/oauth/external/authorize(response_type=${externalDescriptor.responseType},redirect_uri=${externalDescriptor.redirectUri},client_id=${param.client_id},scope=${externalDescriptor.scope},state=${param.state},provider=${externalDescriptor.name})}" th:each="externalDescriptor : ${externalProviderDescriptors}">
+                <form method="post" th:action="@{/oauth/external/authorize(response_type=${externalDescriptor.responseType},redirect_uri=${param.redirect_uri},client_id=${param.client_id},scope=${externalDescriptor.scope},state=${param.state},provider=${externalDescriptor.name})}" th:each="externalDescriptor : ${externalProviderDescriptors}">
                     <button type="submit" value="Submit"
                        class="mdc-button mdc-button--outlined mdc-button--icon-leading github-button">
                         <span class="mdc-button__ripple"></span>
                         <span class="mdc-button__focus-ring"></span>
-                        <span class="mdc-button__label">Login with Github</span>
+                        <span class="mdc-button__label"  th:text="'Login with ' + ${externalDescriptor.name}"></span>
                     </button>
                 </form>
             </div>

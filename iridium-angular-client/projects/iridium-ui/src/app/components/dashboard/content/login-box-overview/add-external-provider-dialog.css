@@ -1,0 +1,18 @@
+
+.dialog-container {
+
+  display: flex;
+  justify-content: center;
+}
+
+.dialog-form {
+  width: 500px;
+}
+
+.form-input {
+  width: 100%;
+}
+
+.app-form-container {
+  padding-top: 20px;
+}

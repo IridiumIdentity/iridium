@@ -13,15 +13,17 @@ package software.iridium.cli.generator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.persistence.EntityManager;
+import java.util.HashMap;
 import java.util.List;
 import software.iridium.cli.util.YamlParser;
 import software.iridium.entity.ExternalIdentityProviderEntity;
+import software.iridium.entity.ExternalIdentityProviderParameterTemplateEntity;
 import software.iridium.entity.ExternalIdentityProviderTemplateEntity;
 import software.iridium.entity.TenantEntity;
 
 public class IdentityProviderGenerator extends AbstractGenerator {
 
-  public static List<ExternalIdentityProviderEntity> generateIdentityProviders(
+  public static List<ExternalIdentityProviderEntity> generate(
       final EntityManager entityManager,
       final List<ExternalIdentityProviderTemplateEntity> templates,
       final TenantEntity iridiumTenant) {
@@ -37,6 +39,21 @@ public class IdentityProviderGenerator extends AbstractGenerator {
           externalProvider.setIconPath(template.getIconPath());
           externalProvider.setTenant(iridiumTenant);
           externalProvider.setBaseAuthorizationUrl(template.getBaseAuthorizationUrl());
+
+          final var authorizationParamHashMap = new HashMap<String, String>();
+          for (ExternalIdentityProviderParameterTemplateEntity authorizationParam :
+              template.getAuthorizationParameters()) {
+            authorizationParamHashMap.put(
+                authorizationParam.getName(), authorizationParam.getValue());
+          }
+          externalProvider.setAuthorizationParameters(authorizationParamHashMap);
+
+          final var accessTokenParamHashMap = new HashMap<String, String>();
+          for (ExternalIdentityProviderParameterTemplateEntity accessTokenParam :
+              template.getAccessTokenParameters()) {
+            accessTokenParamHashMap.put(accessTokenParam.getName(), accessTokenParam.getValue());
+          }
+          externalProvider.setAccessTokenParameters(accessTokenParamHashMap);
           entityManager.persist(externalProvider);
         }
       }

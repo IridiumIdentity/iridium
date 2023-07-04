@@ -21,13 +21,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import software.iridium.entity.ExternalIdentityProviderTemplateEntity;
 
-class ProviderSummaryResponseMapperTest {
+class ProviderTemplateSummaryResponseMapperTest {
 
-  private ProviderSummaryResponseMapper subject;
+  private ProviderTemplateSummaryResponseMapper subject;
 
   @BeforeEach
   public void setUpForEachTestCase() {
-    subject = new ProviderSummaryResponseMapper();
+    subject = new ProviderTemplateSummaryResponseMapper();
   }
 
   @Test
