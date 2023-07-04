@@ -54,6 +54,7 @@ public class IdentityProviderGenerator extends AbstractGenerator {
             accessTokenParamHashMap.put(accessTokenParam.getName(), accessTokenParam.getValue());
           }
           externalProvider.setAccessTokenParameters(accessTokenParamHashMap);
+          externalProvider.setScope(template.getDefaultScope());
           entityManager.persist(externalProvider);
         }
       }

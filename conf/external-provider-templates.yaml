@@ -12,6 +12,7 @@
     - name: "client_id"
     - name: "scope"
     - name: "state"
+  defaultScope: "user:email"
 
 - name: "google"
   accessTokenRequestBaseUrl: "https://oauth2.googleapis.com/token"
@@ -32,4 +33,6 @@
     - name: "response_type"
       value: "code"
     - name: "redirect_uri"
+  defaultScope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+
 
