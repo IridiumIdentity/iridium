@@ -37,6 +37,9 @@ public class ExternalIdentityProviderTemplateEntity extends AbstractEntity {
   @Column(name = "base_authorization_url", length = 2355, nullable = false)
   private String baseAuthorizationUrl;
 
+  @Column(name = "default_scope", length = 2048, nullable = false)
+  private String defaultScope;
+
   @OneToMany(
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY,
@@ -109,5 +112,13 @@ public class ExternalIdentityProviderTemplateEntity extends AbstractEntity {
   public void setAccessTokenParameters(
       final List<ExternalIdentityProviderParameterTemplateEntity> accessTokenParameters) {
     this.accessTokenParameters = accessTokenParameters;
+  }
+
+  public String getDefaultScope() {
+    return defaultScope;
+  }
+
+  public void setDefaultScope(final String defaultScope) {
+    this.defaultScope = defaultScope;
   }
 }
