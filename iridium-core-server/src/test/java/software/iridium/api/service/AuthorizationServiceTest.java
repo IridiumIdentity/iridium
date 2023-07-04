@@ -140,7 +140,8 @@ class AuthorizationServiceTest {
     when(mockApplicationRepository.findByClientId(same(clientId)))
         .thenReturn(Optional.of(application));
     when(mockTenantRepository.findById(same(tenantId))).thenReturn(Optional.of(tenant));
-    when(mockUrlGenerator.generate(same(externalProvider), same(code))).thenReturn(providerUrl);
+    when(mockUrlGenerator.generate(same(externalProvider), same(application), same(code)))
+        .thenReturn(providerUrl);
     when(mockAccessTokenRequestor.requestAccessToken(same(providerUrl)))
         .thenReturn(authorizationResponse);
     when(mockProviderProfileRequestor.requestGithubProfile(
@@ -158,7 +159,7 @@ class AuthorizationServiceTest {
     verify(mockAttributeValidator).isNotBlank(same(state));
     verify(mockApplicationRepository).findByClientId(same(clientId));
     verify(mockTenantRepository).findById(same(tenantId));
-    verify(mockUrlGenerator).generate(same(externalProvider), same(code));
+    verify(mockUrlGenerator).generate(same(externalProvider), same(application), same(code));
     verify(mockAccessTokenRequestor).requestAccessToken(same(providerUrl));
     verify(mockProviderProfileRequestor)
         .requestGithubProfile(same(providerProfileUrl), same(providerAccessToken));
@@ -205,7 +206,8 @@ class AuthorizationServiceTest {
     when(mockApplicationRepository.findByClientId(same(clientId)))
         .thenReturn(Optional.of(application));
     when(mockTenantRepository.findById(same(tenantId))).thenReturn(Optional.of(tenant));
-    when(mockUrlGenerator.generate(same(externalProvider), same(code))).thenReturn(providerUrl);
+    when(mockUrlGenerator.generate(same(externalProvider), same(application), same(code)))
+        .thenReturn(providerUrl);
     when(mockAccessTokenRequestor.requestAccessToken(same(providerUrl)))
         .thenReturn(authorizationResponse);
     when(mockProviderProfileRequestor.requestGithubProfile(
@@ -228,7 +230,7 @@ class AuthorizationServiceTest {
     verify(mockAttributeValidator).isNotBlank(same(state));
     verify(mockApplicationRepository).findByClientId(same(clientId));
     verify(mockTenantRepository).findById(same(tenantId));
-    verify(mockUrlGenerator).generate(same(externalProvider), same(code));
+    verify(mockUrlGenerator).generate(same(externalProvider), same(application), same(code));
     verify(mockAccessTokenRequestor).requestAccessToken(same(providerUrl));
     verify(mockProviderProfileRequestor)
         .requestGithubProfile(same(providerProfileUrl), same(providerAccessToken));

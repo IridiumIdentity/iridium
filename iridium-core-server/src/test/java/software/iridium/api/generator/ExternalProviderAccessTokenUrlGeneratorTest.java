@@ -18,6 +18,7 @@ import static org.hamcrest.Matchers.equalTo;
 import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import software.iridium.entity.ApplicationEntity;
 import software.iridium.entity.ExternalIdentityProviderEntity;
 
 class ExternalProviderAccessTokenUrlGeneratorTest {
@@ -40,9 +41,10 @@ class ExternalProviderAccessTokenUrlGeneratorTest {
     provider.setAccessTokenRequestBaseUrl(baseUrl);
     provider.setClientId(clientId);
     provider.setClientSecret(clientSecret);
-    provider.setRedirectUri(redirectUrl);
+    final var application = new ApplicationEntity();
+    application.setRedirectUri(redirectUrl);
 
-    final var response = subject.generate(provider, code);
+    final var response = subject.generate(provider, application, code);
 
     assertThat(
         response,
@@ -68,9 +70,10 @@ class ExternalProviderAccessTokenUrlGeneratorTest {
     provider.setAccessTokenRequestBaseUrl(baseUrl);
     provider.setClientId(clientId);
     provider.setClientSecret(clientSecret);
-    provider.setRedirectUri(redirectUrl);
+    final var application = new ApplicationEntity();
+    application.setRedirectUri(redirectUrl);
 
-    final var response = subject.generate(provider, code);
+    final var response = subject.generate(provider, application, code);
 
     assertThat(
         response,

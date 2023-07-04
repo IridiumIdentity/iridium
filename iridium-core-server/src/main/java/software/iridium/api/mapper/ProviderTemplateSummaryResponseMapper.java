@@ -30,7 +30,8 @@ public class ProviderTemplateSummaryResponseMapper {
     return entities.stream().map(this::map).collect(Collectors.toList());
   }
 
-  public ExternalProviderTemplateSummaryResponse map(final ExternalIdentityProviderTemplateEntity entity) {
+  public ExternalProviderTemplateSummaryResponse map(
+      final ExternalIdentityProviderTemplateEntity entity) {
     final var summary = new ExternalProviderTemplateSummaryResponse();
     summary.setId(entity.getId());
     summary.setName(entity.getName());

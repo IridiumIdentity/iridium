@@ -24,8 +24,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import software.iridium.api.authentication.client.ProviderAccessTokenRequestor;
 import software.iridium.api.authentication.client.ProviderProfileRequestor;
 import software.iridium.api.authentication.domain.AccessTokenResponse;
@@ -131,7 +129,7 @@ public class AuthorizationService {
     }
 
     if (providerFound) {
-      final var providerUrl = externalAccessTokenUrlGenerator.generate(provider, code);
+      final var providerUrl = externalAccessTokenUrlGenerator.generate(provider, application, code);
 
       final var response = accessTokenRequestor.requestAccessToken(providerUrl);
 
@@ -438,17 +436,11 @@ public class AuthorizationService {
 
     if (providerFound) {
 
-      final var inProgressAuth =
-          inProgressAuthRepository.save(
-              inProgressAuthInstantiator.instantiate(provider, state, redirectUri, clientId));
+      inProgressAuthRepository.save(
+          inProgressAuthInstantiator.instantiate(provider, state, redirectUri, clientId));
 
-      MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-
-      params.add("scope", provider.getScope());
-      params.add("client_id", provider.getClientId());
-      params.add("state", state);
-
-      return redirectUrlGenerator.generate(provider.getBaseAuthorizationUrl(), provider, state);
+      return redirectUrlGenerator.generate(
+          provider.getBaseAuthorizationUrl(), application, provider, state);
     }
     // todo: throw exception for provider not found
     return null;

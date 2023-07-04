@@ -29,9 +29,9 @@ public class ExternalProviderLoginDescriptorResponseMapper {
       response.setClientId(provider.getClientId());
       response.setIconPath(provider.getIconPath());
       response.setResponseType("code");
-      response.setRedirectUri(provider.getRedirectUri());
+      response.setRedirectUri("");
       response.setScope(provider.getScope());
-      response.setState("TheState"); // todo: fix me
+      // response.setState("TheState"); // todo: fix me
       response.setName(provider.getName());
       responses.add(response);
     }

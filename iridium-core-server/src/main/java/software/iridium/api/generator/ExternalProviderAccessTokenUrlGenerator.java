@@ -16,18 +16,22 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
+import software.iridium.entity.ApplicationEntity;
 import software.iridium.entity.ExternalIdentityProviderEntity;
 
 @Component
 public class ExternalProviderAccessTokenUrlGenerator {
 
-  public String generate(final ExternalIdentityProviderEntity provider, final String code) {
+  public String generate(
+      final ExternalIdentityProviderEntity provider,
+      final ApplicationEntity application,
+      final String code) {
     final var requestParams = new LinkedMultiValueMap<String, String>();
     final var params = provider.getAccessTokenParameters();
     params.put("client_id", provider.getClientId());
     params.put("client_secret", provider.getClientSecret());
     params.put("code", code);
-    params.put("redirect_uri", provider.getRedirectUri());
+    params.put("redirect_uri", application.getRedirectUri());
     for (Map.Entry<String, String> entry : params.entrySet()) {
       requestParams.put(entry.getKey(), List.of(entry.getValue()));
     }
