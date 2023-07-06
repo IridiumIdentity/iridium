@@ -13,13 +13,17 @@ echo "Booting Iridium Version = $VERSION"
 
 # Check to see if iridium cli bin is expanded 
 if [[ ! -d $IRIDIUM_HOME/iridium-cli/target/iridium-$VERSION-bin ]]; then 
-  if [[ -e $IRIDIUM_HOME/iridium-cli/target/iridium-$VERSION-bin/iridium-$VERSION-bin.tar.gz ]]; then 
-    gzip -d $IRIDIUM_HOME/iridium-cli/target/iridium-$VERSION-bin/iridium-$VERSION-bin.tar.gz
+  if [[ -e $IRIDIUM_HOME/iridium-cli/target/iridium-$VERSION-bin.tar.gz ]]; then 
+    gzip -d $IRIDIUM_HOME/iridium-cli/target/iridium-$VERSION-bin.tar.gz
   else 
     echo "Build from source following installation docs: mvn clean install"
   fi 
 
-  tar -xvf $IRIDIUM_HOME/iridium-cli/target/iridium-$VERSION-bin/iridium-$VERSION.bin.tar 
+  cd $IRIDIUM_HOME/iridium-cli/target
+
+  tar -xvf iridium-$VERSION-bin.tar 
+
+  cd $IRIDIUM_HOME
 fi 
 
 # Check cli init directory / expand if necessary
