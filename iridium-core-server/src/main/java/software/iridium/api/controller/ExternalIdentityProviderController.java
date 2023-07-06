@@ -14,6 +14,7 @@ package software.iridium.api.controller;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import software.iridium.api.authentication.ExternalIdentityProviderResponse;
 import software.iridium.api.authentication.domain.*;
 import software.iridium.api.service.ExternalIdentityProviderService;
 
@@ -50,5 +51,14 @@ public class ExternalIdentityProviderController {
       @PathVariable("tenant-id") final String tenantId,
       @PathVariable("external-provider-id") final String externalProviderId) {
     return providerService.update(request, tenantId, externalProviderId);
+  }
+
+  @GetMapping(
+      value = "/tenants/{tenant-id}/external-providers/{external-provider-id}",
+      produces = ExternalIdentityProviderResponse.MEDIA_TYPE)
+  public ExternalIdentityProviderResponse get(
+      @PathVariable("tenant-id") final String tenantId,
+      @PathVariable("external-provider-id") final String externalProviderId) {
+    return providerService.get(tenantId, externalProviderId);
   }
 }

@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.authentication.domain.CreateExternalIdentityProviderRequest;
+import software.iridium.api.authentication.domain.ExternalIdentityProviderUpdateRequest;
 import software.iridium.api.service.ExternalIdentityProviderService;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,5 +44,35 @@ class ExternalIdentityProviderControllerTest {
     subject.create(tenantId, request);
 
     verify(mockProviderService).create(same(tenantId), same(request));
+  }
+
+  @Test
+  public void retrieveAllSummaries_AllGood_BehavesAsExpected() {
+    final var tenantId = "the id";
+
+    subject.retrieveAllSummaries(tenantId);
+
+    verify(mockProviderService).retrieveAllSummaries(same(tenantId));
+  }
+
+  @Test
+  public void update_AllGood_BehavesAsExpected() {
+    final var tenantId = "the id";
+    final var externalProviderId = "the external provider id";
+    final var request = new ExternalIdentityProviderUpdateRequest();
+
+    subject.update(request, tenantId, externalProviderId);
+
+    verify(mockProviderService).update(same(request), same(tenantId), same(externalProviderId));
+  }
+
+  @Test
+  public void get_AllGood_BehavesAsExpected() {
+    final var tenantId = "the id";
+    final var externalProviderId = "the external provider id";
+
+    subject.get(tenantId, externalProviderId);
+
+    verify(mockProviderService).get(same(tenantId), same(externalProviderId));
   }
 }

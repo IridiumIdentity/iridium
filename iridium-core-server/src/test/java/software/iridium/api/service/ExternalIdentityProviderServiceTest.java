@@ -34,6 +34,7 @@ import software.iridium.api.authentication.domain.ExternalIdentityProviderUpdate
 import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.instantiator.ExternalIdentityProviderInstantiator;
 import software.iridium.api.mapper.CreateExternalIdentityProviderResponseMapper;
+import software.iridium.api.mapper.ExternalIdentityProviderResponseMapper;
 import software.iridium.api.mapper.ExternalIdentityProviderSummaryResponseMapper;
 import software.iridium.api.mapper.ExternalIdentityProviderUpdateResponseMapper;
 import software.iridium.api.repository.ExternalIdentityProviderEntityRepository;
@@ -55,13 +56,13 @@ class ExternalIdentityProviderServiceTest {
   @Mock private ExternalIdentityProviderTemplateEntityRepository mockTemplateRepository;
   @Mock private ExternalIdentityProviderEntityRepository mockProviderRepository;
   @Mock private TenantEntityRepository mockTenantRepository;
-
   @Mock private ExternalIdentityProviderInstantiator mockProviderInstantiator;
-  @Mock private CreateExternalIdentityProviderResponseMapper mockResponseMapper;
+  @Mock private CreateExternalIdentityProviderResponseMapper mockCreateResponseMapper;
   @Mock private ExternalIdentityProviderSummaryResponseMapper mockSummaryMapper;
   @Mock private ExternalIdentityProviderUpdateRequestValidator mockUpdateRequestValidator;
   @Mock private ExternalIdentityProviderUpdator mockExternalIdentityProviderUpdator;
   @Mock private ExternalIdentityProviderUpdateResponseMapper mockUpdateResponseMapper;
+  @Mock private ExternalIdentityProviderResponseMapper mockResponseMapper;
   @InjectMocks private ExternalIdentityProviderService subject;
 
   @AfterEach
@@ -73,11 +74,12 @@ class ExternalIdentityProviderServiceTest {
         mockTemplateRepository,
         mockProviderRepository,
         mockProviderInstantiator,
-        mockResponseMapper,
+        mockCreateResponseMapper,
         mockSummaryMapper,
         mockUpdateRequestValidator,
         mockExternalIdentityProviderUpdator,
-        mockUpdateResponseMapper);
+        mockUpdateResponseMapper,
+        mockResponseMapper);
   }
 
   @Test
@@ -103,7 +105,7 @@ class ExternalIdentityProviderServiceTest {
     verify(mockRequestValidator).validate(same(request));
     verify(mockTemplateRepository).findById(same(templateId));
     verify(mockProviderInstantiator).instantiate(same(tenant), same(request), same(template));
-    verify(mockResponseMapper).map(same(provider));
+    verify(mockCreateResponseMapper).map(same(provider));
     verify(mockTenantRepository).findById(same(tenantId));
   }
 
@@ -180,5 +182,27 @@ class ExternalIdentityProviderServiceTest {
     verify(mockValidator).isUuid(externalProviderId);
     verify(mockUpdateRequestValidator).validate(same(request));
     verify(mockProviderRepository).findById(same(externalProviderId));
+  }
+
+  @Test
+  public void get_AllGood_BehavesAsExpected() {
+    final var tenantId = "the tenant id";
+    final var externalProviderId = "the external provider id";
+    final var entity = new ExternalIdentityProviderEntity();
+    final var tenant = new TenantEntity();
+    tenant.setId(tenantId);
+    entity.setTenant(tenant);
+
+    when(mockValidator.isUuid(anyString())).thenReturn(true);
+    when(mockProviderRepository.findById(same(externalProviderId))).thenReturn(Optional.of(entity));
+    when(mockValidator.doesNotEqual(anyString(), anyString())).thenCallRealMethod();
+
+    subject.get(tenantId, externalProviderId);
+
+    verify(mockValidator).isUuid(tenantId);
+    verify(mockValidator).isUuid(externalProviderId);
+    verify(mockProviderRepository).findById(same(externalProviderId));
+    verify(mockValidator).doesNotEqual(same(tenantId), same(tenantId));
+    verify(mockResponseMapper).map(same(entity));
   }
 }
