@@ -7,9 +7,38 @@ import { ExternalProviderTemplateService } from '../../../../services/external-p
 import {
   ExternalProviderTemplateSummaryResponse
 } from '../../../../services/domain/external-provider-template-summary-response';
-import { CreateApplicationDialog } from '../application-overview/application-overview.component';
+import { ExternalIdentityProviderService } from '../../../../services/external-identity-provider.service';
+import {
+  ApplicationOverviewComponent,
+  UpdateApplicationDialog
+} from '../application-overview/application-overview.component';
+
+@Component({
+  selector: 'update-external-provider-dialog',
+  templateUrl: 'update-external-provider-dialog.html',
+  styleUrls: ['update-external-provider-dialog.css']
+})
+export class UpdateExternalProviderDialog {
+  updateApplicationFormGroup: UntypedFormGroup;
+  constructor(public dialogRef: MatDialogRef<LoginBoxOverviewComponent>, private _formBuilder: UntypedFormBuilder, @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.updateApplicationFormGroup = this._formBuilder.group({
+      applicationName: [this.data.application.name, Validators.required],
+      clientId: [{value:  this.data.application.clientId, disabled: true}],
+      clientSecret: [this.data.application.homepageURL, Validators.required],
+      description: [this.data.application.description],
+      authorizationCallbackURL: [this.data.application.callbackURL, Validators.required],
+      applicationTypeId: [this.data.application.applicationTypeId, Validators.required],
+      privacyPolicyURL: [this.data.application.privacyPolicyUrl, ],
+      iconURL: [this.data.application.iconURL ]
+    });
+  }
 
 
+  update() {
+
+    this.dialogRef.close({formGroup: this.updateApplicationFormGroup })
+  }
+}
 @Component({
   selector: 'add-external-provider-dialog',
   templateUrl: 'add-external-provider-dialog.html',
@@ -17,13 +46,26 @@ import { CreateApplicationDialog } from '../application-overview/application-ove
 })
 export class AddExternalProviderDialog {
   addProviderDialogFormGroup: UntypedFormGroup;
+  externalProviderSummariesCopy: ExternalProviderTemplateSummaryResponse[] = [];
+
   constructor(public dialogRef: MatDialogRef<LoginBoxOverviewComponent>, private _formBuilder: UntypedFormBuilder, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.addProviderDialogFormGroup = this._formBuilder.group({
       externalProviderTemplateId: ['', Validators.required],
       clientId: ['', Validators.required],
       clientSecret: ['', Validators.required],
-      scope: ['', Validators.required],
     });
+    let found = false;
+    for (let i in data.externalProviderTemplates) {
+      for (let j in data.dataSource) {
+        if (data.externalProviderTemplates[i].name === this.data.dataSource.name) {
+          found = true;
+        }
+        if (!found) {
+          this.externalProviderSummariesCopy.push(data.externalProviderTemplates[i])
+        }
+      }
+
+    }
   }
 
 
@@ -49,29 +91,64 @@ export class LoginBoxOverviewComponent implements DynamicContentViewItem, OnInit
   externalProviderTemplateSummaries: ExternalProviderTemplateSummaryResponse[] = [];
   externalTemplateMapType: ExternalProviderTemplateSummaryMapType = {};
 
-  constructor(private externalProviderTemplateService: ExternalProviderTemplateService, private dialog: MatDialog) {
+  constructor(private externalProviderTemplateService: ExternalProviderTemplateService, private dialog: MatDialog, private externalProviderService: ExternalIdentityProviderService) {
   }
 
   onRowClick(index: number) {
     console.log('clicked on row: ', index)
+    this.externalProviderService.get(this.data.tenantId, this.dataSource[index].id)
+      .subscribe(externalProviderResponse => {
+        const dialogRef = this.dialog.open(UpdateApplicationDialog, {
+          data: {externalProviderTemplates: this.externalProviderTemplateSummaries, tenantId: this.data.tenantId, externalProvider: externalProviderResponse},
+        });
+        dialogRef.afterClosed().subscribe(updateResult => {
+
+          this.externalProviderService.update(updateResult.formGroup, this.data.tenantId, this.dataSource[index].id)
+            .subscribe(result => {
+              console.log('update result is: ', result)
+              this.refreshDataSource();
+            })
+
+        });
+      })
   }
 
 
   addProvider() {
     const dialogRef = this.dialog.open(AddExternalProviderDialog, {
-      data: {externalProviderTemplates: this.externalProviderTemplateSummaries, tenantId: this.data.tenantId},
+      data: {externalProviderTemplates: this.externalProviderTemplateSummaries, tenantId: this.data.tenantId, currentProviders: this.dataSource},
     });
 
     dialogRef.afterClosed().subscribe(result => {
 
-     console.log('add provider dialog result', result)
-
+     if (result) {
+       this.externalProviderService.create(result.formGroup, this.data.tenantId)
+         .subscribe(result => {
+           this.refreshDataSource();
+         })
+     }
     });
-
   }
 
   updateLogo() {
 
+  }
+
+  private refreshDataSource() {
+    this.dataSource = [];
+    this.externalProviderService.getAll(this.data.tenantId)
+      .subscribe(applicationSummaries => {
+        for (let i = 0; i < applicationSummaries.length; i++) {
+          let summary = applicationSummaries[i];
+          const newRow = {
+            id: summary.id,
+            name: summary.name,
+            iconPath: summary.iconPath,
+          };
+          this.dataSource = [...this.dataSource, newRow]
+        }
+
+      })
   }
 
   ngOnInit(): void {
@@ -82,6 +159,7 @@ export class LoginBoxOverviewComponent implements DynamicContentViewItem, OnInit
         for (let i = 0; i < this.externalProviderTemplateSummaries.length; i++) {
           this.externalTemplateMapType[this.externalProviderTemplateSummaries[i].id] = this.externalProviderTemplateSummaries[i]
         }
+        this.refreshDataSource();
       })
   }
 }

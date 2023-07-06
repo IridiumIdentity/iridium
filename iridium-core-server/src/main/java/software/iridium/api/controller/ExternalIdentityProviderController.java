@@ -11,10 +11,10 @@
  */
 package software.iridium.api.controller;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import software.iridium.api.authentication.domain.CreateExternalIdentityProviderRequest;
-import software.iridium.api.authentication.domain.CreateExternalIdentityProviderResponse;
+import software.iridium.api.authentication.domain.*;
 import software.iridium.api.service.ExternalIdentityProviderService;
 
 @CrossOrigin
@@ -31,5 +31,24 @@ public class ExternalIdentityProviderController {
       @PathVariable("tenant-id") final String tenantId,
       @RequestBody final CreateExternalIdentityProviderRequest request) {
     return providerService.create(tenantId, request);
+  }
+
+  @GetMapping(
+      value = "tenants/{tenant-id}/external-providers",
+      produces = ExternalIdentityProviderSummaryResponse.MEDIA_TYPE_LIST)
+  public List<ExternalIdentityProviderSummaryResponse> retrieveAllSummaries(
+      @PathVariable("tenant-id") final String tenantId) {
+    return providerService.retrieveAllSummaries(tenantId);
+  }
+
+  @PutMapping(
+      value = "/tenants/{tenant-id}/external-providers/{external-provider-id}",
+      consumes = ExternalIdentityProviderUpdateRequest.MEDIA_TYPE,
+      produces = ExternalIdentityProviderUpdateResponse.MEDIA_TYPE)
+  public ExternalIdentityProviderUpdateResponse update(
+      @RequestBody final ExternalIdentityProviderUpdateRequest request,
+      @PathVariable("tenant-id") final String tenantId,
+      @PathVariable("external-provider-id") final String externalProviderId) {
+    return providerService.update(request, tenantId, externalProviderId);
   }
 }
