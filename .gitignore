@@ -67,3 +67,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Database ###
+/data/
