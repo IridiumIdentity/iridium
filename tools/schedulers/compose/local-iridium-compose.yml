@@ -1,27 +1,33 @@
 version: '3.8'
-
 services:
-
-#  iridium-ui:
-#    build:
-#      context: ../../../iridium-angular-client
-#      target: builder
-#    container_name: iridium-ui
-#    ports:
-#      - 4200:4200
-#    volumes:
-#      - ../../../iridium-angular-client:/project
-#      - /project/node_modules
+  iridium-ui:
+    image: 'iridiumidentity/iridium-ui:latest'
+    container_name: iridium-ui
+    depends_on:
+      - iridium
+    restart: always
+    pull_policy: always
+    build:
+      context: ../../../iridium-angular-client
+      target: builder
+    volumes:
+      - '../../../iridium-angular-client:/project'
+    ports:
+      - '4200:4200'
+    extra_hosts:
+      - 'host.docker.internal:${HOST_INTERNAL}'
+    networks:
+      - iridium
 
   iridium:
-    image: iridiumidentity/iridium-core-server:latest
+    image: 'iridiumidentity/iridium-core-server-nightly:latest'
     container_name: iridium
-    depends_on: 
+    depends_on:
       - mariadb
     restart: always
     pull_policy: always
     ports:
-      - "8381:8381"
+      - '8381:8381'
     environment:
       - SERVER_PORT=8381
       - LOGGING_LEVEL_ROOT=info
@@ -37,7 +43,7 @@ services:
       - SPRING_JPA_PROPERTIES_HIBERNATE_GLOBALLY_QUOTED_IDENTIFIERS=true
       - SPRING_JPA_PROPERTIES_HIBERNATE-GLOBALLY_QUOTED_IDENTIFIERS_SKIP_COLUMN_DEFINITIONS=true
       - SPRING_DATASOURCE_DRIVER-CLASS=com.mysql.jdbc.Driver
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mariadb/identities?useSSL=false
+      - 'SPRING_DATASOURCE_URL=jdbc:mysql://mariadb/identities?useSSL=false'
       - SPRING_DATASOURCE_USERNAME=iridium
       - SPRING_DATASOURCE_PASSWORD=iridium
       - SPRING_DATASOURCE_TOMCAT_MAX-ACTIVE=5
@@ -47,20 +53,20 @@ services:
       - SOFTWARE.IRIDIUM.API.TTL.MINUTES=120
       - SERVER_ERROR_WHITELABEL_ENABLED=false
       - SPRING_MAIL_FROM_ADDRESS=noreply@yourdomain.com
-      - SPRING_THYMELEAF_PREFIX=classpath:/templates/
+      - 'SPRING_THYMELEAF_PREFIX=classpath:/templates/'
       - SPRING_THYMELEAF_SUFFIX=.html
     extra_hosts:
-      - "host.docker.internal:${HOST_INTERNAL}"
-
+      - 'host.docker.internal:${HOST_INTERNAL}'
     networks:
       - iridium
-
   mariadb:
-    image: mariadb:10.6.11
+    image: 'mariadb:10.6.11'
+    volumes:
+      - '../../../data:/var/lib/mysql'
     container_name: mariadb
     restart: always
     ports:
-      - "3306:3306"
+      - '3306:3306'
     environment:
       MYSQL_ROOT_PASSWORD: iridium
       MYSQL_DATABASE: identities
@@ -68,7 +74,7 @@ services:
       MYSQL_PASSWORD: iridium
     networks:
       - iridium
-
+      
 networks:
   iridium:
     driver: bridge
