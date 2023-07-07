@@ -55,9 +55,8 @@ import { NgxIridiumClientModule } from 'ngx-iridium-client';
 import { NoopInterceptor } from './http-interceptors/http-interceptor';
 import {
   AddExternalProviderDialog,
-  LoginBoxOverviewComponent
+  LoginBoxOverviewComponent, UpdateExternalProviderDialog
 } from './components/dashboard/content/login-box-overview/login-box-overview.component';
-import { AutocompleteOffDirective } from './autocomplete-off.directive';
 
 @NgModule({
   declarations: [
@@ -81,8 +80,7 @@ import { AutocompleteOffDirective } from './autocomplete-off.directive';
     CreateRoleDialog,
     LoginBoxOverviewComponent,
     AddExternalProviderDialog,
-    AutocompleteOffDirective,
-    AutocompleteOffDirective
+    UpdateExternalProviderDialog
   ],
   imports: [
     BrowserModule,

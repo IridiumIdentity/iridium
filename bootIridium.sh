@@ -49,11 +49,11 @@ if [[ -z $CLIENTID_FOUND ]]; then
   echo " for google: " 
   echo " https://developers.google.com/identity/oauth2/web/guides/get-google-api-clientid " 
   echo " " 
-  echo " Supply the clientid and secret in the exernal-providers.yaml above and then rerun the script" 
+  echo " Supply the clientId and secret in the external-providers.yaml above and then rerun the script"
   exit 1;
 fi 
 
-# Check to see if data directry exists if not create it. 
+# Check to see if data directory exists if not create it.
 export DATADIR="data" 
 if [[ ! -d $DATADIR ]]; then 
   mkdir $DATADIR
@@ -77,7 +77,7 @@ fi
 # The intent of this is to find your default gateway or next hop address 
 # that will provide internet access to docker 
 #
-# TODO: We have to figure out if sidaddr is appropriate for all enviroments that we might encounter. 
+# TODO: We have to figure out if sidaddr is appropriate for all environments that we might encounter.
 #       I don't believe it will be. 
 if [[ -z $HOST_INTERNAL ]]; then 
   export HOST_INTERNAL=`ipconfig getpacket en0 | grep siaddr | awk '{print $3}'`

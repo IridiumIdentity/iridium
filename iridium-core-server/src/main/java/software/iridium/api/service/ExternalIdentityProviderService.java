@@ -13,20 +13,27 @@ package software.iridium.api.service;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import software.iridium.api.authentication.domain.CreateExternalIdentityProviderRequest;
-import software.iridium.api.authentication.domain.CreateExternalIdentityProviderResponse;
+import software.iridium.api.authentication.ExternalIdentityProviderResponse;
+import software.iridium.api.authentication.domain.*;
+import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.instantiator.ExternalIdentityProviderInstantiator;
 import software.iridium.api.mapper.CreateExternalIdentityProviderResponseMapper;
+import software.iridium.api.mapper.ExternalIdentityProviderResponseMapper;
+import software.iridium.api.mapper.ExternalIdentityProviderSummaryResponseMapper;
+import software.iridium.api.mapper.ExternalIdentityProviderUpdateResponseMapper;
 import software.iridium.api.repository.ExternalIdentityProviderEntityRepository;
 import software.iridium.api.repository.ExternalIdentityProviderTemplateEntityRepository;
 import software.iridium.api.repository.TenantEntityRepository;
+import software.iridium.api.updator.ExternalIdentityProviderUpdator;
 import software.iridium.api.util.AttributeValidator;
 import software.iridium.api.validator.CreateExternalIdentityProviderRequestValidator;
+import software.iridium.api.validator.ExternalIdentityProviderUpdateRequestValidator;
 
 @Service
 public class ExternalIdentityProviderService {
@@ -37,7 +44,12 @@ public class ExternalIdentityProviderService {
   @Autowired private TenantEntityRepository tenantRepository;
   @Autowired private ExternalIdentityProviderEntityRepository providerRepository;
   @Autowired private ExternalIdentityProviderInstantiator providerInstantiator;
-  @Autowired private CreateExternalIdentityProviderResponseMapper responseMapper;
+  @Autowired private CreateExternalIdentityProviderResponseMapper createResponseMapper;
+  @Autowired private ExternalIdentityProviderSummaryResponseMapper summaryMapper;
+  @Autowired private ExternalIdentityProviderUpdateRequestValidator updateRequestValidator;
+  @Autowired private ExternalIdentityProviderUpdator externalIdentityProviderUpdator;
+  @Autowired private ExternalIdentityProviderUpdateResponseMapper updateResponseMapper;
+  @Autowired private ExternalIdentityProviderResponseMapper responseMapper;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public CreateExternalIdentityProviderResponse create(
@@ -59,7 +71,52 @@ public class ExternalIdentityProviderService {
             .findById(tenantId)
             .orElseThrow(() -> new ResourceNotFoundException("tenant not found"));
 
-    return responseMapper.map(
+    return createResponseMapper.map(
         providerRepository.save(providerInstantiator.instantiate(tenant, request, template)));
+  }
+
+  @Transactional(propagation = Propagation.SUPPORTS)
+  public List<ExternalIdentityProviderSummaryResponse> retrieveAllSummaries(final String tenantId) {
+    checkArgument(validator.isUuid(tenantId), "tenantId must be a valid uuid");
+
+    return summaryMapper.mapList(providerRepository.findAllByTenantId(tenantId));
+  }
+
+  @Transactional(propagation = Propagation.REQUIRED)
+  public ExternalIdentityProviderUpdateResponse update(
+      final ExternalIdentityProviderUpdateRequest request,
+      final String tenantId,
+      final String externalProviderId) {
+    checkArgument(validator.isUuid(tenantId), "tenantId must be a valid uuid");
+    checkArgument(validator.isUuid(externalProviderId), "externalProviderId must be a valid uuid");
+    updateRequestValidator.validate(request);
+
+    final var externalProvider =
+        providerRepository
+            .findById(externalProviderId)
+            .orElseThrow(() -> new ResourceNotFoundException("external provider not found"));
+
+    if (validator.doesNotEqual(externalProvider.getTenant().getId(), tenantId)) {
+      throw new NotAuthorizedException("invalid data request");
+    }
+    return updateResponseMapper.map(
+        providerRepository.save(externalIdentityProviderUpdator.update(externalProvider, request)));
+  }
+
+  @Transactional(propagation = Propagation.SUPPORTS)
+  public ExternalIdentityProviderResponse get(
+      final String tenantId, final String externalProviderId) {
+    checkArgument(validator.isUuid(tenantId), "tenantId must be a valid uuid");
+    checkArgument(validator.isUuid(externalProviderId), "externalProviderId must be a valid uuid");
+
+    final var entity =
+        providerRepository
+            .findById(externalProviderId)
+            .orElseThrow(() -> new ResourceNotFoundException("external provider not found for id"));
+
+    if (validator.doesNotEqual(tenantId, entity.getTenant().getId())) {
+      throw new NotAuthorizedException();
+    }
+    return responseMapper.map(entity);
   }
 }
