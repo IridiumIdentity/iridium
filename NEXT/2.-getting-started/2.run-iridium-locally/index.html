@@ -780,7 +780,7 @@ CONTAINER ID   IMAGE                                        COMMAND             
 a44c37b6d4c1   mariadb:10.6.11                              &quot;docker-entrypoint.s…&quot;   6 seconds ago   Up 3 seconds   0.0.0.0:3306-&gt;3306/tcp                       mariadb
 </code></pre>
 <p>We still need to initialize the database with specific data for Iridium to function </p>
-<p><a href="#initialize-with-iridium-without-a-social-provider">Next, you should initialize the database</a></p>
+<p><a href="#initialize-the-iridium-database">Next, you should initialize the database</a></p>
 <h2 id="initialize-the-iridium-database">Initialize the Iridium Database</h2>
 <p>Iridium needs specific data entities to exist for it to function. This guide demonstrates how to use the iridium CLI
 to execute this task.  This document assumes you have downloaded and unpacked the binary distribution of Iridium in a
@@ -788,15 +788,12 @@ previous step as detail <a href="../1.Install-the-CLI/">here</a>.</p>
 <p>To initialize the database execute the following command.  Again we are expecting you to be in the top level folder of
 expanded tar.gz distribution you downloaded and unpacked earlier.</p>
 <p><strong>NOTE</strong>
-You can initialize Iridium with or without a social provider at start up.  Quick links are below.  Iridium init is meant 
-to be non-destructive in that if you initialize the database once it will not work again.  You will need to bring your 
+Iridium init is meant to be non-destructive in that if you initialize the database once it will not work again.  You will need to bring your 
 containers all the way down to run the <code>init</code> function again. </p>
 <ol>
 <li><a href="#initialize-with-iridium-with-the-github-login-provider">Initialize with a social provider</a></li>
 </ol>
 <h2 id="initialize-with-iridium-with-a-login-provider">Initialize with Iridium with a Login Provider</h2>
-<p>If you want to allow users to log in to the Iridium Management app with their GitHub account you can allow this here
-following the directions below:</p>
 <p>Again we are expecting you to be in the top level folder of
 expanded tar.gz distribution you downloaded and unpacked earlier. For ease of getting started lets focus on using only provider at the moment.
 You'll need to set your GitHub Client credentials in the file below.  <a href="../../4.-connecting-social-identity-providers/create-github-application/">Instructions on how to do this with GitHub are here.</a>  You can do this by executing. </p>
