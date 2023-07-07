@@ -115,12 +115,12 @@ class ExternalIdentityProviderServiceTest {
     final var entities = new ArrayList<ExternalIdentityProviderEntity>();
 
     when(mockValidator.isUuid(same(tenantId))).thenReturn(true);
-    when(mockProviderRepository.findAll()).thenReturn(entities);
+    when(mockProviderRepository.findAllByTenantId(same(tenantId))).thenReturn(entities);
 
     subject.retrieveAllSummaries(tenantId);
 
     verify(mockValidator).isUuid(same(tenantId));
-    verify(mockProviderRepository).findAll();
+    verify(mockProviderRepository).findAllByTenantId(same(tenantId));
     verify(mockSummaryMapper).mapList(same(entities));
   }
 

@@ -19,24 +19,19 @@ import {
   styleUrls: ['update-external-provider-dialog.css']
 })
 export class UpdateExternalProviderDialog {
-  updateApplicationFormGroup: UntypedFormGroup;
+  updateExternalProviderForm: UntypedFormGroup;
   constructor(public dialogRef: MatDialogRef<LoginBoxOverviewComponent>, private _formBuilder: UntypedFormBuilder, @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.updateApplicationFormGroup = this._formBuilder.group({
-      applicationName: [this.data.application.name, Validators.required],
-      clientId: [{value:  this.data.application.clientId, disabled: true}],
-      clientSecret: [this.data.application.homepageURL, Validators.required],
-      description: [this.data.application.description],
-      authorizationCallbackURL: [this.data.application.callbackURL, Validators.required],
-      applicationTypeId: [this.data.application.applicationTypeId, Validators.required],
-      privacyPolicyURL: [this.data.application.privacyPolicyUrl, ],
-      iconURL: [this.data.application.iconURL ]
+    this.updateExternalProviderForm = this._formBuilder.group({
+      name: [{value: this.data.externalProvider.name, disabled: true}, Validators.required],
+      clientId: [this.data.externalProvider.clientId, Validators.required],
+      clientSecret: [this.data.externalProvider.clientSecret, Validators.required],
     });
   }
 
 
   update() {
 
-    this.dialogRef.close({formGroup: this.updateApplicationFormGroup })
+    this.dialogRef.close({formGroup: this.updateExternalProviderForm })
   }
 }
 @Component({
@@ -46,7 +41,6 @@ export class UpdateExternalProviderDialog {
 })
 export class AddExternalProviderDialog {
   addProviderDialogFormGroup: UntypedFormGroup;
-  externalProviderSummariesCopy: ExternalProviderTemplateSummaryResponse[] = [];
 
   constructor(public dialogRef: MatDialogRef<LoginBoxOverviewComponent>, private _formBuilder: UntypedFormBuilder, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.addProviderDialogFormGroup = this._formBuilder.group({
@@ -54,18 +48,7 @@ export class AddExternalProviderDialog {
       clientId: ['', Validators.required],
       clientSecret: ['', Validators.required],
     });
-    let found = false;
-    for (let i in data.externalProviderTemplates) {
-      for (let j in data.dataSource) {
-        if (data.externalProviderTemplates[i].name === this.data.dataSource.name) {
-          found = true;
-        }
-        if (!found) {
-          this.externalProviderSummariesCopy.push(data.externalProviderTemplates[i])
-        }
-      }
 
-    }
   }
 
 
@@ -98,7 +81,9 @@ export class LoginBoxOverviewComponent implements DynamicContentViewItem, OnInit
     console.log('clicked on row: ', index)
     this.externalProviderService.get(this.data.tenantId, this.dataSource[index].id)
       .subscribe(externalProviderResponse => {
-        const dialogRef = this.dialog.open(UpdateApplicationDialog, {
+        console.log('provider', externalProviderResponse);
+        const dialogRef = this.dialog.open(UpdateExternalProviderDialog, {
+
           data: {externalProviderTemplates: this.externalProviderTemplateSummaries, tenantId: this.data.tenantId, externalProvider: externalProviderResponse},
         });
         dialogRef.afterClosed().subscribe(updateResult => {
@@ -137,13 +122,15 @@ export class LoginBoxOverviewComponent implements DynamicContentViewItem, OnInit
   private refreshDataSource() {
     this.dataSource = [];
     this.externalProviderService.getAll(this.data.tenantId)
-      .subscribe(applicationSummaries => {
-        for (let i = 0; i < applicationSummaries.length; i++) {
-          let summary = applicationSummaries[i];
+      .subscribe(providerSummaries => {
+        for (let i = 0; i < providerSummaries.length; i++) {
+          let summary = providerSummaries[i];
           const newRow = {
             id: summary.id,
             name: summary.name,
             iconPath: summary.iconPath,
+            clientSecret: '',
+            clientId: ''
           };
           this.dataSource = [...this.dataSource, newRow]
         }

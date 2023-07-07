@@ -2,14 +2,7 @@
 <div mat-dialog-content>
   Update details for your third party provider
 
-  <form [formGroup]="updateApplicationFormGroup" class="dialog-form">
-    <section>
-      <h4>Select Application Type</h4>
-      <mat-button-toggle-group formControlName="applicationTypeId" aria-label="Font Style">
-        <mat-button-toggle *ngFor="let item of data.applicationTypes;"
-                           [value]="item.id">{{item.name}}</mat-button-toggle>
-      </mat-button-toggle-group>
-    </section>
+  <form [formGroup]="updateExternalProviderForm" class="dialog-form">
 
     <div class="app-form-container">
 
@@ -25,14 +18,14 @@
       <div>
         <mat-form-field appearance="fill" class="form-input">
           <mat-label>Client Secret</mat-label>
-          <input matInput formControlName="clientSecret" required>
+          <input matInput type='password' formControlName="clientSecret" required>
         </mat-form-field>
       </div>
 
 
       </div>
       <div>
-        <button mat-button type="submit" [disabled]="!updateApplicationFormGroup.valid" (click)="update()">
+        <button mat-button type="submit" [disabled]="!updateExternalProviderForm.valid" (click)="update()">
           Submit
         </button>
       </div>

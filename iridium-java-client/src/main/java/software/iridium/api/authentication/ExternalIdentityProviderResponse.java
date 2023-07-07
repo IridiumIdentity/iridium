@@ -24,6 +24,10 @@ public class ExternalIdentityProviderResponse implements Serializable {
 
   private String clientId;
 
+  private String name;
+
+  private String clientSecret;
+
   public String getId() {
     return id;
   }
@@ -38,5 +42,21 @@ public class ExternalIdentityProviderResponse implements Serializable {
 
   public void setClientId(final String clientId) {
     this.clientId = clientId;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(final String name) {
+    this.name = name;
+  }
+
+  public String getClientSecret() {
+    return clientSecret;
+  }
+
+  public void setClientSecret(final String clientSecret) {
+    this.clientSecret = clientSecret;
   }
 }

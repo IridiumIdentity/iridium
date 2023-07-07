@@ -11,10 +11,12 @@
  */
 package software.iridium.api.repository;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import software.iridium.entity.ExternalIdentityProviderEntity;
 
 public interface ExternalIdentityProviderEntityRepository
     extends JpaRepository<ExternalIdentityProviderEntity, String> {
-  // intentionally left blank
+
+  List<ExternalIdentityProviderEntity> findAllByTenantId(final String tenantId);
 }

@@ -79,7 +79,7 @@ public class ExternalIdentityProviderService {
   public List<ExternalIdentityProviderSummaryResponse> retrieveAllSummaries(final String tenantId) {
     checkArgument(validator.isUuid(tenantId), "tenantId must be a valid uuid");
 
-    return summaryMapper.mapList(providerRepository.findAll());
+    return summaryMapper.mapList(providerRepository.findAllByTenantId(tenantId));
   }
 
   @Transactional(propagation = Propagation.REQUIRED)

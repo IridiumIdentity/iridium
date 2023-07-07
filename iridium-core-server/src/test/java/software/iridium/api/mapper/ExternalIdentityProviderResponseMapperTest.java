@@ -33,13 +33,19 @@ class ExternalIdentityProviderResponseMapperTest {
   public void map_AllGood_BehavesAsExpected() {
     final var id = "the id";
     final var clientId = "the client id";
+    final var clientSecret = "the client secret";
+    final var name = "the name";
     final var entity = new ExternalIdentityProviderEntity();
     entity.setId(id);
     entity.setClientId(clientId);
+    entity.setClientSecret(clientSecret);
+    entity.setName(name);
 
     final var response = subject.map(entity);
 
     assertThat(response.getId(), is(equalTo(id)));
     assertThat(response.getClientId(), is(equalTo(clientId)));
+    assertThat(response.getClientSecret(), is(equalTo(clientSecret)));
+    assertThat(response.getName(), is(equalTo(name)));
   }
 }

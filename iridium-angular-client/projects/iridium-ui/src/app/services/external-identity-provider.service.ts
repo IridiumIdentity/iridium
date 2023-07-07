@@ -10,6 +10,8 @@ import {
 import { ExternalIdentityProviderSummary } from './external-identity-provider-summary';
 import { ApplicationUpdateRequest } from '../components/dashboard/domain/application-update-request';
 import { ApplicationUpdateResponse } from '../components/dashboard/domain/application-update-response';
+import { ExternalProviderResponse } from '../components/dashboard/domain/external-provider-response';
+import { ExternalProviderUpdateRequest } from './domain/external-provider-update-request';
 
 @Injectable({
   providedIn: 'root'
@@ -46,27 +48,25 @@ export class ExternalIdentityProviderService {
   get(tenantId: string, externalProviderId: string) {
     const token = this.cookieService.getCookie('iridium-token')
     const headers = new HttpHeaders({
-      Accept: 'application/vnd.iridium.id.external-identity-provider-summary-list.1+json',
+      Accept: 'application/vnd.iridium.id.external-provider-response.1+json',
       'Authorization': 'Bearer ' + token
     })
     const options = { headers: headers }
-    return this.http.get<ExternalIdentityProviderSummary[]>(environment.iridium.domain + `tenants/${tenantId}/external-providers/${externalProviderId}`, options)
+    return this.http.get<ExternalProviderResponse>(environment.iridium.domain + `tenants/${tenantId}/external-providers/${externalProviderId}`, options)
   }
 
   update(formGroup: FormGroup, tenantId: string, externalProviderId: string) {
-    console.log('update controls are', formGroup.controls)
     const token = this.cookieService.getCookie('iridium-token')
     const headers = new HttpHeaders({
-      'Accept': 'application/vnd.iridium.id.application-update-response.1+json',
-      'Content-Type': 'application/vnd.iridium.id.application-update-request.1+json',
+      'Accept': 'application/vnd.iridium.id.external-provider-update-response.1+json',
+      'Content-Type': 'application/vnd.iridium.id.external-provider-update-request.1+json',
       'Authorization': 'Bearer ' + token
     })
     const options = { headers: headers }
-    const request = new ApplicationUpdateRequest();
-    request.applicationTypeId = formGroup.controls['applicationTypeId'].value;
-    request.name = formGroup.controls['clientId'].value;
-    request.description = formGroup.controls['clientSecret'].value;
-    return this.http.put<ApplicationUpdateResponse>(environment.iridium.domain + `tenants/${tenantId}/applications/${externalProviderId}`, request, options)
+    const request = new ExternalProviderUpdateRequest();
+    request.clientId = formGroup.controls['clientId'].value;
+    request.clientSecret = formGroup.controls['clientSecret'].value;
+    return this.http.put<ApplicationUpdateResponse>(environment.iridium.domain + `tenants/${tenantId}/external-providers/${externalProviderId}`, request, options)
 
   }
 }

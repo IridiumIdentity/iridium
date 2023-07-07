@@ -25,6 +25,8 @@ public class ExternalIdentityProviderResponseMapper {
     final var response = new ExternalIdentityProviderResponse();
     response.setId(entity.getId());
     response.setClientId(entity.getClientId());
+    response.setClientSecret(entity.getClientSecret());
+    response.setName(entity.getName());
     return response;
   }
 }
