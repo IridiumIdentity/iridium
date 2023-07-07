@@ -9,8 +9,14 @@
   width: 500px;
 }
 
+.input { -webkit-text-security: none; }
+.input { -webkit-text-security: circle; }
+.input { -webkit-text-security: square; }
+.input { -webkit-text-security: disc; /* Default */ }
+
 .form-input {
   width: 100%;
+
 }
 
 .app-form-container {

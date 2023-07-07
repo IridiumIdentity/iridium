@@ -44,6 +44,7 @@ public class ExternalIdentityProviderInstantiator {
     entity.setClientSecret(request.getClientSecret());
     entity.setClientId(request.getClientId());
     entity.setScope(template.getDefaultScope());
+    entity.setIconPath(template.getIconPath());
     return entity;
   }
 }

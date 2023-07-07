@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>Update External Provider</h1>
+<div mat-dialog-content>
+  Update details for your third party provider
+
+  <form [formGroup]="updateExternalProviderForm" class="dialog-form">
+
+    <div class="app-form-container">
+
+      <mat-form-field appearance="fill" class="form-input">
+        <mat-label>Application Name</mat-label>
+        <input matInput formControlName="name" required>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="form-input">
+        <mat-label>Client Id</mat-label>
+        <input matInput formControlName="clientId">
+      </mat-form-field>
+
+      <div>
+        <mat-form-field appearance="fill" class="form-input">
+          <mat-label>Client Secret</mat-label>
+          <input matInput type='password' formControlName="clientSecret" required>
+        </mat-form-field>
+      </div>
+
+
+      </div>
+      <div>
+        <button mat-button type="submit" [disabled]="!updateExternalProviderForm.valid" (click)="update()">
+          Submit
+        </button>
+      </div>
+  </form>
+</div>
+

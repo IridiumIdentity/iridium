@@ -50,9 +50,11 @@ class ExternalIdentityProviderInstantiatorTest {
     final var clientId = "some client id";
     final var clientSecret = "some client secret";
     final var defaultScope = "the default scope";
+    final var iconPath = "the icon path";
     final var tenant = new TenantEntity();
     final var template = new ExternalIdentityProviderTemplateEntity();
     template.setName(name);
+    template.setIconPath(iconPath);
     template.setProfileRequestBaseUrl(baseProfileUrl);
     template.setBaseAuthorizationUrl(baseAuthorizationUrl);
     template.setAccessTokenRequestBaseUrl(baseAccessTokenUrl);
@@ -89,5 +91,6 @@ class ExternalIdentityProviderInstantiatorTest {
     assertThat(response.getAuthorizationParameters(), is(equalTo(authorizationParamMap)));
     assertThat(response.getProfileRequestBaseUrl(), is(equalTo(baseProfileUrl)));
     assertThat(response.getScope(), is(equalTo(defaultScope)));
+    assertThat(response.getIconPath(), is(equalTo(iconPath)));
   }
 }

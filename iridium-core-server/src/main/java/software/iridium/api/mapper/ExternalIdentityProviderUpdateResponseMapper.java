@@ -9,14 +9,15 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package software.iridium.api.repository;
+package software.iridium.api.mapper;
 
-import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Component;
+import software.iridium.api.authentication.domain.ExternalIdentityProviderUpdateResponse;
 import software.iridium.entity.ExternalIdentityProviderEntity;
 
-public interface ExternalIdentityProviderEntityRepository
-    extends JpaRepository<ExternalIdentityProviderEntity, String> {
-
-  List<ExternalIdentityProviderEntity> findAllByTenantId(final String tenantId);
+@Component
+public class ExternalIdentityProviderUpdateResponseMapper {
+  public ExternalIdentityProviderUpdateResponse map(final ExternalIdentityProviderEntity entity) {
+    return ExternalIdentityProviderUpdateResponse.of(entity.getId(), entity.getClientId());
+  }
 }
