@@ -437,8 +437,8 @@ You're not viewing the latest version.
 </li>
       
         <li class="md-nav__item">
-  <a href="#serve-iridium-from-the-repo" class="md-nav__link">
-    Serve Iridium from the repo
+  <a href="#stand-up-the-database" class="md-nav__link">
+    Stand up the database
   </a>
   
 </li>
@@ -687,8 +687,8 @@ You're not viewing the latest version.
 </li>
       
         <li class="md-nav__item">
-  <a href="#serve-iridium-from-the-repo" class="md-nav__link">
-    Serve Iridium from the repo
+  <a href="#stand-up-the-database" class="md-nav__link">
+    Stand up the database
   </a>
   
 </li>
@@ -760,16 +760,21 @@ You're not viewing the latest version.
 <li><a href="https://docs.docker.com/">Docker</a></li>
 </ul>
 <p>Iridium is dependent on an RDBMS system such as <a href="https://www.mysql.com/">MySQL</a> or <a href="https://mariadb.org/">MariaDB</a>.</p>
-<p>It should be noted that the set up in this document is not meant for production purposes.</p>
-<h3 id="serve-iridium-from-the-repo">Serve Iridium from the repo</h3>
-<p>Clone the repo</p>
-<pre><code class="language-shell">$ git clone git@github.com:IridiumIdentity/iridium.git
+<p>Note: all commands are run from the root of the distribution folder you <a href="../1.Install-the-CLI/">downloaded and extracted in the previous step</a>,
+The set up in this document is not intended for production purposes.</p>
+<h3 id="stand-up-the-database">Stand up the database</h3>
+<p>Run an instance of MariaDB locally. </p>
+<pre><code class="language-shell">$ docker run  --name mariadb \
+    -p 3306:3306 \
+    -e MYSQL_ROOT_PASSWORD=iridium \
+    -e MYSQL_DATABASE=identities \
+    -e MYSQL_USER=identity-api \
+    -e MYSQL_PASSWORD=iridium \
+    -d mariadb:latest
 </code></pre>
-<p><code>cd</code> into the project</p>
-<pre><code class="language-shell">$ cd iridium
-</code></pre>
-<p>Stand up mariadb, the latest version of the core iridium server</p>
-<pre><code class="language-shell">$ docker compose -f tools/schedulers/compose/local-dev-compose.yml up -d
+<p>Now you'll be able to start and stop the MariaDB container with the following commands.</p>
+<pre><code class="language-shell">$ docker stop mariadb
+$ docker start mariadb
 </code></pre>
 <p>At this point you have an instance of MariaDB.
 You can verify this by executing <code>docker ps</code>, you should see similar output like below</p>
@@ -777,8 +782,7 @@ You can verify this by executing <code>docker ps</code>, you should see similar 
 CONTAINER ID   IMAGE                                        COMMAND                  CREATED         STATUS         PORTS                                        NAMES
 a44c37b6d4c1   mariadb:10.6.11                              &quot;docker-entrypoint.s…&quot;   6 seconds ago   Up 3 seconds   0.0.0.0:3306-&gt;3306/tcp                       mariadb
 </code></pre>
-<p>We still need to initialize the database with specific data for Iridium to function </p>
-<p><a href="#initialize-the-iridium-database">Next, you should initialize the database</a></p>
+<p><a href="#initialize-the-iridium-database">We still need to initialize the database with specific data for Iridium to function</a></p>
 <h2 id="initialize-the-iridium-database">Initialize the Iridium Database</h2>
 <p>Iridium needs specific data entities to exist for it to function. This guide demonstrates how to use the iridium CLI
 to execute this task.  This document assumes you have downloaded and unpacked the binary distribution of Iridium in a
@@ -797,7 +801,8 @@ expanded tar.gz distribution you downloaded and unpacked earlier. For ease of ge
 You'll need to set your GitHub Client credentials in the file below.  <a href="../../4.-connecting-social-identity-providers/create-github-application/">Instructions on how to do this with GitHub are here.</a>  You can do this by executing. </p>
 <pre><code class="language-shell">$ vim conf/external-providers.yaml
 </code></pre>
-<p>Modify the contents of the file to match below, you'll need to modify the values to be specific for your GitHub Oauth application.  You will want to remove the Google YAML block for this quick start. </p>
+<p>Modify the contents of the file to match below, you'll need to modify the values to be specific for your GitHub Oauth application.<br />
+You will want to remove the Google YAML block for this quick start. </p>
 <pre><code class="language-yaml">- name: &quot;github&quot;
   clientId: &quot;${yourClientId}&quot;
   clientSecret: &quot;${yourClientSecret&quot;
@@ -816,12 +821,12 @@ You'll need to set your GitHub Client credentials in the file below.  <a href=".
 <p>Since this is a local run, you will not need to update your <code>environment.ts</code> as stated above.</p>
 <h3 id="run-the-iridium-core-server">Run the Iridium Core Server</h3>
 <p>Run the following command, again this is from the top level folder of the distribution you downloaded.</p>
-<pre><code>$  java -jar lib/iridium-core-server-0.2.0-SNAPSHOT.jar --spring.config.location=../conf/application.properties
+<pre><code>$ export SPRING_CONFIG_LOCATION=./conf/application.properties
+$  java -jar ./lib/iridium-core-server-${iridium-version}.jar
 </code></pre>
-<p><a href="../../3.-for-developers/developing-with-intellij/">Follow the instructions to run Iridium from Intellij here</a>.  To run the server you'll need to 
+<p>If you want to run Iridium from source, <a href="../../3.-for-developers/developing-with-intellij/">Follow the instructions to run Iridium from Intellij here</a>. 
 From here, you should be able to log in to the Iridium Management UI using your GitHub account. At this point you've
-stood up the system with an Iridium tenant for and application for managing Iridium. At this point you can start to create your own tenant and applications
-in Iridium to be secured.</p>
+stood up the system with an Iridium tenant and an associated management application. </p>
 <h2 id="stand-up-the-iridium-management-ui">Stand up the Iridium Management UI</h2>
 <p><code>cd</code> into the Angular project and install dependencies</p>
 <pre><code class="language-shell">$ cd iridium-angular-client &amp;&amp; npm install
@@ -829,9 +834,7 @@ in Iridium to be secured.</p>
 <p>build the <code>ngx-iridium-client</code> and the management UI.</p>
 <pre><code class="language-shell">$ ng build ngx-iridium-client &amp;&amp; ng serve
 </code></pre>
-<p>At this point you are ready to use Iridium to secure your system.<br />
-You've stood up the  Iridium Core Server and the management UI.  </p>
-<p>The next step is log in the management UI using either the local user you created (username/password) or the by using 
+<p>The next step is log in the management UI using either the local user you created (username/password) or the by using
 a social provider (such as GitHub) to access the system by visiting <a href="http://localhost:4200">http://localhost:4200</a> in your browser.</p>
 <p>From here, you can create tenants, associate social providers, single page applications or server apps in via the UI to be secured by Iridium.</p>
 
