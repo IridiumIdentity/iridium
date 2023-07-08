@@ -13,7 +13,7 @@ Iridium is with Maven.  From the top level directory you can execute a `mvn clea
 You should see the following if you are successful.
 ```
 [INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary for iridium 0.1.4:
+[INFO] Reactor Summary for iridium {iridium-version}:
 [INFO] 
 [INFO] iridium ............................................ SUCCESS [  0.979 s]
 [INFO] iridium-java-client ................................ SUCCESS [  7.152 s]
