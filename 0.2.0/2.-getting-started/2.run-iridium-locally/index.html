@@ -818,7 +818,8 @@ You'll need to set your GitHub Client credentials in the file below.  <a href=".
 <p>Since this is a local run, you will not need to update your <code>environment.ts</code> as stated above.</p>
 <h3 id="run-the-iridium-core-server">Run the Iridium Core Server</h3>
 <p>Run the following command, again this is from the top level folder of the distribution you downloaded.</p>
-<pre><code>$  java -jar lib/iridium-core-server-0.2.0-SNAPSHOT.jar --spring.config.location=../conf/application.properties
+<pre><code>$ export SPRING_CONFIG_LOCATION=./conf/application.properties
+$  java -jar ./lib/iridium-core-server-${iridium-version}.jar
 </code></pre>
 <p><a href="../../3.-for-developers/developing-with-intellij/">Follow the instructions to run Iridium from Intellij here</a>.  To run the server you'll need to 
 From here, you should be able to log in to the Iridium Management UI using your GitHub account. At this point you've
