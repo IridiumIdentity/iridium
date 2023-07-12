@@ -3,12 +3,7 @@ name: Build Iridium - every pull request
 on:
   pull_request:
     branches: [ "*" ]
-
-
 env:
-  REGISTRY: ghcr.io
-  NAMESPACE: iridiumidentity
-  IMAGE_NAME: iridium-core-server
 
 jobs:
 
@@ -35,19 +30,6 @@ jobs:
          architecture: x64
          server-id: maven
      - run: mvn clean package
-     - name: set up node 18
-       uses: actions/setup-node@v3
-       with:
-         node-version: '18.x'
-     - name: install node deps
-       run: npm ci
-       working-directory: ./iridium-angular-client
-     - name: lint angular clients
-       run: npm run lint
-       working-directory: ./iridium-angular-client
-     - name: build angular clients
-       run: npm run build-all
-       working-directory: ./iridium-angular-client
 
      
       
