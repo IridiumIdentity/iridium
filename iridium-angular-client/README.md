@@ -1,3 +1,0 @@
-# Iridium Angular Client Workspace
-
-
