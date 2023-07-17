@@ -611,15 +611,8 @@ You're not viewing the latest version.
 
 
 <h1 id="using-docker-for-development">Using Docker for development</h1>
-<p>If you don't want to use compose you can read the following.</p>
 <p>Run the following command to set up MariaDB on your local machine.</p>
-<pre><code class="language-shell">$ docker run  --name iridium-db \
-    -p 3306:3306 \
-    -e MYSQL_ROOT_PASSWORD=iridium \
-    -e MYSQL_DATABASE=identities \
-    -e MYSQL_USER=identity-api \
-    -e MYSQL_PASSWORD=iridium \
-    -d mariadb:latest
+<pre><code class="language-shell">$ docker compose -f tools/schedulers/compose/local-dev-compose.yml up [-d]
 </code></pre>
 <p>Now you'll be able to start and stop the MariaDb container with the following commands.</p>
 <pre><code class="language-shell">$ docker stop iridium-db
