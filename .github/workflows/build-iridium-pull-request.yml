@@ -3,7 +3,6 @@ name: Build - every pull request
 on:
   pull_request:
     branches: [ "*" ]
-env:
 
 jobs:
 
