@@ -9,17 +9,17 @@
       
       
       
-        <link rel="prev" href="../building-from-source/">
+        <link rel="prev" href="../1.Install-the-CLI/">
       
       
-        <link rel="next" href="../setting-properties/">
+        <link rel="next" href="../3.run-iridium-with-docker/">
       
       <link rel="icon" href="../../images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.19">
     
     
       
-        <title>Developing with intellij - Iridium</title>
+        <title>Stand up locally - Iridium</title>
       
     
     
@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#setting-up-with-intellij" class="md-skip">
+        <a href="#stand-up-locally" class="md-skip">
           Skip to content
         </a>
       
@@ -159,7 +159,7 @@ You're not viewing the latest version.
                 <div class="md-header__topic" data-md-component="header-topic">
 <!--          <span class="md-ellipsis">-->
 <!--            -->
-<!--              Developing with intellij-->
+<!--              Stand up locally-->
 <!--            -->
 <!--          </span>-->
                 </div>
@@ -443,11 +443,100 @@ You're not viewing the latest version.
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../2.run-iridium-locally/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Stand up locally
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Stand up locally
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#youll-need-the-following-to-run-iridium-locally" class="md-nav__link">
+    You'll need the following to run iridium locally:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stand-up-the-database" class="md-nav__link">
+    Stand up the database
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initialize-the-iridium-database" class="md-nav__link">
+    Initialize the Iridium Database
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initialize-with-iridium-with-a-login-provider" class="md-nav__link">
+    Initialize with Iridium with a Login Provider
+  </a>
+  
+    <nav class="md-nav" aria-label="Initialize with Iridium with a Login Provider">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initialize-the-database" class="md-nav__link">
+    Initialize the database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-the-iridium-core-server" class="md-nav__link">
+    Run the Iridium Core Server
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stand-up-the-iridium-management-ui" class="md-nav__link">
+    Stand up the Iridium Management UI
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -485,81 +574,11 @@ You're not viewing the latest version.
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Developing with intellij
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../developing-with-intellij/" class="md-nav__link">
         Developing with intellij
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#setting-up-with-intellij" class="md-nav__link">
-    Setting up with Intellij
-  </a>
-  
-    <nav class="md-nav" aria-label="Setting up with Intellij">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#use-launcher-script" class="md-nav__link">
-    Use launcher script
-  </a>
-  
-    <nav class="md-nav" aria-label="Use launcher script">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#current-supported-operating-systems" class="md-nav__link">
-    Current supported operating systems
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#use-intellij-gui" class="md-nav__link">
-    Use Intellij GUI
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -665,6 +684,8 @@ You're not viewing the latest version.
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -673,24 +694,44 @@ You're not viewing the latest version.
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#setting-up-with-intellij" class="md-nav__link">
-    Setting up with Intellij
+  <a href="#youll-need-the-following-to-run-iridium-locally" class="md-nav__link">
+    You'll need the following to run iridium locally:
   </a>
   
-    <nav class="md-nav" aria-label="Setting up with Intellij">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stand-up-the-database" class="md-nav__link">
+    Stand up the database
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initialize-the-iridium-database" class="md-nav__link">
+    Initialize the Iridium Database
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initialize-with-iridium-with-a-login-provider" class="md-nav__link">
+    Initialize with Iridium with a Login Provider
+  </a>
+  
+    <nav class="md-nav" aria-label="Initialize with Iridium with a Login Provider">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#use-launcher-script" class="md-nav__link">
-    Use launcher script
+  <a href="#initialize-the-database" class="md-nav__link">
+    Initialize the database
   </a>
   
-    <nav class="md-nav" aria-label="Use launcher script">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
-  <a href="#current-supported-operating-systems" class="md-nav__link">
-    Current supported operating systems
+  <a href="#run-the-iridium-core-server" class="md-nav__link">
+    Run the Iridium Core Server
   </a>
   
 </li>
@@ -699,16 +740,11 @@ You're not viewing the latest version.
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#use-intellij-gui" class="md-nav__link">
-    Use Intellij GUI
+      
+        <li class="md-nav__item">
+  <a href="#stand-up-the-iridium-management-ui" class="md-nav__link">
+    Stand up the Iridium Management UI
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -730,22 +766,91 @@ You're not viewing the latest version.
   
 
 
-  <h1>Developing with intellij</h1>
-
-<h2 id="setting-up-with-intellij">Setting up with Intellij</h2>
-<h3 id="use-launcher-script">Use launcher script</h3>
-<h4 id="current-supported-operating-systems">Current supported operating systems</h4>
+<h1 id="stand-up-locally">Stand up locally</h1>
+<h3 id="youll-need-the-following-to-run-iridium-locally">You'll need the following to run iridium locally:</h3>
 <ul>
-<li>darwin (OSX)
-From the root folder of the repo you can execute the following command to open the project in Intellij.</li>
+<li><a href="https://nodejs.org/en">Node 18</a></li>
+<li><a href="https://adoptium.net/temurin/releases/">Java 17</a></li>
+<li><a href="https://docs.docker.com/">Docker</a></li>
 </ul>
-<pre><code class="language-shell">$ ./tools/scripts/setup-intellij.sh
+<p>Iridium is dependent on an RDBMS system such as <a href="https://www.mysql.com/">MySQL</a> or <a href="https://mariadb.org/">MariaDB</a>.</p>
+<p>Note: all commands are run from the root of the distribution folder you <a href="../1.Install-the-CLI/">downloaded and extracted in the previous step</a>,
+The set up in this document is not intended for production purposes.</p>
+<h3 id="stand-up-the-database">Stand up the database</h3>
+<p>Run an instance of MariaDB locally. </p>
+<pre><code class="language-shell">$ docker run  --name mariadb \
+    -p 3306:3306 \
+    -e MYSQL_ROOT_PASSWORD=iridium \
+    -e MYSQL_DATABASE=identities \
+    -e MYSQL_USER=identity-api \
+    -e MYSQL_PASSWORD=iridium \
+    -d mariadb:latest
 </code></pre>
-<h3 id="use-intellij-gui">Use Intellij GUI</h3>
-<p>Opening Iridium with Intellij is straight-forward.  In the menu bar in Intellij go to<br />
-<code>File -&gt; Open...</code> then select the top level folder of the iridium project on your computer.</p>
-<p><img alt="Open with Intellij" src="../../images/open-with-intellij.png" /></p>
-<p>The project should load as it's a standard Maven project. </p>
+<p>Now you'll be able to start and stop the MariaDB container with the following commands.</p>
+<pre><code class="language-shell">$ docker stop mariadb
+$ docker start mariadb
+</code></pre>
+<p>At this point you have an instance of MariaDB.
+You can verify this by executing <code>docker ps</code>, you should see similar output like below</p>
+<pre><code class="language-shell"> docker ps
+CONTAINER ID   IMAGE                                        COMMAND                  CREATED         STATUS         PORTS                                        NAMES
+a44c37b6d4c1   mariadb:10.6.11                              &quot;docker-entrypoint.s…&quot;   6 seconds ago   Up 3 seconds   0.0.0.0:3306-&gt;3306/tcp                       mariadb
+</code></pre>
+<p><a href="#initialize-the-iridium-database">We still need to initialize the database with specific data for Iridium to function</a></p>
+<h2 id="initialize-the-iridium-database">Initialize the Iridium Database</h2>
+<p>Iridium needs specific data entities to exist for it to function. This guide demonstrates how to use the iridium CLI
+to execute this task.  This document assumes you have downloaded and unpacked the binary distribution of Iridium in a
+previous step as detail <a href="../1.Install-the-CLI/">here</a>.</p>
+<p>To initialize the database execute the following command.  Again we are expecting you to be in the top level folder of
+expanded tar.gz distribution you downloaded and unpacked earlier.</p>
+<p><strong>NOTE</strong>
+Iridium init is meant to be non-destructive in that if you initialize the database once it will not work again.  You will need to bring your 
+containers all the way down to run the <code>init</code> function again. </p>
+<ol>
+<li><a href="#initialize-with-iridium-with-the-github-login-provider">Initialize with a social provider</a></li>
+</ol>
+<h2 id="initialize-with-iridium-with-a-login-provider">Initialize with Iridium with a Login Provider</h2>
+<p>Again we are expecting you to be in the top level folder of
+expanded tar.gz distribution you downloaded and unpacked earlier. For ease of getting started lets focus on using only provider at the moment.
+You'll need to set your GitHub Client credentials in the file below.  <a href="../../4.-connecting-social-identity-providers/create-github-application/">Instructions on how to do this with GitHub are here.</a>  You can do this by executing. </p>
+<pre><code class="language-shell">$ vim conf/external-providers.yaml
+</code></pre>
+<p>Modify the contents of the file to match below, you'll need to modify the values to be specific for your GitHub Oauth application.<br />
+You will want to remove the Google YAML block for this quick start. </p>
+<pre><code class="language-yaml">- name: &quot;github&quot;
+  clientId: &quot;${yourClientId}&quot;
+  clientSecret: &quot;${yourClientSecret&quot;
+</code></pre>
+<h3 id="initialize-the-database">Initialize the database</h3>
+<p>Run the following command to initialize the database with the GitHub credentials, and other needed entities for Iridium to run.</p>
+<pre><code class="language-shell">$ ./bin/iridium init 
+</code></pre>
+<p>Upon successful initialization of the database you'll see similar output.  </p>
+<pre><code class="language-shell">06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - ########################################
+06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - Database successfully initialized
+06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - ########################################
+06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - Iridium Management Application ID is localRunIdChangeForProduction
+06:22:59.885 [main] INFO  software.iridium.cli.command.InitCommand - Be sure to place this in the appropriate environment.ts file
+</code></pre>
+<p>Since this is a local run, you will not need to update your <code>environment.ts</code> as stated above.</p>
+<h3 id="run-the-iridium-core-server">Run the Iridium Core Server</h3>
+<p>Run the following command, again this is from the top level folder of the distribution you downloaded.</p>
+<pre><code>$ export SPRING_CONFIG_LOCATION=./conf/application.properties
+$  java -jar ./lib/iridium-core-server-${iridium-version}.jar
+</code></pre>
+<p>If you want to run Iridium from source, <a href="../developing-with-intellij/">Follow the instructions to run Iridium from Intellij here</a>. 
+From here, you should be able to log in to the Iridium Management UI using your GitHub account. At this point you've
+stood up the system with an Iridium tenant and an associated management application. </p>
+<h2 id="stand-up-the-iridium-management-ui">Stand up the Iridium Management UI</h2>
+<p><code>cd</code> into the Angular project and install dependencies</p>
+<pre><code class="language-shell">$ cd iridium-angular-client &amp;&amp; npm install
+</code></pre>
+<p>build the <code>ngx-iridium-client</code> and the management UI.</p>
+<pre><code class="language-shell">$ ng build ngx-iridium-client &amp;&amp; ng serve
+</code></pre>
+<p>The next step is log in the management UI using either the local user you created (username/password) or the by using
+a social provider (such as GitHub) to access the system by visiting <a href="http://localhost:4200">http://localhost:4200</a> in your browser.</p>
+<p>From here, you can create tenants, associate social providers, single page applications or server apps in via the UI to be secured by Iridium.</p>
 
 
   
