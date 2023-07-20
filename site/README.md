@@ -29,7 +29,7 @@ $ pip freeze > requirements.txt
 ## Commands
 
 * `mike serve` - Start the live-reloading docs server.
-* `mike deploy DRAFT` - Publish a new revision of `DRAFT` version locally
+* `mike deploy NEXT` - Publish a new revision of `NEXT` version locally
 
 ## In case mkdocs or mike isn't found
 
