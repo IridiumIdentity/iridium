@@ -36,6 +36,13 @@ public class AttributeValidatorTest {
   }
 
   @Test
+  public void isNotBlank_CandidateContainsNullValueString_ReturnsFalse() {
+    final var candidate = "null";
+
+    assertFalse(subject.isNotBlank(candidate));
+  }
+
+  @Test
   public void isZeroOrGreater_AllGood_IntegerIsGreater() {
     final var candidate = 10;
     final var isGreater = subject.isZeroOrGreater(candidate);

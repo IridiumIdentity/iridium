@@ -53,7 +53,7 @@ public class AttributeValidator {
   }
 
   public boolean isNotBlank(final String candidate) {
-    return StringUtils.isNotBlank(candidate);
+    return StringUtils.isNotBlank(candidate) && !StringUtils.equals("null", candidate);
   }
 
   public boolean isNotNull(final Boolean candidate) {
