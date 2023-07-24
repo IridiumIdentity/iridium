@@ -38,8 +38,6 @@ html, body {
 .tenant-logo-container {
     width: 300px;
     height: 200px;
-    background: url('/img/iridium-3C-large.png')  center center no-repeat;
-    background-size: contain;
 }
 
 .login-container > * {
