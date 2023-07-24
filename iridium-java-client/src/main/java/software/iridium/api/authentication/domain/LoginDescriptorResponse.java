@@ -33,7 +33,7 @@ public class LoginDescriptorResponse implements Serializable {
 
   private String pageTitle;
 
-  private String iconPath;
+  private String tenantLogoUrl;
 
   private List<ExternalProviderLoginDescriptorResponse> externalProviderDescriptors;
 
@@ -85,12 +85,12 @@ public class LoginDescriptorResponse implements Serializable {
     this.pageTitle = pageTitle;
   }
 
-  public String getIconPath() {
-    return iconPath;
+  public String getTenantLogoUrl() {
+    return tenantLogoUrl;
   }
 
-  public void setIconPath(final String iconPath) {
-    this.iconPath = iconPath;
+  public void setTenantLogoUrl(final String tenantLogoUrl) {
+    this.tenantLogoUrl = tenantLogoUrl;
   }
 
   public List<ExternalProviderLoginDescriptorResponse> getExternalProviderDescriptors() {

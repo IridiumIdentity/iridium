@@ -37,6 +37,7 @@ public class TemplateService {
     final var loginDescriptor = loginDescriptorService.getBySubdomain(subdomain);
 
     model.addAttribute("displayName", loginDescriptor.getDisplayName());
+    model.addAttribute("tenantLogoUrl", loginDescriptor.getTenantLogoUrl());
     model.addAttribute(
         "externalProviderDescriptors", loginDescriptor.getExternalProviderDescriptors());
 

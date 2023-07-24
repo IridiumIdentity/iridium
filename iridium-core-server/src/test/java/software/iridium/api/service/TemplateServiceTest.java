@@ -54,10 +54,12 @@ class TemplateServiceTest {
     final var params = new HashMap<String, String>();
     final var subdomain = "somewhere";
     final var displayName = "the display name";
+    final var tenantLogoUrl = "http://somewhere.com";
     final var externalDescriptors = new ArrayList<ExternalProviderLoginDescriptorResponse>();
     final var loginDescriptor = new LoginDescriptorResponse();
     loginDescriptor.setExternalProviderDescriptors(externalDescriptors);
     loginDescriptor.setDisplayName(displayName);
+    loginDescriptor.setTenantLogoUrl(tenantLogoUrl);
     final var stringBuffer = new StringBuffer(subdomain);
 
     when(mockServletRequest.getRequestURL()).thenReturn(stringBuffer);
@@ -70,5 +72,6 @@ class TemplateServiceTest {
     verify(mockSubdomainExtractor).extract(eq(subdomain));
     verify(mockModel).addAttribute(eq("displayName"), same(displayName));
     verify(mockModel).addAttribute(eq("externalProviderDescriptors"), same(externalDescriptors));
+    verify(mockModel).addAttribute(eq("tenantLogoUrl"), same(tenantLogoUrl));
   }
 }

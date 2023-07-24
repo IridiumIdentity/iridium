@@ -65,7 +65,7 @@ class LoginDescriptorResponseMapperTest {
 
     verify(mockResponseMapper).mapList(same(externalProviders));
 
-    MatcherAssert.assertThat(response.getIconPath(), is(equalTo(iconPath)));
+    MatcherAssert.assertThat(response.getTenantLogoUrl(), is(equalTo(iconPath)));
     MatcherAssert.assertThat(response.getPageTitle(), is(equalTo(pageTitle)));
     MatcherAssert.assertThat(response.getDisplayName(), is(equalTo(tenantName)));
     MatcherAssert.assertThat(response.getUsernameErrorHint(), is(equalTo(usernameErrorHint)));
