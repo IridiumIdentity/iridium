@@ -27,7 +27,7 @@ public class LoginDescriptorResponseMapper {
     response.setExternalProviderDescriptors(
         externalProviderDescriptorMapper.mapList(
             entity.getTenant().getExternalIdentityProviders()));
-    response.setTenantLogoUrl(entity.getIconUrl());
+    response.setTenantLogoUrl(entity.getLogoURL());
     response.setPageTitle(entity.getPageTitle());
     response.setDisplayName(entity.getDisplayName());
     response.setUsernameLabel(entity.getUsernameLabel());

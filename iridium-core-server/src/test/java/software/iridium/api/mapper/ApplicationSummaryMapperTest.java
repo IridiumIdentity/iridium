@@ -35,13 +35,11 @@ class ApplicationSummaryMapperTest {
   public void mapToSummaries_AllGood_MapsAsExpected() {
     final var id = "the id";
     final var name = "the name";
-    final var iconUrl = "the icon url";
     final var applicationTypeId = "the application type id";
     final var clientId = "the client id";
     final var entity = new ApplicationEntity();
     entity.setId(id);
     entity.setName(name);
-    entity.setIconUrl(iconUrl);
     entity.setClientId(clientId);
     final var applicationType = new ApplicationTypeEntity();
     applicationType.setId(applicationTypeId);
@@ -55,7 +53,6 @@ class ApplicationSummaryMapperTest {
     final var response = responses.get(0);
     MatcherAssert.assertThat(response.getId(), is(equalTo(id)));
     MatcherAssert.assertThat(response.getName(), is(equalTo(name)));
-    MatcherAssert.assertThat(response.getIconUrl(), is(equalTo(iconUrl)));
     MatcherAssert.assertThat(response.getApplicationTypeId(), is(equalTo(applicationTypeId)));
     MatcherAssert.assertThat(response.getClientId(), is(equalTo(clientId)));
   }

@@ -37,7 +37,6 @@ class ApplicationEntityUpdatorTest {
     final var homepageURL = "http://home.com";
     final var callbackURL = "http://home.com/callback";
     final var privacyPolicyURL = "http://home.com/privacy";
-    final var iconURL = "http://home.com/icon-url";
     final var name = "the name";
     final var description = "the description";
     final var applicationType = new ApplicationTypeEntity();
@@ -46,7 +45,6 @@ class ApplicationEntityUpdatorTest {
     request.setDescription(description);
     request.setName(name);
     request.setHomePageUrl(homepageURL);
-    request.setIconUrl(iconURL);
     request.setPrivacyPolicyUrl(privacyPolicyURL);
     request.setRedirectUri(callbackURL);
 

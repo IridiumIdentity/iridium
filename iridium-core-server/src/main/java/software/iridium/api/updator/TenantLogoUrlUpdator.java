@@ -14,24 +14,16 @@ package software.iridium.api.updator;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import software.iridium.api.authentication.domain.ApplicationUpdateRequest;
-import software.iridium.entity.ApplicationEntity;
-import software.iridium.entity.ApplicationTypeEntity;
+import software.iridium.api.authentication.domain.TenantLogoUrlUpdateRequest;
+import software.iridium.entity.LoginDescriptorEntity;
 
 @Component
-public class ApplicationEntityUpdator {
+public class TenantLogoUrlUpdator {
 
   @Transactional(propagation = Propagation.REQUIRED)
-  public ApplicationEntity update(
-      final ApplicationEntity entity,
-      final ApplicationTypeEntity applicationType,
-      final ApplicationUpdateRequest request) {
-    entity.setApplicationType(applicationType);
-    entity.setRedirectUri(request.getRedirectUri());
-    entity.setDescription(request.getDescription());
-    entity.setName(request.getName());
-    entity.setHomePageUrl(request.getHomePageUrl());
-    entity.setPrivacyPolicyUrl(request.getPrivacyPolicyUrl());
+  public LoginDescriptorEntity update(
+      final LoginDescriptorEntity entity, final TenantLogoUrlUpdateRequest request) {
+    entity.setLogoURL(request.getLogoUrl());
     return entity;
   }
 }

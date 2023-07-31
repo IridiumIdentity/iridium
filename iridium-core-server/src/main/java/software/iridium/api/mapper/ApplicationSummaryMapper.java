@@ -34,7 +34,6 @@ public class ApplicationSummaryMapper {
     final var response = new ApplicationSummary();
     response.setId(entity.getId());
     response.setName(entity.getName());
-    response.setIconUrl(entity.getIconUrl());
     response.setApplicationTypeId(entity.getApplicationType().getId());
     response.setClientId(entity.getClientId());
     return response;

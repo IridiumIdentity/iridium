@@ -14,6 +14,8 @@ package software.iridium.api.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import software.iridium.api.authentication.domain.LoginDescriptorResponse;
+import software.iridium.api.authentication.domain.TenantLogoUrlUpdateRequest;
+import software.iridium.api.authentication.domain.TenantLogoUrlUpdateResponse;
 import software.iridium.api.base.domain.ApiDataResponse;
 import software.iridium.api.service.LoginDescriptorService;
 
@@ -29,5 +31,16 @@ public class LoginDescriptorController {
   public ApiDataResponse<LoginDescriptorResponse> getBySubdomain(
       @PathVariable(value = "subdomain") final String subdomain) {
     return new ApiDataResponse<>(descriptorService.getBySubdomain(subdomain));
+  }
+
+  @PutMapping(
+      value = "tenants/{tenant-id}/login-descriptors",
+      consumes = TenantLogoUrlUpdateRequest.MEDIA_TYPE,
+      produces = TenantLogoUrlUpdateResponse.MEDIA_TYPE)
+  public TenantLogoUrlUpdateResponse updateLogoURL(
+      @RequestBody TenantLogoUrlUpdateRequest request,
+      @PathVariable(value = "tenant-id") final String tenantId) {
+
+    return descriptorService.updateLogoURL(request, tenantId);
   }
 }

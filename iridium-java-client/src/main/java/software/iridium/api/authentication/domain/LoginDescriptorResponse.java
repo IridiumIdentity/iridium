@@ -19,7 +19,7 @@ public class LoginDescriptorResponse implements Serializable {
   private static final long serialVersionUID = -672573685676065352L;
 
   public static final String MEDIA_TYPE =
-      "application/vnd.iridium.id.authn.login-descriptor-response.1+json";
+      "application/vnd.iridium.id.login-descriptor-response.1+json";
 
   private String displayName;
 

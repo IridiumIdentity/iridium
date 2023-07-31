@@ -17,12 +17,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import software.iridium.api.authentication.domain.LoginDescriptorCreateRequest;
 import software.iridium.api.authentication.domain.LoginDescriptorResponse;
+import software.iridium.api.authentication.domain.TenantLogoUrlUpdateRequest;
+import software.iridium.api.authentication.domain.TenantLogoUrlUpdateResponse;
 import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.mapper.LoginDescriptorResponseMapper;
+import software.iridium.api.mapper.TenantLogoUpdateResponseMapper;
 import software.iridium.api.repository.LoginDescriptorEntityRepository;
+import software.iridium.api.updator.TenantLogoUrlUpdator;
 import software.iridium.api.util.AttributeValidator;
+import software.iridium.api.validator.TenantLogoUrlUpdateRequestValidator;
 
 @Service
 public class LoginDescriptorService {
@@ -30,6 +34,9 @@ public class LoginDescriptorService {
   @Autowired private LoginDescriptorEntityRepository loginDescriptorRepository;
   @Autowired private LoginDescriptorResponseMapper responseMapper;
   @Autowired private AttributeValidator attributeValidator;
+  @Autowired private TenantLogoUrlUpdateRequestValidator logoUpdateRequestValidator;
+  @Autowired private TenantLogoUrlUpdator logoUrlUpdator;
+  @Autowired private TenantLogoUpdateResponseMapper logoUpdateResponseMapper;
 
   @Transactional(propagation = Propagation.SUPPORTS)
   public LoginDescriptorResponse getBySubdomain(final String subdomain) {
@@ -46,8 +53,18 @@ public class LoginDescriptorService {
     return responseMapper.map(loginDescriptor);
   }
 
-  public LoginDescriptorResponse create(
-      final LoginDescriptorCreateRequest request, final String tenantId) {
-    return null;
+  @Transactional(propagation = Propagation.REQUIRED)
+  public TenantLogoUrlUpdateResponse updateLogoURL(
+      final TenantLogoUrlUpdateRequest request, final String tenantId) {
+    checkArgument(attributeValidator.isUuid(tenantId), "tenantId must be valid uuid");
+    logoUpdateRequestValidator.validate(request);
+
+    final var loginDescriptor =
+        loginDescriptorRepository
+            .findByTenantId(tenantId)
+            .orElseThrow(() -> new ResourceNotFoundException("descriptor not found for id"));
+
+    return logoUpdateResponseMapper.map(
+        loginDescriptorRepository.save(logoUrlUpdator.update(loginDescriptor, request)));
   }
 }

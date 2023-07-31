@@ -46,7 +46,7 @@ class LoginDescriptorResponseMapperTest {
     final var usernameType = "the type";
     final var usernamePlaceholder = "the placeholder";
     final var entity = new LoginDescriptorEntity();
-    entity.setIconUrl(iconPath);
+    entity.setLogoURL(iconPath);
     entity.setPageTitle(pageTitle);
     entity.setDisplayName(tenantName);
     entity.setUsernameLabel(usernameLabel);

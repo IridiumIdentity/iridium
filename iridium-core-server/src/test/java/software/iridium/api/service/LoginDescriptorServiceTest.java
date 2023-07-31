@@ -15,6 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -27,10 +28,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import software.iridium.api.authentication.domain.TenantLogoUrlUpdateRequest;
 import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.mapper.LoginDescriptorResponseMapper;
+import software.iridium.api.mapper.TenantLogoUpdateResponseMapper;
 import software.iridium.api.repository.LoginDescriptorEntityRepository;
+import software.iridium.api.updator.TenantLogoUrlUpdator;
 import software.iridium.api.util.AttributeValidator;
+import software.iridium.api.validator.TenantLogoUrlUpdateRequestValidator;
 import software.iridium.entity.LoginDescriptorEntity;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,12 +44,20 @@ class LoginDescriptorServiceTest {
   @Mock private LoginDescriptorEntityRepository mockLoginDescriptorRepository;
   @Mock private LoginDescriptorResponseMapper mockResponseMapper;
   @Mock private AttributeValidator mockAttributeValidator;
+  @Mock private TenantLogoUrlUpdateRequestValidator mockLogoUpdateRequestValidator;
+  @Mock private TenantLogoUrlUpdator mockLogoUrlUpdator;
+  @Mock private TenantLogoUpdateResponseMapper mockLogoUpdateResponseMapper;
   @InjectMocks private LoginDescriptorService subject;
 
   @AfterEach
   public void ensureNoUnexpectedMockInteractions() {
     Mockito.verifyNoMoreInteractions(
-        mockLoginDescriptorRepository, mockResponseMapper, mockAttributeValidator);
+        mockLoginDescriptorRepository,
+        mockResponseMapper,
+        mockAttributeValidator,
+        mockLogoUpdateRequestValidator,
+        mockLogoUrlUpdator,
+        mockLogoUpdateResponseMapper);
   }
 
   @Test
@@ -79,5 +92,27 @@ class LoginDescriptorServiceTest {
     assertThat(
         exception.getMessage(),
         is(equalTo("login descriptor not found for subdomain: " + subdomain)));
+  }
+
+  @Test
+  public void updateLogoURL_AllGood_BehavesAsExpected() {
+    final var request = new TenantLogoUrlUpdateRequest();
+    final var tenantId = "the tenant id";
+    final var entity = new LoginDescriptorEntity();
+
+    when(mockLoginDescriptorRepository.findByTenantId(same(tenantId)))
+        .thenReturn(Optional.of(entity));
+    when(mockLogoUrlUpdator.update(same(entity), same(request))).thenReturn(entity);
+    when(mockLoginDescriptorRepository.save(same(entity))).thenReturn(entity);
+    when(mockAttributeValidator.isUuid(anyString())).thenReturn(true);
+
+    subject.updateLogoURL(request, tenantId);
+
+    verify(mockAttributeValidator).isUuid(same(tenantId));
+    verify(mockLogoUpdateRequestValidator).validate(same(request));
+    verify(mockLoginDescriptorRepository).findByTenantId(same(tenantId));
+    verify(mockLogoUrlUpdator).update(same(entity), same(request));
+    verify(mockLoginDescriptorRepository).save(same(entity));
+    verify(mockLogoUpdateResponseMapper).map(same(entity));
   }
 }

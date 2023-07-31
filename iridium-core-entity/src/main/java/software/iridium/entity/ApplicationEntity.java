@@ -36,9 +36,6 @@ public class ApplicationEntity extends AbstractEntity {
   @Column(name = "redirect_uri", length = 255, nullable = true)
   private String redirectUri;
 
-  @Column(name = "icon_url", length = 255, nullable = true)
-  private String iconUrl;
-
   @Column(name = "tenant_id", length = 36, nullable = false)
   private String tenantId;
 
@@ -96,14 +93,6 @@ public class ApplicationEntity extends AbstractEntity {
 
   public void setPrivacyPolicyUrl(final String privacyPolicyUrl) {
     this.privacyPolicyUrl = privacyPolicyUrl;
-  }
-
-  public String getIconUrl() {
-    return iconUrl;
-  }
-
-  public void setIconUrl(final String iconUrl) {
-    this.iconUrl = iconUrl;
   }
 
   public String getTenantId() {
