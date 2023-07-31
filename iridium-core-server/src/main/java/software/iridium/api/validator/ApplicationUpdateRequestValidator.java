@@ -44,11 +44,6 @@ public class ApplicationUpdateRequestValidator {
     checkArgument(
         validator.isValidUrl(request.getRedirectUri()),
         "redirectUri must be a valid url: " + request.getRedirectUri());
-    if (validator.isNotBlank(request.getIconUrl())) {
-      checkArgument(
-          validator.isValidUrl(request.getIconUrl()),
-          "iconUrl must not be blank: " + request.getIconUrl());
-    }
 
     checkArgument(
         validator.isUuid(request.getApplicationTypeId()),

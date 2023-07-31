@@ -28,8 +28,6 @@ public class ApplicationUpdateRequest implements Serializable {
 
   private String redirectUri;
 
-  private String iconUrl;
-
   private String applicationTypeId;
 
   public String getName() {
@@ -70,14 +68,6 @@ public class ApplicationUpdateRequest implements Serializable {
 
   public void setRedirectUri(final String redirectUri) {
     this.redirectUri = redirectUri;
-  }
-
-  public String getIconUrl() {
-    return iconUrl;
-  }
-
-  public void setIconUrl(final String iconUrl) {
-    this.iconUrl = iconUrl;
   }
 
   public String getApplicationTypeId() {

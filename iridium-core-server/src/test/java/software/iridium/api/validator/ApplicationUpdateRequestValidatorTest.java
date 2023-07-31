@@ -44,7 +44,6 @@ class ApplicationUpdateRequestValidatorTest {
     final var homepageUrl = "homepage URL";
     final var privacyPolicyUrl = "the policy url";
     final var redirectURI = "redirect Uri";
-    final var iconUrl = "the icon url";
     final var applicationTypeId = "the app type id";
     final var request = new ApplicationUpdateRequest();
     request.setName(name);
@@ -52,7 +51,6 @@ class ApplicationUpdateRequestValidatorTest {
     request.setHomePageUrl(homepageUrl);
     request.setPrivacyPolicyUrl(privacyPolicyUrl);
     request.setRedirectUri(redirectURI);
-    request.setIconUrl(iconUrl);
     request.setApplicationTypeId(applicationTypeId);
 
     when(mockValidator.isNotBlankAndNoLongerThan(anyString(), anyInt())).thenReturn(true);
@@ -69,8 +67,6 @@ class ApplicationUpdateRequestValidatorTest {
     verify(mockValidator).isValidUrl(same(homepageUrl));
     verify(mockValidator).isValidUrl(same(privacyPolicyUrl));
     verify(mockValidator).isValidUrl(same(redirectURI));
-    verify(mockValidator).isValidUrl(same(iconUrl));
-    verify(mockValidator).isNotBlank(same(iconUrl));
     verify(mockValidator).isNotBlank(same(privacyPolicyUrl));
     verify(mockValidator).isUuid(same(applicationTypeId));
   }

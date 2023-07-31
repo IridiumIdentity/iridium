@@ -25,7 +25,7 @@ public class LoginDescriptorGenerator extends AbstractGenerator {
         YamlParser.readValue("login-descriptor.yaml", LoginDescriptorEntity.class);
     iridiumTenant.setLoginDescriptor(loginDescriptor);
     loginDescriptor.setTenant(iridiumTenant);
-    loginDescriptor.setIconUrl(loginDescriptor.getIconUrl());
+    loginDescriptor.setLogoURL(loginDescriptor.getLogoURL());
     entityManager.persist(loginDescriptor);
     flushAndCommitTransaction(entityManager);
     return loginDescriptor;

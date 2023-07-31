@@ -11,6 +11,21 @@
  */
 package software.iridium.api.authentication.domain;
 
+import java.io.Serial;
 import java.io.Serializable;
 
-public class LoginDescriptorCreateRequest implements Serializable {}
+public class TenantLogoUrlUpdateRequest implements Serializable {
+  public static final String MEDIA_TYPE =
+      "application/vnd.iridium.id.tenant-logo-update-request.1+json";
+  @Serial private static final long serialVersionUID = 8223234653447003365L;
+
+  private String logoUrl;
+
+  public String getLogoUrl() {
+    return logoUrl;
+  }
+
+  public void setLogoUrl(final String logoUrl) {
+    this.logoUrl = logoUrl;
+  }
+}

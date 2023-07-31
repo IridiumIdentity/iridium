@@ -37,8 +37,8 @@ public class LoginDescriptorEntity extends AbstractEntity {
   @Column(name = "page_title", length = 50, nullable = false)
   private String pageTitle = "Login | Powered by Iridium";
 
-  @Column(name = "icon_url", length = 2048, nullable = false)
-  private String iconUrl = "";
+  @Column(name = "logo_url", length = 2048, nullable = false)
+  private String logoURL = "";
 
   @OneToOne(mappedBy = "loginDescriptor", optional = false)
   private TenantEntity tenant;
@@ -91,12 +91,12 @@ public class LoginDescriptorEntity extends AbstractEntity {
     this.pageTitle = pageTitle;
   }
 
-  public String getIconUrl() {
-    return iconUrl;
+  public String getLogoURL() {
+    return logoURL;
   }
 
-  public void setIconUrl(final String iconPath) {
-    this.iconUrl = iconPath;
+  public void setLogoURL(final String iconPath) {
+    this.logoURL = iconPath;
   }
 
   public TenantEntity getTenant() {

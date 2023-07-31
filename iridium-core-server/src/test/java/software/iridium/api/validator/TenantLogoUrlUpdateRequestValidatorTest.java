@@ -9,41 +9,45 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package software.iridium.api.controller;
+package software.iridium.api.validator;
 
-import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.authentication.domain.TenantLogoUrlUpdateRequest;
-import software.iridium.api.service.LoginDescriptorService;
+import software.iridium.api.util.AttributeValidator;
 
 @ExtendWith(MockitoExtension.class)
-class LoginDescriptorControllerTest {
+class TenantLogoUrlUpdateRequestValidatorTest {
 
-  @Mock private LoginDescriptorService mockDescriptorService;
-  @InjectMocks private LoginDescriptorController subject;
+  @Mock private AttributeValidator mockValidator;
+  @InjectMocks private TenantLogoUrlUpdateRequestValidator subject;
 
-  @Test
-  public void get_AllGood_BehavesAsExpected() {
-    final var clientId = "the client id";
-
-    subject.getBySubdomain(clientId);
-
-    verify(mockDescriptorService).getBySubdomain(same(clientId));
+  @AfterEach
+  public void ensureNoUnexpectedMockInteractions() {
+    Mockito.verifyNoMoreInteractions(mockValidator);
   }
 
   @Test
-  public void updateLogoURL_AllGood_BehavesAsExpected() {
+  public void validate_AllGood_BehavesAsExpected() {
+    final var logoUrl = "the url";
     final var request = new TenantLogoUrlUpdateRequest();
-    final var tenantId = "the id";
+    request.setLogoUrl(logoUrl);
 
-    subject.updateLogoURL(request, tenantId);
+    when(mockValidator.isNotBlankAndNoLongerThan(anyString(), anyInt())).thenCallRealMethod();
+    when(mockValidator.isValidUrl(same(logoUrl))).thenReturn(true);
 
-    verify(mockDescriptorService).updateLogoURL(same(request), same(tenantId));
+    subject.validate(request);
+
+    verify(mockValidator).isNotBlankAndNoLongerThan(same(logoUrl), eq(1024));
+    verify(mockValidator).isValidUrl(same(logoUrl));
   }
 }
