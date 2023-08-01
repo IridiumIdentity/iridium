@@ -12,6 +12,7 @@
 package software.iridium.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import software.iridium.api.authentication.domain.LoginDescriptorResponse;
 import software.iridium.api.authentication.domain.TenantLogoUrlUpdateRequest;
@@ -42,5 +43,13 @@ public class LoginDescriptorController {
       @PathVariable(value = "tenant-id") final String tenantId) {
 
     return descriptorService.updateLogoURL(request, tenantId);
+  }
+
+  @GetMapping(
+          value = "tenants/{tenant-id}/login-descriptors",
+          produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  public LoginDescriptorResponse getByTenantId(@PathVariable(value = "tenant-id") final String tenantId) {
+    return descriptorService.getByTenantId(tenantId);
   }
 }

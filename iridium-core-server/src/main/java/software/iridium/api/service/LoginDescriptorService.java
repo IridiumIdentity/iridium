@@ -67,4 +67,19 @@ public class LoginDescriptorService {
     return logoUpdateResponseMapper.map(
         loginDescriptorRepository.save(logoUrlUpdator.update(loginDescriptor, request)));
   }
+
+  @Transactional(propagation = Propagation.SUPPORTS)
+  public LoginDescriptorResponse getByTenantId(final String tenantId) {
+    checkArgument(attributeValidator.isUuid(tenantId), "tenantId must be valid uuid");
+
+    final var loginDescriptor =
+            loginDescriptorRepository
+                    .findByTenantId(tenantId)
+                    .orElseThrow(
+                            () ->
+                                    new ResourceNotFoundException(
+                                            "login descriptor not found for tenant id"));
+
+    return responseMapper.map(loginDescriptor);
+  }
 }
