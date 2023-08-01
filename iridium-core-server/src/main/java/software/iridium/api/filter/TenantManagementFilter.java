@@ -57,7 +57,7 @@ public class TenantManagementFilter extends OncePerRequestFilter {
         final var tenantId = path.substring(firstSegmentMarkerIndex + 1, secondSegmentMarkerIndex);
         boolean isManagedTenant = verifyOwnershipClaim(request, tenantId);
         if (!isManagedTenant) {
-          return;
+          throw new NotAuthorizedException();
         }
       } else {
         logger.info("pulling tenant info in other way");
