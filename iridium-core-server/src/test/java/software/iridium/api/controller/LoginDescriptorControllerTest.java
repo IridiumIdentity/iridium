@@ -46,4 +46,13 @@ class LoginDescriptorControllerTest {
 
     verify(mockDescriptorService).updateLogoURL(same(request), same(tenantId));
   }
+
+  @Test
+  public void getByTenantId_AllGood_BehavesAsExpected() {
+    final var tenantId = "the tenantId id";
+
+    subject.getByTenantId(tenantId);
+
+    verify(mockDescriptorService).getByTenantId(same(tenantId));
+  }
 }
