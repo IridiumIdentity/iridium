@@ -73,12 +73,10 @@ public class LoginDescriptorService {
     checkArgument(attributeValidator.isUuid(tenantId), "tenantId must be valid uuid");
 
     final var loginDescriptor =
-            loginDescriptorRepository
-                    .findByTenantId(tenantId)
-                    .orElseThrow(
-                            () ->
-                                    new ResourceNotFoundException(
-                                            "login descriptor not found for tenant id"));
+        loginDescriptorRepository
+            .findByTenantId(tenantId)
+            .orElseThrow(
+                () -> new ResourceNotFoundException("login descriptor not found for tenant id"));
 
     return responseMapper.map(loginDescriptor);
   }

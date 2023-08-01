@@ -46,10 +46,10 @@ public class LoginDescriptorController {
   }
 
   @GetMapping(
-          value = "tenants/{tenant-id}/login-descriptors",
-          produces = MediaType.APPLICATION_JSON_VALUE
-  )
-  public LoginDescriptorResponse getByTenantId(@PathVariable(value = "tenant-id") final String tenantId) {
+      value = "tenants/{tenant-id}/login-descriptors",
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public LoginDescriptorResponse getByTenantId(
+      @PathVariable(value = "tenant-id") final String tenantId) {
     return descriptorService.getByTenantId(tenantId);
   }
 }

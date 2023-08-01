@@ -123,7 +123,7 @@ class LoginDescriptorServiceTest {
 
     when(mockAttributeValidator.isUuid(same(tenantId))).thenReturn(true);
     when(mockLoginDescriptorRepository.findByTenantId(same(tenantId)))
-            .thenReturn(Optional.of(loginDescriptor));
+        .thenReturn(Optional.of(loginDescriptor));
 
     subject.getByTenantId(tenantId);
 
@@ -137,16 +137,13 @@ class LoginDescriptorServiceTest {
     final var tenantId = "tenant id";
 
     when(mockAttributeValidator.isUuid(same(tenantId))).thenReturn(true);
-    when(mockLoginDescriptorRepository.findByTenantId(same(tenantId)))
-            .thenReturn(Optional.empty());
+    when(mockLoginDescriptorRepository.findByTenantId(same(tenantId))).thenReturn(Optional.empty());
 
     final var exception =
-            assertThrows(ResourceNotFoundException.class, () -> subject.getByTenantId(tenantId));
+        assertThrows(ResourceNotFoundException.class, () -> subject.getByTenantId(tenantId));
 
     verify(mockAttributeValidator).isUuid(same(tenantId));
     verify(mockLoginDescriptorRepository).findByTenantId(same(tenantId));
-    assertThat(
-            exception.getMessage(),
-            is(equalTo("login descriptor not found for tenant id")));
+    assertThat(exception.getMessage(), is(equalTo("login descriptor not found for tenant id")));
   }
 }
