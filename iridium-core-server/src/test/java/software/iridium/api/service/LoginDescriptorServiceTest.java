@@ -115,4 +115,35 @@ class LoginDescriptorServiceTest {
     verify(mockLoginDescriptorRepository).save(same(entity));
     verify(mockLogoUpdateResponseMapper).map(same(entity));
   }
+
+  @Test
+  public void getByTenantId_AllGood_BehavesAsExpected() {
+    final var tenantId = "tenant id";
+    final var loginDescriptor = new LoginDescriptorEntity();
+
+    when(mockAttributeValidator.isUuid(same(tenantId))).thenReturn(true);
+    when(mockLoginDescriptorRepository.findByTenantId(same(tenantId)))
+        .thenReturn(Optional.of(loginDescriptor));
+
+    subject.getByTenantId(tenantId);
+
+    verify(mockAttributeValidator).isUuid(same(tenantId));
+    verify(mockLoginDescriptorRepository).findByTenantId(same(tenantId));
+    verify(mockResponseMapper).map(same(loginDescriptor));
+  }
+
+  @Test
+  public void getByTenantId_LoginDescriptorNotFound_ExceptionThrown() {
+    final var tenantId = "tenant id";
+
+    when(mockAttributeValidator.isUuid(same(tenantId))).thenReturn(true);
+    when(mockLoginDescriptorRepository.findByTenantId(same(tenantId))).thenReturn(Optional.empty());
+
+    final var exception =
+        assertThrows(ResourceNotFoundException.class, () -> subject.getByTenantId(tenantId));
+
+    verify(mockAttributeValidator).isUuid(same(tenantId));
+    verify(mockLoginDescriptorRepository).findByTenantId(same(tenantId));
+    assertThat(exception.getMessage(), is(equalTo("login descriptor not found for tenant id")));
+  }
 }
