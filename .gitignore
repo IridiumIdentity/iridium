@@ -11,6 +11,8 @@ iridium-*-bin.tar.gz
 create.sql
 drop.sql
 
+# angular client
+iridium-angular-client/dist
 # site
 site/.venv/
 site/site
