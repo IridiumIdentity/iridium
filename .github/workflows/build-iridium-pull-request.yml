@@ -34,8 +34,8 @@ jobs:
      - name: lint angular clients
        run: npm run lint
        working-directory: ./iridium-angular-client
-     - name: build angular clients
-       run: npm run build-all
+     - name: build
+       run: npm run build
        working-directory: ./iridium-angular-client
 
      
