@@ -38,8 +38,8 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "projects/iridium-ui/src/**/*.ts",
-              "projects/iridium-ui/src/**/*.html"
+              "projects/ngx-iridium-client/src/**/*.ts",
+              "projects/ngx-iridium-client/src/**/*.html"
             ]
           }
         }
