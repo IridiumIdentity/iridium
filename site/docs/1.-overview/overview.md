@@ -19,7 +19,7 @@ Study the diagram below that describes how the authorization code grant works, b
     ol { list-style-type: upper-alpha; }
 </style>
 
-  1. The resource owner (end-user) visits a third-party client (web application)  
+1. The resource owner (end-user) visits a third-party client (web application)  
 2. The resource owner selects the “sign up with Google” button in the client. The user-agent (browser) directs the resource owner to the Google sign-in page.  
 3. The resource owner (end-user) authenticates and authorizes the authorization server to grant access to the resource owner's information (in this case it could be the email address and profile information) to the third-party client.  
 4. After the resource owner (end-user) authorizes access, the authorization server redirects the user-agent (browser) back to the original third-party client with an authorization code and typically a state parameter  

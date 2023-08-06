@@ -1,4 +1,4 @@
-# Building Iridium from source
+# Building from source
 
 ### Prerequisites
 
