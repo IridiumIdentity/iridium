@@ -1,4 +1,4 @@
-## What is iridium?
+# What is iridium?
 Iridium is an OAuth2.x-compliant identity management system.
 
 ## What problem does it solve?
