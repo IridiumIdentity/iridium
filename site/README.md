@@ -30,6 +30,8 @@ $ pip freeze > requirements.txt
 
 * `mike serve` - Start the live-reloading docs server.
 * `mike deploy NEXT` - Publish a new revision of `NEXT` version locally
+* `mike deploy {version} latest -u --push` - publish and commit a new version and associate that version with the `latest` alias.
+* `mike set-default {version}  --push` - make the newly created version the default
 
 ## In case mkdocs or mike isn't found
 
