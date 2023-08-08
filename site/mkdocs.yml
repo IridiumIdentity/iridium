@@ -5,6 +5,8 @@ plugins:
   - search
   - mike
 theme:
+  features:
+    - navigation.instant
   name: material
   custom_dir: overrides
   favicon: images/favicon.png
