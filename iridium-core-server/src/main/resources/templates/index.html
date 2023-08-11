@@ -10,6 +10,8 @@
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     <!-- Required Material Web JavaScript library -->
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/register.js}"></script>
+
 
 </head>
 <style th:inline="css">
@@ -18,6 +20,7 @@
         background-size: contain
     }
 </style>
+
 <body>
 
     <div class="mdc-card card-container">
@@ -29,8 +32,27 @@
 
         </form>
 
-
             <div class="button-container">
+                <label class="mdc-text-field mdc-text-field--filled">
+                    <span class="mdc-text-field__ripple"></span>
+                    <span class="mdc-floating-label" id="email-label-id">Email</span>
+                    <input class="mdc-text-field__input email-address-input" type="text" aria-labelledby="email-label-id">
+                    <span class="mdc-line-ripple"></span>
+                </label>
+                <div class="passwordless-button-container">
+                <button th:attr="onclick=|register()|"
+                        class="mdc-button mdc-button--outlined mdc-button--icon-leading github-button passwordless-button-container-item">
+                    <span class="mdc-button__ripple"></span>
+                    <span class="mdc-button__focus-ring"></span>
+                    <span class="mdc-button__label"  th:text="Login"></span>
+                </button>
+                    <button th:attr="onclick=|register()|"
+                            class="mdc-button mdc-button--outlined mdc-button--icon-leading github-button passwordless-button-container-item">
+                        <span class="mdc-button__ripple"></span>
+                        <span class="mdc-button__focus-ring"></span>
+                        <span class="mdc-button__label"  th:text="Register"></span>
+                    </button>
+                </div>
                 <form method="post" th:action="@{/oauth/external/authorize(response_type=${externalDescriptor.responseType},redirect_uri=${param.redirect_uri},client_id=${param.client_id},scope=${externalDescriptor.scope},state=${param.state},provider=${externalDescriptor.name})}" th:each="externalDescriptor : ${externalProviderDescriptors}">
                     <button type="submit" value="Submit"
                        class="mdc-button mdc-button--outlined mdc-button--icon-leading github-button">
@@ -44,7 +66,9 @@
     </div>
 
 <div>
-
+    <script>
+        mdc.textField.MDCTextField.attachTo(document.querySelector('.mdc-text-field'));
+    </script>
 </div>
 </body>
 </html>

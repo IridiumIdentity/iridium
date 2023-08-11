@@ -52,6 +52,19 @@ html, body {
     text-align: center;
 }
 
+.passwordless-button-container {
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+.passwordless-button-container-item {
+    flex-grow: 1;
+    margin: 5px;
+}
+
 .button-container > * {
     margin: 10px 0;
 }

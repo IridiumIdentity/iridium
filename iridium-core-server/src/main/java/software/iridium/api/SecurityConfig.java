@@ -47,6 +47,7 @@ public class SecurityConfig {
                         "/login",
                         "/styles/**",
                         "img/**",
+                        "/js/**",
                         "/oauth/external/authorize",
                         "/identities",
                         "/authorize",
