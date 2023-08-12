@@ -1,8 +1,8 @@
 # Quickstart with Angular
 
 This quickstart will show you how to secure an Angular application using Iridium.  
-First, you’ll need to navigate to https://conduct.iridium.software to log in to the Iridium management UI.  
-You can choose Github or Google as your preferred provider. 
+First, you’ll need to navigate to [https://conduct.iridium.software](https://conduct.iridium.software) to log in to the Iridium management UI.  
+You can choose GitHub or Google as your preferred provider. 
 After authorizing the application you’ll be redirected back to the Iridium UI.  
 
 From here, select the “Create Tenant” button.
@@ -27,7 +27,7 @@ Select the “Add Provider” box to open the modal.
 
 ![Add Provider](../images/click-add-provider.png)
 
-For the provider select “Github”.  Fill out the fields with your GitHub application credentials
+For the provider select “GitHub”.  Fill out the fields with your GitHub application credentials
 
 ![Add GitHub Provider](../images/add-identity-provider.png)
 
@@ -86,7 +86,7 @@ Navigate to `localhost:4300`, select login in the top menu bar.
 
 ![Login From Client App](../images/click-login.png)
 
-You should be redirected to your personalized login domain.  Select “Login With Github”   
+You should be redirected to your personalized login domain.  Select “Login With GitHub”   
 
 ![Login with GitHub](../images/login-box-with-github.png)
 
@@ -101,7 +101,7 @@ Select “Authorize ${your-github-name}” and you should be redirected back to 
 Congratulations, you have successfully registered and secured an application with Iridium!  
 This project is still in its early stages, we’d like you to join us.   
 If you have any comments, questions, or concerns (maybe a new framework client built for you) join the
-community in GitHub discussions here: https://github.com/orgs/IridiumIdentity/discussions.
+community in GitHub discussions here: [https://github.com/orgs/IridiumIdentity/discussions](https://github.com/orgs/IridiumIdentity/discussions).
 
 
 
