@@ -45,6 +45,7 @@ class LoginDescriptorResponseMapperTest {
     final var usernameErrorHint = "the username error hint";
     final var usernameType = "the type";
     final var usernamePlaceholder = "the placeholder";
+    final var tenantId = "the tenant id";
     final var entity = new LoginDescriptorEntity();
     entity.setLogoURL(iconPath);
     entity.setPageTitle(pageTitle);
@@ -55,6 +56,7 @@ class LoginDescriptorResponseMapperTest {
     entity.setUsernamePlaceholder(usernamePlaceholder);
     final var tenant = new TenantEntity();
     entity.setTenant(tenant);
+    tenant.setId(tenantId);
     final var externalProviders = new ArrayList<ExternalIdentityProviderEntity>();
     final var descriptorResponses = new ArrayList<ExternalProviderLoginDescriptorResponse>();
     tenant.setExternalIdentityProviders(externalProviders);
@@ -66,6 +68,7 @@ class LoginDescriptorResponseMapperTest {
     verify(mockResponseMapper).mapList(same(externalProviders));
 
     MatcherAssert.assertThat(response.getTenantLogoUrl(), is(equalTo(iconPath)));
+    MatcherAssert.assertThat(response.getTenantId(), is(equalTo(tenantId)));
     MatcherAssert.assertThat(response.getPageTitle(), is(equalTo(pageTitle)));
     MatcherAssert.assertThat(response.getDisplayName(), is(equalTo(tenantName)));
     MatcherAssert.assertThat(response.getUsernameErrorHint(), is(equalTo(usernameErrorHint)));

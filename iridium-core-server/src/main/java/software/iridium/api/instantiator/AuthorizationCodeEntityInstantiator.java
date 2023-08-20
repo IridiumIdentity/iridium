@@ -55,4 +55,26 @@ public class AuthorizationCodeEntityInstantiator {
         DateUtils.addMinutesToCurrentTime(AUTHORIZATION_CODE_EXPIRATION_IN_MINUTES));
     return entity;
   }
+
+  @Transactional(propagation = Propagation.REQUIRED)
+  public AuthorizationCodeEntity instantiate(
+      final IdentityEntity identity,
+      final String redirectUri,
+      final String clientId,
+      final String codeChallengeMethod,
+      final String codeChallenge) {
+    logger.info("instantiating auth code for: {}", identity.getId());
+    final var entity = new AuthorizationCodeEntity();
+    entity.setClientId(clientId);
+    entity.setIdentityId(identity.getId());
+    entity.setCodeChallengeMethod(CodeChallengeMethod.valueOf(codeChallengeMethod));
+    entity.setCodeChallenge(codeChallenge);
+    entity.setRedirectUri(redirectUri);
+    entity.setAuthorizationCode(
+        encoderUtils.generateCryptoSecureString(AUTHORIZATION_CODE_MAX_LENGTH));
+    // todo: make this a component for easier testing
+    entity.setExpiration(
+        DateUtils.addMinutesToCurrentTime(AUTHORIZATION_CODE_EXPIRATION_IN_MINUTES));
+    return entity;
+  }
 }

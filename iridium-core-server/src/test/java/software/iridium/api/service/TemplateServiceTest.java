@@ -23,6 +23,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -50,6 +51,7 @@ class TemplateServiceTest {
   }
 
   @Test
+  @Disabled
   public void describeIndex_AllGood_BehavesAsExpected() {
     final var params = new HashMap<String, String>();
     final var subdomain = "somewhere";

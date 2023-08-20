@@ -24,9 +24,10 @@ public class LoginDescriptorResponseMapper {
   public LoginDescriptorResponse map(final LoginDescriptorEntity entity) {
 
     final var response = new LoginDescriptorResponse();
+    final var tenant = entity.getTenant();
     response.setExternalProviderDescriptors(
-        externalProviderDescriptorMapper.mapList(
-            entity.getTenant().getExternalIdentityProviders()));
+        externalProviderDescriptorMapper.mapList(tenant.getExternalIdentityProviders()));
+    response.setTenantId(tenant.getId());
     response.setTenantLogoUrl(entity.getLogoURL());
     response.setPageTitle(entity.getPageTitle());
     response.setDisplayName(entity.getDisplayName());

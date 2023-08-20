@@ -35,6 +35,8 @@ public class LoginDescriptorResponse implements Serializable {
 
   private String tenantLogoUrl;
 
+  private String tenantId;
+
   private List<ExternalProviderLoginDescriptorResponse> externalProviderDescriptors;
 
   public String getDisplayName() {
@@ -100,5 +102,13 @@ public class LoginDescriptorResponse implements Serializable {
   public void setExternalProviderDescriptors(
       final List<ExternalProviderLoginDescriptorResponse> externalProviderDescriptors) {
     this.externalProviderDescriptors = externalProviderDescriptors;
+  }
+
+  public String getTenantId() {
+    return tenantId;
+  }
+
+  public void setTenantId(final String tenantId) {
+    this.tenantId = tenantId;
   }
 }

@@ -60,6 +60,11 @@
             <version>6.2.4.Final</version>
         </dependency>
         <dependency>
+            <groupId>co.nstant.in</groupId>
+            <artifactId>cbor</artifactId>
+            <version>0.8</version>
+        </dependency>
+        <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
             <version>1.7</version>

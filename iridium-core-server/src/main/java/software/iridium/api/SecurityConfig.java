@@ -49,7 +49,7 @@ public class SecurityConfig {
                         "img/**",
                         "/js/**",
                         "/oauth/external/authorize",
-                        "/identities",
+                        "/identities/**",
                         "/authorize",
                         "/authenticate",
                         "oauth/authorize",

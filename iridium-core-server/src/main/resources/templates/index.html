@@ -25,34 +25,47 @@
 
     <div class="mdc-card card-container">
 
-        <form class="login-container" method="post" th:action="@{/authenticate(response_type=${param.response_type},state=${param.state},redirect_uri=${param.redirect_uri},client_id=${param.client_id},code_challenge_method=${param.code_challenge_method},code_challenge=${param.code_challenge})}" th:object="${authenticationRequest}" style="height: ${containerHeight}">
+        <form class="login-container" th:id="passkeyForm" method="post" th:action="@{/identities(response_type=${param.response_type},state=${param.state},redirect_uri=${param.redirect_uri},client_id=${param.client_id},code_challenge_method=${param.code_challenge_method},code_challenge=${param.code_challenge})}" th:object="${createPasskeyRequest}" style="height: ${containerHeight}">
             <div class="tenant-logo-container tenant-logo-container-background">
 
             </div>
 
-        </form>
-
-            <div class="button-container">
-                <label class="mdc-text-field mdc-text-field--filled">
-                    <span class="mdc-text-field__ripple"></span>
-                    <span class="mdc-floating-label" id="email-label-id">Email</span>
-                    <input class="mdc-text-field__input email-address-input" type="text" aria-labelledby="email-label-id">
-                    <span class="mdc-line-ripple"></span>
-                </label>
-                <div class="passwordless-button-container">
-                <button th:attr="onclick=|register()|"
+            <label class="mdc-text-field mdc-text-field--filled">
+                <span class="mdc-text-field__ripple"></span>
+                <span class="mdc-floating-label" id="email-label-id">Email</span>
+                <input class="mdc-text-field__input email-address-input" id="handle" th:field="*{handle}" type="text" aria-labelledby="email-label-id">
+                <span class="mdc-line-ripple"></span>
+            </label>
+            <div class="passwordless-button-container">
+                <input type="hidden" id="registrationChallenge" th:value="${registrationChallenge}"/>
+                <input type="hidden" id="id" th:field="*{id}"/>
+                <input type="hidden" id="rawId" th:field="*{rawId}" />
+                <input type="hidden" id="type" th:field="*{type}"  />
+                <input type="hidden" id="authenticatorAttachment" th:field="*{authenticatorAttachment}"/>
+                <input type="hidden" id="attestationObject" th:field="*{attestationObject}"/>
+                <input type="hidden" id="clientDataJSON" th:field="*{clientDataJSON}"/>
+                <input type="hidden" id="authenticatorData" th:field="*{authenticatorData}"/>
+                <input type="hidden" id="publicKey" th:field="*{publicKey}"/>
+                <input type="hidden" id="algorithm" th:field="*{algorithm}"/>
+                <input type="hidden" id="transports" th:field="*{transports}"/>
+                <button th:attr="onclick=|register('login')|"
                         class="mdc-button mdc-button--outlined mdc-button--icon-leading github-button passwordless-button-container-item">
                     <span class="mdc-button__ripple"></span>
                     <span class="mdc-button__focus-ring"></span>
                     <span class="mdc-button__label"  th:text="Login"></span>
                 </button>
-                    <button th:attr="onclick=|register()|"
-                            class="mdc-button mdc-button--outlined mdc-button--icon-leading github-button passwordless-button-container-item">
-                        <span class="mdc-button__ripple"></span>
-                        <span class="mdc-button__focus-ring"></span>
-                        <span class="mdc-button__label"  th:text="Register"></span>
-                    </button>
-                </div>
+                <button type="button" th:attr="onclick=|register('register')|"
+                        class="mdc-button mdc-button--outlined mdc-button--icon-leading github-button passwordless-button-container-item">
+                    <span class="mdc-button__ripple"></span>
+                    <span class="mdc-button__focus-ring"></span>
+                    <span class="mdc-button__label" th:text="Register"></span>
+                </button>
+            </div>
+
+        </form>
+
+            <div class="button-container">
+
                 <form method="post" th:action="@{/oauth/external/authorize(response_type=${externalDescriptor.responseType},redirect_uri=${param.redirect_uri},client_id=${param.client_id},scope=${externalDescriptor.scope},state=${param.state},provider=${externalDescriptor.name})}" th:each="externalDescriptor : ${externalProviderDescriptors}">
                     <button type="submit" value="Submit"
                        class="mdc-button mdc-button--outlined mdc-button--icon-leading github-button">

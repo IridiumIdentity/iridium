@@ -18,15 +18,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import software.iridium.api.authentication.domain.CreatePasskeyRequest;
+import software.iridium.api.base.error.ResourceNotFoundException;
+import software.iridium.api.instantiator.ChallengeEntityInstantiator;
+import software.iridium.api.repository.ChallengeEntityRepository;
+import software.iridium.api.repository.TenantEntityRepository;
 import software.iridium.api.util.SubdomainExtractor;
+import software.iridium.entity.ChallengeType;
 
 @Service
 public class TemplateService {
 
   @Autowired private SubdomainExtractor subdomainExtractor;
   @Autowired private LoginDescriptorService loginDescriptorService;
+  @Autowired private TenantEntityRepository tenantRepository;
+  @Autowired private ChallengeEntityInstantiator challengeInstantiator;
+  @Autowired private ChallengeEntityRepository challengeRepository;
 
-  @Transactional(propagation = Propagation.SUPPORTS)
+  @Transactional(propagation = Propagation.REQUIRED)
   public String describeIndex(
       final Model model,
       final HttpServletRequest servletRequest,
@@ -36,8 +45,18 @@ public class TemplateService {
 
     final var loginDescriptor = loginDescriptorService.getBySubdomain(subdomain);
 
+    final var tenant =
+        tenantRepository
+            .findBySubdomain(subdomain)
+            .orElseThrow(() -> new ResourceNotFoundException("tenant not found"));
+
+    final var registrationChallenge =
+        challengeRepository.save(challengeInstantiator.instantiate(tenant, ChallengeType.CREATION));
+
     model.addAttribute("displayName", loginDescriptor.getDisplayName());
     model.addAttribute("tenantLogoUrl", loginDescriptor.getTenantLogoUrl());
+    model.addAttribute("registrationChallenge", registrationChallenge.getChallenge());
+    model.addAttribute("createPasskeyRequest", new CreatePasskeyRequest());
     model.addAttribute(
         "externalProviderDescriptors", loginDescriptor.getExternalProviderDescriptors());
 

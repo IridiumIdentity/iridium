@@ -13,34 +13,29 @@ package software.iridium.api.validator;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import software.iridium.api.util.AttributeValidator;
-import software.iridium.api.util.AuthorizationCodeFlowConstants;
 
 @Component
 public class AuthenticationRequestParamValidator {
 
   @Autowired private AttributeValidator attributeValidator;
 
-  public void validate(final Map<String, String> params) {
+  public void validate(
+      final String responseType,
+      final String state,
+      final String redirectUri,
+      final String clientId,
+      final String codeChallengeMethod,
+      final String codeChallenge) {
+    checkArgument(attributeValidator.isNotBlank(clientId), "clientId must not be blank");
     checkArgument(
-        attributeValidator.isNotBlank(
-            params.getOrDefault(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), "")),
-        "clientId must not be blank");
-    checkArgument(
-        attributeValidator.isNotBlank(
-            params.getOrDefault(
-                AuthorizationCodeFlowConstants.CODE_CHALLENGE_METHOD.getValue(), "")),
+        attributeValidator.isNotBlank(codeChallengeMethod),
         "code_challenge_method must not be blank");
-    checkArgument(
-        attributeValidator.isNotBlank(
-            params.getOrDefault(AuthorizationCodeFlowConstants.CODE_CHALLENGE.getValue(), "")),
-        "code_challenge must not be blank");
-    checkArgument(
-        attributeValidator.isNotBlank(
-            params.getOrDefault(AuthorizationCodeFlowConstants.REDIRECT_URI.getValue(), "")),
-        "redirect_uri must not be blank");
+    checkArgument(attributeValidator.isNotBlank(codeChallenge), "code_challenge must not be blank");
+    checkArgument(attributeValidator.isNotBlank(redirectUri), "redirect_uri must not be blank");
+    checkArgument(attributeValidator.isNotBlank(state), "state must not be blank");
+    checkArgument(attributeValidator.isNotBlank(responseType), "response_type must not be blank");
   }
 }

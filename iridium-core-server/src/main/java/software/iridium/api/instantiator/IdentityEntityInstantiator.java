@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import software.iridium.api.authentication.domain.CreatePasskeyRequest;
 import software.iridium.api.authentication.domain.GithubProfileResponse;
 import software.iridium.entity.ExternalIdentityProviderEntity;
 import software.iridium.entity.IdentityEmailEntity;
@@ -34,6 +35,13 @@ public class IdentityEntityInstantiator {
     identity.setExternalId(response.getId());
     propertyInstantiator.instantiateGithubProperties(response, identity);
     return identity;
+  }
+
+  @Transactional(propagation = Propagation.REQUIRED)
+  public IdentityEntity instantiate(final CreatePasskeyRequest request, final String tenantId) {
+    final IdentityEntity entity = instantiateIdentityAndAssociate(request.getHandle());
+    entity.setParentTenantId(tenantId);
+    return entity;
   }
 
   private IdentityEntity instantiateIdentityAndAssociate(final String response) {
