@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <artifactId>iridium</artifactId>
     <groupId>software.iridium</groupId>
-    <version>0.2.1</version>
+    <version>0.2.2-SNAPSHOT</version>
 
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
