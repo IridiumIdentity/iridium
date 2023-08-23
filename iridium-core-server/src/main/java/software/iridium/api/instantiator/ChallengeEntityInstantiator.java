@@ -11,12 +11,15 @@
  */
 package software.iridium.api.instantiator;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import software.iridium.api.util.DateUtils;
+import software.iridium.api.util.OriginExtractor;
 import software.iridium.entity.ChallengeEntity;
 import software.iridium.entity.ChallengeType;
 import software.iridium.entity.TenantEntity;
@@ -29,9 +32,13 @@ public class ChallengeEntityInstantiator {
   private static final int length = 23;
   private static final int registrationWindow = 10;
 
+  @Autowired private OriginExtractor originExtractor;
+
   @Transactional(propagation = Propagation.REQUIRED)
-  public ChallengeEntity instantiate(final TenantEntity tenant, final ChallengeType type) {
+  public ChallengeEntity instantiate(
+      final TenantEntity tenant, final ChallengeType type, final HttpServletRequest request) {
     try {
+
       final var challenge = new ChallengeEntity();
       challenge.setTenant(tenant);
       final var secureRandom = SecureRandom.getInstanceStrong();
@@ -44,6 +51,8 @@ public class ChallengeEntityInstantiator {
       challenge.setChallenge(secureChallenge);
       challenge.setType(type);
       challenge.setExpiration(DateUtils.addMinutesToCurrentTime(registrationWindow));
+      // todo: set origin
+      challenge.setOrigin(originExtractor.extract(request));
       return challenge;
 
     } catch (NoSuchAlgorithmException e) {

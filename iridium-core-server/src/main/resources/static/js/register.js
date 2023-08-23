@@ -37,14 +37,6 @@ function register(action) {
                         {
                             type: "public-key",
                             alg: -7 // "ES256"
-                        },
-                        {
-                            type: "public-key",
-                            alg: -8 // "Ed25519"
-                        },
-                        {
-                            type: "public-key",
-                            alg: -257 // "RS256"
                         }
                     ],
                     authenticatorSelection: {
@@ -68,11 +60,13 @@ function register(action) {
             var form = document.getElementById('passkeyForm')
             // Return authenticator data ArrayBuffer
             const authenticatorData = response.getAuthenticatorData();
-            console.log('authenticator data ', enc.decode(authenticatorData));
-
+            console.log('decoded attestation object data byte length' + newCredentialInfo.response.attestationObject.byteLength);
+            console.log( newCredentialInfo.response.attestationObject);
             // Return public key ArrayBuffer
             const pk = response.getPublicKey();
-            console.log('pk ', enc.decode(pk));
+
+            console.log('pk decoded ', enc.decode(pk));
+            console.log('pk ', pk);
 
             // Return public key algorithm identifier
             const pkAlgo = response.getPublicKeyAlgorithm();
@@ -87,9 +81,9 @@ function register(action) {
             form.elements['type'].value = newCredentialInfo.type;
             form.elements['authenticatorAttachment'].value = newCredentialInfo.authenticatorAttachment;
             form.elements['clientDataJSON'].value = enc.decode(response.clientDataJSON);
-            form.elements['attestationObject'].value = newCredentialInfo.response.attestationObject
+            form.elements['attestationObject'].value = newCredentialInfo.response.attestationObject;
             form.elements['authenticatorData'].value = response.getAuthenticatorData();
-            form.elements['publicKey'].value = response.getPublicKey();
+            form.elements['publicKey'].value = new Int8Array(response.getPublicKey());
             form.elements['algorithm'].value = response.getPublicKeyAlgorithm();
             form.elements['transports'].value = response.getTransports();
 

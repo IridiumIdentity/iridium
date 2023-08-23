@@ -25,6 +25,8 @@ public class WebAuthNClientData implements Serializable {
 
   private String crossOrigin;
 
+  private String topOrigin;
+
   public String getType() {
     return type;
   }
@@ -55,5 +57,13 @@ public class WebAuthNClientData implements Serializable {
 
   public void setCrossOrigin(final String crossOrigin) {
     this.crossOrigin = crossOrigin;
+  }
+
+  public String getTopOrigin() {
+    return topOrigin;
+  }
+
+  public void setTopOrigin(final String topOrigin) {
+    this.topOrigin = topOrigin;
   }
 }

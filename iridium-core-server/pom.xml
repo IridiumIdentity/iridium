@@ -60,9 +60,29 @@
             <version>6.2.4.Final</version>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-cbor</artifactId>
+            <version>2.15.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.15.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.15.2</version>
+        </dependency>
+        <dependency>
             <groupId>co.nstant.in</groupId>
             <artifactId>cbor</artifactId>
             <version>0.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.iot.cbor</groupId>
+            <artifactId>cbor</artifactId>
+            <version>0.01.02</version>
         </dependency>
         <dependency>
             <groupId>commons-validator</groupId>

@@ -51,7 +51,8 @@ public class TemplateService {
             .orElseThrow(() -> new ResourceNotFoundException("tenant not found"));
 
     final var registrationChallenge =
-        challengeRepository.save(challengeInstantiator.instantiate(tenant, ChallengeType.CREATION));
+        challengeRepository.save(
+            challengeInstantiator.instantiate(tenant, ChallengeType.CREATION, servletRequest));
 
     model.addAttribute("displayName", loginDescriptor.getDisplayName());
     model.addAttribute("tenantLogoUrl", loginDescriptor.getTenantLogoUrl());

@@ -94,7 +94,7 @@ public class IdentityService {
       final String clientId,
       final String codeChallengeMethod,
       final String codeChallenge) {
-    createPasskeyRequestValidator.validate(request);
+
     authRequestParamValidator.validate(
         responseType, state, redirectUri, clientId, codeChallengeMethod, codeChallenge);
     final var emailAddress = request.getHandle();
@@ -127,6 +127,8 @@ public class IdentityService {
               emailAddress, application.getTenantId()));
     }
 
+    // generate store public key here.
+    createPasskeyRequestValidator.validate(request);
     final var identity =
         identityRepository.save(
             identityInstantiator.instantiate(request, application.getTenantId()));
