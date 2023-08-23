@@ -9,7 +9,7 @@ Iridium is an OAuth2.x-compliant customer identity and access management (CIAM) 
 3rd party social login providers into their own systems in a low-code manner.  
 
 ## What is a social login provider?
-Using a 3rd party authorization services like Github, Google, Twitter, Microsoft etc. 
+Using a 3rd party authorization services like GitHub, Google, Twitter, Microsoft etc. 
 
 ![system-overview](assets/system-overview.png)
 
@@ -26,7 +26,8 @@ We are just getting started!
 * Our end goal isn't to hang on to Iridium.  Once we get the project and community built up enough, we'd like to donate the
   the project to a larger managing organization. Help us get there.
 * We need your help, this project is early in terms of open source releases, we need as many eyes on it as we can.
-* [Participate in discussions on Github](https://github.com/IridiumIdentity/iridium/discussions)
+* [Participate in discussions on GitHub](https://github.com/IridiumIdentity/iridium/discussions)
+* [Join us on Discord](https://discord.gg/2TMwHF2TrS)
 
 ## Why build Iridium?
 
