@@ -29,16 +29,20 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.util.TokenGenerator;
+import software.iridium.entity.RefreshTokenEntity;
 
 @ExtendWith(MockitoExtension.class)
 class AccessTokenEntityInstantiatorTest {
 
   @Mock private TokenGenerator mockTokenGenerator;
+  @Mock private RefreshTokenEntityInstantiator mockRefreshTokenEntityInstantiator;
+  @Mock private RefreshTokenEntity mockRefreshTokenEntity;
   @InjectMocks private AccessTokenEntityInstantiator subject;
 
   @AfterEach
   public void ensureNoUnexpectedMockInteractions() {
-    Mockito.verifyNoMoreInteractions(mockTokenGenerator);
+    Mockito.verifyNoMoreInteractions(
+        mockTokenGenerator, mockRefreshTokenEntityInstantiator, mockRefreshTokenEntity);
   }
 
   @Test
@@ -48,10 +52,13 @@ class AccessTokenEntityInstantiatorTest {
 
     when(mockTokenGenerator.generateAccessToken(same(identityId), any(Date.class)))
         .thenReturn(accessTokenValue);
+    when(mockRefreshTokenEntityInstantiator.instantiate(accessTokenValue))
+        .thenReturn(mockRefreshTokenEntity);
 
     final var response = subject.instantiate(identityId);
 
     verify(mockTokenGenerator).generateAccessToken(same(identityId), any(Date.class));
+    verify(mockRefreshTokenEntityInstantiator).instantiate(same(accessTokenValue));
 
     assertThat(response.getAccessToken(), is(equalTo(accessTokenValue)));
     assertThat(response.getTokenType(), is(equalTo("Bearer")));
