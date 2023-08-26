@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import software.iridium.entity.AccessTokenEntity;
+import software.iridium.entity.RefreshTokenEntity;
 
 class AccessTokenResponseMapperTest {
 
@@ -33,14 +34,19 @@ class AccessTokenResponseMapperTest {
   public void map_AllGood_MapsAsExpected() {
     final var accessToken = "the access token";
     final var tokenType = "Bearer";
+    final var refreshToken = "refresh_token";
     final var entity = new AccessTokenEntity();
+    final var refreshTokenEntity = new RefreshTokenEntity();
+    refreshTokenEntity.setRefreshToken(refreshToken);
     entity.setAccessToken(accessToken);
     entity.setTokenType(tokenType);
+    entity.setRefreshToken(refreshTokenEntity);
 
     final var response = subject.map(entity);
 
     assertThat(response.getAccessToken(), is(equalTo(accessToken)));
     assertNull(response.getRedirectUrl());
     assertThat(response.getTokenType(), is(equalTo(tokenType)));
+    assertThat(response.getRefreshToken(), is(equalTo(refreshToken)));
   }
 }
