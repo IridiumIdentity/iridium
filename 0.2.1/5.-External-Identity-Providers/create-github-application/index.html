@@ -19,7 +19,7 @@
     
     
       
-        <title>Create a Github Application - Iridium</title>
+        <title>Create a GitHub Application - Iridium</title>
       
     
     
@@ -165,7 +165,7 @@ You're not viewing the latest version.
                 <div class="md-header__topic" data-md-component="header-topic">
 <!--          <span class="md-ellipsis">-->
 <!--            -->
-<!--              Create a Github Application-->
+<!--              Create a GitHub Application-->
 <!--            -->
 <!--          </span>-->
                 </div>
@@ -639,12 +639,12 @@ You're not viewing the latest version.
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Create a Github Application
+          Create a GitHub Application
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Create a Github Application
+        Create a GitHub Application
       </a>
       
         
@@ -663,6 +663,13 @@ You're not viewing the latest version.
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#form-values" class="md-nav__link">
+    Form Values
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#get-your-client-id" class="md-nav__link">
     Get your Client ID
   </a>
@@ -671,7 +678,7 @@ You're not viewing the latest version.
       
         <li class="md-nav__item">
   <a href="#capture-the-github-secret" class="md-nav__link">
-    Capture the Github Secret
+    Capture the GitHub Secret
   </a>
   
 </li>
@@ -767,6 +774,13 @@ You're not viewing the latest version.
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#form-values" class="md-nav__link">
+    Form Values
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#get-your-client-id" class="md-nav__link">
     Get your Client ID
   </a>
@@ -775,7 +789,7 @@ You're not viewing the latest version.
       
         <li class="md-nav__item">
   <a href="#capture-the-github-secret" class="md-nav__link">
-    Capture the Github Secret
+    Capture the GitHub Secret
   </a>
   
 </li>
@@ -798,21 +812,25 @@ You're not viewing the latest version.
   
 
 
-<h1 id="create-a-github-application">Create a Github Application</h1>
+<h1 id="create-a-github-application">Create a GitHub Application</h1>
+<p><strong>Note</strong> 
+If you are standing up the Iridium UI you can use the values specified in the <a href="#form-values">Form Values</a> section of this page.  </p>
+<p>If you are using your own app, you will need to substitute the specific <code>Homepage URL</code> and <code>Authorization callback URL</code> for you app.</p>
 <p><a href="https://github.com/settings/applications/new">You can create one by filling out the form here</a>.</p>
 <p><img alt="register-iridium-github-application" src="../../images/register-github-oauth.png" /></p>
+<h2 id="form-values">Form Values</h2>
 <p>For the form values enter the following:</p>
 <ul>
 <li><code>ApplicationName</code>: Any name you wish.  In this example we use "MyIridiumInstance"</li>
 <li><code>Homepage URL</code>: http://localhost:4200.</li>
-<li><code>Authorization callback URL</code>: http://localhost:4200/dashboard</li>
+<li><code>Authorization callback URL</code>: http://localhost:4200/callback</li>
 </ul>
 <h2 id="get-your-client-id">Get your Client ID</h2>
 <p>After the application is created you'll need to create a secret for it.<br />
 1. Make sure to capture your "Client ID" value. You'll need while initializing  Iridium
-2. Generate a secret for your Github application by clicking on the  "Generate new client secret" button.
+2. Generate a secret for your GitHub application by clicking on the  "Generate new client secret" button.
 <img alt="generate-iridium-github-secret.png" src="../../images/generate-github-secret.png" /> </p>
-<h2 id="capture-the-github-secret">Capture the Github Secret</h2>
+<h2 id="capture-the-github-secret">Capture the GitHub Secret</h2>
 <ol>
 <li>After a secret is created you'll need to capture that value to use with the CLI tool.</li>
 </ol>
