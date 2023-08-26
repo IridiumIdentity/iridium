@@ -70,4 +70,10 @@ public class AuthorizationController {
     logger.info("finalizing authorization");
     return authorizationService.exchange(servletRequest, params);
   }
+
+  @PostMapping(value = "/oauth/token/refresh")
+  public AccessTokenResponse refreshToken(@RequestParam Map<String, String> params) {
+    logger.info("access token request through refresh token");
+    return authorizationService.refreshToken(params);
+  }
 }
