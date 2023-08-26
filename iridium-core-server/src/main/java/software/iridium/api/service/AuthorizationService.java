@@ -77,6 +77,7 @@ public class AuthorizationService {
   @Autowired private AccessTokenEntityInstantiator accessTokenInstantiator;
   @Autowired private AccessTokenEntityRepository accessTokenRepository;
   @Autowired private AccessTokenResponseMapper accessTokenResponseMapper;
+  @Autowired private RefreshTokenEntityInstantiator refreshTokenInstantiator;
   @Autowired private SubdomainExtractor subdomainExtractor;
   @Autowired private TenantEntityRepository tenantRepository;
   @Autowired private AuthenticationEntityRepository authenticationRepository;
@@ -89,7 +90,6 @@ public class AuthorizationService {
 
   @Autowired private ServletTokenExtractor tokenExtractor;
   @Autowired private BCryptPasswordEncoder encoder;
-  @Autowired private RefreshTokenEntityRepository refreshTokenRepository;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public IdentityResponse completeAuthorizationWithProvider(
@@ -305,7 +305,7 @@ public class AuthorizationService {
 
       if (attributeValidator.isBlank(
           params.getOrDefault(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), ""))) {
-        throw new BadRequestException("client id blank or malformed");
+        throw new BadRequestException("application id blank or malformed");
       }
 
       final var application =
@@ -380,6 +380,10 @@ public class AuthorizationService {
             accessTokenRepository.save(
                 accessTokenInstantiator.instantiate(authorizationCode.getIdentityId()));
 
+        final var refreshToken = refreshTokenInstantiator.instantiate(accessToken.getAccessToken());
+        accessToken.setRefreshToken(refreshToken);
+        refreshToken.setAccessToken(accessToken);
+
         return accessTokenResponseMapper.map(accessToken);
       } else {
         // potentially need to redirect
@@ -440,51 +444,5 @@ public class AuthorizationService {
     }
     // todo: throw exception for provider not found
     return null;
-  }
-
-  @Transactional(propagation = Propagation.REQUIRED)
-  public AccessTokenResponse refreshToken(Map<String, String> params) {
-
-    checkArgument(
-            attributeValidator.isNotBlank(
-                    params.getOrDefault(AuthorizationCodeFlowConstants.GRANT_TYPE.getValue(), "")),
-            "grant_type must not be blank");
-
-    checkArgument(
-            attributeValidator.isNotBlank(
-                    params.getOrDefault(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), "")),
-            "Client ID must not be blank");
-
-    checkArgument(
-            attributeValidator.isNotBlank(
-                    params.getOrDefault(AuthorizationCodeFlowConstants.REFRESH_TOKEN.getValue(), "")),
-            "Refresh_token must not be blank");
-
-    checkArgument(
-            attributeValidator.equals(
-                    params.get(AuthorizationCodeFlowConstants.GRANT_TYPE.getValue()),
-                    AuthorizationCodeFlowConstants.REFRESH_TOKEN_GRANT_TYPE.getValue()),
-            "Grant_type value must be set to \"refresh_token\"");
-
-    final var application =
-            applicationRepository
-                    .findByClientId(params.get(AuthorizationCodeFlowConstants.CLIENT_ID.getValue()))
-                    .orElseThrow(
-                            () ->
-                                    new BadRequestException(
-                                            "application not found for clientId: "
-                                                    + params.get(AuthorizationCodeFlowConstants.CLIENT_ID.getValue())));
-
-    refreshTokenRepository
-            .findById(params.get(AuthorizationCodeFlowConstants.REFRESH_TOKEN.getValue()))
-            .orElseThrow(
-                    () ->
-                            new BadRequestException(
-                                    "Invalid refresh token: "
-                                            + params.get(AuthorizationCodeFlowConstants.REFRESH_TOKEN.getValue())));
-
-    final var accessToken =
-            accessTokenRepository.save(accessTokenInstantiator.instantiate(application.getId()));
-    return accessTokenResponseMapper.map(accessToken);
   }
 }

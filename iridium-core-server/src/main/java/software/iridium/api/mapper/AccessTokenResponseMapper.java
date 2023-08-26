@@ -21,7 +21,7 @@ public class AccessTokenResponseMapper {
   public AccessTokenResponse map(final AccessTokenEntity entity) {
     final var response = new AccessTokenResponse();
     response.setAccessToken(entity.getAccessToken());
-    response.setRefreshToken(entity.getRefreshToken().getRefreshToken());
+    // response.setRefreshToken(entity.getRefreshToken().getRefreshToken());
     response.setTokenType(entity.getTokenType());
     response.setExpiresIn(3600L);
     return response;
