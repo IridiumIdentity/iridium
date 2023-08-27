@@ -28,6 +28,7 @@ import software.iridium.api.base.error.*;
 public class ApiExceptionHandler {
 
   private static final Logger logger = LoggerFactory.getLogger(ApiExceptionHandler.class);
+
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   @ExceptionHandler(IllegalArgumentException.class)
   public @ResponseBody ApiResponse handleValidationException(final Exception e) {
