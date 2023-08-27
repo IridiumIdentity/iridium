@@ -11,6 +11,8 @@
  */
 package software.iridium.api;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,9 +27,11 @@ import software.iridium.api.base.error.*;
 @ControllerAdvice
 public class ApiExceptionHandler {
 
+  private static final Logger logger = LoggerFactory.getLogger(ApiExceptionHandler.class);
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   @ExceptionHandler(IllegalArgumentException.class)
   public @ResponseBody ApiResponse handleValidationException(final Exception e) {
+    logger.error("Bad Request: ", e);
     return new ApiResponse(HttpStatus.BAD_REQUEST.toString(), e.getMessage());
   }
 
@@ -35,6 +39,7 @@ public class ApiExceptionHandler {
   @ExceptionHandler(NotAuthorizedException.class)
   public @ResponseBody Object handleNotAuthorizedException(
       final NotAuthorizedException e, final WebRequest request) {
+    logger.error("Not Authorized: ", e);
     final var acceptHeader = request.getHeader(HttpHeaders.ACCEPT);
     final var shouldReturnJson = acceptHeader != null && acceptHeader.contains("json");
 
@@ -54,18 +59,21 @@ public class ApiExceptionHandler {
   @ResponseStatus(value = HttpStatus.CONFLICT)
   @ExceptionHandler(DuplicateResourceException.class)
   public @ResponseBody ApiResponse handleDuplicateResourceException(final Exception e) {
+    logger.error("Conflict: ", e);
     return new ApiResponse(HttpStatus.CONFLICT.toString(), e.getMessage());
   }
 
   @ResponseStatus(value = HttpStatus.NOT_FOUND)
   @ExceptionHandler(ResourceNotFoundException.class)
   public @ResponseBody ApiResponse handleResourceNotFoundException(final Exception e) {
+    logger.error("Resource Not Found ", e);
     return new ApiResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage());
   }
 
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   @ExceptionHandler(BadRequestException.class)
   public @ResponseBody AccessTokenErrorResponse handleAccessTokenBadRequest(final Exception e) {
+    logger.error("Bad Request ", e);
     return new AccessTokenErrorResponse(
         HttpStatus.BAD_REQUEST.toString(), e.getMessage().toLowerCase());
   }
