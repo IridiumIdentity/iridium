@@ -25,6 +25,7 @@ public class AccessTokenEntityInstantiator {
   private static final Integer HOURS_TO_EXPIRATION = 1;
 
   @Autowired private TokenGenerator tokenGenerator;
+  @Autowired private RefreshTokenEntityInstantiator refreshTokenInstantiator;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public AccessTokenEntity instantiate(final String identityId) {
@@ -36,7 +37,9 @@ public class AccessTokenEntityInstantiator {
         tokenGenerator.generateAccessToken(
             identityId, DateUtils.addHoursToCurrentTime(HOURS_TO_EXPIRATION));
     entity.setAccessToken(accessToken);
-    // final var refreshToken = refreshTokenInstantiator.instantiate(entity);
+    final var refreshToken = refreshTokenInstantiator.instantiate(accessToken);
+    refreshToken.setAccessToken(entity);
+    entity.setRefreshToken(refreshToken);
     return entity;
   }
 }

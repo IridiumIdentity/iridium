@@ -23,8 +23,8 @@ public enum AuthorizationCodeFlowConstants {
   AUTHORIZATION_CODE("code"),
   AUTHORIZATION_CODE_GRANT_TYPE("authorization_code"),
   GRANT_TYPE("grant_type"),
-  CODE_VERIFIER("code_verifier");
-
+  CODE_VERIFIER("code_verifier"),
+  REFRESH_TOKEN_GRANT_TYPE("refresh_token");
   private String value;
 
   public String getValue() {
