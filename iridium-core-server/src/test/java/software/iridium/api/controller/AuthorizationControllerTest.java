@@ -95,4 +95,16 @@ class AuthorizationControllerTest {
 
     verify(mockAuthorizationService).exchange(same(mockServletRequest), same(params));
   }
+
+  @Test
+  public void refreshToken_AllGoodBehavesAsExpected() {
+    final var clientId = "the client id";
+    final var refreshToken = "some token";
+    final var grantType = "refresh_token";
+
+    subject.refreshToken(grantType, clientId, refreshToken);
+
+    verify(mockAuthorizationService)
+        .refreshToken(same(grantType), same(clientId), same(refreshToken));
+  }
 }

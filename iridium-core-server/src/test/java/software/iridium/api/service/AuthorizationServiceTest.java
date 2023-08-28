@@ -33,15 +33,19 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.util.LinkedMultiValueMap;
 import software.iridium.api.authentication.client.ProviderAccessTokenRequestor;
 import software.iridium.api.authentication.client.ProviderProfileRequestor;
+import software.iridium.api.authentication.domain.AccessTokenResponse;
 import software.iridium.api.authentication.domain.ApplicationAuthorizationFormRequest;
 import software.iridium.api.authentication.domain.AuthorizationResponse;
 import software.iridium.api.authentication.domain.GithubProfileResponse;
+import software.iridium.api.base.error.BadRequestException;
 import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.generator.ExternalProviderAccessTokenUrlGenerator;
 import software.iridium.api.generator.RedirectUrlGenerator;
 import software.iridium.api.generator.SuccessAuthorizationParameterGenerator;
+import software.iridium.api.instantiator.AccessTokenEntityInstantiator;
 import software.iridium.api.instantiator.AuthorizationCodeEntityInstantiator;
 import software.iridium.api.instantiator.IdentityEntityInstantiator;
+import software.iridium.api.mapper.AccessTokenResponseMapper;
 import software.iridium.api.mapper.IdentityResponseMapper;
 import software.iridium.api.repository.*;
 import software.iridium.api.util.AttributeValidator;
@@ -49,6 +53,7 @@ import software.iridium.api.util.AuthorizationCodeFlowConstants;
 import software.iridium.api.util.SubdomainExtractor;
 import software.iridium.api.validator.AuthorizationGrantTypeParamValidator;
 import software.iridium.api.validator.AuthorizationRequestParameterValidator;
+import software.iridium.api.validator.RefreshTokenRequestValidator;
 import software.iridium.entity.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -74,6 +79,13 @@ class AuthorizationServiceTest {
   @Mock private IdentityEmailEntityRepository mockEmailRepository;
   @Mock private SubdomainExtractor mockSubdomainExtractor;
   @Mock private AuthenticationEntityRepository mockAuthenticationRepository;
+  @Mock private RefreshTokenEntityRepository mockRefreshTokenRepository;
+  @Mock private AccessTokenEntityInstantiator mockAccessTokenInstantiator;
+  @Mock private AccessTokenEntity mockAccessTokenEntity;
+  @Mock private AccessTokenEntityRepository mockAccessTokenRepository;
+  @Mock private AccessTokenResponseMapper mockAccessTokenResponseMapper;
+  @Mock private AccessTokenResponse mockAccessTokenResponse;
+  @Mock private RefreshTokenRequestValidator mockRefreshTokenRequestValidator;
   @InjectMocks private AuthorizationService subject;
 
   @AfterEach
@@ -97,7 +109,13 @@ class AuthorizationServiceTest {
         mockEmailRepository,
         mockIdentity,
         mockSubdomainExtractor,
-        mockAuthenticationRepository);
+        mockAuthenticationRepository,
+        mockRefreshTokenRepository,
+        mockAccessTokenInstantiator,
+        mockAccessTokenEntity,
+        mockAccessTokenResponseMapper,
+        mockAccessTokenResponse,
+        mockRefreshTokenRequestValidator);
   }
 
   @Test
@@ -563,5 +581,90 @@ class AuthorizationServiceTest {
     verify(mockApplicationRepository).findByClientId(same(clientId));
     assertThat(
         exception.getMessage(), is(equalTo("application not found for client_id: " + clientId)));
+  }
+
+  @Test
+  void refreshToken_ApplicationNotFound_ExceptionThrown() {
+    final var clientId = "the client id";
+    final var refreshToken = "some token";
+    final var grantType = "refresh_token";
+    final var application = new ApplicationEntity();
+    application.setClientId(clientId);
+
+    when(mockApplicationRepository.findByClientId(same(clientId))).thenReturn(Optional.empty());
+
+    final var exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> subject.refreshToken(grantType, clientId, refreshToken));
+
+    assertThat(
+        exception.getMessage(), is(equalTo("application not found for clientId: " + clientId)));
+
+    verify(mockRefreshTokenRequestValidator)
+        .validate(same(grantType), same(clientId), same(refreshToken));
+    verify(mockApplicationRepository).findByClientId(same(clientId));
+  }
+
+  @Test
+  void refreshToken_InvalidRefreshToken_ExceptionThrown() {
+    final var clientId = "the client id";
+    final var refreshToken = "some token";
+    final var grantType = "refresh_token";
+    final var application = new ApplicationEntity();
+    application.setClientId(clientId);
+
+    final var refreshTokenEntity = new RefreshTokenEntity();
+    refreshTokenEntity.setRefreshToken(refreshToken);
+
+    when(mockApplicationRepository.findByClientId(same(clientId)))
+        .thenReturn(Optional.of(application));
+    when(mockRefreshTokenRepository.findByRefreshToken(same(refreshToken)))
+        .thenReturn(Optional.empty());
+
+    final var exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> subject.refreshToken(grantType, clientId, refreshToken));
+
+    assertThat(exception.getMessage(), is(equalTo("invalid refresh token: " + refreshToken)));
+
+    verify(mockRefreshTokenRequestValidator)
+        .validate(same(grantType), same(clientId), same(refreshToken));
+    verify(mockApplicationRepository).findByClientId(same(clientId));
+    verify(mockRefreshTokenRepository).findByRefreshToken(same(refreshToken));
+  }
+
+  @Test
+  void refreshToken_AllGoodBehavesAsExpected() {
+    final var clientId = "the client id";
+    final var refreshToken = "some token";
+    final var grantType = "refresh_token";
+
+    final var application = new ApplicationEntity();
+    application.setClientId(clientId);
+
+    final var refreshTokenEntity = new RefreshTokenEntity();
+    refreshTokenEntity.setRefreshToken(refreshToken);
+
+    when(mockApplicationRepository.findByClientId(same(clientId)))
+        .thenReturn(Optional.of(application));
+    when(mockRefreshTokenRepository.findByRefreshToken(same(refreshToken)))
+        .thenReturn(Optional.of(refreshTokenEntity));
+    when(mockAccessTokenInstantiator.instantiate(application.getId()))
+        .thenReturn(mockAccessTokenEntity);
+    when(mockAccessTokenRepository.save(same(mockAccessTokenEntity)))
+        .thenReturn(mockAccessTokenEntity);
+    when(mockAccessTokenResponseMapper.map(mockAccessTokenEntity))
+        .thenReturn(mockAccessTokenResponse);
+
+    subject.refreshToken(grantType, clientId, refreshToken);
+    verify(mockRefreshTokenRequestValidator)
+        .validate(same(grantType), same(clientId), same(refreshToken));
+    verify(mockApplicationRepository).findByClientId(same(clientId));
+    verify(mockRefreshTokenRepository).findByRefreshToken(same(refreshToken));
+    verify(mockAccessTokenInstantiator).instantiate(same(application.getId()));
+    verify(mockAccessTokenRepository).save(same(mockAccessTokenEntity));
+    verify(mockAccessTokenResponseMapper).map(same(mockAccessTokenEntity));
   }
 }

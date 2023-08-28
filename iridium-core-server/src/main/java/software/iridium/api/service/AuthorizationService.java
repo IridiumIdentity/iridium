@@ -45,10 +45,7 @@ import software.iridium.api.util.AuthorizationCodeFlowConstants;
 import software.iridium.api.util.SHA256Hasher;
 import software.iridium.api.util.ServletTokenExtractor;
 import software.iridium.api.util.SubdomainExtractor;
-import software.iridium.api.validator.AccessTokenRequestParameterValidator;
-import software.iridium.api.validator.ApplicationEntityAccessTokenRequestValidator;
-import software.iridium.api.validator.AuthorizationGrantTypeParamValidator;
-import software.iridium.api.validator.AuthorizationRequestParameterValidator;
+import software.iridium.api.validator.*;
 import software.iridium.entity.ClientSecretEntity;
 import software.iridium.entity.ExternalIdentityProviderEntity;
 
@@ -77,7 +74,6 @@ public class AuthorizationService {
   @Autowired private AccessTokenEntityInstantiator accessTokenInstantiator;
   @Autowired private AccessTokenEntityRepository accessTokenRepository;
   @Autowired private AccessTokenResponseMapper accessTokenResponseMapper;
-  @Autowired private RefreshTokenEntityInstantiator refreshTokenInstantiator;
   @Autowired private SubdomainExtractor subdomainExtractor;
   @Autowired private TenantEntityRepository tenantRepository;
   @Autowired private AuthenticationEntityRepository authenticationRepository;
@@ -90,6 +86,8 @@ public class AuthorizationService {
 
   @Autowired private ServletTokenExtractor tokenExtractor;
   @Autowired private BCryptPasswordEncoder encoder;
+  @Autowired private RefreshTokenEntityRepository refreshTokenRepository;
+  @Autowired private RefreshTokenRequestValidator refreshTokenRequestValidator;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public IdentityResponse completeAuthorizationWithProvider(
@@ -305,7 +303,7 @@ public class AuthorizationService {
 
       if (attributeValidator.isBlank(
           params.getOrDefault(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), ""))) {
-        throw new BadRequestException("application id blank or malformed");
+        throw new BadRequestException("client id blank or malformed");
       }
 
       final var application =
@@ -380,10 +378,6 @@ public class AuthorizationService {
             accessTokenRepository.save(
                 accessTokenInstantiator.instantiate(authorizationCode.getIdentityId()));
 
-        final var refreshToken = refreshTokenInstantiator.instantiate(accessToken.getAccessToken());
-        accessToken.setRefreshToken(refreshToken);
-        refreshToken.setAccessToken(accessToken);
-
         return accessTokenResponseMapper.map(accessToken);
       } else {
         // potentially need to redirect
@@ -444,5 +438,24 @@ public class AuthorizationService {
     }
     // todo: throw exception for provider not found
     return null;
+  }
+
+  @Transactional(propagation = Propagation.REQUIRED)
+  public AccessTokenResponse refreshToken(String grantType, String clientId, String refreshToken) {
+    refreshTokenRequestValidator.validate(grantType, clientId, refreshToken);
+
+    final var application =
+        applicationRepository
+            .findByClientId(clientId)
+            .orElseThrow(
+                () -> new BadRequestException("application not found for clientId: " + clientId));
+
+    refreshTokenRepository
+        .findByRefreshToken(refreshToken)
+        .orElseThrow(() -> new BadRequestException("invalid refresh token: " + refreshToken));
+
+    final var accessToken =
+        accessTokenRepository.save(accessTokenInstantiator.instantiate(application.getId()));
+    return accessTokenResponseMapper.map(accessToken);
   }
 }

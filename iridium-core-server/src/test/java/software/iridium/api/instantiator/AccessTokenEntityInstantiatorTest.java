@@ -29,29 +29,38 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.util.TokenGenerator;
+import software.iridium.entity.RefreshTokenEntity;
 
 @ExtendWith(MockitoExtension.class)
 class AccessTokenEntityInstantiatorTest {
 
   @Mock private TokenGenerator mockTokenGenerator;
+  @Mock private RefreshTokenEntityInstantiator mockRefreshTokenEntityInstantiator;
+  @Mock private RefreshTokenEntity mockRefreshTokenEntity;
   @InjectMocks private AccessTokenEntityInstantiator subject;
 
   @AfterEach
   public void ensureNoUnexpectedMockInteractions() {
-    Mockito.verifyNoMoreInteractions(mockTokenGenerator);
+    Mockito.verifyNoMoreInteractions(mockTokenGenerator, mockRefreshTokenEntityInstantiator);
   }
 
   @Test
   public void instantiate_AllGood_BehavesAsExpected() {
     final var identityId = "the id";
     final var accessTokenValue = "the access token value";
+    final var refreshToken = "refresh_token";
+    final var refreshTokenEntity = new RefreshTokenEntity();
+    refreshTokenEntity.setRefreshToken(refreshToken);
 
     when(mockTokenGenerator.generateAccessToken(same(identityId), any(Date.class)))
         .thenReturn(accessTokenValue);
+    when(mockRefreshTokenEntityInstantiator.instantiate(same(accessTokenValue)))
+        .thenReturn(refreshTokenEntity);
 
     final var response = subject.instantiate(identityId);
 
     verify(mockTokenGenerator).generateAccessToken(same(identityId), any(Date.class));
+    verify(mockRefreshTokenEntityInstantiator).instantiate(same(accessTokenValue));
 
     assertThat(response.getAccessToken(), is(equalTo(accessTokenValue)));
     assertThat(response.getTokenType(), is(equalTo("Bearer")));
