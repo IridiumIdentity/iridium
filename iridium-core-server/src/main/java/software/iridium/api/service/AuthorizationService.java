@@ -45,10 +45,7 @@ import software.iridium.api.util.AuthorizationCodeFlowConstants;
 import software.iridium.api.util.SHA256Hasher;
 import software.iridium.api.util.ServletTokenExtractor;
 import software.iridium.api.util.SubdomainExtractor;
-import software.iridium.api.validator.AccessTokenRequestParameterValidator;
-import software.iridium.api.validator.ApplicationEntityAccessTokenRequestValidator;
-import software.iridium.api.validator.AuthorizationGrantTypeParamValidator;
-import software.iridium.api.validator.AuthorizationRequestParameterValidator;
+import software.iridium.api.validator.*;
 import software.iridium.entity.ClientSecretEntity;
 import software.iridium.entity.ExternalIdentityProviderEntity;
 
@@ -90,6 +87,7 @@ public class AuthorizationService {
   @Autowired private ServletTokenExtractor tokenExtractor;
   @Autowired private BCryptPasswordEncoder encoder;
   @Autowired private RefreshTokenEntityRepository refreshTokenRepository;
+  @Autowired private RefreshTokenRequestValidator refreshTokenRequestValidator;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public IdentityResponse completeAuthorizationWithProvider(
@@ -443,45 +441,18 @@ public class AuthorizationService {
   }
 
   @Transactional(propagation = Propagation.REQUIRED)
-  public AccessTokenResponse refreshToken(Map<String, String> params) {
-
-    checkArgument(
-        attributeValidator.isNotBlank(
-            params.getOrDefault(AuthorizationCodeFlowConstants.GRANT_TYPE.getValue(), "")),
-        "grant_type must not be blank");
-
-    checkArgument(
-        attributeValidator.isNotBlank(
-            params.getOrDefault(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), "")),
-        "Client ID must not be blank");
-
-    checkArgument(
-        attributeValidator.isNotBlank(
-            params.getOrDefault(AuthorizationCodeFlowConstants.REFRESH_TOKEN.getValue(), "")),
-        "Refresh_token must not be blank");
-
-    checkArgument(
-        attributeValidator.equals(
-            params.get(AuthorizationCodeFlowConstants.GRANT_TYPE.getValue()),
-            AuthorizationCodeFlowConstants.REFRESH_TOKEN_GRANT_TYPE.getValue()),
-        "Grant_type value must be set to \"refresh_token\"");
+  public AccessTokenResponse refreshToken(String grantType, String clientId, String refreshToken) {
+    refreshTokenRequestValidator.validate(grantType, clientId, refreshToken);
 
     final var application =
         applicationRepository
-            .findByClientId(params.get(AuthorizationCodeFlowConstants.CLIENT_ID.getValue()))
+            .findByClientId(clientId)
             .orElseThrow(
-                () ->
-                    new BadRequestException(
-                        "application not found for clientId: "
-                            + params.get(AuthorizationCodeFlowConstants.CLIENT_ID.getValue())));
+                () -> new BadRequestException("application not found for clientId: " + clientId));
 
     refreshTokenRepository
-        .findById(params.get(AuthorizationCodeFlowConstants.REFRESH_TOKEN.getValue()))
-        .orElseThrow(
-            () ->
-                new BadRequestException(
-                    "Invalid refresh token: "
-                        + params.get(AuthorizationCodeFlowConstants.REFRESH_TOKEN.getValue())));
+        .findByRefreshToken(refreshToken)
+        .orElseThrow(() -> new BadRequestException("invalid refresh token: " + refreshToken));
 
     final var accessToken =
         accessTokenRepository.save(accessTokenInstantiator.instantiate(application.getId()));

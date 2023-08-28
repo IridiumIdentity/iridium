@@ -72,8 +72,11 @@ public class AuthorizationController {
   }
 
   @PostMapping(value = "/oauth/token/refresh")
-  public AccessTokenResponse refreshToken(@RequestParam Map<String, String> params) {
+  public AccessTokenResponse refreshToken(
+      @RequestParam(value = "grant_type") final String grantType,
+      @RequestParam(value = "client_id") final String clientId,
+      @RequestParam(value = "refresh_token") final String refreshToken) {
     logger.info("access token request through refresh token");
-    return authorizationService.refreshToken(params);
+    return authorizationService.refreshToken(grantType, clientId, refreshToken);
   }
 }

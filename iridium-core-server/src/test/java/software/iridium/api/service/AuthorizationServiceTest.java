@@ -53,6 +53,7 @@ import software.iridium.api.util.AuthorizationCodeFlowConstants;
 import software.iridium.api.util.SubdomainExtractor;
 import software.iridium.api.validator.AuthorizationGrantTypeParamValidator;
 import software.iridium.api.validator.AuthorizationRequestParameterValidator;
+import software.iridium.api.validator.RefreshTokenRequestValidator;
 import software.iridium.entity.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -84,6 +85,7 @@ class AuthorizationServiceTest {
   @Mock private AccessTokenEntityRepository mockAccessTokenRepository;
   @Mock private AccessTokenResponseMapper mockAccessTokenResponseMapper;
   @Mock private AccessTokenResponse mockAccessTokenResponse;
+  @Mock private RefreshTokenRequestValidator mockRefreshTokenRequestValidator;
   @InjectMocks private AuthorizationService subject;
 
   @AfterEach
@@ -112,7 +114,8 @@ class AuthorizationServiceTest {
         mockAccessTokenInstantiator,
         mockAccessTokenEntity,
         mockAccessTokenResponseMapper,
-        mockAccessTokenResponse);
+        mockAccessTokenResponse,
+        mockRefreshTokenRequestValidator);
   }
 
   @Test
@@ -581,177 +584,62 @@ class AuthorizationServiceTest {
   }
 
   @Test
-  void refreshToken_MissingGrantType_ExceptionThrown() {
-    final var params = new HashMap<String, String>();
-    final var clientId = "the client id";
-    final var refreshToken = "jsdkjsejdjfmncs";
-    final var grant_type = "";
-    params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
-    params.put(AuthorizationCodeFlowConstants.REFRESH_TOKEN.getValue(), refreshToken);
-    params.put(AuthorizationCodeFlowConstants.GRANT_TYPE.getValue(), grant_type);
-
-    when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
-
-    final var exception =
-        assertThrows(IllegalArgumentException.class, () -> subject.refreshToken(params));
-
-    assertThat(exception.getMessage(), is(equalTo("grant_type must not be blank")));
-
-    verify(mockAttributeValidator).isNotBlank(same(grant_type));
-    verify(mockAttributeValidator, never()).isNotBlank(same(clientId));
-    verify(mockAttributeValidator, never()).isNotBlank(same(refreshToken));
-    verify(mockAttributeValidator, never()).isNotBlankAndNoLongerThan(same(clientId), eq(32));
-  }
-
-  @Test
-  void refreshToken_MissingClientId_ExceptionThrown() {
-    final var params = new HashMap<String, String>();
-    final var clientId = "";
-    final var refreshToken = "jsdkjsejdjfmncs";
-    final var grant_type = "refresh_token";
-    params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
-    params.put(AuthorizationCodeFlowConstants.REFRESH_TOKEN.getValue(), refreshToken);
-    params.put(AuthorizationCodeFlowConstants.GRANT_TYPE.getValue(), grant_type);
-
-    when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
-
-    final var exception =
-        assertThrows(IllegalArgumentException.class, () -> subject.refreshToken(params));
-
-    assertThat(exception.getMessage(), is(equalTo("Client ID must not be blank")));
-
-    verify(mockAttributeValidator).isNotBlank(same(grant_type));
-    verify(mockAttributeValidator).isNotBlank(same(clientId));
-    verify(mockAttributeValidator, never()).isNotBlank(same(refreshToken));
-  }
-
-  @Test
-  void refreshToken_MissingRefreshToken_ExceptionThrown() {
-    final var params = new HashMap<String, String>();
-    final var clientId = "the client id";
-    final var refreshToken = "";
-    final var grant_type = "refresh_token";
-    params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
-    params.put(AuthorizationCodeFlowConstants.REFRESH_TOKEN.getValue(), refreshToken);
-    params.put(AuthorizationCodeFlowConstants.GRANT_TYPE.getValue(), grant_type);
-
-    when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
-
-    final var exception =
-        assertThrows(IllegalArgumentException.class, () -> subject.refreshToken(params));
-
-    assertThat(exception.getMessage(), is(equalTo("Refresh_token must not be blank")));
-
-    verify(mockAttributeValidator).isNotBlank(same(clientId));
-    verify(mockAttributeValidator).isNotBlank(same(grant_type));
-    verify(mockAttributeValidator).isNotBlank(same(refreshToken));
-  }
-
-  @Test
-  void refreshToken_InvalidGrantType_ExceptionThrown() {
-    final var params = new HashMap<String, String>();
-    final var clientId = "the client id";
-    final var refreshToken = "jsdkjsejdjfmncs";
-    final var grant_type = "refresh";
-    params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
-    params.put(AuthorizationCodeFlowConstants.REFRESH_TOKEN.getValue(), refreshToken);
-    params.put(AuthorizationCodeFlowConstants.GRANT_TYPE.getValue(), grant_type);
-
-    when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
-    when(mockAttributeValidator.equals(anyString(), anyString())).thenCallRealMethod();
-
-    final var exception =
-        assertThrows(IllegalArgumentException.class, () -> subject.refreshToken(params));
-
-    assertThat(
-        exception.getMessage(), is(equalTo("Grant_type value must be set to \"refresh_token\"")));
-
-    verify(mockAttributeValidator).isNotBlank(same(grant_type));
-    verify(mockAttributeValidator).isNotBlank(same(clientId));
-    verify(mockAttributeValidator).isNotBlank(same(refreshToken));
-    verify(mockAttributeValidator)
-        .equals(
-            same(grant_type),
-            eq(AuthorizationCodeFlowConstants.REFRESH_TOKEN_GRANT_TYPE.getValue()));
-  }
-
-  @Test
   void refreshToken_ApplicationNotFound_ExceptionThrown() {
-    final var params = new HashMap<String, String>();
     final var clientId = "the client id";
     final var refreshToken = "some token";
-    final var grant_type = "refresh_token";
+    final var grantType = "refresh_token";
     final var application = new ApplicationEntity();
     application.setClientId(clientId);
 
-    params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
-    params.put(AuthorizationCodeFlowConstants.REFRESH_TOKEN.getValue(), refreshToken);
-    params.put(AuthorizationCodeFlowConstants.GRANT_TYPE.getValue(), grant_type);
-
-    when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
-    when(mockAttributeValidator.equals(anyString(), anyString())).thenCallRealMethod();
     when(mockApplicationRepository.findByClientId(same(clientId))).thenReturn(Optional.empty());
 
     final var exception =
-        assertThrows(BadRequestException.class, () -> subject.refreshToken(params));
+        assertThrows(
+            BadRequestException.class,
+            () -> subject.refreshToken(grantType, clientId, refreshToken));
 
     assertThat(
         exception.getMessage(), is(equalTo("application not found for clientId: " + clientId)));
 
-    verify(mockAttributeValidator).isNotBlank(same(clientId));
-    verify(mockAttributeValidator).isNotBlank(same(grant_type));
-    verify(mockAttributeValidator).isNotBlank(same(refreshToken));
-    verify(mockAttributeValidator)
-        .equals(
-            same(grant_type),
-            eq(AuthorizationCodeFlowConstants.REFRESH_TOKEN_GRANT_TYPE.getValue()));
+    verify(mockRefreshTokenRequestValidator)
+        .validate(same(grantType), same(clientId), same(refreshToken));
     verify(mockApplicationRepository).findByClientId(same(clientId));
   }
 
   @Test
   void refreshToken_InvalidRefreshToken_ExceptionThrown() {
-    final var params = new HashMap<String, String>();
     final var clientId = "the client id";
     final var refreshToken = "some token";
-    final var grant_type = "refresh_token";
+    final var grantType = "refresh_token";
     final var application = new ApplicationEntity();
     application.setClientId(clientId);
 
     final var refreshTokenEntity = new RefreshTokenEntity();
     refreshTokenEntity.setRefreshToken(refreshToken);
 
-    params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
-    params.put(AuthorizationCodeFlowConstants.REFRESH_TOKEN.getValue(), refreshToken);
-    params.put(AuthorizationCodeFlowConstants.GRANT_TYPE.getValue(), grant_type);
-
-    when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
-    when(mockAttributeValidator.equals(anyString(), anyString())).thenCallRealMethod();
     when(mockApplicationRepository.findByClientId(same(clientId)))
         .thenReturn(Optional.of(application));
-    when(mockRefreshTokenRepository.findById(same(refreshToken))).thenReturn(Optional.empty());
+    when(mockRefreshTokenRepository.findByRefreshToken(same(refreshToken)))
+        .thenReturn(Optional.empty());
 
     final var exception =
-        assertThrows(BadRequestException.class, () -> subject.refreshToken(params));
+        assertThrows(
+            BadRequestException.class,
+            () -> subject.refreshToken(grantType, clientId, refreshToken));
 
-    assertThat(exception.getMessage(), is(equalTo("Invalid refresh token: " + refreshToken)));
+    assertThat(exception.getMessage(), is(equalTo("invalid refresh token: " + refreshToken)));
 
-    verify(mockAttributeValidator).isNotBlank(same(grant_type));
-    verify(mockAttributeValidator).isNotBlank(same(clientId));
-    verify(mockAttributeValidator).isNotBlank(same(refreshToken));
-    verify(mockAttributeValidator)
-        .equals(
-            same(grant_type),
-            eq(AuthorizationCodeFlowConstants.REFRESH_TOKEN_GRANT_TYPE.getValue()));
+    verify(mockRefreshTokenRequestValidator)
+        .validate(same(grantType), same(clientId), same(refreshToken));
     verify(mockApplicationRepository).findByClientId(same(clientId));
-    verify(mockRefreshTokenRepository).findById(same(refreshToken));
+    verify(mockRefreshTokenRepository).findByRefreshToken(same(refreshToken));
   }
 
   @Test
   void refreshToken_AllGoodBehavesAsExpected() {
-    final var params = new HashMap<String, String>();
     final var clientId = "the client id";
     final var refreshToken = "some token";
-    final var grant_type = "refresh_token";
+    final var grantType = "refresh_token";
 
     final var application = new ApplicationEntity();
     application.setClientId(clientId);
@@ -759,15 +647,9 @@ class AuthorizationServiceTest {
     final var refreshTokenEntity = new RefreshTokenEntity();
     refreshTokenEntity.setRefreshToken(refreshToken);
 
-    params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
-    params.put(AuthorizationCodeFlowConstants.REFRESH_TOKEN.getValue(), refreshToken);
-    params.put(AuthorizationCodeFlowConstants.GRANT_TYPE.getValue(), grant_type);
-
-    when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
-    when(mockAttributeValidator.equals(anyString(), anyString())).thenCallRealMethod();
     when(mockApplicationRepository.findByClientId(same(clientId)))
         .thenReturn(Optional.of(application));
-    when(mockRefreshTokenRepository.findById(same(refreshToken)))
+    when(mockRefreshTokenRepository.findByRefreshToken(same(refreshToken)))
         .thenReturn(Optional.of(refreshTokenEntity));
     when(mockAccessTokenInstantiator.instantiate(application.getId()))
         .thenReturn(mockAccessTokenEntity);
@@ -776,16 +658,11 @@ class AuthorizationServiceTest {
     when(mockAccessTokenResponseMapper.map(mockAccessTokenEntity))
         .thenReturn(mockAccessTokenResponse);
 
-    subject.refreshToken(params);
-    verify(mockAttributeValidator).isNotBlank(same(grant_type));
-    verify(mockAttributeValidator).isNotBlank(same(clientId));
-    verify(mockAttributeValidator).isNotBlank(same(refreshToken));
-    verify(mockAttributeValidator)
-        .equals(
-            same(grant_type),
-            eq(AuthorizationCodeFlowConstants.REFRESH_TOKEN_GRANT_TYPE.getValue()));
+    subject.refreshToken(grantType, clientId, refreshToken);
+    verify(mockRefreshTokenRequestValidator)
+        .validate(same(grantType), same(clientId), same(refreshToken));
     verify(mockApplicationRepository).findByClientId(same(clientId));
-    verify(mockRefreshTokenRepository).findById(same(refreshToken));
+    verify(mockRefreshTokenRepository).findByRefreshToken(same(refreshToken));
     verify(mockAccessTokenInstantiator).instantiate(same(application.getId()));
     verify(mockAccessTokenRepository).save(same(mockAccessTokenEntity));
     verify(mockAccessTokenResponseMapper).map(same(mockAccessTokenEntity));

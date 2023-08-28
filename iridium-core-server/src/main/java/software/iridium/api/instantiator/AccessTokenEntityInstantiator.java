@@ -38,6 +38,7 @@ public class AccessTokenEntityInstantiator {
             identityId, DateUtils.addHoursToCurrentTime(HOURS_TO_EXPIRATION));
     entity.setAccessToken(accessToken);
     final var refreshToken = refreshTokenInstantiator.instantiate(accessToken);
+    refreshToken.setAccessToken(entity);
     entity.setRefreshToken(refreshToken);
     return entity;
   }
