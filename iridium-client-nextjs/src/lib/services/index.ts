@@ -5,3 +5,6 @@ export * from './pkce.service'
 export * from './cookie.service'
 export * from './stateGenerator.service'
 export * from './identity.service'
+export * from './iridium-next-j-s-client.service';
+export * from './exchange-response-processor'
+export * from './exchange-URL-generator.service';

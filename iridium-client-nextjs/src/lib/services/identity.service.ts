@@ -11,14 +11,12 @@ export class IdentityService {
     }
 
     public get(token: string) {
-
         useEffect(() => {
             fetch(process.env.NEXT_PUBLIC_IRIDIUM_DOMAIN + 'identities', {headers: {
                     'Accept': 'application/vnd.iridium.id.identity-response.1+json', 'Authorization': 'Bearer ' + token,
                 }, method: 'POST'})
                 .then((response) => response.json())
                 .then((res) => {
-                    console.log("access token response ", res)
                     if (res.status === 200) {
                         this.cookieService.setCookie('iridium-token', res.access_token, 1, OauthConstants.COOKIE_PATH)
                     } else {

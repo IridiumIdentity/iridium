@@ -24,6 +24,7 @@ export class AccessTokenService {
                 .then((res) => {
                     console.log("access token response ", res)
                     if (res.status === 200) {
+                        console.log("status is 200")
                         this.cookieService.setCookie('iridium-token', res.access_token, 1, OauthConstants.COOKIE_PATH)
                     } else {
                         const state = this.cookieService.getCookie(OauthConstants.STATE);
@@ -46,5 +47,21 @@ export class AccessTokenService {
 
         }, [])
 
+    }
+}
+
+export function exchange(code: string) {
+    console.log('in exchange')
+    const cookieService = new CookieService();
+    const redirectUri = process.env.NEXT_PUBLIC_IRIDIUM_REDIRECT_URI;
+    const clientId = process.env.NEXT_PUBLIC_IRIDIUM_CLIENT_ID;
+    const codeVerifier = cookieService.getCookie(OauthConstants.PKCE_CODE_VERIFIER);
+    const state = cookieService.getCookie(OauthConstants.STATE);
+    console.log('exchanging')
+    return {
+        redirectUri: redirectUri,
+        clientId: clientId,
+        codeVerifier: codeVerifier,
+        state: state
     }
 }
