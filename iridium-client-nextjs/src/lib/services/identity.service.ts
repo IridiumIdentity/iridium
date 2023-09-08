@@ -20,7 +20,7 @@ export class IdentityService {
                     if (res.status === 200) {
                         this.cookieService.setCookie('iridium-token', res.access_token, 1, OauthConstants.COOKIE_PATH)
                     } else {
-                      console.log('error!')
+                      console.error('error!')
                     }
                 })
 

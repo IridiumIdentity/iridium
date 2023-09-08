@@ -1,6 +1,6 @@
 {
   "name": "@iridiumidentity/iridium-nextjs-client",
-  "version": "0.0.34-SNAPSHOT",
+  "version": "0.2.2-SNAPSHOT",
   "description": "A library for integrating Iridium Identity into a Next.js application",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

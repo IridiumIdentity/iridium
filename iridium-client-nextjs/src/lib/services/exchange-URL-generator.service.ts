@@ -20,6 +20,11 @@ export class ExchangeURLGeneratorService {
             return exchange(code)
         }
         console.log('code was null or state didn\'t match')
-
+        return {
+            redirectUri: '',
+            clientId: '',
+            codeVerifier: '',
+            state: ''
+        }
     }
 }
