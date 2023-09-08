@@ -4,7 +4,6 @@ import { CookieService } from './cookie.service';
 
 export class IdentityService {
 
-
     private cookieService: CookieService;
     constructor() {
         this.cookieService = new CookieService();
@@ -25,6 +24,5 @@ export class IdentityService {
                 })
 
         }, [])
-
     }
 }

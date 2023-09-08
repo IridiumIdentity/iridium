@@ -46,8 +46,6 @@ export class IridiumNextJSClientService {
 
     }
 
-
-
     public isAuthenticated() {
         return this.identityService.get(this.cookieService.getCookie('iridium-token'))
     }
