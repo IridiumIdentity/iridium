@@ -42,8 +42,13 @@ export class IridiumNextJSClientService {
 
     }
 
-    public processExchangeResponse(response: Response) {
+    public async exchange() {
+        const response = await fetch(this.exchangeURLGenerator.generate(), this.exchangeHeaderGenerator.generate());
         return this.exchangeResponseProcessor.processExchangeResponse(response)
+    }
+
+    public processExchangeResponse(response: Response) {
+        return
     }
 
     public generateExchangeURL() {

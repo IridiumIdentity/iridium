@@ -7,7 +7,7 @@ export class ExchangeURLGeneratorService {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const output = this.authorize();
-        return `${process.env.NEXT_PUBLIC_IRIDIUM_DOMAIN }oauth/token?grant_type=authorization_code&code=${urlParams.get( 'code' )}&redirect_uri=${output?.redirectUri}&client_id=${ output?.clientId }&code_verifier=${output?.codeVerifier}&state=${output?.state};`
+        return `${process.env.NEXT_PUBLIC_IRIDIUM_DOMAIN }oauth/token?grant_type=authorization_code&code=${urlParams.get( 'code' )}&redirect_uri=${output?.redirectUri}&client_id=${ output?.clientId }&code_verifier=${output?.codeVerifier}&state=${output?.state}`
     }
 
     authorize() {
