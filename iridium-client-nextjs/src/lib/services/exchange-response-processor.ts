@@ -12,7 +12,6 @@ export class ExchangeResponseProcessor {
             return true;
         } else {
 
-            console.log('external exchange incorrect: ', response)
             return false
         }
     }

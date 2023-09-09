@@ -1,6 +1,5 @@
 import { CookieService } from './cookie.service';
 import { OauthConstants } from './oauth-constants';
-import { useEffect } from 'react';
 
 export class AccessTokenService {
 

@@ -1,12 +1,11 @@
 export class CookieService {
     public getCookie(name: string) {
-        let ca: Array<string> = document.cookie.split(';');
-        let caLen: number = ca.length;
-        let cookieName = `${name}=`;
-        let c: string;
+        const cookieArray: Array<string> = document.cookie.split(';');
+        const cookieArrayLength: number = cookieArray.length;
+        const cookieName = `${name}=`;
 
-        for (let i: number = 0; i < caLen; i += 1) {
-            c = ca[i].replace(/^\s+/g, '');
+        for (let i: number = 0; i < cookieArrayLength; i += 1) {
+            let c = cookieArray[i].replace(/^\s+/g, '');
             if (c.indexOf(cookieName) == 0) {
                 return c.substring(cookieName.length, c.length);
             }

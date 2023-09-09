@@ -3,9 +3,7 @@ import { CookieService } from './cookie.service';
 import { PKCEService } from './pkce.service';
 import { OauthConstants } from './oauth-constants';
 import { UrlGeneratorService } from './urlGenerator.service';
-import { useSearchParams } from 'next/navigation'
-import { AccessTokenService, exchange } from './accessToken.service';
-import { IdentityService } from './identity.service';
+import { AccessTokenService } from './accessToken.service';
 import { ExchangeResponseProcessor } from './exchange-response-processor';
 import { ExchangeURLGeneratorService } from './exchange-URL-generator.service';
 import { ExchangeHeaderGeneratorService } from './exchange-header-generator.service';
@@ -17,7 +15,6 @@ export class IridiumNextJSClientService {
     private pkceService: PKCEService;
     private urlGenerator: UrlGeneratorService;
     private accessTokenService: AccessTokenService;
-    private identityService: IdentityService;
     private exchangeResponseProcessor: ExchangeResponseProcessor;
     private exchangeURLGenerator: ExchangeURLGeneratorService;
     private exchangeHeaderGenerator: ExchangeHeaderGeneratorService;
@@ -27,7 +24,6 @@ export class IridiumNextJSClientService {
         this.pkceService = new PKCEService();
         this.urlGenerator = new UrlGeneratorService();
         this.accessTokenService = new AccessTokenService();
-        this.identityService = new IdentityService();
         this.exchangeResponseProcessor = new ExchangeResponseProcessor();
         this.exchangeURLGenerator = new ExchangeURLGeneratorService();
         this.exchangeHeaderGenerator = new ExchangeHeaderGeneratorService();
@@ -44,10 +40,6 @@ export class IridiumNextJSClientService {
                 window.open(this.urlGenerator.retrieveIridiumAuthUrl(state, codeChallenge), '_blank')
             })
 
-    }
-
-    public isAuthenticated() {
-        return this.identityService.get(this.cookieService.getCookie('iridium-token'))
     }
 
     public processExchangeResponse(response: Response) {
