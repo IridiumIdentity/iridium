@@ -13,6 +13,9 @@ drop.sql
 
 # angular client
 iridium-angular-client/dist
+# react client
+iridium-client-nextjs/node_modules
+iridium-client-nextjs/dist
 # site
 site/.venv/
 site/site
