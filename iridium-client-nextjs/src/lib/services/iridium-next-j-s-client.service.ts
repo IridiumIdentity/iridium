@@ -7,6 +7,7 @@ import { AccessTokenService } from './accessToken.service';
 import { ExchangeResponseProcessor } from './exchange-response-processor';
 import { ExchangeURLGeneratorService } from './exchange-URL-generator.service';
 import { ExchangeHeaderGeneratorService } from './exchange-header-generator.service';
+import { IdentityHeaderGeneratorService } from './identity-header-generator.service';
 
 export class IridiumNextJSClientService {
 
@@ -18,6 +19,7 @@ export class IridiumNextJSClientService {
     private exchangeResponseProcessor: ExchangeResponseProcessor;
     private exchangeURLGenerator: ExchangeURLGeneratorService;
     private exchangeHeaderGenerator: ExchangeHeaderGeneratorService;
+    private identityHeaderGenerator: IdentityHeaderGeneratorService;
     constructor() {
         this.stateGenerator = new StateGeneratorService();
         this.cookieService = new CookieService();
@@ -27,6 +29,7 @@ export class IridiumNextJSClientService {
         this.exchangeResponseProcessor = new ExchangeResponseProcessor();
         this.exchangeURLGenerator = new ExchangeURLGeneratorService();
         this.exchangeHeaderGenerator = new ExchangeHeaderGeneratorService();
+        this.identityHeaderGenerator = new IdentityHeaderGeneratorService();
     }
 
     public authenticateWithExternalRedirect(): void {
@@ -46,6 +49,12 @@ export class IridiumNextJSClientService {
         const response = await fetch(this.exchangeURLGenerator.generate(), this.exchangeHeaderGenerator.generate());
         return this.exchangeResponseProcessor.processExchangeResponse(response)
     }
+
+    public async getIdentity() {
+        const response = await fetch(process.env.NEXT_PUBLIC_IRIDIUM_DOMAIN + 'identities', this.identityHeaderGenerator.generate(this.cookieService.getCookie('iridium-token')))
+        return await response.json();
+    }
+
 
     public processExchangeResponse(response: Response) {
         return
