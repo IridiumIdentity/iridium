@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../../3.-Running-Locally/using-docker-for-development/">
+        <link rel="prev" href="../quickstart-with-angular/">
       
       
-        <link rel="next" href="../../5.-External-Identity-Providers/create-github-application/">
+        <link rel="next" href="../../3.-Running-Locally/1.Install-the-CLI/">
       
       
       <link rel="icon" href="../../images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Authorization Code Flow - Iridium</title>
+        <title>Revoking github authorization - Iridium</title>
       
     
     
@@ -73,11 +73,6 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
-      
-        
-        <a href="#authorization-code-flow" class="md-skip">
-          Skip to content
-        </a>
       
     </div>
     <div data-md-component="announce">
@@ -161,7 +156,7 @@ You're not viewing the latest version.
                 <div class="md-header__topic" data-md-component="header-topic">
 <!--          <span class="md-ellipsis">-->
 <!--            -->
-<!--              Authorization Code Flow-->
+<!--              Revoking github authorization-->
 <!--            -->
 <!--          </span>-->
                 </div>
@@ -349,57 +344,6 @@ You're not viewing the latest version.
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#understanding-the-authorization-code-flow" class="md-nav__link">
-    Understanding the Authorization Code Flow
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#endpoints-used-in-the-authorization-code-flow" class="md-nav__link">
-    Endpoints used in the Authorization Code Flow
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-external-provider-authorization-endpoint" class="md-nav__link">
-    The external provider authorization endpoint
-  </a>
-  
-    <nav class="md-nav" aria-label="The external provider authorization endpoint">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#creating-the-code-verifier" class="md-nav__link">
-    Creating the code verifier
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-token-endpoint" class="md-nav__link">
-    The token endpoint
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -417,102 +361,22 @@ You're not viewing the latest version.
   
 
 
-<h1 id="authorization-code-flow">Authorization Code Flow</h1>
-<p>Building Authorization Code Flow libraries for use with Iridium requires a few steps.</p>
-<ul>
-<li><a href="#understanding-the-authorization-code-flow">Understanding the Authorization Code Flow Grant Type</a></li>
-<li><a href="#endpoints-used-in-the-authorization-code-flow">The endpoints used in the Authorization Flow</a></li>
-</ul>
-<h2 id="understanding-the-authorization-code-flow">Understanding the Authorization Code Flow</h2>
-<p>The authorization code flow is used to get access tokens and refresh tokens.  This flow is based
-on redirection.</p>
-<p><img alt="Authorization Code Flow" src="../../images/authorization-code-flow.png" /></p>
-<ol>
-<li>The resource owner (end-user) visits a third-party client (web application)</li>
-<li>The resource owner selects the “sign up with Google” button in the client. The user-agent (browser) directs the resource owner to the Google sign-in page.</li>
-<li>The resource owner (end-user) authenticates and authorizes the authorization server to grant access to the resource owner's information (in this case it could be the email address and profile information) to the third-party client.</li>
-<li>After the resource owner (end-user) authorizes access, the authorization server redirects the user-agent (browser) back to the original third-party client with an authorization code and typically a state parameter</li>
-<li>The third-party client requests an access token with the received authorization code and associated redirect URI</li>
-<li>The authorization authenticates the client, validates the authorization code and the accompanying redirect URI matches the URI provided in step D.  If the request is valid the authorization server returns back with an access token and an optional refresh token.</li>
-</ol>
-<h2 id="endpoints-used-in-the-authorization-code-flow">Endpoints used in the Authorization Code Flow</h2>
-<p>When building clients for Iridium, there are two main RESTful endpoints you need to be familiar with.</p>
-<ol>
-<li><a href="#the-external-provider-authorization-endpoint">The authorization endpoint</a></li>
-<li><a href="#the-token-endpoint">The token endpoint</a></li>
-</ol>
-<h2 id="the-external-provider-authorization-endpoint">The external provider authorization endpoint</h2>
-<ul>
-<li>Method: <code>POST</code></li>
-<li>Endpoint: <code>${serverRoot}/oauth/external/authorize</code></li>
-<li>
-<p>Parameters</p>
-<ul>
-<li><code>response_type</code></li>
-<li><code>REQUIRED</code>. The value must be <code>code</code></li>
-<li><code>state</code></li>
-<li><code>REQUIRED</code>.  This is an opaque value to maintain state between the initial authorization request and the callback.</li>
-<li><code>scope</code></li>
-<li><code>REQUIRED</code>.  Depending on the provider you are authorizing with will determine the value here.  As an example, if you are using GitHub a safe default is <code>user:email</code></li>
-<li><code>redirect_uri</code></li>
-<li><code>REQUIRED</code>. The authorization will redirect the resource owner's user-agent (typically a browser) back to the originating client. This must be an absolute URI.</li>
-<li><code>client_id</code></li>
-<li><code>REQUIRED</code>. The client identifier.   This is an opaque and unique string generated for the client after registration of it within Iridium. </li>
-<li><code>provider</code></li>
-<li><code>REQUIRED</code>.  This must be either <code>github</code> or <code>google</code>.  This parameter is subject to change in upcoming releases.</li>
-<li><code>code_challenge_method</code></li>
-<li><code>REQUIRED</code>.  This must be <code>S256</code></li>
-<li><code>code_challenge</code></li>
-<li><code>REQUIRED</code>.  The code challenge is derived from the <code>code_verfier</code> (listed below). 
-     <code>code_challenge = BASE64URL-ENCODE(SHA256(ASCII(code_verifier)))</code></li>
-<li>Response:</li>
-<li>If the request is valid the (end-user) will be redirected to the external identity provider for authorization by the Iridium server.</li>
-</ul>
-</li>
-</ul>
-<h3 id="creating-the-code-verifier">Creating the code verifier</h3>
-<p>This is a high-entropy cryptographic random string using the unreserved characters [A-Z], [a-z], [0-9], "-", ".", "_", "~".  It is <code>recommended</code> that the output of
-a suitable random number generator be used to create a 32-octet sequence.  The octet sequence is then base64url-encoded to produce a 43-octet URL safe string to use as the code verifier.   </p>
-<h2 id="the-token-endpoint">The token endpoint</h2>
-<ul>
-<li>Method: <code>POST</code></li>
-<li>Endpoint: <code>${serverRoot}/oauth/token</code></li>
-<li>Parameters</li>
-<li><code>grant_type</code><ul>
-<li><code>REQUIRED</code>.  This value must be set to <code>authorization_code</code></li>
-</ul>
-</li>
-<li><code>code</code><ul>
-<li><code>REQUIRED</code>.  This is the authorization code recieved from the Iridium server</li>
-</ul>
-</li>
-<li><code>redirect_uri</code><ul>
-<li>This must match exactly the URI at <a href="#the-external-provider-authorization-endpoint">the above request</a></li>
-</ul>
-</li>
-<li><code>client_id</code><ul>
-<li><code>REQUIRED</code>. unless authentication is supplied via HTTP Basic Auth header using the client ID as the 
-  username and secret as the password, or by accepting the strings in the post body as <code>client_id</code> and <code>client_secret</code></li>
-</ul>
-</li>
-<li><code>code_verfier</code><ul>
-<li><code>REQUIRED</code>. The <code>code_verifier</code> provided at <a href="#the-external-provider-authorization-endpoint">the above request</a></li>
-</ul>
-</li>
-<li>Response:</li>
-<li>If the request is successful the response will look similar to the following:</li>
-</ul>
-<pre><code class="language-json">HTTP/1.1 200 OK
-Content-Type: application/json
-Cache-Control: no-store
+  <h1>Revoking github authorization</h1>
 
-{
-  &quot;access_token&quot;:&quot;someAccessTokenValue&quot;,
-  &quot;token_type&quot;:&quot;Bearer&quot;,
-  &quot;expires_in&quot;:3600,
-  &quot;refresh_token&quot;:&quot;SomeRefreshTokenValue&quot;,
-}
-</code></pre>
+<p><strong>Below outline the steps required to revoke the Iridium app from GitHub</strong></p>
+<ol>
+<li>Log into you Github Account</li>
+<li>Click on the settings icon on the sidebar</li>
+<li>Search and click on the <strong><em>Applications</em></strong> settings under the <strong><em>Integrations</em></strong> section</li>
+</ol>
+<p><img src="../images/GitHub-Sidebar.png" alt="drawing" width="200"/></p>
+<ol>
+<li>Find your Iridium application and click on the corresponding configure button
+   (You might be asked to enter the password at this point to authenticate the user)</li>
+<li>Find the <strong><em>Uninstall</em></strong> button in the <strong><em>Danger Zone</em></strong> section of the settings</li>
+</ol>
+<p><img src="../images/GitHub-Authorized-Apps.png" alt="drawing" width="600"/></p>
+<p>For further help, refer to the official <a href="https://docs.github.com/en/apps/using-github-apps/reviewing-and-revoking-authorization-of-github-apps">GitHub documentation</a></p>
 
 
   
