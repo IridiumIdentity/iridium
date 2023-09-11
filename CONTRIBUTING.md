@@ -58,22 +58,3 @@ OS name: "mac os x", version: "11.4", arch: "x86_64", family: "mac"
 It should be apparent from the output above that the version command will tell you where maven is picking up your java environment from.  Please remember if you have to upgrade or align your java version you will need to set the JAVA_HOME variable and put JAVA_HOME/bin in your path. 
 
 We are actively updating the documentation as quickly as we can, we'd appreciate your help and/or feedback. https://docs.iridium.software/
-
-## <a name="Running"></a> Running 
-Running iridium locally is as simple as running the following command and following the prompts.  it will tell you exactly what to do (if you are on macos).  We need a similar script for windows and linux.  
-
-** Please Note: ** This presumes that you have already [built the project](#building)
-
-```
-chmod +x bootIridium.sh
-./bootIridium.sh 
-```
-
-This will do the following for you 
-* Set the IRIDIUM_HOME directory to the root of the bootIridium.sh script. 
-* Calculate the project version
-* Unpack the the cli bin target
-* Check to see if a client id needs to be added to the external providers yaml file, it will exit if a client id does not exist.  
-* Check to see if a data directory exists and if not it will create one. If it does not exist it assumes that this is the first time you have run iridium and it provides links to setting up the social providers we support. 
-* It calculates the host internal for routing outside from the containers. 
-* It launches docker
