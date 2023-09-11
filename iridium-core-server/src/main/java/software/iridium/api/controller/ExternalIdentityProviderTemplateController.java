@@ -15,6 +15,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import software.iridium.api.authentication.domain.ExternalProviderTemplateSummaryResponse;
 import software.iridium.api.service.ExternalIdentityProviderTemplateService;
@@ -30,5 +31,13 @@ public class ExternalIdentityProviderTemplateController {
       produces = ExternalProviderTemplateSummaryResponse.MEDIA_TYPE_LIST)
   public List<ExternalProviderTemplateSummaryResponse> retrieveAllSummaries() {
     return providerService.retrieveAllSummaries();
+  }
+
+  @GetMapping(
+      value = "/tenants/{tenant-id}/external-provider-templates",
+      produces = ExternalProviderTemplateSummaryResponse.MEDIA_TYPE_LIST)
+  public List<ExternalProviderTemplateSummaryResponse> retrieveAvailableSummaries(
+      @PathVariable(name = "tenant-id") final String tenantId) {
+    return providerService.retrieveAvailableSummaries(tenantId);
   }
 }

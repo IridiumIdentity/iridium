@@ -40,4 +40,13 @@ class ExternalIdentityProviderTemplateControllerTest {
 
     verify(mockProviderService).retrieveAllSummaries();
   }
+
+  @Test
+  public void retrieveAvailableSummaries_AllGood_BehavesAsExpected() {
+    final var tenantId = "the tenant id";
+
+    subject.retrieveAvailableSummaries(tenantId);
+
+    verify(mockProviderService).retrieveAvailableSummaries(tenantId);
+  }
 }
