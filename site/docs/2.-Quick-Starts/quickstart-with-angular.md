@@ -97,7 +97,7 @@ You’ll be redirected to GitHub. The view should show details specific to the a
 
 ![Authorize Your App](../images/authorize-my-app.png)
 
-(If you ever want to revoke the gitHub authorization, refer to [this]() documentation)
+(If you ever want to revoke the gitHub authorization, refer to [this](./revoking-github-authorization.md) documentation)
 
 Select “Authorize ${your-github-name}” and you should be redirected back to your angular application with confirmation of successful authorization.
 
