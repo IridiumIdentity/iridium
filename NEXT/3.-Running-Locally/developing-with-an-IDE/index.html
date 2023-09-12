@@ -20,7 +20,7 @@
     
     
       
-        <title>Developing with intellij - Iridium</title>
+        <title>Developing with an IDE - Iridium</title>
       
     
     
@@ -75,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#setting-up-with-intellij" class="md-skip">
+        <a href="#developing-with-an-ide" class="md-skip">
           Skip to content
         </a>
       
@@ -161,7 +161,7 @@ You're not viewing the latest version.
                 <div class="md-header__topic" data-md-component="header-topic">
 <!--          <span class="md-ellipsis">-->
 <!--            -->
-<!--              Developing with intellij-->
+<!--              Developing with an IDE-->
 <!--            -->
 <!--          </span>-->
                 </div>
@@ -349,12 +349,41 @@ You're not viewing the latest version.
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#intellij" class="md-nav__link">
+    Intellij
+  </a>
+  
+    <nav class="md-nav" aria-label="Intellij">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#open-the-project" class="md-nav__link">
+    Open the project
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#setting-up-with-intellij" class="md-nav__link">
@@ -391,6 +420,27 @@ You're not viewing the latest version.
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#copy-applicationproperties" class="md-nav__link">
+    Copy application.properties
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-cli" class="md-nav__link">
+    Use CLI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-intellij-gui_1" class="md-nav__link">
+    Use Intellij GUI
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -414,8 +464,32 @@ You're not viewing the latest version.
   
 
 
-  <h1>Developing with intellij</h1>
-
+<h1 id="developing-with-an-ide">Developing with an IDE</h1>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>You will need:
+ -  <a href="https://nodejs.org/en">Node 18</a>
+ -  <a href="https://adoptium.net/">Java 17</a><br />
+ -  <a href="https://maven.apache.org/">Maven 3.8.4</a> or greater  </p>
+<hr />
+<p>Before you begin, make sure to <a href="../4.run-iridium-with-docker.md">clone the repository</a>. </p>
+<pre><code class="language-shell">$ git clone git@github.com:IridiumIdentity/iridium.git
+</code></pre>
+<p><code>cd</code> into the root folder.</p>
+<pre><code class="language-shell">$ cd iridium
+</code></pre>
+<p>If you have not already, <a href="../building-from-source.md">compile from source</a>. </p>
+<pre><code class="language-shell">$ mvn clean package
+</code></pre>
+<p>When Maven has finished successfully, you will see the following.</p>
+<pre><code>[INFO] -----------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:08 min
+[INFO] Finished at: 2023-09-11T12:54:42-07:00
+[INFO] -----------------------------------------------------------------------
+</code></pre>
+<h2 id="intellij">Intellij</h2>
+<h3 id="open-the-project"><strong>Open the project</strong></h3>
 <h2 id="setting-up-with-intellij">Setting up with Intellij</h2>
 <h3 id="use-launcher-script">Use launcher script</h3>
 <h4 id="current-supported-operating-systems">Current supported operating systems</h4>
@@ -428,8 +502,22 @@ From the root folder of the repo you can execute the following command to open t
 <h3 id="use-intellij-gui">Use Intellij GUI</h3>
 <p>Opening Iridium with Intellij is straight-forward.  In the menu bar in Intellij go to<br />
 <code>File -&gt; Open...</code> then select the top level folder of the iridium project on your computer.</p>
-<p><img alt="Open with Intellij" src="../../images/open-with-intellij.png" /></p>
+<p><img alt="Open with Intellij" src="../../images/import-project-intellij.png" /></p>
 <p>The project should load as it's a standard Maven project. </p>
+<hr />
+<h3 id="copy-applicationproperties"><strong>Copy application.properties</strong></h3>
+<p>In an IDE, Springboot will not find the <code>application.properties</code> file in its default directory. To start Iridium on your IDE, copy the file to a recognized location.</p>
+<h3 id="use-cli">Use CLI</h3>
+<p>To successfully start Iridium on your IDE, run the following command from the top of the <code>iridium</code> directory. </p>
+<pre><code class="language-shell">$ cp ./conf/application.properties ./iridium-core-server/src/main/resources
+</code></pre>
+<p><em>Any changes you make to <code>application.properties</code> will need to be updated on both files.</em></p>
+<h3 id="use-intellij-gui_1">Use Intellij GUI</h3>
+<p>Initial location of the <code>application.properties</code> file:</p>
+<p><img alt="Initial location of application.properties" src="../../images/application-prop-location1.png" /></p>
+<p>where to paste the file:</p>
+<p><img alt="Location of pasted application.properties" src="../../images/application-prop-location2.png" /></p>
+<p><strong>You are now ready to run Iridium from your IDE.</strong></p>
 
 
   
