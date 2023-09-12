@@ -399,6 +399,13 @@ You're not viewing the latest version.
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#the-refresh-token-endpoint" class="md-nav__link">
+    The refresh token endpoint
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -436,72 +443,179 @@ on redirection.</p>
 <li>The authorization authenticates the client, validates the authorization code and the accompanying redirect URI matches the URI provided in step D.  If the request is valid the authorization server returns back with an access token and an optional refresh token.</li>
 </ol>
 <h2 id="endpoints-used-in-the-authorization-code-flow">Endpoints used in the Authorization Code Flow</h2>
-<p>When building clients for Iridium, there are two main RESTful endpoints you need to be familiar with.</p>
+<p>When building clients for Iridium, there are three main RESTful endpoints you need to be familiar with.</p>
 <ol>
 <li><a href="#the-external-provider-authorization-endpoint">The authorization endpoint</a></li>
 <li><a href="#the-token-endpoint">The token endpoint</a></li>
+<li><a href="#the-refresh-token-endpoint">The refresh token endpoint</a></li>
 </ol>
 <h2 id="the-external-provider-authorization-endpoint">The external provider authorization endpoint</h2>
 <ul>
 <li>Method: <code>POST</code></li>
-<li>Endpoint: <code>${serverRoot}/oauth/external/authorize</code></li>
 <li>
-<p>Parameters</p>
+<p>Endpoint: <code>${serverRoot}/oauth/external/authorize</code></p>
+</li>
+<li>
+<table>
+<thead>
+<tr>
+<th>Query Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>response_type</td>
+<td>string</td>
+<td><strong>Required</strong> The value must be <code>code</code></td>
+</tr>
+<tr>
+<td>state</td>
+<td>string</td>
+<td><strong>Required</strong> This is an opaque value to maintain state between the initial authorization request and the callback.</td>
+</tr>
+<tr>
+<td>scope</td>
+<td>string</td>
+<td><strong>Required</strong> Depending on the provider you are authorizing with will determine the value here.  As an example, if you are using GitHub a safe default is <code>user:email</code></td>
+</tr>
+<tr>
+<td>client_id</td>
+<td>string</td>
+<td><strong>Required</strong> The client identifier. This is an opaque and unique string generated for the client after registration of it within Iridium.</td>
+</tr>
+<tr>
+<td>provider</td>
+<td>string</td>
+<td><strong>Required</strong> This must be either <code>github</code> or <code>google</code>.  This parameter is subject to change in upcoming releases.</td>
+</tr>
+<tr>
+<td>code_challenge_method</td>
+<td>string</td>
+<td><strong>Required</strong> This must be <code>S256</code></td>
+</tr>
+<tr>
+<td>code_challenge</td>
+<td>string</td>
+<td><strong>Required</strong> The code challenge is derived from the <code>code_verifier</code> (listed below).<br/><code>code_challenge = BASE64URL-ENCODE(SHA256(ASCII(code_verifier)))</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>Response:</p>
 <ul>
-<li><code>response_type</code></li>
-<li><code>REQUIRED</code>. The value must be <code>code</code></li>
-<li><code>state</code></li>
-<li><code>REQUIRED</code>.  This is an opaque value to maintain state between the initial authorization request and the callback.</li>
-<li><code>scope</code></li>
-<li><code>REQUIRED</code>.  Depending on the provider you are authorizing with will determine the value here.  As an example, if you are using GitHub a safe default is <code>user:email</code></li>
-<li><code>redirect_uri</code></li>
-<li><code>REQUIRED</code>. The authorization will redirect the resource owner's user-agent (typically a browser) back to the originating client. This must be an absolute URI.</li>
-<li><code>client_id</code></li>
-<li><code>REQUIRED</code>. The client identifier.   This is an opaque and unique string generated for the client after registration of it within Iridium. </li>
-<li><code>provider</code></li>
-<li><code>REQUIRED</code>.  This must be either <code>github</code> or <code>google</code>.  This parameter is subject to change in upcoming releases.</li>
-<li><code>code_challenge_method</code></li>
-<li><code>REQUIRED</code>.  This must be <code>S256</code></li>
-<li><code>code_challenge</code></li>
-<li><code>REQUIRED</code>.  The code challenge is derived from the <code>code_verfier</code> (listed below). 
-     <code>code_challenge = BASE64URL-ENCODE(SHA256(ASCII(code_verifier)))</code></li>
-<li>Response:</li>
 <li>If the request is valid the (end-user) will be redirected to the external identity provider for authorization by the Iridium server.</li>
 </ul>
 </li>
 </ul>
 <h3 id="creating-the-code-verifier">Creating the code verifier</h3>
 <p>This is a high-entropy cryptographic random string using the unreserved characters [A-Z], [a-z], [0-9], "-", ".", "_", "~".  It is <code>recommended</code> that the output of
-a suitable random number generator be used to create a 32-octet sequence.  The octet sequence is then base64url-encoded to produce a 43-octet URL safe string to use as the code verifier.   </p>
+a suitable random number generator be used to create a 32-octet sequence.  The octet sequence is then base64url-encoded to produce a 43-octet URL safe string to use as the code verifier.</p>
 <h2 id="the-token-endpoint">The token endpoint</h2>
 <ul>
 <li>Method: <code>POST</code></li>
 <li>Endpoint: <code>${serverRoot}/oauth/token</code></li>
-<li>Parameters</li>
-<li><code>grant_type</code><ul>
-<li><code>REQUIRED</code>.  This value must be set to <code>authorization_code</code></li>
 </ul>
-</li>
-<li><code>code</code><ul>
-<li><code>REQUIRED</code>.  This is the authorization code recieved from the Iridium server</li>
+<table>
+<thead>
+<tr>
+<th>Query Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>grant_type</td>
+<td>string</td>
+<td><strong>Required</strong> This value must be set to <code>authorization_code</code></td>
+</tr>
+<tr>
+<td>code</td>
+<td>string</td>
+<td><strong>Required</strong> This is the authorization code recieved from the Iridium server</td>
+</tr>
+<tr>
+<td>redirect_uri</td>
+<td>string</td>
+<td>This must match exactly the URI at <a href="#the-external-provider-authorization-endpoint">the above request</a></td>
+</tr>
+<tr>
+<td>client_id</td>
+<td>string</td>
+<td><strong>Required</strong> Unless authentication is supplied via HTTP Basic Auth header using the client ID as the username and secret as the password, or by accepting the strings in the post body as <code>client_id</code> and <code>client_secret</code></td>
+</tr>
+<tr>
+<td>code_verfier</td>
+<td>string</td>
+<td><strong>Required</strong> The <code>code_verifier</code> provided at <a href="#the-external-provider-authorization-endpoint">the above request</a></td>
+</tr>
+<tr>
+<td>* Response:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>* If the request is successful the response will look similar to the following:</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-json">HTTP/1.1 200 OK
+Content-Type: application/json
+Cache-Control: no-store
+
+{
+  &quot;access_token&quot;:&quot;someAccessTokenValue&quot;,
+  &quot;token_type&quot;:&quot;Bearer&quot;,
+  &quot;expires_in&quot;:3600,
+  &quot;refresh_token&quot;:&quot;SomeRefreshTokenValue&quot;,
+}
+</code></pre>
+<h2 id="the-refresh-token-endpoint">The refresh token endpoint</h2>
+<ul>
+<li>Method: <code>POST</code></li>
+<li>Endpoint: <code>${serverRoot}/oauth/token/refresh</code></li>
 </ul>
-</li>
-<li><code>redirect_uri</code><ul>
-<li>This must match exactly the URI at <a href="#the-external-provider-authorization-endpoint">the above request</a></li>
-</ul>
-</li>
-<li><code>client_id</code><ul>
-<li><code>REQUIRED</code>. unless authentication is supplied via HTTP Basic Auth header using the client ID as the 
-  username and secret as the password, or by accepting the strings in the post body as <code>client_id</code> and <code>client_secret</code></li>
-</ul>
-</li>
-<li><code>code_verfier</code><ul>
-<li><code>REQUIRED</code>. The <code>code_verifier</code> provided at <a href="#the-external-provider-authorization-endpoint">the above request</a></li>
-</ul>
-</li>
-<li>Response:</li>
-<li>If the request is successful the response will look similar to the following:</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Query Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>grant_type</td>
+<td>string</td>
+<td><strong>Required</strong> This value must be set to <code>refresh_token</code></td>
+</tr>
+<tr>
+<td>refresh_token</td>
+<td>string</td>
+<td><strong>Required</strong> The refresh token</td>
+</tr>
+<tr>
+<td>client_id</td>
+<td>string</td>
+<td><strong>Required</strong> The client identifier. This is an opaque and unique string generated for the client after registration of it within Iridium.</td>
+</tr>
+<tr>
+<td>* Response:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>* If the request is successful the response will look similar to the following:</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <pre><code class="language-json">HTTP/1.1 200 OK
 Content-Type: application/json
 Cache-Control: no-store
