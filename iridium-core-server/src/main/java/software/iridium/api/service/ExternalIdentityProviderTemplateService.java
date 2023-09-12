@@ -59,7 +59,8 @@ public class ExternalIdentityProviderTemplateService {
     for (ExternalIdentityProviderTemplateEntity providerTemplate : templates) {
       var templateNotFound = true;
       for (ExternalIdentityProviderEntity provider : tenant.getExternalIdentityProviders()) {
-        if (provider.getTemplate().equals(providerTemplate)) {
+
+        if (provider.getTemplate().getId().equals(providerTemplate.getId())) {
           // this template has already been used
           templateNotFound = false;
           break;
