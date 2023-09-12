@@ -30,6 +30,7 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_SECRET }}
 
+      # set up java
       - uses: actions/setup-java@v1.4.4
         with:
           java-version: 17
@@ -37,20 +38,24 @@ jobs:
           architecture: x64
           server-id: maven
 
+      # build and publish Docker
       - name: build docker image
         run: ./tools/scripts/build-and-push-docker.sh ${{ env.NAMESPACE }} ${{ env.IMAGE_NAME }} ${{ env.version }}
 
+      # build and publish binary distro
       - name: upload tar.gz
         uses: actions/upload-artifact@v3
         with:
           name: iridium-${{ env.version }}-bin
           path: iridium-cli/target/iridium-*-bin.tar.gz
 
+      # set up node
       - name: set up node 18
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
+      # build and publish Angular
       - name: install angular cli
         run: npm install -g @angular/cli@15
         working-directory: ./iridium-angular-client
@@ -60,9 +65,19 @@ jobs:
       - name: build ngx-iridium-client
         run: ng build ngx-iridium-client
         working-directory: ./iridium-angular-client
-      - name: publish library
+      - name: publish angular library
         run: npm publish --access public
         working-directory: ./iridium-angular-client/dist/ngx-iridium-client
+        # build and publish next.js
+      - name: install deps next.js
+        run: npm install
+        working-directory: ./iridium-client-nextjs
+      - name: build next.js client
+        run: npm run build-lib
+        working-directory: ./iridium-client-nextjs
+      - name: publish next.js client
+        run: npm publish --access public
+        working-directory: ./iridium-client-nextjs
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
