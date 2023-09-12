@@ -40,7 +40,7 @@ public class TenantEntity extends AbstractEntity {
   @JoinColumn(name = "login_descriptor_id")
   private LoginDescriptorEntity loginDescriptor;
 
-  @OneToMany(mappedBy = "tenant", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "tenant", fetch = FetchType.EAGER)
   private List<ExternalIdentityProviderEntity> externalIdentityProviders = new ArrayList<>();
 
   public List<IdentityEntity> getManagingIdentities() {
