@@ -31,6 +31,10 @@ If there is a corresponding GitHub issue, please mention the issue number in the
 
 Ideally prefix commit comments with either the pull request number, or the associated GitHub issue number.
 
+We have Oauth Apps Restrictions enabled, so operations such as creating a PR on the organization's repository from IDE will fail.
+
+To open a new PR commit the changes to your forked repository and use the GitHub webapp to submit the PR. 
+
 
 ## <a name="java_version"></a> Java version
 The project is built with Java 17

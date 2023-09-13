@@ -46,6 +46,7 @@ import software.iridium.api.util.SHA256Hasher;
 import software.iridium.api.util.ServletTokenExtractor;
 import software.iridium.api.util.SubdomainExtractor;
 import software.iridium.api.validator.*;
+import software.iridium.entity.ApplicationType;
 import software.iridium.entity.ClientSecretEntity;
 import software.iridium.entity.ExternalIdentityProviderEntity;
 
@@ -449,6 +450,12 @@ public class AuthorizationService {
             .findByClientId(clientId)
             .orElseThrow(
                 () -> new BadRequestException("application not found for clientId: " + clientId));
+
+    // Check if the client is confidential
+    if (application.getApplicationType().getType().equals(ApplicationType.MOBILE_OR_NATIVE)
+        || application.getApplicationType().getType().equals(ApplicationType.SINGLE_PAGE)) {
+      throw new NotAuthorizedException("Only confidential clients are allowed to refresh tokens.");
+    }
 
     refreshTokenRepository
         .findByRefreshToken(refreshToken)
