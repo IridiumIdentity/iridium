@@ -38,6 +38,7 @@ import software.iridium.api.authentication.domain.ApplicationAuthorizationFormRe
 import software.iridium.api.authentication.domain.AuthorizationResponse;
 import software.iridium.api.authentication.domain.GithubProfileResponse;
 import software.iridium.api.base.error.BadRequestException;
+import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.generator.ExternalProviderAccessTokenUrlGenerator;
 import software.iridium.api.generator.RedirectUrlGenerator;
@@ -611,8 +612,13 @@ class AuthorizationServiceTest {
     final var clientId = "the client id";
     final var refreshToken = "some token";
     final var grantType = "refresh_token";
+
+    final var applicationTypeEntity = new ApplicationTypeEntity();
+    applicationTypeEntity.setType(ApplicationType.WEB_SERVICE);
+
     final var application = new ApplicationEntity();
     application.setClientId(clientId);
+    application.setApplicationType(applicationTypeEntity);
 
     final var refreshTokenEntity = new RefreshTokenEntity();
     refreshTokenEntity.setRefreshToken(refreshToken);
@@ -636,13 +642,77 @@ class AuthorizationServiceTest {
   }
 
   @Test
+  void refreshToken_MobileNotAuthorized_ExceptionThrown() {
+    final var clientId = "the client id";
+    final var refreshToken = "some token";
+    final var grantType = "refresh_token";
+
+    final var applicationTypeEntity = new ApplicationTypeEntity();
+    applicationTypeEntity.setType(ApplicationType.MOBILE_OR_NATIVE);
+
+    final var application = new ApplicationEntity();
+    application.setClientId(clientId);
+    application.setApplicationType(applicationTypeEntity);
+
+    when(mockApplicationRepository.findByClientId(same(clientId)))
+        .thenReturn(Optional.of(application));
+
+    final var exception =
+        assertThrows(
+            NotAuthorizedException.class,
+            () -> subject.refreshToken(grantType, clientId, refreshToken));
+
+    assertThat(
+        exception.getMessage(),
+        is(equalTo("Only confidential clients are allowed to refresh tokens.")));
+
+    verify(mockRefreshTokenRequestValidator)
+        .validate(same(grantType), same(clientId), same(refreshToken));
+    verify(mockApplicationRepository).findByClientId(same(clientId));
+  }
+
+  @Test
+  void refreshToken_SPANotAuthorized_ExceptionThrown() {
+    final var clientId = "the client id";
+    final var refreshToken = "some token";
+    final var grantType = "refresh_token";
+
+    final var applicationTypeEntity = new ApplicationTypeEntity();
+    applicationTypeEntity.setType(ApplicationType.SINGLE_PAGE);
+
+    final var application = new ApplicationEntity();
+    application.setClientId(clientId);
+    application.setApplicationType(applicationTypeEntity);
+
+    when(mockApplicationRepository.findByClientId(same(clientId)))
+        .thenReturn(Optional.of(application));
+
+    final var exception =
+        assertThrows(
+            NotAuthorizedException.class,
+            () -> subject.refreshToken(grantType, clientId, refreshToken));
+
+    assertThat(
+        exception.getMessage(),
+        is(equalTo("Only confidential clients are allowed to refresh tokens.")));
+
+    verify(mockRefreshTokenRequestValidator)
+        .validate(same(grantType), same(clientId), same(refreshToken));
+    verify(mockApplicationRepository).findByClientId(same(clientId));
+  }
+
+  @Test
   void refreshToken_AllGoodBehavesAsExpected() {
     final var clientId = "the client id";
     final var refreshToken = "some token";
     final var grantType = "refresh_token";
 
+    final var applicationTypeEntity = new ApplicationTypeEntity();
+    applicationTypeEntity.setType(ApplicationType.WEB_SERVICE);
+
     final var application = new ApplicationEntity();
     application.setClientId(clientId);
+    application.setApplicationType(applicationTypeEntity);
 
     final var refreshTokenEntity = new RefreshTokenEntity();
     refreshTokenEntity.setRefreshToken(refreshToken);
