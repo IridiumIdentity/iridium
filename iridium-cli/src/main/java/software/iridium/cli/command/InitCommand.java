@@ -33,27 +33,24 @@ public class InitCommand implements Runnable {
     final Map<String, String> properties =
         PersistencePropertyGenerator.generatePersistenceProperties();
 
-    try (var entityManagerFactory =
-            Persistence.createEntityManagerFactory("persistence", properties);
-        EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+    try (
+            var entityManagerFactory = Persistence.createEntityManagerFactory("persistence", properties);
+            EntityManager entityManager = entityManagerFactory.createEntityManager()
+    ) {
 
-      final var applicationTypes = ApplicationTypeGenerator.generateApplicationTypes(entityManager);
+          final var applicationTypes = ApplicationTypeGenerator.generateApplicationTypes(entityManager);
+          final TenantEntity iridiumTenant = TenantGenerator.generateTenant(entityManager);
+          LoginDescriptorGenerator.generateLoginDescriptor(entityManager, iridiumTenant);
+          final var identityProviderTemplates = IdentityProviderTemplateGenerator.generate(entityManager);
+          IdentityProviderGenerator.generate(entityManager, identityProviderTemplates, iridiumTenant);
 
-      final TenantEntity iridiumTenant = TenantGenerator.generateTenant(entityManager);
-
-      LoginDescriptorGenerator.generateLoginDescriptor(entityManager, iridiumTenant);
-
-      final var identityProviderTemplates =
-          IdentityProviderTemplateGenerator.generate(entityManager);
-
-      IdentityProviderGenerator.generate(entityManager, identityProviderTemplates, iridiumTenant);
-
-      for (ApplicationTypeEntity typeEntity : applicationTypes) {
-        if (typeEntity.getType().equals(ApplicationType.SINGLE_PAGE)) {
-          final var application =
-              ApplicationGenerator.generateIridiumApplication(
-                  entityManager, iridiumTenant, typeEntity);
-          this.iridiumAppId = application.getClientId();
+          for (ApplicationTypeEntity typeEntity : applicationTypes) {
+            if (typeEntity.getType().equals(ApplicationType.SINGLE_PAGE)) {
+              final var application = ApplicationGenerator.generateIridiumApplication(
+                      entityManager,
+                      iridiumTenant,
+                      typeEntity);
+              this.iridiumAppId = application.getClientId();
         }
       }
 
