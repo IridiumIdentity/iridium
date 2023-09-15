@@ -12,7 +12,13 @@
 package software.iridium.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "login_descriptor_id"))
 @Table(name = "login_descriptors")
@@ -43,67 +49,40 @@ public class LoginDescriptorEntity extends AbstractEntity {
   @OneToOne(mappedBy = "loginDescriptor", optional = false)
   private TenantEntity tenant;
 
-  public String getDisplayName() {
-    return displayName;
-  }
-
-  public void setDisplayName(final String tenantName) {
-    this.displayName = tenantName;
-  }
-
-  public String getUsernamePlaceholder() {
-    return usernamePlaceholder;
-  }
-
-  public void setUsernamePlaceholder(final String usernamePlaceholder) {
-    this.usernamePlaceholder = usernamePlaceholder;
-  }
-
-  public String getUsernameLabel() {
-    return usernameLabel;
-  }
-
-  public void setUsernameLabel(final String usernameLabel) {
-    this.usernameLabel = usernameLabel;
-  }
-
-  public String getUsernameType() {
-    return usernameType;
-  }
-
-  public void setUsernameType(final String usernameType) {
-    this.usernameType = usernameType;
-  }
-
-  public String getUsernameErrorHint() {
-    return usernameErrorHint;
-  }
-
-  public void setUsernameErrorHint(final String usernameErrorHint) {
-    this.usernameErrorHint = usernameErrorHint;
-  }
-
-  public String getPageTitle() {
-    return pageTitle;
-  }
-
-  public void setPageTitle(final String pageTitle) {
-    this.pageTitle = pageTitle;
-  }
-
-  public String getLogoURL() {
-    return logoURL;
-  }
-
-  public void setLogoURL(final String iconPath) {
-    this.logoURL = iconPath;
-  }
-
-  public TenantEntity getTenant() {
-    return tenant;
-  }
-
-  public void setTenant(final TenantEntity tenant) {
-    this.tenant = tenant;
-  }
+  /**
+   * public String getDisplayName() { return displayName; }
+   *
+   * <p>public void setDisplayName(final String tenantName) { this.displayName = tenantName; }
+   *
+   * <p>public String getUsernamePlaceholder() { return usernamePlaceholder; }
+   *
+   * <p>public void setUsernamePlaceholder(final String usernamePlaceholder) {
+   * this.usernamePlaceholder = usernamePlaceholder; }
+   *
+   * <p>public String getUsernameLabel() { return usernameLabel; }
+   *
+   * <p>public void setUsernameLabel(final String usernameLabel) { this.usernameLabel =
+   * usernameLabel; }
+   *
+   * <p>public String getUsernameType() { return usernameType; }
+   *
+   * <p>public void setUsernameType(final String usernameType) { this.usernameType = usernameType; }
+   *
+   * <p>public String getUsernameErrorHint() { return usernameErrorHint; }
+   *
+   * <p>public void setUsernameErrorHint(final String usernameErrorHint) { this.usernameErrorHint =
+   * usernameErrorHint; }
+   *
+   * <p>public String getPageTitle() { return pageTitle; }
+   *
+   * <p>public void setPageTitle(final String pageTitle) { this.pageTitle = pageTitle; }
+   *
+   * <p>public String getLogoURL() { return logoURL; }
+   *
+   * <p>public void setLogoURL(final String iconPath) { this.logoURL = iconPath; }
+   *
+   * <p>public TenantEntity getTenant() { return tenant; }
+   *
+   * <p>public void setTenant(final TenantEntity tenant) { this.tenant = tenant; }
+   */
 }

@@ -13,7 +13,13 @@ package software.iridium.entity;
 
 import jakarta.persistence.*;
 import java.io.Serial;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "refresh_token_id"))
 @Table(name = "refresh_tokens")
@@ -27,19 +33,14 @@ public class RefreshTokenEntity extends AbstractEntity {
   @OneToOne(mappedBy = "refreshToken", optional = false)
   private AccessTokenEntity accessToken;
 
-  public String getRefreshToken() {
-    return refreshToken;
-  }
-
-  public void setRefreshToken(final String refreshToken) {
-    this.refreshToken = refreshToken;
-  }
-
-  public AccessTokenEntity getAccessToken() {
-    return accessToken;
-  }
-
-  public void setAccessToken(final AccessTokenEntity accessToken) {
-    this.accessToken = accessToken;
-  }
+  /**
+   * public String getRefreshToken() { return refreshToken; }
+   *
+   * <p>public void setRefreshToken(final String refreshToken) { this.refreshToken = refreshToken; }
+   *
+   * <p>public AccessTokenEntity getAccessToken() { return accessToken; }
+   *
+   * <p>public void setAccessToken(final AccessTokenEntity accessToken) { this.accessToken =
+   * accessToken; }
+   */
 }

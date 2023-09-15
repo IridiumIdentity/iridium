@@ -12,7 +12,13 @@
 package software.iridium.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "external_identity_provider_parameter_id"))
 @Table(name = "external_identity_provider_parameters")
@@ -30,27 +36,18 @@ public class ExternalIdentityProviderParameterEntity extends AbstractEntity {
   @JoinColumn(name = "external_identity_provider_id")
   private ExternalIdentityProviderEntity provider;
 
-  public String getValue() {
-    return value;
-  }
-
-  public void setValue(final String value) {
-    this.value = value;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(final String name) {
-    this.name = name;
-  }
-
-  public ExternalIdentityProviderEntity getProvider() {
-    return provider;
-  }
-
-  public void setProvider(final ExternalIdentityProviderEntity provider) {
-    this.provider = provider;
-  }
+  /**
+   * public String getValue() { return value; }
+   *
+   * <p>public void setValue(final String value) { this.value = value; }
+   *
+   * <p>public String getName() { return name; }
+   *
+   * <p>public void setName(final String name) { this.name = name; }
+   *
+   * <p>public ExternalIdentityProviderEntity getProvider() { return provider; }
+   *
+   * <p>public void setProvider(final ExternalIdentityProviderEntity provider) { this.provider =
+   * provider; }
+   */
 }

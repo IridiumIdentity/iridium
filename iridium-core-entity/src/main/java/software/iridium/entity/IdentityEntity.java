@@ -13,7 +13,13 @@ package software.iridium.entity;
 
 import jakarta.persistence.*;
 import java.util.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "identity_id"))
 @Table(name = "identities")
@@ -87,86 +93,6 @@ public class IdentityEntity extends AbstractEntity {
       inverseJoinColumns = {@JoinColumn(name = "role_id")})
   private Set<RoleEntity> roles = new HashSet<>();
 
-  public List<IdentityEmailEntity> getEmails() {
-    return emails;
-  }
-
-  public void setEmails(final List<IdentityEmailEntity> emails) {
-    this.emails = emails;
-  }
-
-  public Integer getFailedLoginAttempts() {
-    return failedLoginAttempts;
-  }
-
-  public void setFailedLoginAttempts(final Integer failedLoginAttempts) {
-    this.failedLoginAttempts = failedLoginAttempts;
-  }
-
-  public Date getLastSuccessfulLogin() {
-    return lastSuccessfulLogin;
-  }
-
-  public void setLastSuccessfulLogin(final Date lastSuccessfulLogin) {
-    this.lastSuccessfulLogin = lastSuccessfulLogin;
-  }
-
-  public boolean isLocked() {
-    return this.locked;
-  }
-
-  public boolean isNotLocked() {
-    return !isLocked();
-  }
-
-  public void setLocked(final Boolean locked) {
-    this.locked = locked;
-  }
-
-  public Set<RoleEntity> getRoles() {
-    return roles;
-  }
-
-  public void setRoles(final Set<RoleEntity> roles) {
-    this.roles = roles;
-  }
-
-  public ProfileEntity getProfile() {
-    return profile;
-  }
-
-  public void setProfile(final ProfileEntity profile) {
-    this.profile = profile;
-  }
-
-  public ExternalIdentityProviderEntity getProvider() {
-    return provider;
-  }
-
-  public void setProvider(final ExternalIdentityProviderEntity provider) {
-    this.provider = provider;
-  }
-
-  public List<IdentityPropertyEntity> getIdentityProperties() {
-    return identityProperties;
-  }
-
-  public void setIdentityProperties(final List<IdentityPropertyEntity> identityProperties) {
-    this.identityProperties = identityProperties;
-  }
-
-  public String getExternalId() {
-    return externalId;
-  }
-
-  public void setExternalId(final String externalId) {
-    this.externalId = externalId;
-  }
-
-  public boolean isExternalUser() {
-    return this.externalId != null;
-  }
-
   @Transient
   public IdentityEmailEntity getPrimaryEmail() {
     for (IdentityEmailEntity email : getEmails()) {
@@ -177,43 +103,74 @@ public class IdentityEntity extends AbstractEntity {
     return null;
   }
 
-  public List<TenantEntity> getManagedTenants() {
-    return managedTenants;
-  }
-
-  public void setManagedTenants(final List<TenantEntity> tenants) {
-    this.managedTenants = tenants;
-  }
-
-  public String getParentTenantId() {
-    return parentTenantId;
-  }
-
-  public void setParentTenantId(final String tenantId) {
-    this.parentTenantId = tenantId;
-  }
-
-  public List<ScopeEntity> getScopes() {
-    return scopes;
-  }
-
-  public void setScopes(final List<ScopeEntity> scopes) {
-    this.scopes = scopes;
-  }
-
-  public List<ApplicationEntity> getAuthorizedApplications() {
-    return authorizedApplications;
-  }
-
-  public void setAuthorizedApplications(final List<ApplicationEntity> authorizedApplications) {
-    this.authorizedApplications = authorizedApplications;
-  }
-
-  public IdentityCreateSessionDetails getCreateSessionDetails() {
-    return createSessionDetails;
-  }
-
-  public void setCreateSessionDetails(final IdentityCreateSessionDetails createSessionDetails) {
-    this.createSessionDetails = createSessionDetails;
-  }
+  /**
+   * public List<IdentityEmailEntity> getEmails() { return emails; }
+   *
+   * <p>public void setEmails(final List<IdentityEmailEntity> emails) { this.emails = emails; }
+   *
+   * <p>public Integer getFailedLoginAttempts() { return failedLoginAttempts; }
+   *
+   * <p>public void setFailedLoginAttempts(final Integer failedLoginAttempts) {
+   * this.failedLoginAttempts = failedLoginAttempts; }
+   *
+   * <p>public Date getLastSuccessfulLogin() { return lastSuccessfulLogin; }
+   *
+   * <p>public void setLastSuccessfulLogin(final Date lastSuccessfulLogin) {
+   * this.lastSuccessfulLogin = lastSuccessfulLogin; }
+   *
+   * <p>public boolean isLocked() { return this.locked; }
+   *
+   * <p>public boolean isNotLocked() { return !isLocked(); }
+   *
+   * <p>public void setLocked(final Boolean locked) { this.locked = locked; }
+   *
+   * <p>public Set<RoleEntity> getRoles() { return roles; }
+   *
+   * <p>public void setRoles(final Set<RoleEntity> roles) { this.roles = roles; }
+   *
+   * <p>public ProfileEntity getProfile() { return profile; }
+   *
+   * <p>public void setProfile(final ProfileEntity profile) { this.profile = profile; }
+   *
+   * <p>public ExternalIdentityProviderEntity getProvider() { return provider; }
+   *
+   * <p>public void setProvider(final ExternalIdentityProviderEntity provider) { this.provider =
+   * provider; }
+   *
+   * <p>public List<IdentityPropertyEntity> getIdentityProperties() { return identityProperties; }
+   *
+   * <p>public void setIdentityProperties(final List<IdentityPropertyEntity> identityProperties) {
+   * this.identityProperties = identityProperties; }
+   *
+   * <p>public String getExternalId() { return externalId; }
+   *
+   * <p>public void setExternalId(final String externalId) { this.externalId = externalId; }
+   *
+   * <p>public boolean isExternalUser() { return this.externalId != null; }
+   *
+   * <p>public List<TenantEntity> getManagedTenants() { return managedTenants; }
+   *
+   * <p>public void setManagedTenants(final List<TenantEntity> tenants) { this.managedTenants =
+   * tenants; }
+   *
+   * <p>public String getParentTenantId() { return parentTenantId; }
+   *
+   * <p>public void setParentTenantId(final String tenantId) { this.parentTenantId = tenantId; }
+   *
+   * <p>public List<ScopeEntity> getScopes() { return scopes; }
+   *
+   * <p>public void setScopes(final List<ScopeEntity> scopes) { this.scopes = scopes; }
+   *
+   * <p>public List<ApplicationEntity> getAuthorizedApplications() { return authorizedApplications;
+   * }
+   *
+   * <p>public void setAuthorizedApplications(final List<ApplicationEntity> authorizedApplications)
+   * { this.authorizedApplications = authorizedApplications; }
+   *
+   * <p>public IdentityCreateSessionDetails getCreateSessionDetails() { return createSessionDetails;
+   * }
+   *
+   * <p>public void setCreateSessionDetails(final IdentityCreateSessionDetails createSessionDetails)
+   * { this.createSessionDetails = createSessionDetails; }
+   */
 }

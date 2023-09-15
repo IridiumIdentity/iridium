@@ -12,7 +12,13 @@
 package software.iridium.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "client_secret_id"))
 @Table(name = "client_secrets")
@@ -27,19 +33,14 @@ public class ClientSecretEntity extends AbstractEntity {
   @JoinColumn(name = "application_id")
   private ApplicationEntity application;
 
-  public String getSecretKey() {
-    return secretKey;
-  }
-
-  public void setSecretKey(final String secretKey) {
-    this.secretKey = secretKey;
-  }
-
-  public ApplicationEntity getApplication() {
-    return application;
-  }
-
-  public void setApplication(final ApplicationEntity application) {
-    this.application = application;
-  }
+  /**
+   * public String getSecretKey() { return secretKey; }
+   *
+   * <p>public void setSecretKey(final String secretKey) { this.secretKey = secretKey; }
+   *
+   * <p>public ApplicationEntity getApplication() { return application; }
+   *
+   * <p>public void setApplication(final ApplicationEntity application) { this.application =
+   * application; }
+   */
 }

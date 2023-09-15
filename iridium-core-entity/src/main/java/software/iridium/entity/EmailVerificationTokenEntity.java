@@ -14,7 +14,13 @@ package software.iridium.entity;
 import jakarta.persistence.*;
 import java.io.Serial;
 import java.util.Date;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "email_verification_token_id"))
 @Table(name = "email_verification_tokens")
@@ -33,27 +39,17 @@ public class EmailVerificationTokenEntity extends AbstractEntity {
   @Column(name = "EXPIRATION", nullable = false, updatable = false)
   private Date expiration;
 
-  public String getToken() {
-    return token;
-  }
-
-  public void setToken(final String token) {
-    this.token = token;
-  }
-
-  public IdentityEmailEntity getEmail() {
-    return email;
-  }
-
-  public void setEmail(final IdentityEmailEntity email) {
-    this.email = email;
-  }
-
-  public Date getExpiration() {
-    return expiration;
-  }
-
-  public void setExpiration(final Date expiration) {
-    this.expiration = expiration;
-  }
+  /**
+   * public String getToken() { return token; }
+   *
+   * <p>public void setToken(final String token) { this.token = token; }
+   *
+   * <p>public IdentityEmailEntity getEmail() { return email; }
+   *
+   * <p>public void setEmail(final IdentityEmailEntity email) { this.email = email; }
+   *
+   * <p>public Date getExpiration() { return expiration; }
+   *
+   * <p>public void setExpiration(final Date expiration) { this.expiration = expiration; }
+   */
 }

@@ -14,7 +14,14 @@ package software.iridium.entity;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @MappedSuperclass
 public abstract class Auditable implements Serializable {
 
@@ -37,48 +44,30 @@ public abstract class Auditable implements Serializable {
   private String updateId;
 
   @Column(name = "active", nullable = false)
+  @Getter(AccessLevel.NONE)
   private Boolean active = true;
 
-  public Date getCreated() {
-    return created;
-  }
-
-  public void setCreated(Date created) {
-    this.created = created;
-  }
-
-  public Date getUpdated() {
-    return updated;
-  }
-
-  public void setUpdated(Date updated) {
-    this.updated = updated;
-  }
-
-  public String getCreateId() {
-    return createId;
-  }
-
-  public void setCreateId(String createId) {
-    this.createId = createId;
-  }
-
-  public String getUpdateId() {
-    return updateId;
-  }
-
-  public void setUpdateId(String updateId) {
-    this.updateId = updateId;
-  }
-
-  public Boolean getActive() {
-    return active;
-  }
-
-  public void setActive(Boolean active) {
-    this.active = active;
-  }
-
+  /**
+   * public Date getCreated() { return created; }
+   *
+   * <p>public void setCreated(Date created) { this.created = created; }
+   *
+   * <p>public Date getUpdated() { return updated; }
+   *
+   * <p>public void setUpdated(Date updated) { this.updated = updated; }
+   *
+   * <p>public String getCreateId() { return createId; }
+   *
+   * <p>public void setCreateId(String createId) { this.createId = createId; }
+   *
+   * <p>public String getUpdateId() { return updateId; }
+   *
+   * <p>public void setUpdateId(String updateId) { this.updateId = updateId; }
+   *
+   * <p>public Boolean getActive() { return active; }
+   *
+   * <p>public void setActive(Boolean active) { this.active = active; }
+   */
   public boolean isActive() {
     return active != null && active;
   }

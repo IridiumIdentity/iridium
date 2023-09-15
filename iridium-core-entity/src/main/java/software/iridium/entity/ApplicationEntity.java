@@ -13,7 +13,13 @@ package software.iridium.entity;
 
 import jakarta.persistence.*;
 import java.util.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "application_id"))
 @Table(name = "applications")
@@ -63,94 +69,56 @@ public class ApplicationEntity extends AbstractEntity {
       fetch = FetchType.LAZY)
   private List<ScopeEntity> scopes = new ArrayList<>();
 
-  public String getName() {
-    return name;
-  }
-
-  public void setName(final String name) {
-    this.name = name;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(final String description) {
-    this.description = description;
-  }
-
-  public String getHomePageUrl() {
-    return homePageUrl;
-  }
-
-  public void setHomePageUrl(final String homePageUrl) {
-    this.homePageUrl = homePageUrl;
-  }
-
-  public String getPrivacyPolicyUrl() {
-    return privacyPolicyUrl;
-  }
-
-  public void setPrivacyPolicyUrl(final String privacyPolicyUrl) {
-    this.privacyPolicyUrl = privacyPolicyUrl;
-  }
-
-  public String getTenantId() {
-    return tenantId;
-  }
-
-  public void setTenantId(final String tenantId) {
-    this.tenantId = tenantId;
-  }
-
-  public ApplicationTypeEntity getApplicationType() {
-    return applicationType;
-  }
-
-  public void setApplicationType(final ApplicationTypeEntity applicationType) {
-    this.applicationType = applicationType;
-  }
-
-  public List<ClientSecretEntity> getClientSecrets() {
-    return clientSecrets;
-  }
-
-  public void setClientSecrets(final List<ClientSecretEntity> clientSecrets) {
-    this.clientSecrets = clientSecrets;
-  }
-
-  public List<ScopeEntity> getScopes() {
-    return scopes;
-  }
-
-  public void setScopes(final List<ScopeEntity> scopes) {
-    this.scopes = scopes;
-  }
-
-  public String getRedirectUri() {
-    return redirectUri;
-  }
-
-  public void setRedirectUri(final String authorizationCallbackUrl) {
-    this.redirectUri = authorizationCallbackUrl;
-  }
-
-  public String getClientId() {
-    return clientId;
-  }
-
-  public void setClientId(final String clientId) {
-    this.clientId = clientId;
-  }
-
-  public Set<IdentityEntity> getIdentities() {
-    return identities;
-  }
-
-  public void setIdentities(final Set<IdentityEntity> identities) {
-    this.identities = identities;
-  }
-
+  /**
+   * public String getName() { return name; }
+   *
+   * <p>public void setName(final String name) { this.name = name; }
+   *
+   * <p>public String getDescription() { return description; }
+   *
+   * <p>public void setDescription(final String description) { this.description = description; }
+   *
+   * <p>public String getHomePageUrl() { return homePageUrl; }
+   *
+   * <p>public void setHomePageUrl(final String homePageUrl) { this.homePageUrl = homePageUrl; }
+   *
+   * <p>public String getPrivacyPolicyUrl() { return privacyPolicyUrl; }
+   *
+   * <p>public void setPrivacyPolicyUrl(final String privacyPolicyUrl) { this.privacyPolicyUrl =
+   * privacyPolicyUrl; }
+   *
+   * <p>public String getTenantId() { return tenantId; }
+   *
+   * <p>public void setTenantId(final String tenantId) { this.tenantId = tenantId; }
+   *
+   * <p>public ApplicationTypeEntity getApplicationType() { return applicationType; }
+   *
+   * <p>public void setApplicationType(final ApplicationTypeEntity applicationType) {
+   * this.applicationType = applicationType; }
+   *
+   * <p>public List<ClientSecretEntity> getClientSecrets() { return clientSecrets; }
+   *
+   * <p>public void setClientSecrets(final List<ClientSecretEntity> clientSecrets) {
+   * this.clientSecrets = clientSecrets; }
+   *
+   * <p>public List<ScopeEntity> getScopes() { return scopes; }
+   *
+   * <p>public void setScopes(final List<ScopeEntity> scopes) { this.scopes = scopes; }
+   *
+   * <p>public String getRedirectUri() { return redirectUri; }
+   *
+   * <p>public void setRedirectUri(final String authorizationCallbackUrl) { this.redirectUri =
+   * authorizationCallbackUrl; }
+   *
+   * <p>public String getClientId() { return clientId; }
+   *
+   * <p>public void setClientId(final String clientId) { this.clientId = clientId; }
+   *
+   * <p>public Set<IdentityEntity> getIdentities() { return identities; }
+   *
+   * <p>public void setIdentities(final Set<IdentityEntity> identities) { this.identities =
+   * identities; }
+   */
   @Override
   public boolean equals(Object o) {
     if (o == null) {

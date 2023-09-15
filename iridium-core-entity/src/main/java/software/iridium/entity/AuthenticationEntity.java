@@ -14,9 +14,15 @@ package software.iridium.entity;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.GenericGenerator;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "authentication_id"))
 @Table(name = "authentications")
@@ -67,59 +73,33 @@ public class AuthenticationEntity implements Serializable {
     return SERVER_APP_ID;
   }
 
-  public String getId() {
-    return id;
-  }
-
-  public void setId(final String id) {
-    this.id = id;
-  }
-
-  public IdentityEntity getIdentity() {
-    return identity;
-  }
-
-  public void setIdentity(final IdentityEntity identity) {
-    this.identity = identity;
-  }
-
-  public Date getCreated() {
-    return created;
-  }
-
-  public void setCreated(final Date created) {
-    this.created = created;
-  }
-
-  public String getCreateId() {
-    return createId;
-  }
-
-  public void setCreateId(final String createId) {
-    this.createId = createId;
-  }
-
-  public Date getExpiration() {
-    return expiration;
-  }
-
-  public void setExpiration(final Date expiration) {
-    this.expiration = expiration;
-  }
-
-  public String getAuthToken() {
-    return authToken;
-  }
-
-  public void setAuthToken(final String authToken) {
-    this.authToken = authToken;
-  }
-
-  public String getRefreshToken() {
-    return refreshToken;
-  }
-
-  public void setRefreshToken(final String refreshToken) {
-    this.refreshToken = refreshToken;
-  }
+  /**
+   * public String getId() { return id; }
+   *
+   * <p>public void setId(final String id) { this.id = id; }
+   *
+   * <p>public IdentityEntity getIdentity() { return identity; }
+   *
+   * <p>public void setIdentity(final IdentityEntity identity) { this.identity = identity; }
+   *
+   * <p>public Date getCreated() { return created; }
+   *
+   * <p>public void setCreated(final Date created) { this.created = created; }
+   *
+   * <p>public String getCreateId() { return createId; }
+   *
+   * <p>public void setCreateId(final String createId) { this.createId = createId; }
+   *
+   * <p>public Date getExpiration() { return expiration; }
+   *
+   * <p>public void setExpiration(final Date expiration) { this.expiration = expiration; }
+   *
+   * <p>public String getAuthToken() { return authToken; }
+   *
+   * <p>public void setAuthToken(final String authToken) { this.authToken = authToken; }
+   *
+   * <p>public String getRefreshToken() { return refreshToken; }
+   *
+   * <p>public void setRefreshToken(final String refreshToken) { this.refreshToken = refreshToken; }
+   */
 }

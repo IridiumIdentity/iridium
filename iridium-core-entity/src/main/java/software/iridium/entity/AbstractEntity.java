@@ -12,8 +12,14 @@
 package software.iridium.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @MappedSuperclass
 public abstract class AbstractEntity extends Auditable {
 
@@ -29,19 +35,13 @@ public abstract class AbstractEntity extends Auditable {
   @Column(name = "version", nullable = false, columnDefinition = "BIGINT(20) NOT NULL DEFAULT 0")
   private Long version = 0L;
 
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public Long getVersion() {
-    return version;
-  }
-
-  public void setVersion(Long version) {
-    this.version = version;
-  }
+  /**
+   * public String getId() { return id; }
+   *
+   * <p>public void setId(String id) { this.id = id; }
+   *
+   * <p>public Long getVersion() { return version; }
+   *
+   * <p>public void setVersion(Long version) { this.version = version; }
+   */
 }

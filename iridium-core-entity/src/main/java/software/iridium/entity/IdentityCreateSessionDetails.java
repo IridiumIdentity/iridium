@@ -13,8 +13,14 @@ package software.iridium.entity;
 
 import jakarta.persistence.*;
 import java.io.Serial;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import software.iridium.api.authentication.domain.CodeChallengeMethod;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "identity_create_session_details_id"))
 @Table(name = "identity_create_session_details")
@@ -45,59 +51,35 @@ public class IdentityCreateSessionDetails extends AbstractEntity {
   @JoinColumn(name = "identity_id")
   private IdentityEntity identity;
 
-  public String getResponseType() {
-    return responseType;
-  }
-
-  public void setResponseType(final String responseType) {
-    this.responseType = responseType;
-  }
-
-  public String getState() {
-    return state;
-  }
-
-  public void setState(final String state) {
-    this.state = state;
-  }
-
-  public String getRedirectUri() {
-    return redirectUri;
-  }
-
-  public void setRedirectUri(final String redirectUri) {
-    this.redirectUri = redirectUri;
-  }
-
-  public CodeChallengeMethod getCodeChallengeMethod() {
-    return codeChallengeMethod;
-  }
-
-  public void setCodeChallengeMethod(final CodeChallengeMethod codeChallengeMethod) {
-    this.codeChallengeMethod = codeChallengeMethod;
-  }
-
-  public String getCodeChallenge() {
-    return codeChallenge;
-  }
-
-  public void setCodeChallenge(final String codeChallenge) {
-    this.codeChallenge = codeChallenge;
-  }
-
-  public String getClientId() {
-    return clientId;
-  }
-
-  public void setClientId(final String clientId) {
-    this.clientId = clientId;
-  }
-
-  public IdentityEntity getIdentity() {
-    return identity;
-  }
-
-  public void setIdentity(final IdentityEntity identity) {
-    this.identity = identity;
-  }
+  /**
+   * public String getResponseType() { return responseType; }
+   *
+   * <p>public void setResponseType(final String responseType) { this.responseType = responseType; }
+   *
+   * <p>public String getState() { return state; }
+   *
+   * <p>public void setState(final String state) { this.state = state; }
+   *
+   * <p>public String getRedirectUri() { return redirectUri; }
+   *
+   * <p>public void setRedirectUri(final String redirectUri) { this.redirectUri = redirectUri; }
+   *
+   * <p>public CodeChallengeMethod getCodeChallengeMethod() { return codeChallengeMethod; }
+   *
+   * <p>public void setCodeChallengeMethod(final CodeChallengeMethod codeChallengeMethod) {
+   * this.codeChallengeMethod = codeChallengeMethod; }
+   *
+   * <p>public String getCodeChallenge() { return codeChallenge; }
+   *
+   * <p>public void setCodeChallenge(final String codeChallenge) { this.codeChallenge =
+   * codeChallenge; }
+   *
+   * <p>public String getClientId() { return clientId; }
+   *
+   * <p>public void setClientId(final String clientId) { this.clientId = clientId; }
+   *
+   * <p>public IdentityEntity getIdentity() { return identity; }
+   *
+   * <p>public void setIdentity(final IdentityEntity identity) { this.identity = identity; }
+   */
 }

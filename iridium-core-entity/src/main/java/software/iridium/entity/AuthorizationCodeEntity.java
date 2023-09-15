@@ -13,8 +13,14 @@ package software.iridium.entity;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import software.iridium.api.authentication.domain.CodeChallengeMethod;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "authorization_code_id"))
 @Table(name = "authorization_codes")
@@ -44,59 +50,36 @@ public class AuthorizationCodeEntity extends AbstractEntity {
   @Column(name = "code_challenge", length = 255, nullable = true)
   private String codeChallenge;
 
-  public String getRedirectUri() {
-    return redirectUri;
-  }
-
-  public void setRedirectUri(final String redirectUri) {
-    this.redirectUri = redirectUri;
-  }
-
-  public String getClientId() {
-    return clientId;
-  }
-
-  public void setClientId(final String clientId) {
-    this.clientId = clientId;
-  }
-
-  public String getIdentityId() {
-    return identityId;
-  }
-
-  public void setIdentityId(final String identityId) {
-    this.identityId = identityId;
-  }
-
-  public Date getExpiration() {
-    return expiration;
-  }
-
-  public void setExpiration(final Date expiration) {
-    this.expiration = expiration;
-  }
-
-  public CodeChallengeMethod getCodeChallengeMethod() {
-    return codeChallengeMethod;
-  }
-
-  public void setCodeChallengeMethod(final CodeChallengeMethod codeChallengeMethod) {
-    this.codeChallengeMethod = codeChallengeMethod;
-  }
-
-  public String getCodeChallenge() {
-    return codeChallenge;
-  }
-
-  public void setCodeChallenge(final String codeChallenge) {
-    this.codeChallenge = codeChallenge;
-  }
-
-  public String getAuthorizationCode() {
-    return authorizationCode;
-  }
-
-  public void setAuthorizationCode(final String authorizationCode) {
-    this.authorizationCode = authorizationCode;
-  }
+  /**
+   * public String getRedirectUri() { return redirectUri; }
+   *
+   * <p>public void setRedirectUri(final String redirectUri) { this.redirectUri = redirectUri; }
+   *
+   * <p>public String getClientId() { return clientId; }
+   *
+   * <p>public void setClientId(final String clientId) { this.clientId = clientId; }
+   *
+   * <p>public String getIdentityId() { return identityId; }
+   *
+   * <p>public void setIdentityId(final String identityId) { this.identityId = identityId; }
+   *
+   * <p>public Date getExpiration() { return expiration; }
+   *
+   * <p>public void setExpiration(final Date expiration) { this.expiration = expiration; }
+   *
+   * <p>public CodeChallengeMethod getCodeChallengeMethod() { return codeChallengeMethod; }
+   *
+   * <p>public void setCodeChallengeMethod(final CodeChallengeMethod codeChallengeMethod) {
+   * this.codeChallengeMethod = codeChallengeMethod; }
+   *
+   * <p>public String getCodeChallenge() { return codeChallenge; }
+   *
+   * <p>public void setCodeChallenge(final String codeChallenge) { this.codeChallenge =
+   * codeChallenge; }
+   *
+   * <p>public String getAuthorizationCode() { return authorizationCode; }
+   *
+   * <p>public void setAuthorizationCode(final String authorizationCode) { this.authorizationCode =
+   * authorizationCode; }
+   */
 }

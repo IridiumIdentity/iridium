@@ -14,7 +14,13 @@ package software.iridium.entity;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "group_id"))
 @Table(name = "roles")
@@ -31,27 +37,18 @@ public class RoleEntity extends AbstractEntity {
   @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
   private Set<IdentityEntity> identities = new HashSet<>();
 
-  public String getName() {
-    return name;
-  }
-
-  public void setName(final String name) {
-    this.name = name;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(final String description) {
-    this.description = description;
-  }
-
-  public Set<IdentityEntity> getIdentities() {
-    return identities;
-  }
-
-  public void setIdentities(final Set<IdentityEntity> identities) {
-    this.identities = identities;
-  }
+  /**
+   * public String getName() { return name; }
+   *
+   * <p>public void setName(final String name) { this.name = name; }
+   *
+   * <p>public String getDescription() { return description; }
+   *
+   * <p>public void setDescription(final String description) { this.description = description; }
+   *
+   * <p>public Set<IdentityEntity> getIdentities() { return identities; }
+   *
+   * <p>public void setIdentities(final Set<IdentityEntity> identities) { this.identities =
+   * identities; }
+   */
 }

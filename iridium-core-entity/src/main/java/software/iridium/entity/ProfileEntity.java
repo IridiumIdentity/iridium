@@ -13,7 +13,13 @@ package software.iridium.entity;
 
 import jakarta.persistence.*;
 import java.io.Serial;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "profile_id"))
 @Table(name = "profiles")
@@ -30,27 +36,17 @@ public class ProfileEntity extends AbstractEntity {
   @OneToOne(mappedBy = "profile", optional = false)
   private IdentityEntity identity;
 
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public void setFirstName(final String firstName) {
-    this.firstName = firstName;
-  }
-
-  public IdentityEntity getIdentity() {
-    return identity;
-  }
-
-  public void setIdentity(final IdentityEntity identity) {
-    this.identity = identity;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public void setLastName(final String lastName) {
-    this.lastName = lastName;
-  }
+  /**
+   * public String getFirstName() { return firstName; }
+   *
+   * <p>public void setFirstName(final String firstName) { this.firstName = firstName; }
+   *
+   * <p>public IdentityEntity getIdentity() { return identity; }
+   *
+   * <p>public void setIdentity(final IdentityEntity identity) { this.identity = identity; }
+   *
+   * <p>public String getLastName() { return lastName; }
+   *
+   * <p>public void setLastName(final String lastName) { this.lastName = lastName; }
+   */
 }

@@ -13,7 +13,13 @@ package software.iridium.entity;
 
 import jakarta.persistence.*;
 import java.io.Serial;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "identity_property_id"))
 @Table(name = "identity_property")
@@ -31,27 +37,17 @@ public class IdentityPropertyEntity extends AbstractEntity {
   @JoinColumn(name = "identity_id")
   private IdentityEntity identity;
 
-  public String getValue() {
-    return value;
-  }
-
-  public void setValue(final String value) {
-    this.value = value;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(final String name) {
-    this.name = name;
-  }
-
-  public IdentityEntity getIdentity() {
-    return identity;
-  }
-
-  public void setIdentity(final IdentityEntity identity) {
-    this.identity = identity;
-  }
+  /**
+   * public String getValue() { return value; }
+   *
+   * <p>public void setValue(final String value) { this.value = value; }
+   *
+   * <p>public String getName() { return name; }
+   *
+   * <p>public void setName(final String name) { this.name = name; }
+   *
+   * <p>public IdentityEntity getIdentity() { return identity; }
+   *
+   * <p>public void setIdentity(final IdentityEntity identity) { this.identity = identity; }
+   */
 }

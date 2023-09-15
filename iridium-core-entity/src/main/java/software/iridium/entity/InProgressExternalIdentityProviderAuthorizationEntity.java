@@ -14,7 +14,13 @@ package software.iridium.entity;
 import jakarta.persistence.*;
 import java.io.Serial;
 import java.util.Date;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(
     name = "id",
@@ -41,43 +47,26 @@ public class InProgressExternalIdentityProviderAuthorizationEntity extends Abstr
   @JoinColumn(name = "external_identity_provider_id")
   private ExternalIdentityProviderEntity provider;
 
-  public String getState() {
-    return state;
-  }
-
-  public void setState(final String state) {
-    this.state = state;
-  }
-
-  public String getRedirectUri() {
-    return redirectUri;
-  }
-
-  public void setRedirectUri(final String redirectUri) {
-    this.redirectUri = redirectUri;
-  }
-
-  public String getClientId() {
-    return clientId;
-  }
-
-  public void setClientId(final String clientId) {
-    this.clientId = clientId;
-  }
-
-  public Date getExpiration() {
-    return expiration;
-  }
-
-  public void setExpiration(final Date expiration) {
-    this.expiration = expiration;
-  }
-
-  public ExternalIdentityProviderEntity getProvider() {
-    return provider;
-  }
-
-  public void setProvider(final ExternalIdentityProviderEntity provider) {
-    this.provider = provider;
-  }
+  /**
+   * public String getState() { return state; }
+   *
+   * <p>public void setState(final String state) { this.state = state; }
+   *
+   * <p>public String getRedirectUri() { return redirectUri; }
+   *
+   * <p>public void setRedirectUri(final String redirectUri) { this.redirectUri = redirectUri; }
+   *
+   * <p>public String getClientId() { return clientId; }
+   *
+   * <p>public void setClientId(final String clientId) { this.clientId = clientId; }
+   *
+   * <p>public Date getExpiration() { return expiration; }
+   *
+   * <p>public void setExpiration(final Date expiration) { this.expiration = expiration; }
+   *
+   * <p>public ExternalIdentityProviderEntity getProvider() { return provider; }
+   *
+   * <p>public void setProvider(final ExternalIdentityProviderEntity provider) { this.provider =
+   * provider; }
+   */
 }

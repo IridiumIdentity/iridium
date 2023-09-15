@@ -12,7 +12,14 @@
 package software.iridium.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "identity_email_address_id"))
 @Table(
@@ -26,6 +33,7 @@ public class IdentityEmailEntity extends AbstractEntity {
   private String emailAddress;
 
   @Column(name = "is_verified")
+  @Getter(AccessLevel.NONE)
   private Boolean verified = false;
 
   @Column(name = "is_primary")
@@ -42,12 +50,8 @@ public class IdentityEmailEntity extends AbstractEntity {
       orphanRemoval = true)
   private EmailVerificationTokenEntity emailVerificationToken;
 
-  public String getEmailAddress() {
-    return emailAddress;
-  }
-
-  public void setEmailAddress(final String emailAddress) {
-    this.emailAddress = emailAddress;
+  public Boolean isPrimary() {
+    return primary;
   }
 
   public Boolean isVerified() {
@@ -58,35 +62,25 @@ public class IdentityEmailEntity extends AbstractEntity {
     return !verified;
   }
 
-  public void setVerified(final Boolean verified) {
-    this.verified = verified;
-  }
-
-  public Boolean getPrimary() {
-    return primary;
-  }
-
-  public Boolean isPrimary() {
-    return primary;
-  }
-
-  public void setPrimary(final Boolean primary) {
-    this.primary = primary;
-  }
-
-  public IdentityEntity getIdentity() {
-    return identity;
-  }
-
-  public void setIdentity(final IdentityEntity identity) {
-    this.identity = identity;
-  }
-
-  public EmailVerificationTokenEntity getEmailVerificationToken() {
-    return emailVerificationToken;
-  }
-
-  public void setEmailVerificationToken(final EmailVerificationTokenEntity emailVerificationToken) {
-    this.emailVerificationToken = emailVerificationToken;
-  }
+  /**
+   * public String getEmailAddress() { return emailAddress; }
+   *
+   * <p>public void setEmailAddress(final String emailAddress) { this.emailAddress = emailAddress; }
+   *
+   * <p>public void setVerified(final Boolean verified) { this.verified = verified; }
+   *
+   * <p>public Boolean getPrimary() { return primary; }
+   *
+   * <p>public void setPrimary(final Boolean primary) { this.primary = primary; }
+   *
+   * <p>public IdentityEntity getIdentity() { return identity; }
+   *
+   * <p>public void setIdentity(final IdentityEntity identity) { this.identity = identity; }
+   *
+   * <p>public EmailVerificationTokenEntity getEmailVerificationToken() { return
+   * emailVerificationToken; }
+   *
+   * <p>public void setEmailVerificationToken(final EmailVerificationTokenEntity
+   * emailVerificationToken) { this.emailVerificationToken = emailVerificationToken; }
+   */
 }

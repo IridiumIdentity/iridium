@@ -13,7 +13,13 @@ package software.iridium.entity;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "access_token_id"))
 @Table(name = "access_tokens")
@@ -38,43 +44,26 @@ public class AccessTokenEntity extends AbstractEntity {
   @JoinColumn(name = "refresh_token_id")
   private RefreshTokenEntity refreshToken;
 
-  public String getAccessToken() {
-    return accessToken;
-  }
-
-  public void setAccessToken(final String accessToken) {
-    this.accessToken = accessToken;
-  }
-
-  public String getTokenType() {
-    return tokenType;
-  }
-
-  public void setTokenType(final String type) {
-    this.tokenType = type;
-  }
-
-  public Date getExpiration() {
-    return expiration;
-  }
-
-  public void setExpiration(final Date expiration) {
-    this.expiration = expiration;
-  }
-
-  public String getIdentityId() {
-    return identityId;
-  }
-
-  public void setIdentityId(final String identityId) {
-    this.identityId = identityId;
-  }
-
-  public RefreshTokenEntity getRefreshToken() {
-    return refreshToken;
-  }
-
-  public void setRefreshToken(final RefreshTokenEntity refreshToken) {
-    this.refreshToken = refreshToken;
-  }
+  /**
+   * public String getAccessToken() { return accessToken; }
+   *
+   * <p>public void setAccessToken(final String accessToken) { this.accessToken = accessToken; }
+   *
+   * <p>public String getTokenType() { return tokenType; }
+   *
+   * <p>public void setTokenType(final String type) { this.tokenType = type; }
+   *
+   * <p>public Date getExpiration() { return expiration; }
+   *
+   * <p>public void setExpiration(final Date expiration) { this.expiration = expiration; }
+   *
+   * <p>public String getIdentityId() { return identityId; }
+   *
+   * <p>public void setIdentityId(final String identityId) { this.identityId = identityId; }
+   *
+   * <p>public RefreshTokenEntity getRefreshToken() { return refreshToken; }
+   *
+   * <p>public void setRefreshToken(final RefreshTokenEntity refreshToken) { this.refreshToken =
+   * refreshToken; }
+   */
 }

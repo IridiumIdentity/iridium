@@ -11,6 +11,9 @@
  */
 package software.iridium.entity;
 
+import lombok.Getter;
+
+@Getter
 public enum ApplicationType {
   MOBILE_OR_NATIVE("MOBILE_OR_NATIVE"),
   SINGLE_PAGE("SINGLE_PAGE"),
@@ -23,7 +26,5 @@ public enum ApplicationType {
     this.value = value;
   }
 
-  public String getValue() {
-    return value;
-  }
+  /** public String getValue() { return value; } */
 }

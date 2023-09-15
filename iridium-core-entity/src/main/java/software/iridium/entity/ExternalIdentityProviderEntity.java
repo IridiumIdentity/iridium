@@ -16,7 +16,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "external_identity_provider_id"))
 @Table(name = "external_identity_providers")
@@ -86,107 +92,64 @@ public class ExternalIdentityProviderEntity extends AbstractEntity {
   @Column(name = "param_value")
   private Map<String, String> accessTokenParameters = new HashMap<>();
 
-  public ExternalIdentityProviderTemplateEntity getTemplate() {
-    return template;
-  }
-
-  public void setTemplate(final ExternalIdentityProviderTemplateEntity template) {
-    this.template = template;
-  }
-
-  public String getClientId() {
-    return clientId;
-  }
-
-  public void setClientId(final String clientId) {
-    this.clientId = clientId;
-  }
-
-  public String getClientSecret() {
-    return clientSecret;
-  }
-
-  public void setClientSecret(final String clientSecret) {
-    this.clientSecret = clientSecret;
-  }
-
-  public TenantEntity getTenant() {
-    return tenant;
-  }
-
-  public void setTenant(final TenantEntity tenant) {
-    this.tenant = tenant;
-  }
-
-  public List<ExternalIdentityProviderParameterEntity> getProperties() {
-    return properties;
-  }
-
-  public void setProperties(final List<ExternalIdentityProviderParameterEntity> properties) {
-    this.properties = properties;
-  }
-
-  public String getAccessTokenRequestBaseUrl() {
-    return accessTokenRequestBaseUrl;
-  }
-
-  public void setAccessTokenRequestBaseUrl(final String identityRequestBaseUrl) {
-    this.accessTokenRequestBaseUrl = identityRequestBaseUrl;
-  }
-
-  public String getProfileRequestBaseUrl() {
-    return profileRequestBaseUrl;
-  }
-
-  public void setProfileRequestBaseUrl(final String profileRequestBaseUrl) {
-    this.profileRequestBaseUrl = profileRequestBaseUrl;
-  }
-
-  public String getBaseAuthorizationUrl() {
-    return baseAuthorizationUrl;
-  }
-
-  public void setBaseAuthorizationUrl(final String baseAuthorizationUrl) {
-    this.baseAuthorizationUrl = baseAuthorizationUrl;
-  }
-
-  public String getScope() {
-    return scope;
-  }
-
-  public void setScope(final String scope) {
-    this.scope = scope;
-  }
-
-  public String getIconPath() {
-    return iconPath;
-  }
-
-  public void setIconPath(final String iconPath) {
-    this.iconPath = iconPath;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(final String name) {
-    this.name = name;
-  }
-
-  public Map<String, String> getAuthorizationParameters() {
-    return authorizationParameters;
-  }
-
-  public void setAuthorizationParameters(final Map<String, String> authorizationParameters) {
-    this.authorizationParameters = authorizationParameters;
-  }
-
-  public Map<String, String> getAccessTokenParameters() {
-    return accessTokenParameters;
-  }
-
-  public void setAccessTokenParameters(final Map<String, String> accessTokenParameters) {
-    this.accessTokenParameters = accessTokenParameters;
-  }
+  /**
+   * public ExternalIdentityProviderTemplateEntity getTemplate() { return template; }
+   *
+   * <p>public void setTemplate(final ExternalIdentityProviderTemplateEntity template) {
+   * this.template = template; }
+   *
+   * <p>public String getClientId() { return clientId; }
+   *
+   * <p>public void setClientId(final String clientId) { this.clientId = clientId; }
+   *
+   * <p>public String getClientSecret() { return clientSecret; }
+   *
+   * <p>public void setClientSecret(final String clientSecret) { this.clientSecret = clientSecret; }
+   *
+   * <p>public TenantEntity getTenant() { return tenant; }
+   *
+   * <p>public void setTenant(final TenantEntity tenant) { this.tenant = tenant; }
+   *
+   * <p>public List<ExternalIdentityProviderParameterEntity> getProperties() { return properties; }
+   *
+   * <p>public void setProperties(final List<ExternalIdentityProviderParameterEntity> properties) {
+   * this.properties = properties; }
+   *
+   * <p>public String getAccessTokenRequestBaseUrl() { return accessTokenRequestBaseUrl; }
+   *
+   * <p>public void setAccessTokenRequestBaseUrl(final String identityRequestBaseUrl) {
+   * this.accessTokenRequestBaseUrl = identityRequestBaseUrl; }
+   *
+   * <p>public String getProfileRequestBaseUrl() { return profileRequestBaseUrl; }
+   *
+   * <p>public void setProfileRequestBaseUrl(final String profileRequestBaseUrl) {
+   * this.profileRequestBaseUrl = profileRequestBaseUrl; }
+   *
+   * <p>public String getBaseAuthorizationUrl() { return baseAuthorizationUrl; }
+   *
+   * <p>public void setBaseAuthorizationUrl(final String baseAuthorizationUrl) {
+   * this.baseAuthorizationUrl = baseAuthorizationUrl; }
+   *
+   * <p>public String getScope() { return scope; }
+   *
+   * <p>public void setScope(final String scope) { this.scope = scope; }
+   *
+   * <p>public String getIconPath() { return iconPath; }
+   *
+   * <p>public void setIconPath(final String iconPath) { this.iconPath = iconPath; }
+   *
+   * <p>public String getName() { return name; }
+   *
+   * <p>public void setName(final String name) { this.name = name; }
+   *
+   * <p>public Map<String, String> getAuthorizationParameters() { return authorizationParameters; }
+   *
+   * <p>public void setAuthorizationParameters(final Map<String, String> authorizationParameters) {
+   * this.authorizationParameters = authorizationParameters; }
+   *
+   * <p>public Map<String, String> getAccessTokenParameters() { return accessTokenParameters; }
+   *
+   * <p>public void setAccessTokenParameters(final Map<String, String> accessTokenParameters) {
+   * this.accessTokenParameters = accessTokenParameters; }
+   */
 }

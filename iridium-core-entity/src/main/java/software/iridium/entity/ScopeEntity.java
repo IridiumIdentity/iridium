@@ -12,7 +12,13 @@
 package software.iridium.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "scope_id"))
 @Table(name = "scopes")
@@ -34,35 +40,22 @@ public class ScopeEntity extends AbstractEntity {
   @JoinColumn(name = "identity_id")
   private IdentityEntity identity;
 
-  public String getName() {
-    return name;
-  }
-
-  public void setName(final String name) {
-    this.name = name;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(final String description) {
-    this.description = description;
-  }
-
-  public ApplicationEntity getApplication() {
-    return application;
-  }
-
-  public void setApplication(final ApplicationEntity application) {
-    this.application = application;
-  }
-
-  public IdentityEntity getIdentity() {
-    return identity;
-  }
-
-  public void setIdentity(final IdentityEntity identity) {
-    this.identity = identity;
-  }
+  /**
+   * public String getName() { return name; }
+   *
+   * <p>public void setName(final String name) { this.name = name; }
+   *
+   * <p>public String getDescription() { return description; }
+   *
+   * <p>public void setDescription(final String description) { this.description = description; }
+   *
+   * <p>public ApplicationEntity getApplication() { return application; }
+   *
+   * <p>public void setApplication(final ApplicationEntity application) { this.application =
+   * application; }
+   *
+   * <p>public IdentityEntity getIdentity() { return identity; }
+   *
+   * <p>public void setIdentity(final IdentityEntity identity) { this.identity = identity; }
+   */
 }

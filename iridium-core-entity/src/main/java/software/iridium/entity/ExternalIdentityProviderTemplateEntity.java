@@ -14,7 +14,13 @@ package software.iridium.entity;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "external_identity_provider_template_id"))
 @Table(name = "external_identity_provider_templates")
@@ -56,69 +62,46 @@ public class ExternalIdentityProviderTemplateEntity extends AbstractEntity {
   private List<ExternalIdentityProviderParameterTemplateEntity> authorizationParameters =
       new ArrayList<>();
 
-  public String getName() {
-    return name;
-  }
-
-  public void setName(final String name) {
-    this.name = name;
-  }
-
-  public String getAccessTokenRequestBaseUrl() {
-    return accessTokenRequestBaseUrl;
-  }
-
-  public void setAccessTokenRequestBaseUrl(String baseUrl) {
-    this.accessTokenRequestBaseUrl = baseUrl;
-  }
-
-  public String getProfileRequestBaseUrl() {
-    return profileRequestBaseUrl;
-  }
-
-  public void setProfileRequestBaseUrl(String profileRequestBaseUrl) {
-    this.profileRequestBaseUrl = profileRequestBaseUrl;
-  }
-
-  public String getIconPath() {
-    return iconPath;
-  }
-
-  public void setIconPath(final String iconPath) {
-    this.iconPath = iconPath;
-  }
-
-  public String getBaseAuthorizationUrl() {
-    return baseAuthorizationUrl;
-  }
-
-  public void setBaseAuthorizationUrl(final String baseAuthorizationUrl) {
-    this.baseAuthorizationUrl = baseAuthorizationUrl;
-  }
-
-  public List<ExternalIdentityProviderParameterTemplateEntity> getAuthorizationParameters() {
-    return authorizationParameters;
-  }
-
-  public void setAuthorizationParameters(
-      final List<ExternalIdentityProviderParameterTemplateEntity> properties) {
-    this.authorizationParameters = properties;
-  }
-
-  public List<ExternalIdentityProviderParameterTemplateEntity> getAccessTokenParameters() {
-    return accessTokenParameters;
-  }
-
-  public void setAccessTokenParameters(
-      final List<ExternalIdentityProviderParameterTemplateEntity> accessTokenParameters) {
-    this.accessTokenParameters = accessTokenParameters;
-  }
-
-  public String getDefaultScope() {
-    return defaultScope;
-  }
-
-  public void setDefaultScope(final String defaultScope) {
-    this.defaultScope = defaultScope;
-  }
+  /**
+   * public String getName() { return name; }
+   *
+   * <p>public void setName(final String name) { this.name = name; }
+   *
+   * <p>public String getAccessTokenRequestBaseUrl() { return accessTokenRequestBaseUrl; }
+   *
+   * <p>public void setAccessTokenRequestBaseUrl(String baseUrl) { this.accessTokenRequestBaseUrl =
+   * baseUrl; }
+   *
+   * <p>public String getProfileRequestBaseUrl() { return profileRequestBaseUrl; }
+   *
+   * <p>public void setProfileRequestBaseUrl(String profileRequestBaseUrl) {
+   * this.profileRequestBaseUrl = profileRequestBaseUrl; }
+   *
+   * <p>public String getIconPath() { return iconPath; }
+   *
+   * <p>public void setIconPath(final String iconPath) { this.iconPath = iconPath; }
+   *
+   * <p>public String getBaseAuthorizationUrl() { return baseAuthorizationUrl; }
+   *
+   * <p>public void setBaseAuthorizationUrl(final String baseAuthorizationUrl) {
+   * this.baseAuthorizationUrl = baseAuthorizationUrl; }
+   *
+   * <p>public List<ExternalIdentityProviderParameterTemplateEntity> getAuthorizationParameters() {
+   * return authorizationParameters; }
+   *
+   * <p>public void setAuthorizationParameters( final
+   * List<ExternalIdentityProviderParameterTemplateEntity> properties) {
+   * this.authorizationParameters = properties; }
+   *
+   * <p>public List<ExternalIdentityProviderParameterTemplateEntity> getAccessTokenParameters() {
+   * return accessTokenParameters; }
+   *
+   * <p>public void setAccessTokenParameters( final
+   * List<ExternalIdentityProviderParameterTemplateEntity> accessTokenParameters) {
+   * this.accessTokenParameters = accessTokenParameters; }
+   *
+   * <p>public String getDefaultScope() { return defaultScope; }
+   *
+   * <p>public void setDefaultScope(final String defaultScope) { this.defaultScope = defaultScope; }
+   */
 }

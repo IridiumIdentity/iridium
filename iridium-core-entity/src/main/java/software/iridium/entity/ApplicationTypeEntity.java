@@ -12,7 +12,14 @@
 package software.iridium.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "application_type_id"))
 @Table(name = "application_types")
@@ -27,27 +34,12 @@ public class ApplicationTypeEntity extends AbstractEntity {
   private String description;
 
   @Column(name = "requires_secret", nullable = false)
+  @Getter(AccessLevel.NONE)
   private Boolean requiresSecret;
 
   @Column(name = "type")
   @Enumerated(EnumType.STRING)
   private ApplicationType type;
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(final String name) {
-    this.name = name;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(final String description) {
-    this.description = description;
-  }
 
   public Boolean requiresSecret() {
     return requiresSecret;
@@ -57,15 +49,20 @@ public class ApplicationTypeEntity extends AbstractEntity {
     return !requiresSecret;
   }
 
-  public void setRequiresSecret(final Boolean requiresSecret) {
-    this.requiresSecret = requiresSecret;
-  }
-
-  public ApplicationType getType() {
-    return type;
-  }
-
-  public void setType(final ApplicationType type) {
-    this.type = type;
-  }
+  /**
+   * public String getName() { return name; }
+   *
+   * <p>public void setName(final String name) { this.name = name; }
+   *
+   * <p>public String getDescription() { return description; }
+   *
+   * <p>public void setDescription(final String description) { this.description = description; }
+   *
+   * <p>public void setRequiresSecret(final Boolean requiresSecret) { this.requiresSecret =
+   * requiresSecret; }
+   *
+   * <p>public ApplicationType getType() { return type; }
+   *
+   * <p>public void setType(final ApplicationType type) { this.type = type; }
+   */
 }
