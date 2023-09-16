@@ -99,11 +99,13 @@ You’ll be redirected to GitHub. The view should show details specific to the a
 
 (If you ever want to revoke the gitHub authorization, refer to [this](./revoking-github-authorization.md) documentation)
 
-Select “Authorize ${your-github-name}” and you should be redirected back to your angular application with confirmation of successful authorization.
+Select “Authorize ${your-github-name}” and you should be redirected back to your Angular application with confirmation of successful authorization.
 
 ![Successful Authorization](../images/successful-authorization.png)
 
-Congratulations, you have successfully registered and secured an application with Iridium!  
+Congratulations, you have successfully registered and secured an application with Iridium! 
+
 This project is still in its early stages, we’d like you to join us.  
+
 If you have any comments, questions, or concerns (maybe a new framework client built for you) join the
 community in GitHub discussions here: [https://github.com/orgs/IridiumIdentity/discussions](https://github.com/orgs/IridiumIdentity/discussions).
