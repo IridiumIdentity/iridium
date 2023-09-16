@@ -9,8 +9,10 @@
       
       
       
-        <link rel="prev" href="../../5.-External-Identity-Providers/create-github-application/">
+        <link rel="prev" href="../quickstart-with-angular/">
       
+      
+        <link rel="next" href="../revoking-github-authorization/">
       
       
       <link rel="icon" href="../../images/favicon.png">
@@ -18,7 +20,7 @@
     
     
       
-        <title>Iridium Downloads - Iridium</title>
+        <title>Quickstart with Next.js - Iridium</title>
       
     
     
@@ -73,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#iridium-downloads" class="md-skip">
+        <a href="#quickstart-with-nextjs" class="md-skip">
           Skip to content
         </a>
       
@@ -159,7 +161,7 @@ You're not viewing the latest version.
                 <div class="md-header__topic" data-md-component="header-topic">
 <!--          <span class="md-ellipsis">-->
 <!--            -->
-<!--              Iridium Downloads-->
+<!--              Quickstart with Next.js-->
 <!--            -->
 <!--          </span>-->
                 </div>
@@ -350,35 +352,6 @@ You're not viewing the latest version.
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#current-version-021" class="md-nav__link">
-    Current Version 0.2.1
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#docker-container" class="md-nav__link">
-    Docker Container
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#iridium-examples" class="md-nav__link">
-    Iridium Examples
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -395,68 +368,55 @@ You're not viewing the latest version.
   
 
 
-<h1 id="iridium-downloads">Iridium Downloads</h1>
-<h3 id="current-version-021">Current Version 0.2.1</h3>
-<table>
-<thead>
-<tr>
-<th>Release</th>
-<th>Link</th>
-<th>Crypto Files</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Binary</td>
-<td><a href="https://github.com/IridiumIdentity/iridium/releases/download/v0.2.1/iridium-0.2.2-bin.tar.gz">iridium-0.2.2-bin.tar.gz</a></td>
-<td><a href="https://github.com/IridiumIdentity/iridium/releases/download/v0.2.2/iridium-0.2.2-bin.tar.gz.asc">asc</a>, <a href="https://github.com/IridiumIdentity/iridium/releases/download/v0.2.2/iridium-0.2.2-bin.tar.gz.sha512">sha512</a></td>
-</tr>
-<tr>
-<td>Source</td>
-<td><a href="https://github.com/IridiumIdentity/iridium/archive/refs/tags/v0.2.2.tar.gz">iridium-0.2.2-src.tar.gz</a></td>
-<td><a href="https://github.com/IridiumIdentity/iridium/releases/download/v0.2.2/iridium-0.2.2-bin.tar.gz.asc">asc</a>, <a href="https://github.com/IridiumIdentity/iridium/releases/download/v0.2.2/iridium-0.2.2-bin.tar.gz.sha512">sha512</a></td>
-</tr>
-</tbody>
-</table>
-<h3 id="docker-container">Docker Container</h3>
-<table>
-<thead>
-<tr>
-<th>Release</th>
-<th>Link</th>
-<th>Pull Command</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Debian</td>
-<td><a href="https://hub.docker.com/layers/iridiumidentity/iridium-core-server/0.2.2/images/sha256-f1ae17357311b2009c18c798a8f1c9e29f7b0a417a856d2b885564662dd02b82?context=explore">iridium-0.2.1-docker</a></td>
-<td>docker pull iridiumidentity/iridium-core-server:0.2.2</td>
-</tr>
-</tbody>
-</table>
-<h3 id="iridium-examples">Iridium Examples</h3>
-<table>
-<thead>
-<tr>
-<th>Location</th>
-<th>Type</th>
-<th>Link</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>GitHub</td>
-<td>Admin UI</td>
-<td><a href="https://github.com/IridiumIdentity/admin-ui">https://github.com/IridiumIdentity/admin-ui</a></td>
-</tr>
-<tr>
-<td>Github</td>
-<td>Angular Quickstart</td>
-<td><a href="https://github.com/IridiumIdentity/iridium-angular-example">https://github.com/IridiumIdentity/iridium-angular-example</a></td>
-</tr>
-</tbody>
-</table>
+<h1 id="quickstart-with-nextjs">Quickstart with Next.js</h1>
+<p>This document assumes you have already created a tenant and configured your login box with Iridium.</p>
+<p>First, we need to register your Next.js application with in Iridium.</p>
+<p>Select “Application Management” from the side menu.</p>
+<p><img alt="Navigate to Application Management" src="../../images/navigate-to-application-management.png" /></p>
+<p>Select “Create Application”</p>
+<p><img alt="Create Application" src="../../images/create-application.png" /></p>
+<p>Add the following values to the modal that pops up.</p>
+<ul>
+<li>Application Type: <code>Single Page Application</code></li>
+<li>Application Name: <code>${YOUR_APPLICATION_NAME}</code></li>
+<li>Homepage URL: <code>http://localhost:3000</code></li>
+<li>Authorization Callback URL: <code>ttp://localhost:3000/callback</code></li>
+</ul>
+<p>After the application is created, make sure to save the client ID for future reference.</p>
+<p><img alt="Current Applications" src="../../images/current-applications.png" /></p>
+<p>Next, clone the Iridium Next.js starter application and <code>cd</code> into the folder.</p>
+<pre><code>$ git clone https://github.com/IridiumIdentity/iridium-nextjs-example
+$ cd /iridium-nextjs-example
+</code></pre>
+<p>Create the environment file for Next.js to read your Iridium properties from. </p>
+<pre><code>$  touch .env.local
+</code></pre>
+<p>Open the file with a text editor of your choice and enter the below as the contents.</p>
+<pre><code>NEXT_PUBLIC_IRIDIUM_DOMAIN=https://ENTER_YOUR_TENANT_NAME_HERE.iridium.software/
+NEXT_PUBLIC_IRIDIUM_REDIRECT_URI=http://localhost:3000/callback
+NEXT_PUBLIC_IRIDIUM_CLIENT_ID=ENTER_YOUR_CLIENT_ID_HERE
+</code></pre>
+<ul>
+<li>Replace “ENTER_YOUR_TENANT_NAME_HERE” with the tenant name you created earlier</li>
+<li>Replace “ENTER_YOUR_CLIENT_ID_HERE” with the application id generated earlier</li>
+</ul>
+<p>Run your application</p>
+<pre><code>$ npm install &amp;&amp; npm run dev
+</code></pre>
+<p>Navigate to <code>localhost:3000</code>, select login in the right of the screen</p>
+<p><img alt="Login From Client App" src="../../images/iridium-next-js-login.png" /></p>
+<p>You should be redirected to your personalized login domain. Select “Login With GitHub”</p>
+<p><img alt="Login with GitHub" src="../../images/login-box-with-github.png" /></p>
+<p>You’ll be redirected to GitHub. The view should show details specific to the application you registered with GitHub.</p>
+<p><img alt="Authorize Your App" src="../../images/authorize-my-app.png" /></p>
+<p>(If you ever want to revoke the gitHub authorization, refer to <a href="../revoking-github-authorization/">this</a> documentation)</p>
+<p>Select “Authorize ${your-github-name}” and you should be redirected back to your Next.js application with confirmation of successful authorization.</p>
+<p><img alt="Successful Authorization" src="../../images/iridium-next-js-callback.png" /></p>
+<p>Congratulations, you have successfully registered and secured a Next.js application with Iridium!  </p>
+<p>This project is still in its early stages, we’d like you to join us.    </p>
+<p>If you have any comments, questions, or concerns (maybe a new framework client built for you) join the community: <br />
+* <a href="https://github.com/orgs/IridiumIdentity/discussions">GitHub Discussions</a>.
+* <a href="https://discord.gg/2TMwHF2TrS">Discord</a>.</p>
 
 
   
