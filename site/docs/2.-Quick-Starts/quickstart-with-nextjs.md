@@ -17,7 +17,7 @@ Add the following values to the modal that pops up.
 * Application Type: `Single Page Application`
 * Application Name: `${YOUR_APPLICATION_NAME}`
 * Homepage URL: `http://localhost:3000`
-* Authorization Callback URL: `ttp://localhost:3000/callback`
+* Authorization Callback URL: `http://localhost:3000/callback`
 
 After the application is created, make sure to save the client ID for future reference.
 
