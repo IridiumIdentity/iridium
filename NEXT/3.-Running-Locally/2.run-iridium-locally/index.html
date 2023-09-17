@@ -366,6 +366,13 @@ You're not viewing the latest version.
 </li>
       
         <li class="md-nav__item">
+  <a href="#want-help-running-iridium" class="md-nav__link">
+    Want help running Iridium?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#stand-up-the-database" class="md-nav__link">
     Stand up the database
   </a>
@@ -433,7 +440,9 @@ You're not viewing the latest version.
 </ul>
 <p>Iridium is dependent on an RDBMS system such as <a href="https://www.mysql.com/">MySQL</a> or <a href="https://mariadb.org/">MariaDB</a>.</p>
 <p>Note: all commands are run from the root of the distribution folder you <a href="../1.Install-the-CLI/">downloaded and extracted in the previous step</a>,
-The set up in this document is not intended for production purposes.</p>
+The set-up in this document is not intended for production purposes.</p>
+<h3 id="want-help-running-iridium">Want help running Iridium?</h3>
+<p><a class="md-button md-button--primary" href="https://conduct.iridium.software/">Try our hosted solution for free</a></p>
 <h3 id="stand-up-the-database">Stand up the database</h3>
 <p>Run an instance of MariaDB locally. </p>
 <pre><code class="language-shell">$ docker run  --name mariadb \
@@ -496,7 +505,7 @@ You will want to remove the Google YAML block for this quick start. </p>
 <pre><code>$ export SPRING_CONFIG_LOCATION=./conf/application.properties
 $  java -jar ./lib/iridium-core-server-${iridium-version}.jar
 </code></pre>
-<p>If you want to run Iridium from source, <a href="developing-with-intellij.md">Follow the instructions to run Iridium from Intellij here</a>. 
+<p>If you want to run Iridium from source, <a href="../developing-with-an-IDE/">Follow the instructions to run Iridium from Intellij here</a>. 
 From here, you should be able to log in to the Iridium Management UI using your GitHub account. At this point you've
 stood up the system with an Iridium tenant and an associated management application. </p>
 
