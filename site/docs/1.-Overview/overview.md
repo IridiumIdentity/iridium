@@ -1,6 +1,8 @@
 # What is iridium?
 Iridium is an OAuth2.x-compliant identity management system.
 
+[Try it for free](https://conduct.iridium.software/){ .md-button .md-button--primary }
+
 ## What problem does it solve?
 The OAuth2.x RFC is full of great details, but it mainly focuses on defining the interfaces on how different identity systems can work together.  There are many implementation details in the spec which are not defined on purpose, which requires developers to make the best guess at how security, authentication, authorization, etc should be implemented within their own system.  The goal of the OAuth framework isn’t meant to restrict how implementation should be done, but to allow neighboring systems to be able to exchange data with one another securely.
 

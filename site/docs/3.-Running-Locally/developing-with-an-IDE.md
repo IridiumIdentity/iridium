@@ -9,7 +9,7 @@ You will need:
 
 ---
 
-Before you begin, make sure to [clone the repository](../4.run-iridium-with-docker.md). 
+Clone the repository.
 
 ```shell
 $ git clone git@github.com:IridiumIdentity/iridium.git
@@ -18,7 +18,7 @@ $ git clone git@github.com:IridiumIdentity/iridium.git
 ```shell
 $ cd iridium
 ```
-If you have not already, [compile from source](../building-from-source.md). 
+If you have not already, [compile from source](./building-from-source.md). 
 
 ```shell
 $ mvn clean package
