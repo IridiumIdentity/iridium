@@ -101,4 +101,33 @@ public class LoginDescriptorResponse implements Serializable {
       final List<ExternalProviderLoginDescriptorResponse> externalProviderDescriptors) {
     this.externalProviderDescriptors = externalProviderDescriptors;
   }
+
+  @Override
+  public String toString() {
+    return "LoginDescriptorResponse{"
+        + "displayName='"
+        + displayName
+        + '\''
+        + ", usernamePlaceholder='"
+        + usernamePlaceholder
+        + '\''
+        + ", usernameLabel='"
+        + usernameLabel
+        + '\''
+        + ", usernameType='"
+        + usernameType
+        + '\''
+        + ", usernameErrorHint='"
+        + usernameErrorHint
+        + '\''
+        + ", pageTitle='"
+        + pageTitle
+        + '\''
+        + ", tenantLogoUrl='"
+        + tenantLogoUrl
+        + '\''
+        + ", externalProviderDescriptors="
+        + externalProviderDescriptors
+        + '}';
+  }
 }

@@ -59,4 +59,19 @@ public class ExternalIdentityProviderResponse implements Serializable {
   public void setClientSecret(final String clientSecret) {
     this.clientSecret = clientSecret;
   }
+
+  @Override
+  public String toString() {
+    return "ExternalIdentityProviderResponse{"
+        + "id='"
+        + id
+        + '\''
+        + ", clientId='"
+        + clientId
+        + '\''
+        + ", name='"
+        + name
+        + '\''
+        + '}';
+  }
 }

@@ -48,4 +48,19 @@ public class ExternalProviderTemplateSummaryResponse implements Serializable {
   public void setIconPath(final String iconPath) {
     this.iconPath = iconPath;
   }
+
+  @Override
+  public String toString() {
+    return "ExternalProviderTemplateSummaryResponse{"
+        + "id='"
+        + id
+        + '\''
+        + ", name='"
+        + name
+        + '\''
+        + ", iconPath='"
+        + iconPath
+        + '\''
+        + '}';
+  }
 }

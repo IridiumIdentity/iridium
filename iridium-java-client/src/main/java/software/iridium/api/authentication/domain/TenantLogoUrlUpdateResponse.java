@@ -47,4 +47,19 @@ public class TenantLogoUrlUpdateResponse implements Serializable {
   public void setLoginDescriptorId(final String loginDescriptorId) {
     this.loginDescriptorId = loginDescriptorId;
   }
+
+  @Override
+  public String toString() {
+    return "TenantLogoUrlUpdateResponse{"
+        + "tenantId='"
+        + tenantId
+        + '\''
+        + ", loginDescriptorId='"
+        + loginDescriptorId
+        + '\''
+        + ", logoUrl='"
+        + logoUrl
+        + '\''
+        + '}';
+  }
 }

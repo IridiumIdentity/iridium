@@ -50,4 +50,9 @@ public class ClientSecretCreateResponse implements Serializable {
   public void setCreated(final Date created) {
     this.created = created;
   }
+
+  @Override
+  public String toString() {
+    return "ClientSecretCreateResponse{" + "id='" + id + '\'' + ", created=" + created + '}';
+  }
 }

@@ -113,4 +113,34 @@ public class IdentityResponse implements Serializable {
   public void setUserToken(final String userToken) {
     this.userToken = userToken;
   }
+
+  @Override
+  public String toString() {
+    return "IdentityResponse{"
+        + "id='"
+        + id
+        + '\''
+        + ", username='"
+        + username
+        + '\''
+        + ", profile="
+        + profile
+        + ", appBaseUrl='"
+        + appBaseUrl
+        + '\''
+        + ", applicationName='"
+        + applicationName
+        + '\''
+        + ", tenantWebsite='"
+        + tenantWebsite
+        + '\''
+        + ", userToken='"
+        + userToken
+        + '\''
+        + ", roles="
+        + roles
+        + ", tenantIds="
+        + tenantIds
+        + '}';
+  }
 }

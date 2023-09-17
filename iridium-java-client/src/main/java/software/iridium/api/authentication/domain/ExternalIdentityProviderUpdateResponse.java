@@ -40,4 +40,16 @@ public class ExternalIdentityProviderUpdateResponse implements Serializable {
   public static ExternalIdentityProviderUpdateResponse of(final String id, final String clientId) {
     return new ExternalIdentityProviderUpdateResponse(id, clientId);
   }
+
+  @Override
+  public String toString() {
+    return "ExternalIdentityProviderUpdateResponse{"
+        + "id='"
+        + id
+        + '\''
+        + ", clientId='"
+        + clientId
+        + '\''
+        + '}';
+  }
 }
