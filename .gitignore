@@ -52,9 +52,6 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
-.vscode/
-
 ### Mac OS ###
 .DS_Store
 
@@ -75,3 +72,10 @@ build/
 
 ### Database ###
 /data/
+
+### Python Virtual Env ###
+.venv/
+__pycache__/
+
+### vi(m) ###
+*.swp
