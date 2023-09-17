@@ -98,4 +98,34 @@ public class ApplicationUpdateResponse implements Serializable {
   public void setPrivacyPolicyUrl(final String privacyPolicyUrl) {
     this.privacyPolicyUrl = privacyPolicyUrl;
   }
+
+  @Override
+  public String toString() {
+    return "ApplicationUpdateResponse{"
+        + "id='"
+        + id
+        + '\''
+        + ", name='"
+        + name
+        + '\''
+        + ", applicationTypeId='"
+        + applicationTypeId
+        + '\''
+        + ", homepageURL='"
+        + homepageURL
+        + '\''
+        + ", tenantId='"
+        + tenantId
+        + '\''
+        + ", description='"
+        + description
+        + '\''
+        + ", callbackURL='"
+        + callbackURL
+        + '\''
+        + ", privacyPolicyUrl='"
+        + privacyPolicyUrl
+        + '\''
+        + '}';
+  }
 }

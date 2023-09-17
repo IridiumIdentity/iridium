@@ -47,4 +47,19 @@ public class ApplicationTypeSummary implements Serializable {
       final String id, final String name, final String description) {
     return new ApplicationTypeSummary(id, name, description);
   }
+
+  @Override
+  public String toString() {
+    return "ApplicationTypeSummary{"
+        + "id='"
+        + id
+        + '\''
+        + ", name='"
+        + name
+        + '\''
+        + ", description='"
+        + description
+        + '\''
+        + '}';
+  }
 }
