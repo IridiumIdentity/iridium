@@ -59,4 +59,22 @@ public class ApplicationSummary implements Serializable {
   public void setClientId(final String clientId) {
     this.clientId = clientId;
   }
+
+  @Override
+  public String toString() {
+    return "ApplicationSummary{"
+        + "id='"
+        + id
+        + '\''
+        + ", name='"
+        + name
+        + '\''
+        + ", applicationTypeId='"
+        + applicationTypeId
+        + '\''
+        + ", clientId='"
+        + clientId
+        + '\''
+        + '}';
+  }
 }

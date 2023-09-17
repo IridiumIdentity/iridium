@@ -46,4 +46,9 @@ public class TenantSummary implements Serializable {
   public static TenantSummary of(final String id, final String name) {
     return new TenantSummary(id, name);
   }
+
+  @Override
+  public String toString() {
+    return "TenantSummary{" + "id='" + id + '\'' + ", subdomain='" + subdomain + '\'' + '}';
+  }
 }
