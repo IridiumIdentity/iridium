@@ -18,3 +18,6 @@ extra:
   analytics:
     provider: google
     property: G-XQP7070X67
+
+markdown_extensions:
+  - attr_list
