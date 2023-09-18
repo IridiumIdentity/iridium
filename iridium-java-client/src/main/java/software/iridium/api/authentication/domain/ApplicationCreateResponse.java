@@ -59,4 +59,22 @@ public class ApplicationCreateResponse implements Serializable {
   public void setTenantId(final String tenantId) {
     this.tenantId = tenantId;
   }
+
+  @Override
+  public String toString() {
+    return "ApplicationCreateResponse{"
+        + "id='"
+        + id
+        + '\''
+        + ", name='"
+        + name
+        + '\''
+        + ", applicationTypeId='"
+        + applicationTypeId
+        + '\''
+        + ", tenantId='"
+        + tenantId
+        + '\''
+        + '}';
+  }
 }

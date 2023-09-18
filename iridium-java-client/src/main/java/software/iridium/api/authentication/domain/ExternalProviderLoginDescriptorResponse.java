@@ -85,4 +85,31 @@ public class ExternalProviderLoginDescriptorResponse implements Serializable {
   public void setState(final String state) {
     this.state = state;
   }
+
+  @Override
+  public String toString() {
+    return "ExternalProviderLoginDescriptorResponse{"
+        + "name='"
+        + name
+        + '\''
+        + ", clientId='"
+        + clientId
+        + '\''
+        + ", responseType='"
+        + responseType
+        + '\''
+        + ", redirectUri='"
+        + redirectUri
+        + '\''
+        + ", state='"
+        + state
+        + '\''
+        + ", scope='"
+        + scope
+        + '\''
+        + ", iconPath='"
+        + iconPath
+        + '\''
+        + '}';
+  }
 }

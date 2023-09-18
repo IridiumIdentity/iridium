@@ -41,4 +41,16 @@ public class CreateExternalIdentityProviderResponse implements Serializable {
   public static CreateExternalIdentityProviderResponse of(final String id, final String name) {
     return new CreateExternalIdentityProviderResponse(id, name);
   }
+
+  @Override
+  public String toString() {
+    return "CreateExternalIdentityProviderResponse{"
+        + "id='"
+        + id
+        + '\''
+        + ", name='"
+        + name
+        + '\''
+        + '}';
+  }
 }

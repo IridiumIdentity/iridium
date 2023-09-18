@@ -68,6 +68,8 @@ jobs:
       - name: publish angular library
         run: npm publish --access public
         working-directory: ./iridium-angular-client/dist/ngx-iridium-client
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         # build and publish next.js
       - name: install deps next.js
         run: npm install

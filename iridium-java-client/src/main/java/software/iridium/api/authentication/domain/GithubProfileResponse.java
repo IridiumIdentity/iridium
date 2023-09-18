@@ -78,4 +78,28 @@ public class GithubProfileResponse implements Serializable {
   public void setId(String id) {
     this.id = id;
   }
+
+  @Override
+  public String toString() {
+    return "GithubProfileResponse{"
+        + "login='"
+        + login
+        + '\''
+        + ", avatarUrl='"
+        + avatarUrl
+        + '\''
+        + ", name='"
+        + name
+        + '\''
+        + ", location='"
+        + location
+        + '\''
+        + ", email='"
+        + email
+        + '\''
+        + ", id='"
+        + id
+        + '\''
+        + '}';
+  }
 }

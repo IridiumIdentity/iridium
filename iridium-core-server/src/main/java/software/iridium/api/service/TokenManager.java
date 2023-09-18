@@ -11,13 +11,22 @@
  */
 package software.iridium.api.service;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import software.iridium.api.base.error.NotAuthorizedException;
+import software.iridium.api.repository.AccessTokenEntityRepository;
+import software.iridium.api.repository.ApplicationEntityRepository;
 import software.iridium.api.repository.AuthenticationEntityRepository;
+import software.iridium.api.repository.IdentityEntityRepository;
+import software.iridium.api.util.AttributeValidator;
+import software.iridium.api.util.ServletTokenExtractor;
 import software.iridium.entity.IdentityEntity;
 
 @Component
@@ -25,6 +34,11 @@ public class TokenManager {
 
   @Autowired private AuthenticationEntityRepository authenticationEntityRepository;
   @Autowired private AuthenticationGenerator authenticationGenerator;
+  @Autowired private ServletTokenExtractor tokenExtractor;
+  @Autowired private AccessTokenEntityRepository accessTokenRepository;
+  @Autowired private AttributeValidator validator;
+  @Autowired private IdentityEntityRepository identityRepository;
+  @Autowired private ApplicationEntityRepository applicationRepository;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public ImmutablePair<String, String> getOrGenerateToken(IdentityEntity identityEntity) {
@@ -44,5 +58,35 @@ public class TokenManager {
     return new ImmutablePair<>(
         authenticationOptional.get().getAuthToken(),
         authenticationOptional.get().getRefreshToken());
+  }
+
+  @Transactional(propagation = Propagation.REQUIRED)
+  public void logout(final String clientId, final HttpServletRequest request) {
+    checkArgument(validator.isNotBlank(clientId), "clientId must not be blank");
+
+    final var tokenValue = tokenExtractor.extractBearerToken(request);
+
+    final var accessTokenOptional =
+        accessTokenRepository.findFirstByAccessTokenAndExpirationAfter(tokenValue, new Date());
+
+    if (accessTokenOptional.isEmpty()) {
+      return;
+    }
+
+    final var accessToken = accessTokenOptional.get();
+
+    final var identity =
+        identityRepository
+            .findById(accessToken.getIdentityId())
+            .orElseThrow(() -> new NotAuthorizedException("Not Authorized"));
+
+    final var application =
+        applicationRepository
+            .findByClientId(clientId)
+            .orElseThrow(() -> new NotAuthorizedException("Not Authorized"));
+
+    if (application.getTenantId().equals(identity.getParentTenantId())) {
+      accessTokenRepository.delete(accessTokenOptional.get());
+    }
   }
 }

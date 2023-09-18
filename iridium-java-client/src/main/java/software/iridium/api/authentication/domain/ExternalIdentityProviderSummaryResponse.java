@@ -45,4 +45,19 @@ public class ExternalIdentityProviderSummaryResponse {
   public void setIconPath(final String iconPath) {
     this.iconPath = iconPath;
   }
+
+  @Override
+  public String toString() {
+    return "ExternalIdentityProviderSummaryResponse{"
+        + "id='"
+        + id
+        + '\''
+        + ", name='"
+        + name
+        + '\''
+        + ", iconPath='"
+        + iconPath
+        + '\''
+        + '}';
+  }
 }

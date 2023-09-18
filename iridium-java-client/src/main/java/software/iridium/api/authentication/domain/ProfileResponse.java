@@ -36,4 +36,16 @@ public class ProfileResponse implements Serializable {
   public void setLastName(final String lastName) {
     this.lastName = lastName;
   }
+
+  @Override
+  public String toString() {
+    return "ProfileResponse{"
+        + "firstName='"
+        + firstName
+        + '\''
+        + ", lastName='"
+        + lastName
+        + '\''
+        + '}';
+  }
 }

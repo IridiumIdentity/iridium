@@ -107,4 +107,37 @@ public class ApplicationResponse implements Serializable {
   public void setPrivacyPolicyUrl(final String privacyPolicyUrl) {
     this.privacyPolicyUrl = privacyPolicyUrl;
   }
+
+  @Override
+  public String toString() {
+    return "ApplicationResponse{"
+        + "id='"
+        + id
+        + '\''
+        + ", name='"
+        + name
+        + '\''
+        + ", applicationTypeId='"
+        + applicationTypeId
+        + '\''
+        + ", homepageURL='"
+        + homepageURL
+        + '\''
+        + ", tenantId='"
+        + tenantId
+        + '\''
+        + ", description='"
+        + description
+        + '\''
+        + ", callbackURL='"
+        + callbackURL
+        + '\''
+        + ", privacyPolicyUrl='"
+        + privacyPolicyUrl
+        + '\''
+        + ", clientId='"
+        + clientId
+        + '\''
+        + '}';
+  }
 }

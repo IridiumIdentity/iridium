@@ -47,4 +47,18 @@ public class CreateTenantResponse implements Serializable {
   public void setEnvironment(final Environment environment) {
     this.environment = environment;
   }
+
+  @Override
+  public String toString() {
+    return "CreateTenantResponse{"
+        + "id='"
+        + id
+        + '\''
+        + ", subdomain='"
+        + subdomain
+        + '\''
+        + ", environment="
+        + environment
+        + '}';
+  }
 }
