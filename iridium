@@ -1,0 +1,14 @@
+// src/api/iridium.js
+const iridiumData = [
+  { id: 1, name: 'Iridium 1', /* Other satellite data */ },
+  { id: 2, name: 'Iridium 2', /* Other satellite data */ },
+  // Add more satellite data as needed
+];
+
+export const fetchIridiumData = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(iridiumData);
+    }, 1000); // Simulate an asynchronous API call
+  });
+};
