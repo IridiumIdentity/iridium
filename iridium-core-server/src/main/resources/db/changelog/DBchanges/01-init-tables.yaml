@@ -86,7 +86,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT
+                  type: BIGINT(20)
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -118,7 +118,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: code_challenge_method
-                  type: ENUM('plain', 'S256')
+                  type: ENUM("plain", "S256")
               - column:
                   name: code_challenge
                   type: ${textColumnType}
@@ -163,7 +163,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT
+                  type: BIGINT(20)
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -236,7 +236,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT
+                  type: BIGINT(20)
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -300,7 +300,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT
+                  type: BIGINT(20)
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -355,7 +355,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT
+                  type: BIGINT(20)
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -406,7 +406,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT
+                  type: BIGINT(20)
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -494,7 +494,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT
+                  type: BIGINT(20)
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -564,7 +564,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT
+                  type: BIGINT(20)
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -620,7 +620,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT
+                  type: BIGINT(20)
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -696,7 +696,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT
+                  type: BIGINT(20)
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -758,7 +758,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT
+                  type: BIGINT(20)
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -816,7 +816,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT
+                  type: BIGINT(20)
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -859,6 +859,715 @@ databaseChangeLog:
                   defaultValue: true
                   constraints:
                     nullable: false
+        # 13. in_progress_external_identity_provider_authorizations
+        - createTable:
+            tableName: in_progress_external_identity_provider_authorizations
+            columns:
+              #AbstractEntity columns
+              - column:
+                  name: in_progress_external_identity_provider_authorization_id
+                  type: VARCHAR(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: version
+                  type: BIGINT(20)
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+              # Entity columns
+              - column:
+                  name: state
+                  type: ${textColumnType}
+                  constraints:
+                    nullable: false
+              - column:
+                  name: redirect_uri
+                  type: ${textColumnType}
+                  constraints:
+                    nullable: false
+              - column:
+                  name: client_id
+                  type: VARCHAR(42)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: expiration
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column: #Many to One ExternalIdentityProviderEntity
+                  name: external_identity_provider_id
+                  type: VARCHAR(36)
+              #Audible columns
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: create_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValue: true
+                  constraints:
+                    nullable: false
+        # 14. login_descriptors
+        - createTable:
+            tableName: login_descriptors
+            columns:
+              #AbstractEntity columns
+              - column:
+                  name: login_descriptor_id
+                  type: VARCHAR(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: version
+                  type: BIGINT(20)
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+              #Entity columns
+              - column:
+                  name: display_name
+                  type: VARCHAR(100)
+              - column:
+                  name: username_placeholder
+                  type: ${textColumnType}
+                  defaultValue: "Ex. you@somewhere.com"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: username_label
+                  type: ${textColumnType}
+                  defaultValue: "Email"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: username_type
+                  type: ${textColumnType}
+                  defaultValue: "email"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: username_error_hint
+                  type: ${textColumnType}
+                  defaultValue: "Please enter a valid email address"
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: page_title
+                  type: VARCHAR(50)
+                  defaultValue: "Login | Powered by Iridium"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: logo_url
+                  type: VARCHAR(2048)
+                  defaultValue: ""
+                  constraints:
+                    nullable: false
+              #Audible columns
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: create_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValue: true
+                  constraints:
+                    nullable: false
+
+        # 15.client_secrets
+        - createTable:
+            tableName: client_secrets
+            columns:
+              #AbstractEntity columns
+              - column:
+                  name: id
+                  type: VARCHAR(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: version
+                  type: BIGINT(20)
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+              # Entity columns
+              - column:
+                  name: secret_key
+                  type: ${textColumnType}
+                  constraints:
+                    nullable: false
+              - column: #Many to One : ApplicationEntity
+                  name: application_id
+                  type: VARCHAR(36)
+              #Audible columns
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: create_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValue: true
+                  constraints:
+                    nullable: false
+            # 16. tenants
+        - createTable:
+            tableName: tenants
+            columns:
+              #AbstractEntity columns
+              - column:
+                  name: tenant_id
+                  type: VARCHAR(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: version
+                  type: BIGINT(20)
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+              #Entity colimns
+              - column:
+                  name: subdomain
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: website_url
+                  type: ${textColumnType}
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: environment
+                  type: Enum("sandbox", "development", "staging", "production")
+              - column: # One to One : LoginDescriptorEntity
+                  name: login_descriptor_id
+                  type: VARCHAR(36)
+              #Audible columns
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: create_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValue: true
+                  constraints:
+                    nullable: false
+        # 17. identity_create_session_details
+        - createTable:
+            tableName: identity_create_session_details
+            columns:
+              #AbstractEntity columns
+              - column:
+                  name: id
+                  type: VARCHAR(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: version
+                  type: BIGINT(20)
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+              # Entity columns
+              - column:
+                  name: response_type
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: state
+                  type: ${textColumnType}
+                  constraints:
+                    nullable: false
+              - column:
+                  name: redirect_uri
+                  type: ${textColumnType}
+                  constraints:
+                    nullable: false
+              - column:
+                  name: code_challenge_method
+                  type: Emun("plain", "S256")
+              - column:
+                  name: code_challenge
+                  type: ${textColumnType}
+                  constraints:
+                    nullable: false
+              - column:
+                  name: client_id
+                  type: ${textColumnType}
+                  constraints:
+                    nullable: false
+              - column: #One to One: IdentityEntity
+                  name: identity_id
+                  type: VARCHAR(36)
+              #Audible columns
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: create_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValue: true
+                  constraints:
+                    nullable: false
+        # 18. external_identity_provider_parameters
+        - createTable:
+            tableName: external_identity_provider_parameters
+            columns:
+              #AbstractEntity columns
+              - column:
+                  name: id
+                  type: VARCHAR(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: version
+                  type: BIGINT(20)
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+              #Entity columns
+              - column:
+                  name: value
+                  type: ${textColumnType}
+              - column:
+                  name: name
+                  type: ${textColumnType}
+              - column: # Many to One : ExternalIdentityProviderEntity
+                  name: external_identity_provider_id
+                  type: VARCHAR(36)
+              #Audible columns
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: create_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValue: true
+                  constraints:
+                    nullable: false
+        # 19. external_identity_provider_parameter_templates
+        - createTable:
+            tableName: external_identity_provider_parameter_templates
+            columns:
+              #AbstractEntity columns
+              - column:
+                  name: external_identity_provider_parameter_template_id
+                  type: VARCHAR(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: version
+                  type: BIGINT(20)
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+            # Entity columns
+              - column:
+                  name: name
+                  type: ${textColumnType}
+              - column:
+                  name: value
+                  type: ${textColumnType}
+              - column: # Many to One : ExternalIdentityProviderTemplateEntity
+                  name: external_identity_provider_template_id
+                  type: VARCHAR(36)
+              #Audible columns
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: create_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValue: true
+                  constraints:
+                    nullable: false
+        # 20. identity_property
+        - createTable:
+            tableName: identity_property
+            columns:
+              #AbstractEntity columns
+              - column:
+                  name: identity_property_id
+                  type: VARCHAR(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: version
+                  type: BIGINT(20)
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+              # Entity columns
+              - column:
+                  name: value
+                  type: ${textColumnType}
+              - column:
+                  name: name
+                  type: ${textColumnType}
+              - column: # Many to One : IdentityEntity
+                  name: identity_id
+                  type: VARCHAR(36)
+              #Audible columns
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: create_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValue: true
+                  constraints:
+                    nullable: false
+            # 21. applications
+        - createTable:
+            tableName: applications
+            columns:
+              #AbstractEntity columns
+              - column:
+                  name: application_id
+                  type: VARCHAR(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: version
+                  type: BIGINT(20)
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+              # Entity column
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: ${textColumnType}
+              - column:
+                  name: home_page_url
+                  type: ${textColumnType}
+              - column:
+                  name: privacy_policy_url
+                  type: ${textColumnType}
+              - column:
+                  name: redirect_uri
+                  type: ${textColumnType}
+              - column:
+                  name: tenant_id
+                  type: VARCHAR(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: client_id
+                  type: VARCHAR(32)
+                  constraints:
+                    nullable: false
+              - column: #Many to One : ApplicationTypeEntity
+                  name: application_type_id
+                  type: VARCHAR(36)
+              #Audible columns
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: create_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_id
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValue: true
+                  constraints:
+                    nullable: false
+
+              ###   Join Table   ###
+
+              # 22. tenants identities xref
+        - createTable:
+            tableName: tenants_identities_xref
+            columns:
+              #AbstractEntity columns
+              - column:
+                  name: identity_id
+                  type: VARCHAR(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: tenant_id
+                  type: VARCHAR(36)
+                  defaultValue: 0
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+            # 23. identities applications
+        - createTable:
+            tableName: identities_applications
+            columns:
+
+              - column:
+                  name: identity_id
+                  type: VARCHAR(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: application_id
+                  type: VARCHAR(36)
+                  defaultValue: 0
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+        # 24. identities applications
+        - createTable:
+            tableName: roles_identities_xref
+            columns:
+
+              - column:
+                  name: identity_id
+                  type: VARCHAR(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: VARCHAR(36)
+                  defaultValue: 0
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+        # 25. authorization parameters
+        # ??? needs confirm with Josh
+        - createTable:
+            tableName: authorization_parameters
+            columns:
+
+              - column: #Foreign key to ExternalIdentityProviderEntity
+                  name: external_identity_provider_id
+                  type: VARCHAR(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: param_key
+                  type: ${textColumnType}
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: param_value
+                  type: ${textColumnType}
+
+        # 26 access_token_parameters
+        - createTable:
+            tableName: access_token_parameters
+            columns:
+              - column: #Foreign key to ExternalIdentityProviderEntity
+                  name: external_identity_provider_id
+                  type: VARCHAR(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: param_key
+                  type: ${textColumnType}
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: param_value
+                  type: ${textColumnType}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
