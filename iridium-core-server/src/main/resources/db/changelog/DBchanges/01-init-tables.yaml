@@ -76,7 +76,7 @@ databaseChangeLog:
         - createTable:
             tableName: authorization_codes
             columns:
-             #AbstractEntity columns
+              #AbstractEntity columns
               - column:
                   name: authorization_code_id
                   type: VARCHAR(36)
@@ -86,7 +86,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -118,7 +118,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: code_challenge_method
-                  type: ENUM("plain", "S256")
+                  type: ENUM('plain', 'S256')
               - column:
                   name: code_challenge
                   type: ${textColumnType}
@@ -163,7 +163,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -236,7 +236,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -300,7 +300,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -355,7 +355,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -406,7 +406,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -425,7 +425,7 @@ databaseChangeLog:
                   name: client_secret
                   type: ${textColumnType}
               - column:  #Many To One, FK, ExternalIdentityProviderTemplateEntity
-                  name: external_identity_provider_id
+                  name: external_identity_provider_template_id
                   type: VARCHAR(36)
               - column:  #Many To One, FK, TenantEntity
                   name: tenant_id
@@ -494,7 +494,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -564,7 +564,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -620,7 +620,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -696,7 +696,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -758,7 +758,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -816,7 +816,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -873,7 +873,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -942,7 +942,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -953,38 +953,38 @@ databaseChangeLog:
               - column:
                   name: username_placeholder
                   type: ${textColumnType}
-                  defaultValue: "Ex. you@somewhere.com"
+                  defaultValue: 'Ex. you@somewhere.com'
                   constraints:
                     nullable: false
               - column:
                   name: username_label
                   type: ${textColumnType}
-                  defaultValue: "Email"
+                  defaultValue: 'Email'
                   constraints:
                     nullable: false
               - column:
                   name: username_type
                   type: ${textColumnType}
-                  defaultValue: "email"
+                  defaultValue: 'email'
                   constraints:
                     nullable: false
               - column:
                   name: username_error_hint
                   type: ${textColumnType}
-                  defaultValue: "Please enter a valid email address"
+                  defaultValue: 'Please enter a valid email address'
                   constraints:
                     nullable: false
 
               - column:
                   name: page_title
                   type: VARCHAR(50)
-                  defaultValue: "Login | Powered by Iridium"
+                  defaultValue: 'Login | Powered by Iridium'
                   constraints:
                     nullable: false
               - column:
                   name: logo_url
                   type: VARCHAR(2048)
-                  defaultValue: ""
+                  defaultValue: ''
                   constraints:
                     nullable: false
               #Audible columns
@@ -1029,7 +1029,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -1083,7 +1083,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -1102,7 +1102,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: environment
-                  type: Enum("sandbox", "development", "staging", "production")
+                  type: Enum('sandbox', 'development', 'staging', 'production')
               - column: # One to One : LoginDescriptorEntity
                   name: login_descriptor_id
                   type: VARCHAR(36)
@@ -1147,7 +1147,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -1169,7 +1169,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: code_challenge_method
-                  type: Emun("plain", "S256")
+                  type: ENUM('plain', 'S256')
               - column:
                   name: code_challenge
                   type: ${textColumnType}
@@ -1224,7 +1224,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -1279,11 +1279,11 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
-            # Entity columns
+              # Entity columns
               - column:
                   name: name
                   type: ${textColumnType}
@@ -1334,7 +1334,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -1389,7 +1389,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: version
-                  type: BIGINT(20)
+                  type: BIGINT
                   defaultValue: 0
                   constraints:
                     nullable: false
@@ -1548,34 +1548,9 @@ databaseChangeLog:
               - column:
                   name: param_value
                   type: ${textColumnType}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #        - sqlFile:
 #            dbms: 'h2,  oracle,  mysql'
-#            endDelimiter: ";"
+#            endDelimiter: ';'
 #            splitStatements: true
 #            path: db/changelog/DBchanges/01-init-insert-data.sql
 #            stripComments: true
