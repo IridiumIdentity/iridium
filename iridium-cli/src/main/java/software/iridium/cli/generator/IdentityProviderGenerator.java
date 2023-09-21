@@ -37,6 +37,7 @@ public class IdentityProviderGenerator extends AbstractGenerator {
           externalProvider.setAccessTokenRequestBaseUrl(template.getAccessTokenRequestBaseUrl());
           externalProvider.setProfileRequestBaseUrl(template.getProfileRequestBaseUrl());
           externalProvider.setIconPath(template.getIconPath());
+          externalProvider.setDisplayName(template.getDisplayName());
           externalProvider.setTenant(iridiumTenant);
           externalProvider.setBaseAuthorizationUrl(template.getBaseAuthorizationUrl());
 

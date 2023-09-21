@@ -25,6 +25,9 @@ public class ExternalIdentityProviderTemplateEntity extends AbstractEntity {
   @Column(name = "name", length = 100, nullable = false)
   private String name;
 
+  @Column(name = "display_name", length = 50, nullable = false)
+  private String displayName;
+
   @Column(name = "access_token_request_base_url", length = 255, nullable = false)
   private String accessTokenRequestBaseUrl;
 
@@ -120,5 +123,13 @@ public class ExternalIdentityProviderTemplateEntity extends AbstractEntity {
 
   public void setDefaultScope(final String defaultScope) {
     this.defaultScope = defaultScope;
+  }
+
+  public String getDisplayName() {
+    return displayName;
+  }
+
+  public void setDisplayName(final String displayName) {
+    this.displayName = displayName;
   }
 }
