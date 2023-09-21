@@ -572,31 +572,11 @@ You're not viewing the latest version.
 </li>
       
         <li class="md-nav__item">
-  <a href="#intellij" class="md-nav__link">
-    Intellij
+  <a href="#setting-up" class="md-nav__link">
+    Setting up
   </a>
   
-    <nav class="md-nav" aria-label="Intellij">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#open-the-project" class="md-nav__link">
-    Open the project
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#setting-up-with-intellij" class="md-nav__link">
-    Setting up with Intellij
-  </a>
-  
-    <nav class="md-nav" aria-label="Setting up with Intellij">
+    <nav class="md-nav" aria-label="Setting up">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -626,12 +606,18 @@ You're not viewing the latest version.
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#copy-applicationproperties" class="md-nav__link">
     Copy application.properties
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Copy application.properties">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#use-cli" class="md-nav__link">
@@ -649,6 +635,13 @@ You're not viewing the latest version.
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-iridium" class="md-nav__link">
+    Run Iridium
+  </a>
   
 </li>
       
@@ -876,31 +869,11 @@ You're not viewing the latest version.
 </li>
       
         <li class="md-nav__item">
-  <a href="#intellij" class="md-nav__link">
-    Intellij
+  <a href="#setting-up" class="md-nav__link">
+    Setting up
   </a>
   
-    <nav class="md-nav" aria-label="Intellij">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#open-the-project" class="md-nav__link">
-    Open the project
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#setting-up-with-intellij" class="md-nav__link">
-    Setting up with Intellij
-  </a>
-  
-    <nav class="md-nav" aria-label="Setting up with Intellij">
+    <nav class="md-nav" aria-label="Setting up">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -930,12 +903,18 @@ You're not viewing the latest version.
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#copy-applicationproperties" class="md-nav__link">
     Copy application.properties
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Copy application.properties">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#use-cli" class="md-nav__link">
@@ -953,6 +932,13 @@ You're not viewing the latest version.
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-iridium" class="md-nav__link">
+    Run Iridium
+  </a>
   
 </li>
       
@@ -981,6 +967,11 @@ You're not viewing the latest version.
  -  <a href="https://adoptium.net/">Java 17</a><br />
  -  <a href="https://maven.apache.org/">Maven 3.8.4</a> or greater  </p>
 <hr />
+<p>Known compatible IDEs:
+- Intellij
+- Visual Studio Code
+- Spring Tools Suite</p>
+<hr />
 <p>Clone the repository.</p>
 <pre><code class="language-shell">$ git clone git@github.com:IridiumIdentity/iridium.git
 </code></pre>
@@ -998,9 +989,7 @@ You're not viewing the latest version.
 [INFO] Finished at: 2023-09-11T12:54:42-07:00
 [INFO] -----------------------------------------------------------------------
 </code></pre>
-<h2 id="intellij">Intellij</h2>
-<h3 id="open-the-project"><strong>Open the project</strong></h3>
-<h2 id="setting-up-with-intellij">Setting up with Intellij</h2>
+<h2 id="setting-up">Setting up</h2>
 <h3 id="use-launcher-script">Use launcher script</h3>
 <h4 id="current-supported-operating-systems">Current supported operating systems</h4>
 <ul>
@@ -1010,12 +999,11 @@ From the root folder of the repo you can execute the following command to open t
 <pre><code class="language-shell">$ ./tools/scripts/setup-intellij.sh
 </code></pre>
 <h3 id="use-intellij-gui">Use Intellij GUI</h3>
-<p>Opening Iridium with Intellij is straight-forward.  In the menu bar in Intellij go to<br />
+<p>Iridium is a standard Maven project. Simply go to<br />
 <code>File -&gt; Open...</code> then select the top level folder of the iridium project on your computer.</p>
 <p><img alt="Open with Intellij" src="../../images/import-project-intellij.png" /></p>
-<p>The project should load as it's a standard Maven project. </p>
 <hr />
-<h3 id="copy-applicationproperties"><strong>Copy application.properties</strong></h3>
+<h2 id="copy-applicationproperties">Copy application.properties</h2>
 <p>In an IDE, Springboot will not find the <code>application.properties</code> file in its default directory. To start Iridium on your IDE, copy the file to a recognized location.</p>
 <h3 id="use-cli">Use CLI</h3>
 <p>To successfully start Iridium on your IDE, run the following command from the top of the <code>iridium</code> directory. </p>
@@ -1027,7 +1015,17 @@ From the root folder of the repo you can execute the following command to open t
 <p><img alt="Initial location of application.properties" src="../../images/application-prop-location1.png" /></p>
 <p>where to paste the file:</p>
 <p><img alt="Location of pasted application.properties" src="../../images/application-prop-location2.png" /></p>
-<p><strong>You are now ready to run Iridium from your IDE.</strong></p>
+<hr />
+<h2 id="run-iridium">Run Iridium</h2>
+<p>Iridium requires <code>Springboot</code> to run on an IDE. If you do not have Springboot in your IDE, download an extension or plugin that adds it as a run configuration.</p>
+<p>To run Iridium on your IDE, you will need to run from <code>Iridium.java</code>. This can be found in the <code>iridium-core-server</code> directory:</p>
+<p><img alt="Location of Iridium.java" src="../../images/iridium-dot-java-location.png" /></p>
+<p>Certain IDEs use different run configurations. If you are having trouble starting Iridium, see below.</p>
+<ul>
+<li><strong>Intellij:</strong> If Intellij does not automatically recognize as a springboot application, then run as a springboot application.</li>
+<li><strong>Visual Studio Code:</strong> Run as a java application.</li>
+<li><strong>Spring Tools Suite/Eclipse:</strong> Run as a springboot application. Ensure your preferred openJDK instance is not in conflict with the IDE's inbuilt version.</li>
+</ul>
 
 
   
