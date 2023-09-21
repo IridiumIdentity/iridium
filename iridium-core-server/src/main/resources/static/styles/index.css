@@ -1,8 +1,90 @@
+@font-face {
+    font-family: 'WebFont';
+    src: url('Montserrat-VariableFont_wght.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}
 
 body {
     background: rgb(208,207,205);
-    background: radial-gradient(circle, rgba(208,207,205,1) 0%, rgba(91,137,180,1) 100%);
-    font-family: 'Open Sans';font-size: 16px;
+    background: radial-gradient(circle, rgba(208,207,205,1) 0%, rgba(255,254,253,0.3) 100%);
+    font-family: 'Helvetica', 'sans-serif';
+    font-size: 16px;
+}
+
+/* Media Query for Mobile Devices */
+@media (max-width: 480px) {
+    .card-container {
+        /*height:600px;*/
+        width: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+}
+
+/* Media Query for low resolution  Tablets, Ipads */
+@media (min-width: 481px) and (max-width: 767px) {
+    .card-container {
+        /*height:600px;*/
+        width: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+}
+
+.mdc-button {
+    font-size: 1.5rem;
+    width: 300px;
+    text-transform: none;
+    font-family: 'Helvetica', 'sans-serif';
+}
+
+/* Media Query for Tablets Ipads portrait mode */
+@media (min-width: 768px) and (max-width: 1024px){
+    .card-container {
+        /*height:600px;*/
+        width: 650px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+}
+
+/* Media Query for Laptops and Desktops */
+@media (min-width: 1025px) and (max-width: 1280px){
+    .card-container {
+        /*height:600px;*/
+        width: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+}
+
+/* Media Query for Large screens */
+@media (min-width: 1281px) {
+    .card-container {
+        /*height:600px;*/
+        width: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
 }
 html, body {
     display: flex;
@@ -11,14 +93,6 @@ html, body {
     height: 100%;
 }
 
-.card-container {
-    /*height:600px;*/
-    width: 350px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-}
 
 .login-container-child {
     width: 300px;

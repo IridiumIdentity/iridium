@@ -22,13 +22,13 @@ public class ExternalProviderLoginDescriptorResponse implements Serializable {
 
   private String responseType;
 
-  private String redirectUri;
-
   private String state;
 
   private String scope;
 
   private String iconPath;
+
+  private String displayName;
 
   public String getScope() {
     return scope;
@@ -70,14 +70,6 @@ public class ExternalProviderLoginDescriptorResponse implements Serializable {
     this.responseType = responseType;
   }
 
-  public String getRedirectUri() {
-    return redirectUri;
-  }
-
-  public void setRedirectUri(final String redirectUri) {
-    this.redirectUri = redirectUri;
-  }
-
   public String getState() {
     return state;
   }
@@ -86,30 +78,11 @@ public class ExternalProviderLoginDescriptorResponse implements Serializable {
     this.state = state;
   }
 
-  @Override
-  public String toString() {
-    return "ExternalProviderLoginDescriptorResponse{"
-        + "name='"
-        + name
-        + '\''
-        + ", clientId='"
-        + clientId
-        + '\''
-        + ", responseType='"
-        + responseType
-        + '\''
-        + ", redirectUri='"
-        + redirectUri
-        + '\''
-        + ", state='"
-        + state
-        + '\''
-        + ", scope='"
-        + scope
-        + '\''
-        + ", iconPath='"
-        + iconPath
-        + '\''
-        + '}';
+  public String getDisplayName() {
+    return displayName;
+  }
+
+  public void setDisplayName(final String displayName) {
+    this.displayName = displayName;
   }
 }

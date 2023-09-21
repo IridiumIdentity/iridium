@@ -10,6 +10,7 @@
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     <!-- Required Material Web JavaScript library -->
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
 <style th:inline="css">
@@ -18,6 +19,8 @@
         background-size: contain
     }
 </style>
+<script src="https://kit.fontawesome.com/38dd68bec3.js" crossorigin="anonymous"></script>
+
 <body>
 
     <div class="mdc-card card-container">
@@ -28,7 +31,7 @@
             </div>
 
         </form>
-
+            Login with
 
             <div class="button-container">
                 <form method="post" th:action="@{/oauth/external/authorize(response_type=${externalDescriptor.responseType},redirect_uri=${param.redirect_uri},client_id=${param.client_id},scope=${externalDescriptor.scope},state=${param.state},provider=${externalDescriptor.name})}" th:each="externalDescriptor : ${externalProviderDescriptors}">
@@ -36,7 +39,8 @@
                        class="mdc-button mdc-button--outlined mdc-button--icon-leading github-button">
                         <span class="mdc-button__ripple"></span>
                         <span class="mdc-button__focus-ring"></span>
-                        <span class="mdc-button__label"  th:text="'Login with ' + ${externalDescriptor.name}"></span>
+                         <i th:class="${externalDescriptor.iconPath}"></i> &nbsp;&nbsp;&nbsp;
+                        <span class="mdc-button__label"  th:text="${externalDescriptor.displayName}"></span>
                     </button>
                 </form>
             </div>
