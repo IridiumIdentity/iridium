@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@AttributeOverride(name = "id", column = @Column(name = "group_id"))
+@AttributeOverride(name = "id", column = @Column(name = "role_id"))
 @Table(name = "roles")
 public class RoleEntity extends AbstractEntity {
 
