@@ -53,7 +53,7 @@ public class SecurityConfig {
                         "/authenticate",
                         "oauth/authorize",
                         "register",
-                        "/oauth/token","/h2")
+                        "/oauth/token")
                     .permitAll()
                     .anyRequest()
                     .fullyAuthenticated())

@@ -7,9 +7,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:mydb
-    username: sa
-    password:
+    url: jdbc:h2:mem:identities
+    username: iridium
+    password: iridium
     driverClassName: org.h2.Driver
     tomcat:
       max-active: 5
