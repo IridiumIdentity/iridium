@@ -1513,12 +1513,13 @@ databaseChangeLog:
                     foreignKeyName: fk_roles_iden_id
                     references: identities(identity_id)
               - column:
-                  name: role_id
+                  name: group_id
                   type: VARCHAR(36)
                   constraints:
                     nullable: false
                     foreignKeyName: fk_identity_role_id
                     references: roles(role_id)
+
 
         # 25. authorization parameters
 
@@ -1557,8 +1558,6 @@ databaseChangeLog:
               - column:
                   name: param_value
                   type: ${textColumnType}
-<<<<<<< HEAD
-
 
         ### add Foreignkey relation
         # 1. access_tokens

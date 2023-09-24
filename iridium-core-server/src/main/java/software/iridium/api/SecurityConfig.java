@@ -100,6 +100,7 @@ public class SecurityConfig {
       http.csrf().disable();
     }
 
+
     http.addFilterBefore(preAuthMdcFilter, TokenAuthenticationFilter.class);
     http.addFilterAfter(postAuthMdcFilter, TokenAuthenticationFilter.class);
     http.addFilterAfter(requestLoggingFilter, TokenAuthenticationFilter.class);
