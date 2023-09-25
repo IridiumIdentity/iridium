@@ -12,8 +12,10 @@
 package software.iridium.api;
 
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,6 +29,8 @@ import software.iridium.api.filter.PreAuthMdcFilter;
 import software.iridium.api.filter.RequestLoggingFilter;
 import software.iridium.api.repository.AccessTokenEntityRepository;
 
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -36,12 +40,17 @@ public class SecurityConfig {
   @Resource private PostAuthMdcFilter postAuthMdcFilter;
   @Resource private AccessTokenEntityRepository accessTokenRepository;
 
+  @Autowired
+  private Environment environment;
+
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
     http.authorizeHttpRequests(
             (authorize) ->
                 authorize
+                    .requestMatchers(toH2Console())
+                    .permitAll()
                     .requestMatchers(
                         "/",
                         "/login",
@@ -63,8 +72,9 @@ public class SecurityConfig {
     http.addFilterAfter(postAuthMdcFilter, TokenAuthenticationFilter.class);
     http.addFilterAfter(requestLoggingFilter, TokenAuthenticationFilter.class);
     http.cors();
-    http.csrf().disable();
+    http.csrf().ignoringRequestMatchers(toH2Console());
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    http.headers().frameOptions().disable();
 
     return http.build();
   }
@@ -88,4 +98,5 @@ public class SecurityConfig {
             (UserDetails) preAuthenticatedAuthenticationToken.getPrincipal());
     return authenticationProvider;
   }
+
 }

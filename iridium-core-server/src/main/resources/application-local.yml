@@ -32,16 +32,18 @@ spring:
       enabled: true
       path: /h2-ui
 
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
 
-  #All spring liquibase coonfig:  https://reflectoring.io/database-migration-spring-boot-liquibase/
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
     parameters:
       textColumnType: VARCHAR(255)
-    contexts: local
+#    contexts: local
+    enabled: true
+
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
 
   jmx:
     enabled: false
@@ -49,6 +51,9 @@ spring:
   mvc:
     log-request-details: true
     dispatch-options-request: true
+  sql:
+    init:
+      platform: h2
 
 logging:
   level:

@@ -297,7 +297,7 @@ databaseChangeLog:
             columns:
               #AbstractEntity columns
               - column:
-                  name: group_id
+                  name: role_id
                   type: VARCHAR(36)
                   constraints:
                     primaryKey: true
@@ -1513,12 +1513,12 @@ databaseChangeLog:
                     foreignKeyName: fk_roles_iden_id
                     references: identities(identity_id)
               - column:
-                  name: group_id
+                  name: role_id
                   type: VARCHAR(36)
                   constraints:
                     nullable: false
                     foreignKeyName: fk_identity_role_id
-                    references: roles(group_id)
+                    references: roles(role_id)
 
         # 25. authorization parameters
 
