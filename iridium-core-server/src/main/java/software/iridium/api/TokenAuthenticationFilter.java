@@ -28,8 +28,6 @@ public class TokenAuthenticationFilter extends AbstractPreAuthenticatedProcessin
   private AccessTokenEntityRepository tokenRepository;
 
   public static final String BEARER_PREFIX_WITH_SPACE = "Bearer ";
-  public static final String BASIC_PREFIX_WITH_SPACER = "Basic ";
-  public static final String EXCHANGE_PATH = "/oauth/token";
 
   public TokenAuthenticationFilter(
       final AuthenticationManager authenticationManager,
@@ -57,13 +55,6 @@ public class TokenAuthenticationFilter extends AbstractPreAuthenticatedProcessin
   // todo (joshfischer) need to consolidate this
   private String extractBearerToken(final HttpServletRequest request) {
     final var header = request.getHeader(HttpHeaders.AUTHORIZATION);
-
-    if (header != null
-        && header.contains("Basic")
-        && request.getServletPath().equalsIgnoreCase(EXCHANGE_PATH)) {
-      // this is basic authentication
-      return null;
-    }
 
     if (header != null && header.length() > BEARER_PREFIX_WITH_SPACE.length()) {
       return header.substring(BEARER_PREFIX_WITH_SPACE.length());

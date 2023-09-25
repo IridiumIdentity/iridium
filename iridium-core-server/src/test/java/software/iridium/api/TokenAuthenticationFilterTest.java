@@ -12,10 +12,11 @@
 package software.iridium.api;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -68,23 +69,6 @@ class TokenAuthenticationFilterTest {
 
     assertThat(principalUser.getAuthToken(), is(equalTo(accessTokenValue)));
     assertThat(principalUser.getName(), is(equalTo(username)));
-  }
-
-  @Test
-  public void getPreAuthenticatedPrincipal_BasicAuth_BehavesAsExpected() {
-    final var accessTokenValue = "Basic theEncodedTokenValue";
-    final var exchangePath = "/oauth/token";
-
-    when(mockServletRequest.getHeader(eq(HttpHeaders.AUTHORIZATION))).thenReturn(accessTokenValue);
-
-    when(mockServletRequest.getServletPath()).thenReturn(exchangePath);
-
-    assertThat(subject.getPreAuthenticatedPrincipal(mockServletRequest), nullValue());
-
-    verify(mockServletRequest).getHeader(eq(HttpHeaders.AUTHORIZATION));
-    verify(mockServletRequest).getServletPath();
-    verify(mockTokenRepository, never())
-        .findFirstByAccessTokenAndExpirationAfter(anyString(), any(Date.class));
   }
 
   @Test
