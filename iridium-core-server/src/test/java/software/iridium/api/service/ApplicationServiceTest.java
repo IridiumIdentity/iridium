@@ -171,7 +171,7 @@ class ApplicationServiceTest {
     verify(mockAttributeValidator).isNotBlankAndNoLongerThan(same(name), eq(100));
     assertThat(
         exception.getMessage(),
-        is(equalTo("tenant name must not be blank and less than 100 characters")));
+        is(equalTo("application name must not be blank and less than 100 characters")));
   }
 
   @Test
@@ -200,7 +200,7 @@ class ApplicationServiceTest {
     verify(mockAttributeValidator).isNotBlankAndNoLongerThan(same(name), eq(100));
     assertThat(
         exception.getMessage(),
-        is(equalTo("tenant name must not be blank and less than 100 characters")));
+        is(equalTo("application name must not be blank and less than 100 characters")));
   }
 
   @Test

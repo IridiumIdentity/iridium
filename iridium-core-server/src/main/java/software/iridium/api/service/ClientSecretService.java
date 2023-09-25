@@ -13,7 +13,9 @@ package software.iridium.api.service;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +24,18 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import software.iridium.api.authentication.domain.ClientSecretCreateResponse;
 import software.iridium.api.base.error.ClientCallException;
+import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.instantiator.ClientSecretEntityInstantiator;
 import software.iridium.api.mapper.ClientSecretCreateResponseMapper;
+import software.iridium.api.repository.AccessTokenEntityRepository;
 import software.iridium.api.repository.ApplicationEntityRepository;
 import software.iridium.api.repository.ClientSecretEntityRepository;
+import software.iridium.api.repository.IdentityEntityRepository;
 import software.iridium.api.util.AttributeValidator;
 import software.iridium.api.util.EncoderUtils;
+import software.iridium.api.util.ServletTokenExtractor;
+import software.iridium.entity.TenantEntity;
 
 @Service
 public class ClientSecretService {
@@ -42,14 +49,43 @@ public class ClientSecretService {
   @Autowired private ClientSecretCreateResponseMapper responseMapper;
   @Autowired private ClientSecretEntityRepository clientSecretRepository;
   @Autowired private EncoderUtils encoderUtils;
+  @Autowired private ServletTokenExtractor tokenExtractor;
+  @Autowired private AccessTokenEntityRepository accessTokenRepository;
+  @Autowired private IdentityEntityRepository identityRepository;
 
   @Transactional(propagation = Propagation.REQUIRED)
-  public ClientSecretCreateResponse create(final String applicationId) {
+  public ClientSecretCreateResponse create(
+      final HttpServletRequest servletRequest, final String tenantId, final String applicationId) {
     checkArgument(attributeValidator.isUuid(applicationId), "applicationId must be a valid uuid");
+    checkArgument(attributeValidator.isUuid(tenantId), "tenantId must be a valid uuid");
+
+    final var token = tokenExtractor.extractBearerToken(servletRequest);
+
+    final var accessToken =
+        accessTokenRepository
+            .findFirstByAccessTokenAndExpirationAfter(token, new Date())
+            .orElseThrow(() -> new NotAuthorizedException("Not Authorized"));
+
+    final var identity =
+        identityRepository
+            .findById(accessToken.getIdentityId())
+            .orElseThrow(() -> new NotAuthorizedException("Not Authorized"));
+
+    boolean isNotAuthorized = true;
+    for (TenantEntity tenant : identity.getManagedTenants()) {
+      if (tenant.getId().equals(tenantId)) {
+        isNotAuthorized = false;
+        break;
+      }
+    }
+
+    if (isNotAuthorized) {
+      throw new NotAuthorizedException("Not Authorized");
+    }
 
     final var application =
         applicationRepository
-            .findById(applicationId)
+            .findByTenantIdAndId(tenantId, applicationId)
             .orElseThrow(
                 () ->
                     new ResourceNotFoundException(
