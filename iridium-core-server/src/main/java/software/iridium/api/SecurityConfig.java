@@ -61,7 +61,7 @@ public class SecurityConfig {
                         "register")
                     .permitAll()
                     .anyRequest()
-                    .authenticated())
+                    .fullyAuthenticated())
         .apply(new AuthenticationManagerConfigurer());
 
     http.addFilterBefore(preAuthMdcFilter, TokenAuthenticationFilter.class);
