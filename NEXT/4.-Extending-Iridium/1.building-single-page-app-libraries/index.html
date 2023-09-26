@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../1.Install-the-CLI/">
+        <link rel="prev" href="../../3.-Running-Locally/using-docker-for-development/">
       
       
-        <link rel="next" href="../3.stand-up-the-iridium-ui/">
+        <link rel="next" href="../2.building-server-side-libraries/">
       
       
       <link rel="icon" href="../../images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Stand up locally - Iridium</title>
+        <title>Single Page Apps - Iridium</title>
       
     
     
@@ -75,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#stand-up-locally" class="md-skip">
+        <a href="#single-page-apps" class="md-skip">
           Skip to content
         </a>
       
@@ -161,7 +161,7 @@ You're not viewing the latest version.
                 <div class="md-header__topic" data-md-component="header-topic">
 <!--          <span class="md-ellipsis">-->
 <!--            -->
-<!--              Stand up locally-->
+<!--              Single Page Apps-->
 <!--            -->
 <!--          </span>-->
                 </div>
@@ -359,51 +359,104 @@ You're not viewing the latest version.
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#youll-need-the-following-to-run-iridium-locally" class="md-nav__link">
-    You'll need the following to run iridium locally:
+  <a href="#understanding-the-authorization-code-flow" class="md-nav__link">
+    Understanding the Authorization Code Flow
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#want-help-running-iridium" class="md-nav__link">
-    Want help running Iridium?
+  <a href="#endpoints-used-in-the-authorization-code-flow" class="md-nav__link">
+    Endpoints used in the Authorization Code Flow
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#stand-up-the-database" class="md-nav__link">
-    Stand up the database
+  <a href="#the-external-provider-authorization-endpoint" class="md-nav__link">
+    The external provider authorization endpoint
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#initialize-the-iridium-database" class="md-nav__link">
-    Initialize the Iridium Database
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#initialize-with-iridium-with-a-login-provider" class="md-nav__link">
-    Initialize with Iridium with a Login Provider
-  </a>
-  
-    <nav class="md-nav" aria-label="Initialize with Iridium with a Login Provider">
+    <nav class="md-nav" aria-label="The external provider authorization endpoint">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#initialize-the-database" class="md-nav__link">
-    Initialize the database
+  <a href="#query-params" class="md-nav__link">
+    Query Params
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#run-the-iridium-core-server" class="md-nav__link">
-    Run the Iridium Core Server
+  <a href="#creating-the-code-verifier" class="md-nav__link">
+    Creating the code verifier
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-token-endpoint" class="md-nav__link">
+    The token endpoint
+  </a>
+  
+    <nav class="md-nav" aria-label="The token endpoint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query-params_1" class="md-nav__link">
+    Query Params
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-refresh-token-endpoint" class="md-nav__link">
+    The refresh token endpoint
+  </a>
+  
+    <nav class="md-nav" aria-label="The refresh token endpoint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query-params_2" class="md-nav__link">
+    Query Params
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-logout-endpoint" class="md-nav__link">
+    The logout endpoint
+  </a>
+  
+    <nav class="md-nav" aria-label="The logout endpoint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#path-variables" class="md-nav__link">
+    Path Variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#headers" class="md-nav__link">
+    Headers
   </a>
   
 </li>
@@ -431,83 +484,267 @@ You're not viewing the latest version.
   
 
 
-<h1 id="stand-up-locally">Stand up locally</h1>
-<h3 id="youll-need-the-following-to-run-iridium-locally">You'll need the following to run iridium locally:</h3>
+<h1 id="single-page-apps">Single Page Apps</h1>
+<p>Building Authorization Code Flow libraries for use with Iridium requires a few steps.</p>
 <ul>
-<li><a href="https://nodejs.org/en">Node 18</a></li>
-<li><a href="https://adoptium.net/temurin/releases/">Java 17</a></li>
-<li><a href="https://docs.docker.com/">Docker</a></li>
+<li><a href="#understanding-the-authorization-code-flow">Understanding the Authorization Code Flow Grant Type</a></li>
+<li><a href="#endpoints-used-in-the-authorization-code-flow">The endpoints used in the Authorization Flow</a></li>
 </ul>
-<p>Iridium is dependent on an RDBMS system such as <a href="https://www.mysql.com/">MySQL</a> or <a href="https://mariadb.org/">MariaDB</a>.</p>
-<p>Note: all commands are run from the root of the distribution folder you <a href="../1.Install-the-CLI/">downloaded and extracted in the previous step</a>,
-The set-up in this document is not intended for production purposes.</p>
-<h3 id="want-help-running-iridium">Want help running Iridium?</h3>
-<p><a class="md-button md-button--primary" href="https://conduct.iridium.software/">Try our hosted solution for free</a></p>
-<h3 id="stand-up-the-database">Stand up the database</h3>
-<p>Run an instance of MariaDB locally. </p>
-<pre><code class="language-shell">$ docker run  --name mariadb \
-    -p 3306:3306 \
-    -e MYSQL_ROOT_PASSWORD=iridium \
-    -e MYSQL_DATABASE=identities \
-    -e MYSQL_USER=iridium \
-    -e MYSQL_PASSWORD=iridium \
-    -d mariadb:latest
-</code></pre>
-<p>Now you'll be able to start and stop the MariaDB container with the following commands.</p>
-<pre><code class="language-shell">$ docker stop mariadb
-$ docker start mariadb
-</code></pre>
-<p>At this point you have an instance of MariaDB.
-You can verify this by executing <code>docker ps</code>, you should see similar output like below</p>
-<pre><code class="language-shell"> docker ps
-CONTAINER ID   IMAGE                                        COMMAND                  CREATED         STATUS         PORTS                                        NAMES
-a44c37b6d4c1   mariadb:10.6.11                              &quot;docker-entrypoint.s…&quot;   6 seconds ago   Up 3 seconds   0.0.0.0:3306-&gt;3306/tcp                       mariadb
-</code></pre>
-<p><a href="#initialize-the-iridium-database">We still need to initialize the database with specific data for Iridium to function</a></p>
-<h2 id="initialize-the-iridium-database">Initialize the Iridium Database</h2>
-<p>Iridium needs specific data entities to exist for it to function. This guide demonstrates how to use the iridium CLI
-to execute this task.  This document assumes you have downloaded and unpacked the binary distribution of Iridium in a
-previous step as detail <a href="../1.Install-the-CLI/">here</a>.</p>
-<p>To initialize the database execute the following command.  Again we are expecting you to be in the top level folder of
-expanded tar.gz distribution you downloaded and unpacked earlier.</p>
-<p><strong>NOTE</strong>
-Iridium init is meant to be non-destructive in that if you initialize the database once it will not work again.  You will need to bring your 
-containers all the way down to run the <code>init</code> function again. </p>
+<h2 id="understanding-the-authorization-code-flow">Understanding the Authorization Code Flow</h2>
+<p>The authorization code flow is used to get access tokens and refresh tokens.  This flow is based
+on redirection.</p>
+<p><img alt="Authorization Code Flow" src="../../images/authorization-code-flow.png" /></p>
 <ol>
-<li><a href="#initialize-with-iridium-with-the-github-login-provider">Initialize with a social provider</a></li>
+<li>The resource owner (end-user) visits a third-party client (web application)</li>
+<li>The resource owner selects the “sign up with Google” button in the client. The user-agent (browser) directs the resource owner to the Google sign-in page.</li>
+<li>The resource owner (end-user) authenticates and authorizes the authorization server to grant access to the resource owner's information (in this case it could be the email address and profile information) to the third-party client.</li>
+<li>After the resource owner (end-user) authorizes access, the authorization server redirects the user-agent (browser) back to the original third-party client with an authorization code and typically a state parameter</li>
+<li>The third-party client requests an access token with the received authorization code and associated redirect URI</li>
+<li>The authorization authenticates the client, validates the authorization code and the accompanying redirect URI matches the URI provided in step D.  If the request is valid the authorization server returns back with an access token and an optional refresh token.</li>
 </ol>
-<h2 id="initialize-with-iridium-with-a-login-provider">Initialize with Iridium with a Login Provider</h2>
-<p>Again we are expecting you to be in the top level folder of
-expanded tar.gz distribution you downloaded and unpacked earlier. For ease of getting started lets focus on using only provider at the moment.
-You'll need to set your GitHub Client credentials in the file below.  <a href="../../5.-External-Identity-Providers/create-github-application/">Instructions on how to do this with GitHub are here.</a>  You can do this by executing. </p>
-<pre><code class="language-shell">$ vim conf/external-providers.yaml
+<h2 id="endpoints-used-in-the-authorization-code-flow">Endpoints used in the Authorization Code Flow</h2>
+<p>When building clients for Iridium, there are three main RESTful endpoints you need to be familiar with.</p>
+<ol>
+<li><a href="#the-external-provider-authorization-endpoint">The authorization endpoint</a></li>
+<li><a href="#the-token-endpoint">The token endpoint</a></li>
+<li><a href="#the-refresh-token-endpoint">The refresh token endpoint</a></li>
+</ol>
+<h2 id="the-external-provider-authorization-endpoint">The external provider authorization endpoint</h2>
+<ul>
+<li>Method: <code>POST</code></li>
+<li>Endpoint: <code>${serverRoot}/oauth/external/authorize</code></li>
+</ul>
+<h3 id="query-params">Query Params</h3>
+<ul>
+<li>
+<table>
+<thead>
+<tr>
+<th>Query Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>response_type</td>
+<td>string</td>
+<td><strong>Required</strong> The value must be <code>code</code></td>
+</tr>
+<tr>
+<td>state</td>
+<td>string</td>
+<td><strong>Required</strong> This is an opaque value to maintain state between the initial authorization request and the callback.</td>
+</tr>
+<tr>
+<td>scope</td>
+<td>string</td>
+<td><strong>Required</strong> Depending on the provider you are authorizing with will determine the value here.  As an example, if you are using GitHub a safe default is <code>user:email</code></td>
+</tr>
+<tr>
+<td>client_id</td>
+<td>string</td>
+<td><strong>Required</strong> The client identifier. This is an opaque and unique string generated for the client after registration of it within Iridium.</td>
+</tr>
+<tr>
+<td>provider</td>
+<td>string</td>
+<td><strong>Required</strong> This must be either <code>github</code> or <code>google</code>.  This parameter is subject to change in upcoming releases.</td>
+</tr>
+<tr>
+<td>code_challenge_method</td>
+<td>string</td>
+<td><strong>Required</strong> This must be <code>S256</code></td>
+</tr>
+<tr>
+<td>code_challenge</td>
+<td>string</td>
+<td><strong>Required</strong> The code challenge is derived from the <code>code_verifier</code> (listed below).<br/><code>code_challenge = BASE64URL-ENCODE(SHA256(ASCII(code_verifier)))</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>Response:</p>
+<ul>
+<li>If the request is valid the (end-user) will be redirected to the external identity provider for authorization by the Iridium server.</li>
+</ul>
+</li>
+</ul>
+<h3 id="creating-the-code-verifier">Creating the code verifier</h3>
+<p>This is a high-entropy cryptographic random string using the unreserved characters [A-Z], [a-z], [0-9], "-", ".", "_", "~".  It is <code>recommended</code> that the output of
+a suitable random number generator be used to create a 32-octet sequence.  The octet sequence is then base64url-encoded to produce a 43-octet URL safe string to use as the code verifier.</p>
+<h2 id="the-token-endpoint">The token endpoint</h2>
+<ul>
+<li>Method: <code>POST</code></li>
+<li>Endpoint: <code>${serverRoot}/oauth/token</code></li>
+</ul>
+<h3 id="query-params_1">Query Params</h3>
+<table>
+<thead>
+<tr>
+<th>Query Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>grant_type</td>
+<td>string</td>
+<td><strong>Required</strong> This value must be set to <code>authorization_code</code></td>
+</tr>
+<tr>
+<td>code</td>
+<td>string</td>
+<td><strong>Required</strong> This is the authorization code recieved from the Iridium server</td>
+</tr>
+<tr>
+<td>redirect_uri</td>
+<td>string</td>
+<td>This must match exactly the URI at <a href="#the-external-provider-authorization-endpoint">the above request</a></td>
+</tr>
+<tr>
+<td>client_id</td>
+<td>string</td>
+<td><strong>Required</strong> Unless authentication is supplied via HTTP Basic Auth header using the client ID as the username and secret as the password, or by accepting the strings in the post body as <code>client_id</code> and <code>client_secret</code></td>
+</tr>
+<tr>
+<td>code_verfier</td>
+<td>string</td>
+<td><strong>Required</strong> The <code>code_verifier</code> provided at <a href="#the-external-provider-authorization-endpoint">the above request</a></td>
+</tr>
+<tr>
+<td>### Response:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>* If the request is successful the response will look similar to the following:</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-json">HTTP/1.1 200 OK
+Content-Type: application/json
+Cache-Control: no-store
+
+{
+  &quot;access_token&quot;:&quot;someAccessTokenValue&quot;,
+  &quot;token_type&quot;:&quot;Bearer&quot;,
+  &quot;expires_in&quot;:3600,
+  &quot;refresh_token&quot;:&quot;SomeRefreshTokenValue&quot;,
+}
 </code></pre>
-<p>Modify the contents of the file to match below, you'll need to modify the values to be specific for your GitHub Oauth application.<br />
-You will want to remove the Google YAML block for this quick start. </p>
-<pre><code class="language-yaml">- name: &quot;github&quot;
-  clientId: &quot;${yourClientId}&quot;
-  clientSecret: &quot;${yourClientSecret&quot;
+<h2 id="the-refresh-token-endpoint">The refresh token endpoint</h2>
+<ul>
+<li>Method: <code>POST</code></li>
+<li>Endpoint: <code>${serverRoot}/oauth/token/refresh</code></li>
+</ul>
+<h3 id="query-params_2">Query Params</h3>
+<table>
+<thead>
+<tr>
+<th>Query Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>grant_type</td>
+<td>string</td>
+<td><strong>Required</strong> This value must be set to <code>refresh_token</code></td>
+</tr>
+<tr>
+<td>refresh_token</td>
+<td>string</td>
+<td><strong>Required</strong> The refresh token</td>
+</tr>
+<tr>
+<td>client_id</td>
+<td>string</td>
+<td><strong>Required</strong> The client identifier. This is an opaque and unique string generated for the client after registration of it within Iridium.</td>
+</tr>
+<tr>
+<td>### Response:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>* If the request is successful the response will look similar to the following:</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-json">HTTP/1.1 200 OK
+Content-Type: application/json
+Cache-Control: no-store
+
+{
+  &quot;access_token&quot;:&quot;someAccessTokenValue&quot;,
+  &quot;token_type&quot;:&quot;Bearer&quot;,
+  &quot;expires_in&quot;:3600,
+  &quot;refresh_token&quot;:&quot;SomeRefreshTokenValue&quot;,
+}
 </code></pre>
-<h3 id="initialize-the-database">Initialize the database</h3>
-<p>Run the following command to initialize the database with the GitHub credentials, and other needed entities for Iridium to run.</p>
-<pre><code class="language-shell">$ ./bin/iridium init 
+<h2 id="the-logout-endpoint">The logout endpoint</h2>
+<ul>
+<li>Method: <code>DELETE</code></li>
+<li>Endpoint: <code>${serverRoot}/application/${clientId}/tokens</code></li>
+</ul>
+<h3 id="path-variables">Path Variables</h3>
+<table>
+<thead>
+<tr>
+<th>Path Variable</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>client_id</td>
+<td>string</td>
+<td><strong>Required</strong> The client identifier. This is an opaque and unique string generated for the client after registration of it within Iridium.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="headers">Headers</h3>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authorization</td>
+<td authTokenValue="authTokenValue">Bearer</td>
+<td><strong>Required</strong> The users bearer token</td>
+</tr>
+<tr>
+<td>### Response:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>* If the request is successful the response will look similar to the following:</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-json">HTTP/1.1 204 No Content
 </code></pre>
-<p>Upon successful initialization of the database you'll see similar output.  </p>
-<pre><code class="language-shell">06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - ########################################
-06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - Database successfully initialized
-06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - ########################################
-06:22:59.884 [main] INFO  software.iridium.cli.command.InitCommand - Iridium Management Application ID is localRunIdChangeForProduction
-06:22:59.885 [main] INFO  software.iridium.cli.command.InitCommand - Be sure to place this in the appropriate environment.ts file
+<p>An example on how invoke is below:</p>
+<pre><code class="language-shell">$ curl --location --request DELETE 'http://localhost:8381/applications/localRunIdChangeForProduction/tokens' \
+--header 'Authorization: Bearer {SomeTokenValue}' 
 </code></pre>
-<p>Since this is a local run, you will not need to update your <code>environment.ts</code> as stated above.</p>
-<h3 id="run-the-iridium-core-server">Run the Iridium Core Server</h3>
-<p>Run the following command, again this is from the top level folder of the distribution you downloaded.</p>
-<pre><code>$ export SPRING_CONFIG_LOCATION=./conf/application.properties
-$  java -jar ./lib/iridium-core-server-${iridium-version}.jar
-</code></pre>
-<p>If you want to run Iridium from source, <a href="../developing-with-an-IDE/">Follow the instructions to run Iridium from Intellij here</a>. 
-From here, you should be able to log in to the Iridium Management UI using your GitHub account. At this point you've
-stood up the system with an Iridium tenant and an associated management application. </p>
 
 
   
