@@ -11,6 +11,8 @@
  */
 package software.iridium.api;
 
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,8 +31,6 @@ import software.iridium.api.filter.PostAuthMdcFilter;
 import software.iridium.api.filter.PreAuthMdcFilter;
 import software.iridium.api.filter.RequestLoggingFilter;
 import software.iridium.api.repository.AccessTokenEntityRepository;
-
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 @Configuration
 @EnableWebSecurity
@@ -128,5 +128,4 @@ public class SecurityConfig {
             (UserDetails) preAuthenticatedAuthenticationToken.getPrincipal());
     return authenticationProvider;
   }
-
 }
