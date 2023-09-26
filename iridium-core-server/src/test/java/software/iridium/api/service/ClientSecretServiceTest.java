@@ -19,7 +19,9 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.*;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -30,16 +32,18 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.authentication.domain.ClientSecretCreateResponse;
 import software.iridium.api.base.error.ClientCallException;
+import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.instantiator.ClientSecretEntityInstantiator;
 import software.iridium.api.mapper.ClientSecretCreateResponseMapper;
+import software.iridium.api.repository.AccessTokenEntityRepository;
 import software.iridium.api.repository.ApplicationEntityRepository;
 import software.iridium.api.repository.ClientSecretEntityRepository;
+import software.iridium.api.repository.IdentityEntityRepository;
 import software.iridium.api.util.AttributeValidator;
 import software.iridium.api.util.EncoderUtils;
-import software.iridium.entity.ApplicationEntity;
-import software.iridium.entity.ApplicationTypeEntity;
-import software.iridium.entity.ClientSecretEntity;
+import software.iridium.api.util.ServletTokenExtractor;
+import software.iridium.entity.*;
 
 @ExtendWith(MockitoExtension.class)
 class ClientSecretServiceTest {
@@ -50,6 +54,10 @@ class ClientSecretServiceTest {
   @Mock private ClientSecretCreateResponseMapper mockResponseMapper;
   @Mock private ClientSecretEntityRepository mockClientSecretRepository;
   @Mock private EncoderUtils mockEncoderUtils;
+  @Mock private HttpServletRequest mockServletRequest;
+  @Mock private ServletTokenExtractor mockTokenExtractor;
+  @Mock private AccessTokenEntityRepository mockAccessTokenRepository;
+  @Mock private IdentityEntityRepository mockIdentityRepository;
   @InjectMocks private ClientSecretService subject;
 
   @AfterEach
@@ -60,50 +68,201 @@ class ClientSecretServiceTest {
         mockClientSecretInstantiator,
         mockResponseMapper,
         mockClientSecretInstantiator,
-        mockEncoderUtils);
+        mockEncoderUtils,
+        mockTokenExtractor,
+        mockAccessTokenRepository,
+        mockIdentityRepository,
+        mockServletRequest);
   }
 
   @Test
   public void create_AllGood_BehavesAsExpected() throws NoSuchAlgorithmException {
     final var applicationId = "the app id";
+    final var tenantId = "the tenant id";
     final var application = new ApplicationEntity();
     final var type = new ApplicationTypeEntity();
     type.setRequiresSecret(true);
     application.setApplicationType(type);
     final var clientSecret = new ClientSecretEntity();
     final var response = new ClientSecretCreateResponse();
+    final var token = "the token value";
+    final var identityId = "the id";
+    final var tenant = new TenantEntity();
+    tenant.setId(tenantId);
+    final var identity = new IdentityEntity();
+    identity.getManagedTenants().add(tenant);
+    final var accessToken = new AccessTokenEntity();
+    accessToken.setIdentityId(identityId);
 
     when(mockAttributeValidator.isUuid(same(applicationId))).thenReturn(true);
-    when(mockApplicationRepository.findById(same(applicationId)))
+    when(mockAttributeValidator.isUuid(same(tenantId))).thenReturn(true);
+    when(mockApplicationRepository.findByTenantIdAndId(same(tenantId), same(applicationId)))
         .thenReturn(Optional.of(application));
     when(mockClientSecretInstantiator.instantiate(same(application), anyString()))
         .thenReturn(clientSecret);
     when(mockResponseMapper.map(same(clientSecret), anyString())).thenReturn(response);
     when(mockEncoderUtils.cryptoSecureToHex(same(ClientSecretService.SEED_LENGTH)))
         .thenCallRealMethod();
+    when(mockTokenExtractor.extractBearerToken(same(mockServletRequest))).thenReturn(token);
+    when(mockAccessTokenRepository.findFirstByAccessTokenAndExpirationAfter(
+            same(token), any(Date.class)))
+        .thenReturn(Optional.of(accessToken));
+    when(mockIdentityRepository.findById(same(identityId))).thenReturn(Optional.of(identity));
 
-    subject.create(applicationId);
+    subject.create(mockServletRequest, tenantId, applicationId);
 
     verify(mockAttributeValidator).isUuid(same(applicationId));
-    verify(mockApplicationRepository).findById(same(applicationId));
+    verify(mockAttributeValidator).isUuid(same(tenantId));
+    verify(mockApplicationRepository).findByTenantIdAndId(same(tenantId), same(applicationId));
     verify(mockClientSecretInstantiator).instantiate(same(application), anyString());
     verify(mockClientSecretRepository, never()).save(same(clientSecret));
     verify(mockResponseMapper).map(same(clientSecret), anyString());
     verify(mockEncoderUtils).cryptoSecureToHex(same(ClientSecretService.SEED_LENGTH));
+    verify(mockTokenExtractor).extractBearerToken(same(mockServletRequest));
+    verify(mockAccessTokenRepository)
+        .findFirstByAccessTokenAndExpirationAfter(same(token), any(Date.class));
+    verify(mockIdentityRepository).findById(same(identityId));
+  }
+
+  @Test
+  public void create_AccessTokenNotFound_ExceptionThrown() {
+    final var applicationId = "the app id";
+    final var tenantId = "the tenant id";
+    final var token = "the token value";
+    final var identityId = "the id";
+    final var tenant = new TenantEntity();
+    tenant.setId(tenantId);
+    final var identity = new IdentityEntity();
+    identity.getManagedTenants().add(tenant);
+    when(mockAttributeValidator.isUuid(same(applicationId))).thenReturn(true);
+    when(mockAttributeValidator.isUuid(same(tenantId))).thenReturn(true);
+    when(mockTokenExtractor.extractBearerToken(same(mockServletRequest))).thenReturn(token);
+    when(mockAccessTokenRepository.findFirstByAccessTokenAndExpirationAfter(
+            same(token), any(Date.class)))
+        .thenReturn(Optional.empty());
+
+    final var exception =
+        assertThrows(
+            NotAuthorizedException.class,
+            () -> subject.create(mockServletRequest, tenantId, applicationId));
+
+    verify(mockAttributeValidator).isUuid(same(applicationId));
+    verify(mockAttributeValidator).isUuid(same(tenantId));
+    verify(mockTokenExtractor).extractBearerToken(same(mockServletRequest));
+    verify(mockAccessTokenRepository)
+        .findFirstByAccessTokenAndExpirationAfter(same(token), any(Date.class));
+    verify(mockIdentityRepository, never()).findById(same(identityId));
+
+    assertThat(exception.getMessage(), is(equalTo("Not Authorized")));
+  }
+
+  @Test
+  public void create_InvalidTenantId_ExceptionThrown() {
+    final var applicationId = "the app id";
+    final var tenantId = "the tenant id";
+    final var token = "the token value";
+    final var identityId = "the id";
+    final var otherTenantId = "the other tenant id";
+    final var accessToken = new AccessTokenEntity();
+    accessToken.setIdentityId(identityId);
+    final var tenant = new TenantEntity();
+    tenant.setId(otherTenantId);
+    final var identity = new IdentityEntity();
+    identity.getManagedTenants().add(tenant);
+    when(mockAttributeValidator.isUuid(same(applicationId))).thenReturn(true);
+    when(mockAttributeValidator.isUuid(same(tenantId))).thenReturn(true);
+    when(mockTokenExtractor.extractBearerToken(same(mockServletRequest))).thenReturn(token);
+    when(mockAccessTokenRepository.findFirstByAccessTokenAndExpirationAfter(
+            same(token), any(Date.class)))
+        .thenReturn(Optional.of(accessToken));
+    when(mockIdentityRepository.findById(same(identityId))).thenReturn(Optional.of(identity));
+
+    final var exception =
+        assertThrows(
+            NotAuthorizedException.class,
+            () -> subject.create(mockServletRequest, tenantId, applicationId));
+
+    verify(mockAttributeValidator).isUuid(same(applicationId));
+    verify(mockAttributeValidator).isUuid(same(tenantId));
+    verify(mockTokenExtractor).extractBearerToken(same(mockServletRequest));
+    verify(mockAccessTokenRepository)
+        .findFirstByAccessTokenAndExpirationAfter(same(token), any(Date.class));
+    verify(mockAccessTokenRepository)
+        .findFirstByAccessTokenAndExpirationAfter(same(token), any(Date.class));
+    verify(mockIdentityRepository).findById(same(identityId));
+
+    assertThat(exception.getMessage(), is(equalTo("Not Authorized")));
+  }
+
+  @Test
+  public void create_IdentityNotFound_ExceptionThrown() {
+    final var applicationId = "the app id";
+    final var tenantId = "the tenant id";
+    final var token = "the token value";
+    final var identityId = "the id";
+    final var tenant = new TenantEntity();
+    tenant.setId(tenantId);
+    final var identity = new IdentityEntity();
+    identity.getManagedTenants().add(tenant);
+    final var accessToken = new AccessTokenEntity();
+    accessToken.setIdentityId(identityId);
+    when(mockAttributeValidator.isUuid(same(applicationId))).thenReturn(true);
+    when(mockAttributeValidator.isUuid(same(tenantId))).thenReturn(true);
+    when(mockTokenExtractor.extractBearerToken(same(mockServletRequest))).thenReturn(token);
+    when(mockAccessTokenRepository.findFirstByAccessTokenAndExpirationAfter(
+            same(token), any(Date.class)))
+        .thenReturn(Optional.of(accessToken));
+    when(mockIdentityRepository.findById(same(identityId))).thenReturn(Optional.empty());
+
+    final var exception =
+        assertThrows(
+            NotAuthorizedException.class,
+            () -> subject.create(mockServletRequest, tenantId, applicationId));
+
+    verify(mockAttributeValidator).isUuid(same(applicationId));
+    verify(mockAttributeValidator).isUuid(same(tenantId));
+    verify(mockTokenExtractor).extractBearerToken(same(mockServletRequest));
+    verify(mockAccessTokenRepository)
+        .findFirstByAccessTokenAndExpirationAfter(same(token), any(Date.class));
+    verify(mockIdentityRepository).findById(same(identityId));
+
+    assertThat(exception.getMessage(), is(equalTo("Not Authorized")));
   }
 
   @Test
   public void create_ApplicationNotFoundForId_ExceptionThrown() {
     final var applicationId = "the app id";
-
+    final var tenantId = "the tenant id";
+    final var token = "the token value";
+    final var identityId = "the id";
+    final var tenant = new TenantEntity();
+    tenant.setId(tenantId);
+    final var identity = new IdentityEntity();
+    identity.getManagedTenants().add(tenant);
+    final var accessToken = new AccessTokenEntity();
+    accessToken.setIdentityId(identityId);
     when(mockAttributeValidator.isUuid(same(applicationId))).thenReturn(true);
-    when(mockApplicationRepository.findById(same(applicationId))).thenReturn(Optional.empty());
+    when(mockAttributeValidator.isUuid(same(tenantId))).thenReturn(true);
+    when(mockApplicationRepository.findByTenantIdAndId(same(tenantId), same(applicationId)))
+        .thenReturn(Optional.empty());
+    when(mockTokenExtractor.extractBearerToken(same(mockServletRequest))).thenReturn(token);
+    when(mockAccessTokenRepository.findFirstByAccessTokenAndExpirationAfter(
+            same(token), any(Date.class)))
+        .thenReturn(Optional.of(accessToken));
+    when(mockIdentityRepository.findById(same(identityId))).thenReturn(Optional.of(identity));
 
     final var exception =
-        assertThrows(ResourceNotFoundException.class, () -> subject.create(applicationId));
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> subject.create(mockServletRequest, tenantId, applicationId));
 
     verify(mockAttributeValidator).isUuid(same(applicationId));
-    verify(mockApplicationRepository).findById(same(applicationId));
+    verify(mockAttributeValidator).isUuid(same(tenantId));
+    verify(mockApplicationRepository).findByTenantIdAndId(same(tenantId), same(applicationId));
+    verify(mockTokenExtractor).extractBearerToken(same(mockServletRequest));
+    verify(mockAccessTokenRepository)
+        .findFirstByAccessTokenAndExpirationAfter(same(token), any(Date.class));
+    verify(mockIdentityRepository).findById(same(identityId));
 
     assertThat(
         exception.getMessage(), is(equalTo("application not found for id: " + applicationId)));
@@ -117,16 +276,38 @@ class ClientSecretServiceTest {
     final var type = new ApplicationTypeEntity();
     type.setRequiresSecret(false);
     application.setApplicationType(type);
+    final var tenantId = "the tenant id";
+    final var token = "the token value";
+    final var identityId = "the id";
+    final var tenant = new TenantEntity();
+    tenant.setId(tenantId);
+    final var identity = new IdentityEntity();
+    identity.getManagedTenants().add(tenant);
+    final var accessToken = new AccessTokenEntity();
+    accessToken.setIdentityId(identityId);
 
     when(mockAttributeValidator.isUuid(same(applicationId))).thenReturn(true);
-    when(mockApplicationRepository.findById(same(applicationId)))
+    when(mockAttributeValidator.isUuid(same(tenantId))).thenReturn(true);
+    when(mockApplicationRepository.findByTenantIdAndId(same(tenantId), same(applicationId)))
         .thenReturn(Optional.of(application));
+    when(mockTokenExtractor.extractBearerToken(same(mockServletRequest))).thenReturn(token);
+    when(mockAccessTokenRepository.findFirstByAccessTokenAndExpirationAfter(
+            same(token), any(Date.class)))
+        .thenReturn(Optional.of(accessToken));
+    when(mockIdentityRepository.findById(same(identityId))).thenReturn(Optional.of(identity));
 
     final var exception =
-        assertThrows(ClientCallException.class, () -> subject.create(applicationId));
+        assertThrows(
+            ClientCallException.class,
+            () -> subject.create(mockServletRequest, tenantId, applicationId));
 
     verify(mockAttributeValidator).isUuid(same(applicationId));
-    verify(mockApplicationRepository).findById(same(applicationId));
+    verify(mockAttributeValidator).isUuid(same(tenantId));
+    verify(mockApplicationRepository).findByTenantIdAndId(same(tenantId), same(applicationId));
+    verify(mockTokenExtractor).extractBearerToken(same(mockServletRequest));
+    verify(mockAccessTokenRepository)
+        .findFirstByAccessTokenAndExpirationAfter(same(token), any(Date.class));
+    verify(mockIdentityRepository).findById(same(identityId));
 
     assertThat(
         exception.getMessage(),
@@ -139,22 +320,45 @@ class ClientSecretServiceTest {
   @Test
   public void create_EncoderError_ExceptionThrown() throws NoSuchAlgorithmException {
     final var applicationId = "the app id";
+    final var tenantId = "the tenant id";
     final var application = new ApplicationEntity();
     final var type = new ApplicationTypeEntity();
     type.setRequiresSecret(true);
     application.setApplicationType(type);
+    final var token = "the token value";
+    final var identityId = "the id";
+    final var tenant = new TenantEntity();
+    tenant.setId(tenantId);
+    final var identity = new IdentityEntity();
+    identity.getManagedTenants().add(tenant);
+    final var accessToken = new AccessTokenEntity();
+    accessToken.setIdentityId(identityId);
 
     when(mockAttributeValidator.isUuid(same(applicationId))).thenReturn(true);
-    when(mockApplicationRepository.findById(same(applicationId)))
+    when(mockAttributeValidator.isUuid(same(tenantId))).thenReturn(true);
+    when(mockApplicationRepository.findByTenantIdAndId(same(tenantId), same(applicationId)))
         .thenReturn(Optional.of(application));
     when(mockEncoderUtils.cryptoSecureToHex(same(ClientSecretService.SEED_LENGTH)))
         .thenThrow(NoSuchAlgorithmException.class);
+    when(mockTokenExtractor.extractBearerToken(same(mockServletRequest))).thenReturn(token);
+    when(mockAccessTokenRepository.findFirstByAccessTokenAndExpirationAfter(
+            same(token), any(Date.class)))
+        .thenReturn(Optional.of(accessToken));
+    when(mockIdentityRepository.findById(same(identityId))).thenReturn(Optional.of(identity));
 
-    final var exception = assertThrows(RuntimeException.class, () -> subject.create(applicationId));
+    final var exception =
+        assertThrows(
+            RuntimeException.class,
+            () -> subject.create(mockServletRequest, tenantId, applicationId));
 
     verify(mockAttributeValidator).isUuid(same(applicationId));
-    verify(mockApplicationRepository).findById(same(applicationId));
+    verify(mockAttributeValidator).isUuid(same(tenantId));
+    verify(mockApplicationRepository).findByTenantIdAndId(same(tenantId), same(applicationId));
     verify(mockEncoderUtils).cryptoSecureToHex(same(ClientSecretService.SEED_LENGTH));
+    verify(mockTokenExtractor).extractBearerToken(same(mockServletRequest));
+    verify(mockAccessTokenRepository)
+        .findFirstByAccessTokenAndExpirationAfter(same(token), any(Date.class));
+    verify(mockIdentityRepository).findById(same(identityId));
 
     assertThat(exception.getMessage(), is(equalTo("error creating secret for application")));
   }
