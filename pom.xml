@@ -49,6 +49,8 @@
         <java.version>17</java.version>
         <log4j2.version>2.17.0</log4j2.version>
         <picocli.version>4.7.2</picocli.version>
+        <liquibase.version>4.17.2</liquibase.version>
+        <h2.version>2.2.220</h2.version>
     </properties>
 
     <dependencyManagement>
@@ -124,6 +126,19 @@
                 <version>2.2</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
