@@ -1711,5 +1711,5 @@ databaseChangeLog:
 #            dbms: 'h2,  oracle,  mysql'
 #            endDelimiter: ';'
 #            splitStatements: true
-#            path: db/changelog/DBchanges/01-init-insert-data.sql
+#            path: db/changelog/DBchanges/02-insert-data-iridium.sql
 #            stripComments: true
