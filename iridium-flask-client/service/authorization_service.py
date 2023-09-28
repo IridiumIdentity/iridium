@@ -4,16 +4,16 @@ import os
 import json
 import http.client
 
-from service.oauth_constants import PKCE_CODE_VERIFIER
+import oauth_constants
 
 class AuthorizationService:
     # python constructor taking http client as parameter
     def __init__(self, http_client):
         # python set http client
         self.http_client = http_client  
-        self.base_url = os.environ.get('FLASK_PUBLIC_IRIDIUM_DOMAIN')
-        self.redirect_uri = os.environ.get('FLASK_PUBLIC_IRIDIUM_REDIRECT_URI') 
-        self.client_id = os.environ.get('FLASK_PUBLIC_IRIDIUM_CLIENT_ID')
+        self.base_url = os.environ.get(oauth_constants.PUBLIC_IRIDIUM_DOMAIN)
+        self.redirect_uri = os.environ.get(oauth_constants.PUBLIC_IRIDIUM_REDIRECT_URI)) 
+        self.client_id = os.environ.get(oauth_constants.PUBLIC_IRIDIUM_CLIENT_ID)
 
 
     # python function taking code and state and retrieving external identity
@@ -24,7 +24,7 @@ class AuthorizationService:
         payload = {'code': code, 'state': state}
 
         # get cookie from http_client request
-        codeVerifier = self.http_client.get_cookie(PKCE_CODE_VERIFIER)
+        codeVerifier = self.http_client.get_cookie(oauth_constants.PKCE_CODE_VERIFIER)
 
         # python set url for http client
         url = (self.base_url + 
