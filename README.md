@@ -23,8 +23,7 @@ With Iridium, you can reduce development time and streamline product development
 We are just getting started!
 * We are welcoming, inclusive, and friendly
 * Iridium is 100% free and open source. We encourage and support an active, healthy community that accepts contributions from the public – including you!
-* Our end goal isn't to hang on to Iridium.  Once we get the project and community built up enough, we'd like to donate the
-  the project to a larger managing organization. Help us get there.
+* Our end goal isn't to hang on to Iridium.  Once we get the project and community built up enough, we'd like to donate the project to a larger managing organization. Help us get there.
 * We need your help, this project is early in terms of open source releases, we need as many eyes on it as we can.
 * [Participate in discussions on GitHub](https://github.com/IridiumIdentity/iridium/discussions)
 * [Join us on Discord](https://discord.gg/2TMwHF2TrS)
