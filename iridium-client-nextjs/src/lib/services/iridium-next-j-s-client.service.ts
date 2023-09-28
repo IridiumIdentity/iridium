@@ -40,7 +40,7 @@ export class IridiumNextJSClientService {
         this.pkceService.generateCodeChallenge()
             .then(codeChallenge => {
                 this.cookieService.setCookie(OauthConstants.CODE_CHALLENGE, codeChallenge, 1, OauthConstants.COOKIE_PATH);
-                window.open(this.urlGenerator.retrieveIridiumAuthUrl(state, codeChallenge), '_blank')
+                window.location.href = this.urlGenerator.retrieveIridiumAuthUrl(state, codeChallenge);
             })
 
     }

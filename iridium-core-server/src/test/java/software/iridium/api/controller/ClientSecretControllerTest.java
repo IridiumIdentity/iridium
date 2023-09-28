@@ -14,6 +14,7 @@ package software.iridium.api.controller;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.verify;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,20 +28,23 @@ import software.iridium.api.service.ClientSecretService;
 class ClientSecretControllerTest {
 
   @Mock private ClientSecretService mockClientSecretService;
+  @Mock private HttpServletRequest mockServletRequest;
   @InjectMocks private ClientSecretController subject;
 
   @AfterEach
   public void ensureNoUnexpectedMockInteractions() {
-    Mockito.verifyNoMoreInteractions(mockClientSecretService);
+    Mockito.verifyNoMoreInteractions(mockClientSecretService, mockServletRequest);
   }
 
   @Test
   public void create_AllGood_BehavesAsExpected() {
     final var applicationId = "app id";
+    final var tenantId = "the tenant id";
 
-    subject.create(applicationId);
+    subject.create(mockServletRequest, tenantId, applicationId);
 
-    verify(mockClientSecretService).create(same(applicationId));
+    verify(mockClientSecretService)
+        .create(same(mockServletRequest), same(tenantId), same(applicationId));
   }
 
   @Test

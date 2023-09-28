@@ -36,6 +36,8 @@ public class ApplicationResponse implements Serializable {
 
   private String clientId;
 
+  private String clientSecret;
+
   public String getClientId() {
     return clientId;
   }
@@ -106,6 +108,14 @@ public class ApplicationResponse implements Serializable {
 
   public void setPrivacyPolicyUrl(final String privacyPolicyUrl) {
     this.privacyPolicyUrl = privacyPolicyUrl;
+  }
+
+  public String getClientSecret() {
+    return clientSecret;
+  }
+
+  public void setClientSecret(final String clientSecret) {
+    this.clientSecret = clientSecret;
   }
 
   @Override

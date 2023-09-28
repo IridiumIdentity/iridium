@@ -12,6 +12,7 @@
 package software.iridium.api.mapper;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import software.iridium.api.authentication.domain.ApplicationResponse;
 import software.iridium.entity.ApplicationEntity;
 
@@ -29,6 +30,10 @@ public class ApplicationResponseMapper {
     response.setHomepageURL(entity.getHomePageUrl());
     response.setPrivacyPolicyUrl(entity.getPrivacyPolicyUrl());
     response.setClientId(entity.getClientId());
+    if (!CollectionUtils.isEmpty(entity.getClientSecrets())) {
+      response.setClientSecret(entity.getClientSecrets().get(0).getSecretKey());
+    }
+
     return response;
   }
 }

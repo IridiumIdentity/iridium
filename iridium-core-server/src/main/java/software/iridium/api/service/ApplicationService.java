@@ -62,7 +62,7 @@ public class ApplicationService {
         "tenant id must be a properly formatted uuid: " + tenantId);
     checkArgument(
         attributeValidator.isNotBlankAndNoLongerThan(request.getName(), 100),
-        "tenant name must not be blank and less than 100 characters");
+        "application name must not be blank and less than 100 characters");
     checkArgument(
         attributeValidator.isUuid(request.getApplicationTypeId()),
         "applicationTypeId must be a properly formatted uuid: " + request.getApplicationTypeId());

@@ -26,6 +26,9 @@ public class ExternalIdentityProviderEntity extends AbstractEntity {
   @Column(name = "name", length = 100, nullable = false)
   private String name;
 
+  @Column(name = "display_name", length = 50, nullable = false)
+  private String displayName;
+
   @Column(name = "client_id", length = 255, nullable = false)
   private String clientId;
 
@@ -188,5 +191,13 @@ public class ExternalIdentityProviderEntity extends AbstractEntity {
 
   public void setAccessTokenParameters(final Map<String, String> accessTokenParameters) {
     this.accessTokenParameters = accessTokenParameters;
+  }
+
+  public String getDisplayName() {
+    return displayName;
+  }
+
+  public void setDisplayName(final String displayName) {
+    this.displayName = displayName;
   }
 }
