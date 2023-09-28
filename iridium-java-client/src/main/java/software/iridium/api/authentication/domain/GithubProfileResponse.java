@@ -13,8 +13,10 @@ package software.iridium.api.authentication.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
-public class GithubProfileResponse implements Serializable {
+public class GithubProfileResponse implements Serializable, ExternalProviderProfile {
 
   private static final long serialVersionUID = -2896100197634143291L;
 
@@ -63,8 +65,14 @@ public class GithubProfileResponse implements Serializable {
     this.location = location;
   }
 
+  @Override
   public String getEmail() {
     return email;
+  }
+
+  @Override
+  public String getExternalId() {
+    return id;
   }
 
   public void setEmail(String email) {
@@ -77,6 +85,16 @@ public class GithubProfileResponse implements Serializable {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  @Override
+  public Map<String, String> getProfileAttributes() {
+    Map<String, String> attributes = new HashMap<>();
+    attributes.put("login", login);
+    attributes.put("avatarUrl", avatarUrl);
+    attributes.put("name", name);
+    attributes.put("email", email);
+    return attributes;
   }
 
   @Override

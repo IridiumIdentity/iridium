@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.authentication.domain.GithubProfileResponse;
+import software.iridium.api.authentication.domain.GoogleProfileResponse;
 import software.iridium.entity.IdentityEntity;
 import software.iridium.entity.IdentityPropertyEntity;
 
@@ -38,23 +39,67 @@ class IdentityPropertyEntityInstantiatorTest {
   public void instantiateGithubProperties_AllGood_InstantiatesAsExpected() {
     final var avatarUrl = "http://somelocation.com";
     final var login = "username123";
+    final var name = "first last";
+    final var email = "you@nowhere.com";
+    final var externalId = "the exteranl id";
     final var githubResponse = new GithubProfileResponse();
     githubResponse.setAvatarUrl(avatarUrl);
     githubResponse.setLogin(login);
+    githubResponse.setEmail(email);
+    githubResponse.setName(name);
     final var identity = new IdentityEntity();
 
-    subject.instantiateGithubProperties(githubResponse, identity);
+    subject.instantiateFromExternalProfile(githubResponse, identity);
 
     List<IdentityPropertyEntity> properties = identity.getIdentityProperties();
-    assertThat(properties.size(), is(equalTo(2)));
+    assertThat(properties.size(), is(equalTo(4)));
     for (IdentityPropertyEntity property : properties) {
-      if (property.getName().equals(IdentityPropertyEntityInstantiator.GITHUB_AVATAR_URL_KEY)) {
-        assertThat(property.getValue(), is(equalTo(avatarUrl)));
+      switch (property.getName()) {
+        case "avatarUrl" -> assertThat(property.getValue(), is(equalTo(avatarUrl)));
+        case "login" -> assertThat(property.getValue(), is(equalTo(login)));
+        case "name" -> assertThat(property.getValue(), is(equalTo(name)));
+        case "email" -> assertThat(property.getValue(), is(equalTo(email)));
+        default -> throw new RuntimeException(
+            "Property doesn't match expected: " + property.getName());
+      }
+    }
+  }
 
-      } else if (property.getName().equals(IdentityPropertyEntityInstantiator.GITHUB_LOGIN_KEY)) {
-        assertThat(property.getValue(), is(equalTo(login)));
-      } else {
-        throw new RuntimeException("Property doesn't match expected: " + property.getName());
+  @Test
+  public void instantiateGoogleProperties_AllGood_InstantiatesAsExpected() {
+    final var familyName = "the family name";
+    final var name = "name";
+    final var picture = "the picture url";
+    final var locale = "the locale";
+    final var email = "the email";
+    final var givenName = "the given name";
+    final var hd = "hd";
+    final var verifiedEmail = true;
+    final var googleProfileResponse = new GoogleProfileResponse();
+    googleProfileResponse.setFamilyName(familyName);
+    googleProfileResponse.setName(name);
+    googleProfileResponse.setPicture(picture);
+    googleProfileResponse.setLocale(locale);
+    googleProfileResponse.setEmail(email);
+    googleProfileResponse.setGivenName(givenName);
+    googleProfileResponse.setHd(hd);
+    googleProfileResponse.setVerifiedEmail(verifiedEmail);
+    final var identity = new IdentityEntity();
+
+    subject.instantiateFromExternalProfile(googleProfileResponse, identity);
+
+    List<IdentityPropertyEntity> properties = identity.getIdentityProperties();
+    assertThat(properties.size(), is(equalTo(6)));
+    for (IdentityPropertyEntity property : properties) {
+      switch (property.getName()) {
+        case "familyName" -> assertThat(property.getValue(), is(equalTo(familyName)));
+        case "name" -> assertThat(property.getValue(), is(equalTo(name)));
+        case "picture" -> assertThat(property.getValue(), is(equalTo(picture)));
+        case "givenName" -> assertThat(property.getValue(), is(equalTo(givenName)));
+        case "hd" -> assertThat(property.getValue(), is(equalTo(hd)));
+        case "verifiedEmail" -> assertThat(property.getValue(), is(equalTo("true")));
+        default -> throw new RuntimeException(
+            "Property doesn't match expected: " + property.getName());
       }
     }
   }
