@@ -9,7 +9,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package software.iridium.api.authentication.client;
+package software.iridium.api.fetcher;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,11 +24,11 @@ import software.iridium.api.authentication.domain.GithubProfileResponse;
 import software.iridium.api.base.client.ErrorHandler;
 import software.iridium.api.base.error.ClientCallException;
 
-public class GithubProfileRequestor {
+public class GitHubProfileFetcher {
 
   private final RestTemplate restTemplate;
 
-  public GithubProfileRequestor(final RestTemplate restTemplate) {
+  public GitHubProfileFetcher(final RestTemplate restTemplate) {
     super();
     this.restTemplate = restTemplate;
   }

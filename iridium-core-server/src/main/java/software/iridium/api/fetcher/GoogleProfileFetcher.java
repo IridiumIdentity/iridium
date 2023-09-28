@@ -11,36 +11,23 @@
  */
 package software.iridium.api.fetcher;
 
-import io.netty.channel.ChannelOption;
-import io.netty.handler.timeout.ReadTimeoutHandler;
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.netty.http.client.HttpClient;
 import software.iridium.api.authentication.domain.GoogleProfileResponse;
 import software.iridium.entity.ExternalIdentityProviderEntity;
 
 @Component
 public class GoogleProfileFetcher {
 
+  @Autowired private WebClient webClient;
+
   public GoogleProfileResponse fetch(
       final ExternalIdentityProviderEntity provider, final String accessToken) {
 
-    HttpClient httpClient =
-        HttpClient.create()
-            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
-            .responseTimeout(Duration.ofMillis(5000))
-            .doOnConnected(
-                conn -> conn.addHandlerLast(new ReadTimeoutHandler(5000, TimeUnit.MILLISECONDS)));
-
-    WebClient client =
-        WebClient.builder().clientConnector(new ReactorClientHttpConnector(httpClient)).build();
-
-    return client
+    return webClient
         .method(HttpMethod.GET)
         .uri(provider.getProfileRequestBaseUrl())
         .header("Authorization", "Bearer " + accessToken)

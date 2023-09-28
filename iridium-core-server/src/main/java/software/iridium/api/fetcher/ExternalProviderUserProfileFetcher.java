@@ -13,7 +13,6 @@ package software.iridium.api.fetcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import software.iridium.api.authentication.client.GithubProfileRequestor;
 import software.iridium.api.authentication.domain.AuthorizationResponse;
 import software.iridium.api.authentication.domain.ExternalProviderProfile;
 import software.iridium.entity.ExternalIdentityProviderEntity;
@@ -21,14 +20,14 @@ import software.iridium.entity.ExternalIdentityProviderEntity;
 @Component
 public class ExternalProviderUserProfileFetcher {
 
-  @Autowired private GithubProfileRequestor providerProfileRequestor;
+  @Autowired private GitHubProfileFetcher gitHubProfileFetcher;
   @Autowired private GoogleProfileFetcher googleProfileFetcher;
 
   public ExternalProviderProfile fetch(
       final ExternalIdentityProviderEntity provider, final AuthorizationResponse response) {
 
     if (provider.getName().equalsIgnoreCase("github")) {
-      return providerProfileRequestor.requestGithubProfile(
+      return gitHubProfileFetcher.requestGithubProfile(
           provider.getProfileRequestBaseUrl(), response.getAccessToken());
     }
     if (provider.getName().equalsIgnoreCase("google")) {
