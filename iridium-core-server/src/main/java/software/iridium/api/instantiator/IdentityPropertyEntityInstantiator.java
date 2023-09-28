@@ -11,34 +11,27 @@
  */
 package software.iridium.api.instantiator;
 
+import java.util.Map;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import software.iridium.api.authentication.domain.GithubProfileResponse;
+import software.iridium.api.authentication.domain.ExternalProviderProfile;
 import software.iridium.entity.IdentityEntity;
 import software.iridium.entity.IdentityPropertyEntity;
 
 @Component
 public class IdentityPropertyEntityInstantiator {
 
-  public static final String GITHUB_AVATAR_URL_KEY = "avatarUrl";
-  public static final String GITHUB_LOGIN_KEY = "login";
-
   @Transactional(propagation = Propagation.REQUIRED)
-  public void instantiateGithubProperties(
-      final GithubProfileResponse response, final IdentityEntity identity) {
-    final var avatarUrlProperty = new IdentityPropertyEntity();
+  public void instantiateFromExternalProfile(
+      final ExternalProviderProfile profile, final IdentityEntity identity) {
 
-    // todo: think about how we can do this better
-    avatarUrlProperty.setIdentity(identity);
-    avatarUrlProperty.setName(GITHUB_AVATAR_URL_KEY);
-    avatarUrlProperty.setValue(response.getAvatarUrl());
-    identity.getIdentityProperties().add(avatarUrlProperty);
-
-    final var loginProperty = new IdentityPropertyEntity();
-    loginProperty.setIdentity(identity);
-    loginProperty.setValue(response.getLogin());
-    loginProperty.setName(GITHUB_LOGIN_KEY);
-    identity.getIdentityProperties().add(loginProperty);
+    for (Map.Entry<String, String> entrySet : profile.getProfileAttributes().entrySet()) {
+      final var identityProperty = new IdentityPropertyEntity();
+      identityProperty.setIdentity(identity);
+      identityProperty.setName(entrySet.getKey());
+      identityProperty.setValue(entrySet.getValue());
+      identity.getIdentityProperties().add(identityProperty);
+    }
   }
 }

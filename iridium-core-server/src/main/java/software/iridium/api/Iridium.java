@@ -28,8 +28,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import software.iridium.api.authentication.client.GithubProfileRequestor;
 import software.iridium.api.authentication.client.ProviderAccessTokenRequestor;
-import software.iridium.api.authentication.client.ProviderProfileRequestor;
 
 @ComponentScan(basePackages = {"software.iridium"})
 @EnableJpaRepositories(basePackages = {"software.iridium"})
@@ -69,8 +69,8 @@ public class Iridium implements WebMvcConfigurer {
   }
 
   @Bean
-  public ProviderProfileRequestor providerProfileRequestor() {
-    return new ProviderProfileRequestor(restTemplate());
+  public GithubProfileRequestor providerProfileRequestor() {
+    return new GithubProfileRequestor(restTemplate());
   }
 
   @PostConstruct

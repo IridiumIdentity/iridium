@@ -24,11 +24,11 @@ import software.iridium.api.authentication.domain.GithubProfileResponse;
 import software.iridium.api.base.client.ErrorHandler;
 import software.iridium.api.base.error.ClientCallException;
 
-public class ProviderProfileRequestor {
+public class GithubProfileRequestor {
 
   private final RestTemplate restTemplate;
 
-  public ProviderProfileRequestor(final RestTemplate restTemplate) {
+  public GithubProfileRequestor(final RestTemplate restTemplate) {
     super();
     this.restTemplate = restTemplate;
   }
