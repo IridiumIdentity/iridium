@@ -1557,6 +1557,7 @@ databaseChangeLog:
               - column:
                   name: param_value
                   type: ${textColumnType}
+<<<<<<< HEAD
 
 
         ### add Foreignkey relation
