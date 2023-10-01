@@ -25,7 +25,7 @@
     - name: "redirect_url"
     - name: "grant_type"
       value: "authorization_code"
-  profileRequestBaseUrl: "https://oauth2.googleapis.com/tokeninfo?id_token="
+  profileRequestBaseUrl: "https://www.googleapis.com/oauth2/v1/userinfo"
   iconPath: "fa-brands fa-google"
   baseAuthorizationUrl: "https://accounts.google.com/o/oauth2/v2/auth"
   authorizationParameters:

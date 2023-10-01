@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import software.iridium.api.authentication.client.ProviderAccessTokenRequestor;
-import software.iridium.api.authentication.client.ProviderProfileRequestor;
 import software.iridium.api.authentication.domain.AccessTokenResponse;
 import software.iridium.api.authentication.domain.ApplicationAuthorizationFormRequest;
 import software.iridium.api.authentication.domain.CodeChallengeMethod;
@@ -33,6 +32,7 @@ import software.iridium.api.authentication.domain.IdentityResponse;
 import software.iridium.api.base.error.BadRequestException;
 import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.base.error.ResourceNotFoundException;
+import software.iridium.api.fetcher.ExternalProviderUserProfileFetcher;
 import software.iridium.api.generator.ExternalProviderAccessTokenUrlGenerator;
 import software.iridium.api.generator.RedirectUrlGenerator;
 import software.iridium.api.generator.SuccessAuthorizationParameterGenerator;
@@ -56,7 +56,7 @@ public class AuthorizationService {
   // todo may need to break this out into smaller classes
   @Autowired private ExternalProviderAccessTokenUrlGenerator externalAccessTokenUrlGenerator;
   @Autowired private ProviderAccessTokenRequestor accessTokenRequestor;
-  @Autowired private ProviderProfileRequestor providerProfileRequestor;
+  @Autowired private ExternalProviderUserProfileFetcher externalProfileFetcher;
   @Autowired private IdentityEntityInstantiator identityInstantiator;
   @Autowired private IdentityEntityRepository identityRepository;
   @Autowired private IdentityEmailEntityRepository emailRepository;
@@ -132,16 +132,14 @@ public class AuthorizationService {
 
       final var response = accessTokenRequestor.requestAccessToken(providerUrl);
 
-      final var githubProfile =
-          providerProfileRequestor.requestGithubProfile(
-              provider.getProfileRequestBaseUrl(), response.getAccessToken());
+      final var externalProfile = externalProfileFetcher.fetch(provider, response);
 
       final var emailOptional =
-          emailRepository.findByEmailAddressAndIdentity_ParentTenantId(
-              githubProfile.getEmail(), tenant.getId());
+          emailRepository.findByEmailAddressAndIdentity_ParentTenantIdAndIdentity_Provider_Id(
+              externalProfile.getEmail(), tenant.getId(), provider.getId());
       if (emailOptional.isEmpty()) {
 
-        final var identity = identityInstantiator.instantiateFromGithub(githubProfile, provider);
+        final var identity = identityInstantiator.instantiate(externalProfile, provider);
         identity.getAuthorizedApplications().add(application);
         identity.setParentTenantId(tenant.getId());
         return identityResponseMapper.map(identityRepository.save(identity));

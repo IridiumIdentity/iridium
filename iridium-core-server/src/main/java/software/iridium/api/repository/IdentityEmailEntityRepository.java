@@ -21,4 +21,7 @@ public interface IdentityEmailEntityRepository extends JpaRepository<IdentityEma
 
   Optional<IdentityEmailEntity> findByEmailAddressAndIdentity_ParentTenantId(
       final String emailAddress, final String parentTenantId);
+
+  Optional<IdentityEmailEntity> findByEmailAddressAndIdentity_ParentTenantIdAndIdentity_Provider_Id(
+      final String emailAddress, final String parentTenantId, final String providerId);
 }

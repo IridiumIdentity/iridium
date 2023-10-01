@@ -32,7 +32,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.util.LinkedMultiValueMap;
 import software.iridium.api.authentication.client.ProviderAccessTokenRequestor;
-import software.iridium.api.authentication.client.ProviderProfileRequestor;
 import software.iridium.api.authentication.domain.AccessTokenResponse;
 import software.iridium.api.authentication.domain.ApplicationAuthorizationFormRequest;
 import software.iridium.api.authentication.domain.AuthorizationResponse;
@@ -40,6 +39,7 @@ import software.iridium.api.authentication.domain.GithubProfileResponse;
 import software.iridium.api.base.error.BadRequestException;
 import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.base.error.ResourceNotFoundException;
+import software.iridium.api.fetcher.ExternalProviderUserProfileFetcher;
 import software.iridium.api.generator.ExternalProviderAccessTokenUrlGenerator;
 import software.iridium.api.generator.RedirectUrlGenerator;
 import software.iridium.api.generator.SuccessAuthorizationParameterGenerator;
@@ -76,7 +76,7 @@ class AuthorizationServiceTest {
   @Mock private SuccessAuthorizationParameterGenerator mockSuccessParamGenerator;
   @Mock private RedirectUrlGenerator mockRedirectUrlGenerator;
   @Mock private TenantEntityRepository mockTenantRepository;
-  @Mock private ProviderProfileRequestor mockProviderProfileRequestor;
+  @Mock private ExternalProviderUserProfileFetcher mockProfileFetcher;
   @Mock private IdentityEmailEntityRepository mockEmailRepository;
   @Mock private SubdomainExtractor mockSubdomainExtractor;
   @Mock private AuthenticationEntityRepository mockAuthenticationRepository;
@@ -106,7 +106,7 @@ class AuthorizationServiceTest {
         mockAuthCodeRepository,
         mockSuccessParamGenerator,
         mockRedirectUrlGenerator,
-        mockProviderProfileRequestor,
+        mockProfileFetcher,
         mockEmailRepository,
         mockIdentity,
         mockSubdomainExtractor,
@@ -123,14 +123,12 @@ class AuthorizationServiceTest {
   public void authorizeWithProvider_UserDoesExistAllGood_BehavesAsExpected() {
     final var code = "someCode";
     final var providerName = "github";
+    final var providerId = "the provider id";
     final var clientId = "theClientId";
     final var state = "theRandomState";
     final var providerProfileUrl = "http://someprovider.url";
     final var githubResponseEmail = "someone@somewhere.com";
     final var providerAccessToken = "the provider access token";
-    final var accessToken = "theaccessToken";
-    final var authzResoonse = new AuthorizationResponse();
-    authzResoonse.setAccessToken(accessToken);
     final var tenantId = "theTenantId";
     final var application = new ApplicationEntity();
     application.setTenantId(tenantId);
@@ -138,6 +136,7 @@ class AuthorizationServiceTest {
     tenant.setId(tenantId);
     final var externalProvider = new ExternalIdentityProviderEntity();
     externalProvider.setName(providerName);
+    externalProvider.setId(providerId);
     externalProvider.setProfileRequestBaseUrl(providerProfileUrl);
     tenant.getExternalIdentityProviders().add(externalProvider);
 
@@ -163,11 +162,10 @@ class AuthorizationServiceTest {
         .thenReturn(providerUrl);
     when(mockAccessTokenRequestor.requestAccessToken(same(providerUrl)))
         .thenReturn(authorizationResponse);
-    when(mockProviderProfileRequestor.requestGithubProfile(
-            same(providerProfileUrl), same(providerAccessToken)))
+    when(mockProfileFetcher.fetch(same(externalProvider), same(authorizationResponse)))
         .thenReturn(profileResponse);
-    when(mockEmailRepository.findByEmailAddressAndIdentity_ParentTenantId(
-            same(githubResponseEmail), same(tenantId)))
+    when(mockEmailRepository.findByEmailAddressAndIdentity_ParentTenantIdAndIdentity_Provider_Id(
+            same(githubResponseEmail), same(tenantId), same(providerId)))
         .thenReturn(Optional.of(email));
 
     subject.completeAuthorizationWithProvider(code, providerName, clientId, state);
@@ -180,10 +178,10 @@ class AuthorizationServiceTest {
     verify(mockTenantRepository).findById(same(tenantId));
     verify(mockUrlGenerator).generate(same(externalProvider), same(application), same(code));
     verify(mockAccessTokenRequestor).requestAccessToken(same(providerUrl));
-    verify(mockProviderProfileRequestor)
-        .requestGithubProfile(same(providerProfileUrl), same(providerAccessToken));
+    verify(mockProfileFetcher).fetch(same(externalProvider), same(authorizationResponse));
     verify(mockEmailRepository)
-        .findByEmailAddressAndIdentity_ParentTenantId(same(githubResponseEmail), same(tenantId));
+        .findByEmailAddressAndIdentity_ParentTenantIdAndIdentity_Provider_Id(
+            same(githubResponseEmail), same(tenantId), same(providerId));
     verify(mockIdentityResponseMapper).map(same(identity));
   }
 
@@ -193,6 +191,7 @@ class AuthorizationServiceTest {
     final var providerName = "github";
     final var clientId = "theClientId";
     final var state = "theRandomState";
+    final var providerId = "the provider id";
     final var providerProfileUrl = "http://someprovider.url";
     final var githubResponseEmail = "someone@somewhere.com";
     final var providerAccessToken = "the provider access token";
@@ -206,6 +205,7 @@ class AuthorizationServiceTest {
     tenant.setId(tenantId);
     final var externalProvider = new ExternalIdentityProviderEntity();
     externalProvider.setName(providerName);
+    externalProvider.setId(providerId);
     externalProvider.setProfileRequestBaseUrl(providerProfileUrl);
     tenant.getExternalIdentityProviders().add(externalProvider);
 
@@ -229,14 +229,12 @@ class AuthorizationServiceTest {
         .thenReturn(providerUrl);
     when(mockAccessTokenRequestor.requestAccessToken(same(providerUrl)))
         .thenReturn(authorizationResponse);
-    when(mockProviderProfileRequestor.requestGithubProfile(
-            same(providerProfileUrl), same(providerAccessToken)))
+    when(mockProfileFetcher.fetch(same(externalProvider), same(authorizationResponse)))
         .thenReturn(profileResponse);
-    when(mockEmailRepository.findByEmailAddressAndIdentity_ParentTenantId(
-            same(githubResponseEmail), same(tenantId)))
+    when(mockEmailRepository.findByEmailAddressAndIdentity_ParentTenantIdAndIdentity_Provider_Id(
+            same(githubResponseEmail), same(tenantId), same(providerId)))
         .thenReturn(Optional.empty());
-    when(mockIdentityInstantiator.instantiateFromGithub(
-            same(profileResponse), same(externalProvider)))
+    when(mockIdentityInstantiator.instantiate(same(profileResponse), same(externalProvider)))
         .thenReturn(mockIdentity);
     when(mockIdentity.getAuthorizedApplications()).thenReturn(authorizedApplications);
     when(mockIdentityRepository.save(same(mockIdentity))).thenReturn(mockIdentity);
@@ -251,10 +249,10 @@ class AuthorizationServiceTest {
     verify(mockTenantRepository).findById(same(tenantId));
     verify(mockUrlGenerator).generate(same(externalProvider), same(application), same(code));
     verify(mockAccessTokenRequestor).requestAccessToken(same(providerUrl));
-    verify(mockProviderProfileRequestor)
-        .requestGithubProfile(same(providerProfileUrl), same(providerAccessToken));
+    verify(mockProfileFetcher).fetch(same(externalProvider), same(authorizationResponse));
     verify(mockEmailRepository)
-        .findByEmailAddressAndIdentity_ParentTenantId(same(githubResponseEmail), same(tenantId));
+        .findByEmailAddressAndIdentity_ParentTenantIdAndIdentity_Provider_Id(
+            same(githubResponseEmail), same(tenantId), same(providerId));
     verify(mockIdentityResponseMapper).map(same(mockIdentity));
     verify(mockIdentity).getAuthorizedApplications();
     verify(mockIdentity).setParentTenantId(same(tenantId));
