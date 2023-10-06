@@ -9,8 +9,10 @@
       
       
       
-        <link rel="prev" href="../../5.-External-Identity-Providers/create-github-application/">
+        <link rel="prev" href="../overview/">
       
+      
+        <link rel="next" href="../../7.-Download/artifacts/">
       
       
       <link rel="icon" href="../../images/favicon.png">
@@ -18,7 +20,7 @@
     
     
       
-        <title>Iridium Downloads - Iridium</title>
+        <title>Tracker endpoints - Iridium</title>
       
     
     
@@ -73,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#iridium-downloads" class="md-skip">
+        <a href="#get-new-users-grouped-by-provider-over-a-specified-range" class="md-skip">
           Skip to content
         </a>
       
@@ -159,7 +161,7 @@ You're not viewing the latest version.
                 <div class="md-header__topic" data-md-component="header-topic">
 <!--          <span class="md-ellipsis">-->
 <!--            -->
-<!--              Iridium Downloads-->
+<!--              Tracker endpoints-->
 <!--            -->
 <!--          </span>-->
                 </div>
@@ -330,6 +332,13 @@ You're not viewing the latest version.
 
 
         
+        
+        
+        
+
+
+
+        
     </ul>
 </nav>
                   </div>
@@ -347,8 +356,6 @@ You're not viewing the latest version.
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -357,23 +364,50 @@ You're not viewing the latest version.
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#current-version-022" class="md-nav__link">
-    Current Version 0.2.2
+  <a href="#get-new-users-grouped-by-provider-over-a-specified-range" class="md-nav__link">
+    Get new users, grouped by provider over a specified range.
+  </a>
+  
+    <nav class="md-nav" aria-label="Get new users, grouped by provider over a specified range.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query-params" class="md-nav__link">
+    Query Params
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#docker-container" class="md-nav__link">
-    Docker Container
+        
+          <li class="md-nav__item">
+  <a href="#path-variables" class="md-nav__link">
+    Path Variables
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#iridium-examples" class="md-nav__link">
-    Iridium Examples
+        
+          <li class="md-nav__item">
+  <a href="#headers" class="md-nav__link">
+    Headers
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response" class="md-nav__link">
+    Response:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#an-example-of-how-to-invoke-is-below" class="md-nav__link">
+    An example of how to invoke is below:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -395,73 +429,88 @@ You're not viewing the latest version.
   
 
 
-<h1 id="iridium-downloads">Iridium Downloads</h1>
-<h3 id="current-version-022">Current Version 0.2.2</h3>
+  <h1>Tracker endpoints</h1>
+
+<h2 id="get-new-users-grouped-by-provider-over-a-specified-range">Get new users, grouped by provider over a specified range.</h2>
+<ul>
+<li>Method: <code>GET</code></li>
+<li>Endpoint: <code>${serverRoot}/tenants/${tenant-id}/account-types</code></li>
+</ul>
+<h3 id="query-params">Query Params</h3>
 <table>
 <thead>
 <tr>
-<th>Release</th>
-<th>Link</th>
-<th>Crypto Files</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Binary</td>
-<td><a href="https://github.com/IridiumIdentity/iridium/releases/download/v0.2.2/iridium-0.2.2-bin.tar.gz">iridium-0.2.2-bin.tar.gz</a></td>
-<td><a href="https://github.com/IridiumIdentity/iridium/releases/download/v0.2.2/iridium-0.2.2-bin.tar.gz.asc">asc</a>, <a href="https://github.com/IridiumIdentity/iridium/releases/download/v0.2.2/iridium-0.2.2-bin.tar.gz.sha512">sha512</a></td>
-</tr>
-<tr>
-<td>Source</td>
-<td><a href="https://github.com/IridiumIdentity/iridium/archive/refs/tags/v0.2.2.tar.gz">iridium-0.2.2-src.tar.gz</a></td>
-<td><a href="https://github.com/IridiumIdentity/iridium/releases/download/v0.2.2/iridium-0.2.2-bin.tar.gz.asc">asc</a>, <a href="https://github.com/IridiumIdentity/iridium/releases/download/v0.2.2/iridium-0.2.2-bin.tar.gz.sha512">sha512</a></td>
-</tr>
-</tbody>
-</table>
-<h3 id="docker-container">Docker Container</h3>
-<table>
-<thead>
-<tr>
-<th>Release</th>
-<th>Link</th>
-<th>Pull Command</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Debian</td>
-<td><a href="https://hub.docker.com/layers/iridiumidentity/iridium-core-server/0.2.2/images/sha256-f1ae17357311b2009c18c798a8f1c9e29f7b0a417a856d2b885564662dd02b82?context=explore">iridium-0.2.2-docker</a></td>
-<td>docker pull iridiumidentity/iridium-core-server:0.2.2</td>
-</tr>
-</tbody>
-</table>
-<h3 id="iridium-examples">Iridium Examples</h3>
-<table>
-<thead>
-<tr>
-<th>Location</th>
+<th>Query Parameter</th>
 <th>Type</th>
-<th>Link</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>GitHub</td>
-<td>Admin UI</td>
-<td><a href="https://github.com/IridiumIdentity/admin-ui">https://github.com/IridiumIdentity/admin-ui</a></td>
-</tr>
-<tr>
-<td>GitHub</td>
-<td>Angular Quickstart</td>
-<td><a href="https://github.com/IridiumIdentity/iridium-angular-example">https://github.com/IridiumIdentity/iridium-angular-example</a></td>
-</tr>
-<tr>
-<td>GitHub</td>
-<td>Next.js Quickstart</td>
-<td><a href="https://github.com/IridiumIdentity/iridium-nextjs-example">https://github.com/IridiumIdentity/iridium-nextjs-example</a></td>
+<td>from</td>
+<td>Date</td>
+<td><strong>Required</strong> This is expected to be in the format of <code>"yyyy-MM-dd"</code>.  It must be within 7 days of the current date.</td>
 </tr>
 </tbody>
 </table>
+<h3 id="path-variables">Path Variables</h3>
+<table>
+<thead>
+<tr>
+<th>Path Variable</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tenant-id</td>
+<td>string</td>
+<td><strong>Required</strong> The tenant identifier. This should be a valid uuid</td>
+</tr>
+</tbody>
+</table>
+<h3 id="headers">Headers</h3>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authorization</td>
+<td>Bearer ${YourBearerToken}</td>
+<td><strong>Required</strong> The users bearer token</td>
+</tr>
+</tbody>
+</table>
+<h3 id="response">Response:</h3>
+<ul>
+<li>If the request is successful the response will look similar to the following:</li>
+</ul>
+<pre><code class="language-json">HTTP/1.1 200 OK
+Content-Type: application/json
+Cache-Control: no-store
+
+[
+  {
+    &quot;name&quot;:&quot;GitHub&quot;,
+    &quot;value&quot;:56
+  },
+  {
+    &quot;name&quot;:&quot;Google&quot;,
+    &quot;value&quot;:34
+  }
+]
+</code></pre>
+<h3 id="an-example-of-how-to-invoke-is-below">An example of how to invoke is below:</h3>
+<pre><code class="language-shell">$ curl --location 'localhost:8382/tenants/${SomeTenantId}/account-types?from=2023%2F09%2F28' \
+--header 'Authorization: Bearer ${YourBearerToken}' \
+--header 'Accept: application/json'
+</code></pre>
 
 
   
