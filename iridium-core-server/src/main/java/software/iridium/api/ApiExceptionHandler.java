@@ -75,6 +75,14 @@ public class ApiExceptionHandler {
   @ExceptionHandler(BadRequestException.class)
   public @ResponseBody AccessTokenErrorResponse handleAccessTokenBadRequest(final Exception e) {
     logger.error("Bad Request ", e);
-    return new AccessTokenErrorResponse(HttpStatus.BAD_REQUEST.toString(), e.getMessage());
+    return new AccessTokenErrorResponse(e.getMessage(), "");
+  }
+
+  @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+  @ExceptionHandler(ClientAuthenticationException.class)
+  public @ResponseBody AccessTokenErrorResponse handleClientAuthenticationException(
+      final Exception e) {
+    logger.error("Bad Request ", e);
+    return new AccessTokenErrorResponse(e.getMessage(), "");
   }
 }

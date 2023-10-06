@@ -14,7 +14,6 @@ package software.iridium.api.mapper;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +43,6 @@ class AccessTokenResponseMapperTest {
     final var response = subject.map(entity);
 
     assertThat(response.getAccessToken(), is(equalTo(accessToken)));
-    assertNull(response.getRedirectUrl());
     assertThat(response.getTokenType(), is(equalTo(tokenType)));
     assertThat(response.getRefreshToken(), is(equalTo(refreshToken)));
   }

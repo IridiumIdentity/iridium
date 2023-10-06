@@ -30,6 +30,7 @@ import software.iridium.api.authentication.domain.ApplicationAuthorizationFormRe
 import software.iridium.api.authentication.domain.CodeChallengeMethod;
 import software.iridium.api.authentication.domain.IdentityResponse;
 import software.iridium.api.base.error.BadRequestException;
+import software.iridium.api.base.error.ClientAuthenticationException;
 import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.fetcher.ExternalProviderUserProfileFetcher;
@@ -229,11 +230,7 @@ public class AuthorizationService {
         final var application =
             applicationRepository
                 .findByClientId(params.get(AuthorizationCodeFlowConstants.CLIENT_ID.getValue()))
-                .orElseThrow(
-                    () ->
-                        new BadRequestException(
-                            "application not found for id: "
-                                + params.get(AuthorizationCodeFlowConstants.CLIENT_ID.getValue())));
+                .orElseThrow(() -> new BadRequestException("invalid request"));
         final var clientSecret =
             params.getOrDefault(AuthorizationCodeFlowConstants.CLIENT_SECRET.getValue(), "");
         final var secrets =
@@ -261,15 +258,12 @@ public class AuthorizationService {
           final var decodedValues = decodedValuesStr.split(":");
 
           if (decodedValues.length != 2) {
-            return AccessTokenResponse.withError("");
+            throw new BadRequestException("client credential request invalid format");
           }
           final var application =
               applicationRepository
                   .findByClientId(decodedValues[0])
-                  .orElseThrow(
-                      () ->
-                          new BadRequestException(
-                              "application not found for id: " + decodedValues[0]));
+                  .orElseThrow(() -> new BadRequestException("invalid_client"));
           final var secrets =
               application.getClientSecrets().stream()
                   .map(ClientSecretEntity::getSecretKey)
@@ -277,7 +271,7 @@ public class AuthorizationService {
 
           final var clientId = application.getClientId();
           if (attributeValidator.doesNotEqual(clientId, decodedValues[0])) {
-            return AccessTokenResponse.withError("");
+            throw new ClientAuthenticationException("invalid_client");
           }
           final var encodedSubmittedSecret = encoder.encode(decodedValues[1]);
           for (String secret : secrets) {
@@ -288,7 +282,7 @@ public class AuthorizationService {
             }
           }
           if (isNotAuthorized) {
-            return AccessTokenResponse.withError("redirectUri");
+            throw new ClientAuthenticationException("invalid_client");
           }
           return accessTokenResponseMapper.map(
               accessTokenRepository.save(accessTokenInstantiator.instantiate(application.getId())));
@@ -302,24 +296,20 @@ public class AuthorizationService {
 
       if (attributeValidator.isBlank(
           params.getOrDefault(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), ""))) {
-        throw new BadRequestException("client id blank or malformed");
+        throw new BadRequestException("invalid_request");
       }
 
       final var application =
           applicationRepository
               .findByClientId(params.get(AuthorizationCodeFlowConstants.CLIENT_ID.getValue()))
-              .orElseThrow(
-                  () ->
-                      new BadRequestException(
-                          "application not found for id: "
-                              + params.get(AuthorizationCodeFlowConstants.CLIENT_ID.getValue())));
+              .orElseThrow(() -> new BadRequestException("invalid request"));
 
       applicationAccessTokenValidator.validate(application, params);
 
       final var redirectUri =
           accessTokenRequestParameterValidator.validateAndOptionallyRedirect(application, params);
       if (attributeValidator.isNotBlank(redirectUri)) {
-        return AccessTokenResponse.withError(redirectUri);
+        throw new BadRequestException("invalid request");
       }
 
       final var inProgressExternalAuthorizationOpt =
@@ -384,7 +374,7 @@ public class AuthorizationService {
       }
     }
 
-    return AccessTokenResponse.withError("Not Authorized");
+    throw new BadRequestException("invalid_grant");
   }
 
   @Transactional(propagation = Propagation.REQUIRED)

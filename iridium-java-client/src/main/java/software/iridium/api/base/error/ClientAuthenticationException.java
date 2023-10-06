@@ -13,18 +13,17 @@ package software.iridium.api.base.error;
 
 import java.io.Serial;
 
-public class BadRequestException extends RuntimeException {
+public class ClientAuthenticationException extends RuntimeException {
 
-  @Serial private static final long serialVersionUID = 4441204485680238874L;
+  private static final String CODE = "401";
+  private static final String MESSAGE = "Unauthorized";
+  @Serial private static final long serialVersionUID = -67278741502566593L;
 
-  private static final String CODE = "400";
-  private static final String MESSAGE = "BAD REQUEST";
-
-  public BadRequestException(final String message) {
+  public ClientAuthenticationException(final String message) {
     super(message);
   }
 
-  public BadRequestException() {
+  public ClientAuthenticationException() {
     super(MESSAGE);
   }
 
