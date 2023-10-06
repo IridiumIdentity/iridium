@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import software.iridium.api.authentication.domain.IdentityResponse;
 import software.iridium.api.authentication.domain.IdentitySummaryResponse;
-import software.iridium.api.base.domain.ApiDataResponse;
 import software.iridium.api.base.domain.PagedListResponse;
 import software.iridium.api.service.IdentityService;
 
@@ -30,8 +29,8 @@ public class IdentityController {
       value = "/identities",
       method = RequestMethod.GET,
       produces = IdentityResponse.MEDIA_TYPE)
-  public ApiDataResponse<IdentityResponse> getIdentity(HttpServletRequest request) {
-    return new ApiDataResponse<>(identityService.getIdentity(request));
+  public IdentityResponse getIdentity(HttpServletRequest request) {
+    return identityService.getIdentity(request);
   }
 
   @GetMapping(

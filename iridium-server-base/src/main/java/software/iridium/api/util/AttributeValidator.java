@@ -13,6 +13,7 @@ package software.iridium.api.util;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
@@ -62,6 +63,14 @@ public class AttributeValidator {
 
   public boolean isNotNull(final Object candidate) {
     return candidate != null;
+  }
+
+  public boolean isBeforeCurrentDate(final Date candidate) {
+    return candidate.before(new Date());
+  }
+
+  public boolean isAfterCurrentDate(final Date candidate) {
+    return candidate.after(new Date());
   }
 
   public boolean isValidUrl(String url) {

@@ -57,4 +57,18 @@ public class DateUtilsTest {
       assertNotNull(dateAfterAddingFiveMinutesToCurrentTime);
     }
   }
+
+  @Test
+  public void addDaysToCurrentTime_AllGood_FiveDaysAdded() {
+    try (MockedStatic<Calendar> calendarClassMock = Mockito.mockStatic(Calendar.class)) {
+      when(calendarInstanceMock.getTime()).thenReturn(new Date());
+      calendarClassMock.when(Calendar::getInstance).thenReturn(calendarInstanceMock);
+
+      final var days = 5;
+      Date dateAfterAddingFiveMinutesToCurrentTime = DateUtils.addDaysToCurrentTime(days);
+
+      verify(calendarInstanceMock).add(Calendar.DATE, days);
+      assertNotNull(dateAfterAddingFiveMinutesToCurrentTime);
+    }
+  }
 }

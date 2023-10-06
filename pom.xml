@@ -14,6 +14,7 @@
         <module>iridium-server-base</module>
         <module>iridium-cli</module>
         <module>iridium-core-entity</module>
+        <module>iridium-tracker</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -45,7 +45,7 @@ class IdentityControllerTest {
 
     when(mockIdentityService.getIdentity(same(mockServletRequest))).thenReturn(response);
 
-    assertThat(subject.getIdentity(mockServletRequest).getData(), sameInstance(response));
+    assertThat(subject.getIdentity(mockServletRequest), sameInstance(response));
 
     verify(mockIdentityService).getIdentity(same(mockServletRequest));
   }
