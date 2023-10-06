@@ -75,7 +75,6 @@ public class ApiExceptionHandler {
   @ExceptionHandler(BadRequestException.class)
   public @ResponseBody AccessTokenErrorResponse handleAccessTokenBadRequest(final Exception e) {
     logger.error("Bad Request ", e);
-    return new AccessTokenErrorResponse(
-        HttpStatus.BAD_REQUEST.toString(), e.getMessage().toLowerCase());
+    return new AccessTokenErrorResponse(HttpStatus.BAD_REQUEST.toString(), e.getMessage());
   }
 }
