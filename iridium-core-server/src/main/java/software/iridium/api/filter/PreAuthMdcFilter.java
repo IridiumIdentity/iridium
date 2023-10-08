@@ -11,7 +11,6 @@
  */
 package software.iridium.api.filter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,14 +19,10 @@ import java.io.IOException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.servlet.ModelAndView;
-import software.iridium.api.base.domain.ApiResponse;
-import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.user.UserInfo;
 
 @Component
@@ -53,9 +48,6 @@ public class PreAuthMdcFilter extends OncePerRequestFilter {
         MDC.put(MDC_CONTEXT_REQUEST_ID, String.valueOf(++requestId));
         MDC.put(MDC_CONTEXT_USER_ID, retrieveUserId());
         filterChain.doFilter(request, response);
-      } catch (NotAuthorizedException e) {
-        final Object errorResponse = getErrorResponse(request, e);
-        setErrorResponse(response, errorResponse);
       } finally {
         MDC.remove(MDC_CONTEXT_HOST_NAME);
         MDC.remove(MDC_CONTEXT_REQUEST_ID);
@@ -64,32 +56,6 @@ public class PreAuthMdcFilter extends OncePerRequestFilter {
     } else {
       filterChain.doFilter(request, response);
     }
-  }
-
-  private void setErrorResponse(HttpServletResponse response, Object errorResponse)
-      throws IOException {
-    ObjectMapper objectMapper = new ObjectMapper();
-    response.setContentType("application/json");
-    response.setCharacterEncoding("UTF-8");
-    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-    response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
-  }
-
-  private Object getErrorResponse(HttpServletRequest request, NotAuthorizedException e) {
-    logger.error("Not Authorized: ", e);
-    final var acceptHeader = request.getHeader(HttpHeaders.ACCEPT);
-    final var shouldReturnJson = acceptHeader != null && acceptHeader.contains("json");
-
-    if (shouldReturnJson) {
-      return new ApiResponse("401", e.getMessage());
-    }
-
-    final var modelAndView = new ModelAndView();
-
-    modelAndView.addObject("statusCode", e.getCode());
-    modelAndView.addObject("errorMessage", e.getMessage());
-    modelAndView.setViewName("error");
-    return modelAndView;
   }
 
   protected String retrieveUserId() {
