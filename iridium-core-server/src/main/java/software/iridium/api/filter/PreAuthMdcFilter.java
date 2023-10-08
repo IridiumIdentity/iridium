@@ -53,12 +53,10 @@ public class PreAuthMdcFilter extends OncePerRequestFilter {
         MDC.put(MDC_CONTEXT_REQUEST_ID, String.valueOf(++requestId));
         MDC.put(MDC_CONTEXT_USER_ID, retrieveUserId());
         filterChain.doFilter(request, response);
-      }
-      catch (NotAuthorizedException e) {
+      } catch (NotAuthorizedException e) {
         final Object errorResponse = getErrorResponse(request, e);
         setErrorResponse(response, errorResponse);
-      }
-      finally {
+      } finally {
         MDC.remove(MDC_CONTEXT_HOST_NAME);
         MDC.remove(MDC_CONTEXT_REQUEST_ID);
         MDC.remove(MDC_CONTEXT_USER_ID);
@@ -68,7 +66,8 @@ public class PreAuthMdcFilter extends OncePerRequestFilter {
     }
   }
 
-  private void setErrorResponse(HttpServletResponse response, Object errorResponse) throws IOException {
+  private void setErrorResponse(HttpServletResponse response, Object errorResponse)
+      throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     response.setContentType("application/json");
     response.setCharacterEncoding("UTF-8");
