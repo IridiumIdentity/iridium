@@ -26,10 +26,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import software.iridium.api.authentication.domain.TenantSummary;
-import software.iridium.api.base.error.BadRequestException;
-import software.iridium.api.base.error.DuplicateResourceException;
-import software.iridium.api.base.error.NotAuthorizedException;
-import software.iridium.api.base.error.ResourceNotFoundException;
+import software.iridium.api.base.error.*;
 
 @WebMvcTest
 @ContextConfiguration(classes = ApiExceptionHandler.class)
@@ -64,6 +61,11 @@ public class ApiExceptionHandlerTest {
     public void throwBadRequestException() {
       throw new BadRequestException("Bad request");
     }
+
+    @GetMapping(value = "/clientauthentication")
+    public void throwClientAuthenticationException() {
+      throw new ClientAuthenticationException("client auth issue");
+    }
   }
 
   @BeforeEach
@@ -72,6 +74,11 @@ public class ApiExceptionHandlerTest {
         MockMvcBuilders.standaloneSetup(new RestControllerThrowingException())
             .setControllerAdvice(new ApiExceptionHandler())
             .build();
+  }
+
+  @Test
+  public void handleClientAuthException_AllGood_ExceptionHandledProperly() throws Exception {
+    mockMvc.perform(get("/tests/clientauthentication")).andExpect(status().isUnauthorized());
   }
 
   @Test

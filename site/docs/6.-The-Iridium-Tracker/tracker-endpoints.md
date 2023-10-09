@@ -23,7 +23,7 @@
 
 
 
-### Response:
+### Response:     
 * If the request is successful the response will look similar to the following:
 ```json
 HTTP/1.1 200 OK
