@@ -90,6 +90,7 @@ public class AuthorizationService {
   @Autowired private BCryptPasswordEncoder encoder;
   @Autowired private RefreshTokenEntityRepository refreshTokenRepository;
   @Autowired private RefreshTokenRequestValidator refreshTokenRequestValidator;
+  @Autowired private ApplicationService applicationService;
 
   @Transactional(propagation = Propagation.REQUIRED)
   public IdentityResponse completeAuthorizationWithProvider(
@@ -101,14 +102,7 @@ public class AuthorizationService {
         "clientId must not be blank and no longer than 32 characters");
     checkArgument(attributeValidator.isNotBlank(state), "state must be not be blank");
 
-    final var application =
-        applicationRepository
-            .findByClientId(clientId)
-            .orElseThrow(
-                () ->
-                    new ResourceNotFoundException(
-                        "application not found for clientId: " + clientId));
-
+    final var application = applicationService.findByClientId(clientId);
     final var tenant =
         tenantRepository
             .findById(application.getTenantId())

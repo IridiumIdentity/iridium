@@ -166,4 +166,11 @@ public class ApplicationService {
 
     return responseMapper.map(entity);
   }
+
+  public ApplicationEntity findByClientId(String clientId) {
+    return applicationRepository
+        .findByClientId(clientId)
+        .orElseThrow(
+            () -> new ResourceNotFoundException("application not found for clientId: " + clientId));
+  }
 }

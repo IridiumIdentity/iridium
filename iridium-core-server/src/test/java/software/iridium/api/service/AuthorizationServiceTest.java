@@ -87,6 +87,7 @@ class AuthorizationServiceTest {
   @Mock private AccessTokenResponseMapper mockAccessTokenResponseMapper;
   @Mock private AccessTokenResponse mockAccessTokenResponse;
   @Mock private RefreshTokenRequestValidator mockRefreshTokenRequestValidator;
+  @Mock private ApplicationService mockApplicationService;
   @InjectMocks private AuthorizationService subject;
 
   @AfterEach
@@ -116,7 +117,8 @@ class AuthorizationServiceTest {
         mockAccessTokenEntity,
         mockAccessTokenResponseMapper,
         mockAccessTokenResponse,
-        mockRefreshTokenRequestValidator);
+        mockRefreshTokenRequestValidator,
+        mockApplicationService);
   }
 
   @Test
@@ -155,8 +157,7 @@ class AuthorizationServiceTest {
     when(mockAttributeValidator.isNotBlankAndNoLongerThan(anyString(), anyInt()))
         .thenCallRealMethod();
     when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
-    when(mockApplicationRepository.findByClientId(same(clientId)))
-        .thenReturn(Optional.of(application));
+    when(mockApplicationService.findByClientId(same(clientId))).thenReturn(application);
     when(mockTenantRepository.findById(same(tenantId))).thenReturn(Optional.of(tenant));
     when(mockUrlGenerator.generate(same(externalProvider), same(application), same(code)))
         .thenReturn(providerUrl);
@@ -174,7 +175,7 @@ class AuthorizationServiceTest {
     verify(mockAttributeValidator).isNotBlank(same(code));
     verify(mockAttributeValidator).isNotBlank(same(providerName));
     verify(mockAttributeValidator).isNotBlank(same(state));
-    verify(mockApplicationRepository).findByClientId(same(clientId));
+    verify(mockApplicationService).findByClientId(same(clientId));
     verify(mockTenantRepository).findById(same(tenantId));
     verify(mockUrlGenerator).generate(same(externalProvider), same(application), same(code));
     verify(mockAccessTokenRequestor).requestAccessToken(same(providerUrl));
@@ -222,8 +223,7 @@ class AuthorizationServiceTest {
     when(mockAttributeValidator.isNotBlankAndNoLongerThan(anyString(), anyInt()))
         .thenCallRealMethod();
     when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
-    when(mockApplicationRepository.findByClientId(same(clientId)))
-        .thenReturn(Optional.of(application));
+    when(mockApplicationService.findByClientId(same(clientId))).thenReturn(application);
     when(mockTenantRepository.findById(same(tenantId))).thenReturn(Optional.of(tenant));
     when(mockUrlGenerator.generate(same(externalProvider), same(application), same(code)))
         .thenReturn(providerUrl);
@@ -245,7 +245,7 @@ class AuthorizationServiceTest {
     verify(mockAttributeValidator).isNotBlank(same(code));
     verify(mockAttributeValidator).isNotBlank(same(providerName));
     verify(mockAttributeValidator).isNotBlank(same(state));
-    verify(mockApplicationRepository).findByClientId(same(clientId));
+    verify(mockApplicationService).findByClientId(same(clientId));
     verify(mockTenantRepository).findById(same(tenantId));
     verify(mockUrlGenerator).generate(same(externalProvider), same(application), same(code));
     verify(mockAccessTokenRequestor).requestAccessToken(same(providerUrl));
@@ -261,36 +261,6 @@ class AuthorizationServiceTest {
   }
 
   @Test
-  public void completeAuthorizationWithProvider_ApplicationNotFound_ExceptionThrown() {
-    final var code = "someCode";
-    final var providerName = "github";
-    final var clientId = "theClientId";
-    final var state = "theRandomState";
-    final var tenantId = "the tenant id";
-    final var application = new ApplicationEntity();
-    application.setTenantId(tenantId);
-
-    when(mockAttributeValidator.isNotBlankAndNoLongerThan(anyString(), anyInt()))
-        .thenCallRealMethod();
-    when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
-    when(mockApplicationRepository.findByClientId(same(clientId))).thenReturn(Optional.empty());
-
-    final var exception =
-        assertThrows(
-            ResourceNotFoundException.class,
-            () -> subject.completeAuthorizationWithProvider(code, providerName, clientId, state));
-
-    assertThat(
-        exception.getMessage(), is(equalTo("application not found for clientId: " + clientId)));
-
-    verify(mockAttributeValidator).isNotBlankAndNoLongerThan(same(clientId), eq(32));
-    verify(mockAttributeValidator).isNotBlank(same(code));
-    verify(mockAttributeValidator).isNotBlank(same(providerName));
-    verify(mockAttributeValidator).isNotBlank(same(state));
-    verify(mockApplicationRepository).findByClientId(same(clientId));
-  }
-
-  @Test
   public void completeAuthorizationWithProvider_TenantNotFound_ExceptionThrown() {
     final var code = "someCode";
     final var providerName = "github";
@@ -303,8 +273,7 @@ class AuthorizationServiceTest {
     when(mockAttributeValidator.isNotBlankAndNoLongerThan(anyString(), anyInt()))
         .thenCallRealMethod();
     when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
-    when(mockApplicationRepository.findByClientId(same(clientId)))
-        .thenReturn(Optional.of(application));
+    when(mockApplicationService.findByClientId(same(clientId))).thenReturn(application);
     when(mockTenantRepository.findById(same(tenantId))).thenReturn(Optional.empty());
 
     final var exception =
@@ -320,7 +289,7 @@ class AuthorizationServiceTest {
     verify(mockAttributeValidator).isNotBlank(same(code));
     verify(mockAttributeValidator).isNotBlank(same(providerName));
     verify(mockAttributeValidator).isNotBlank(same(state));
-    verify(mockApplicationRepository).findByClientId(same(clientId));
+    verify(mockApplicationService).findByClientId(same(clientId));
     verify(mockTenantRepository).findById(same(tenantId));
   }
 

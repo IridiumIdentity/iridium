@@ -463,4 +463,26 @@ class ApplicationServiceTest {
     verify(mockApplicationRepository).findByTenantIdAndId(same(tenantId), same(applicationId));
     verify(mockResponseMapper).map(same(entity));
   }
+
+  @Test
+  public void findApplicationByClientId_ExceptionThrown() {
+    final var clientId = "Invalid";
+    when(mockApplicationRepository.findByClientId(same(clientId))).thenReturn(Optional.empty());
+
+    final var exception =
+        assertThrows(ResourceNotFoundException.class, () -> subject.findByClientId(clientId));
+    assertThat(
+        exception.getMessage(), is(equalTo("application not found for clientId: " + clientId)));
+    verify(mockApplicationRepository).findByClientId(clientId);
+  }
+
+  @Test
+  public void findApplicationByClientId_AllGood() {
+    final var clientId = "the client id";
+    final var entity = new ApplicationEntity();
+
+    when(mockApplicationRepository.findByClientId(same(clientId))).thenReturn(Optional.of(entity));
+    subject.findByClientId(clientId);
+    verify(mockApplicationRepository).findByClientId(same(clientId));
+  }
 }
