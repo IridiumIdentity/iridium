@@ -12,6 +12,8 @@
 package software.iridium.api.service;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static software.iridium.api.util.AuthorizationCodeFlowConstants.*;
+import static software.iridium.api.util.AuthorizationCodeFlowConstants.AUTHORIZATION_CODE_GRANT_TYPE_CLIENT_CREDENTIALS;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import software.iridium.api.authentication.domain.*;
 import software.iridium.api.base.domain.PagedListResponse;
+import software.iridium.api.base.error.BadRequestException;
 import software.iridium.api.base.error.DuplicateResourceException;
 import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.instantiator.ApplicationEntityInstantiator;
@@ -167,10 +170,18 @@ public class ApplicationService {
     return responseMapper.map(entity);
   }
 
-  public ApplicationEntity findByClientId(String clientId) {
+  public ApplicationEntity findByClientId(String clientId, String grantType) {
+    String message = "application not found for clientId: " + clientId;
     return applicationRepository
         .findByClientId(clientId)
         .orElseThrow(
-            () -> new ResourceNotFoundException("application not found for clientId: " + clientId));
+            () -> {
+              RuntimeException exception =
+                  (grantType.equals(AUTHORIZATION_CODE_GRANT_TYPE_CLIENT_CREDENTIALS.getValue())
+                          || grantType.equals(AUTHORIZATION_CODE_GRANT_TYPE.getValue()))
+                      ? new BadRequestException(message)
+                      : new ResourceNotFoundException(message);
+              return exception;
+            });
   }
 }

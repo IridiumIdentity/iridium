@@ -132,6 +132,7 @@ class AuthorizationServiceTest {
     final var githubResponseEmail = "someone@somewhere.com";
     final var providerAccessToken = "the provider access token";
     final var tenantId = "theTenantId";
+    final var grantType = "";
     final var application = new ApplicationEntity();
     application.setTenantId(tenantId);
     final var tenant = new TenantEntity();
@@ -157,7 +158,8 @@ class AuthorizationServiceTest {
     when(mockAttributeValidator.isNotBlankAndNoLongerThan(anyString(), anyInt()))
         .thenCallRealMethod();
     when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
-    when(mockApplicationService.findByClientId(same(clientId))).thenReturn(application);
+    when(mockApplicationService.findByClientId(same(clientId), same(grantType)))
+        .thenReturn(application);
     when(mockTenantRepository.findById(same(tenantId))).thenReturn(Optional.of(tenant));
     when(mockUrlGenerator.generate(same(externalProvider), same(application), same(code)))
         .thenReturn(providerUrl);
@@ -175,7 +177,7 @@ class AuthorizationServiceTest {
     verify(mockAttributeValidator).isNotBlank(same(code));
     verify(mockAttributeValidator).isNotBlank(same(providerName));
     verify(mockAttributeValidator).isNotBlank(same(state));
-    verify(mockApplicationService).findByClientId(same(clientId));
+    verify(mockApplicationService).findByClientId(same(clientId), same(grantType));
     verify(mockTenantRepository).findById(same(tenantId));
     verify(mockUrlGenerator).generate(same(externalProvider), same(application), same(code));
     verify(mockAccessTokenRequestor).requestAccessToken(same(providerUrl));
@@ -200,6 +202,7 @@ class AuthorizationServiceTest {
     final var authzResoonse = new AuthorizationResponse();
     authzResoonse.setAccessToken(accessToken);
     final var tenantId = "theTenantId";
+    final var grantType = "";
     final var application = new ApplicationEntity();
     application.setTenantId(tenantId);
     final var tenant = new TenantEntity();
@@ -223,7 +226,8 @@ class AuthorizationServiceTest {
     when(mockAttributeValidator.isNotBlankAndNoLongerThan(anyString(), anyInt()))
         .thenCallRealMethod();
     when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
-    when(mockApplicationService.findByClientId(same(clientId))).thenReturn(application);
+    when(mockApplicationService.findByClientId(same(clientId), same(grantType)))
+        .thenReturn(application);
     when(mockTenantRepository.findById(same(tenantId))).thenReturn(Optional.of(tenant));
     when(mockUrlGenerator.generate(same(externalProvider), same(application), same(code)))
         .thenReturn(providerUrl);
@@ -245,7 +249,7 @@ class AuthorizationServiceTest {
     verify(mockAttributeValidator).isNotBlank(same(code));
     verify(mockAttributeValidator).isNotBlank(same(providerName));
     verify(mockAttributeValidator).isNotBlank(same(state));
-    verify(mockApplicationService).findByClientId(same(clientId));
+    verify(mockApplicationService).findByClientId(same(clientId), same(grantType));
     verify(mockTenantRepository).findById(same(tenantId));
     verify(mockUrlGenerator).generate(same(externalProvider), same(application), same(code));
     verify(mockAccessTokenRequestor).requestAccessToken(same(providerUrl));
@@ -267,13 +271,15 @@ class AuthorizationServiceTest {
     final var clientId = "theClientId";
     final var state = "theRandomState";
     final var tenantId = "TheTenantId";
+    final var grantType = "";
     final var application = new ApplicationEntity();
     application.setTenantId(tenantId);
 
     when(mockAttributeValidator.isNotBlankAndNoLongerThan(anyString(), anyInt()))
         .thenCallRealMethod();
     when(mockAttributeValidator.isNotBlank(anyString())).thenCallRealMethod();
-    when(mockApplicationService.findByClientId(same(clientId))).thenReturn(application);
+    when(mockApplicationService.findByClientId(same(clientId), same(grantType)))
+        .thenReturn(application);
     when(mockTenantRepository.findById(same(tenantId))).thenReturn(Optional.empty());
 
     final var exception =
@@ -289,7 +295,7 @@ class AuthorizationServiceTest {
     verify(mockAttributeValidator).isNotBlank(same(code));
     verify(mockAttributeValidator).isNotBlank(same(providerName));
     verify(mockAttributeValidator).isNotBlank(same(state));
-    verify(mockApplicationService).findByClientId(same(clientId));
+    verify(mockApplicationService).findByClientId(same(clientId), same(grantType));
     verify(mockTenantRepository).findById(same(tenantId));
   }
 

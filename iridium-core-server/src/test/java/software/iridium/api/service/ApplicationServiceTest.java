@@ -19,6 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static software.iridium.api.util.AuthorizationCodeFlowConstants.AUTHORIZATION_CODE_GRANT_TYPE;
+import static software.iridium.api.util.AuthorizationCodeFlowConstants.AUTHORIZATION_CODE_GRANT_TYPE_CLIENT_CREDENTIALS;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -33,6 +35,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import software.iridium.api.authentication.domain.*;
+import software.iridium.api.base.error.BadRequestException;
 import software.iridium.api.base.error.DuplicateResourceException;
 import software.iridium.api.base.error.ResourceNotFoundException;
 import software.iridium.api.instantiator.ApplicationEntityInstantiator;
@@ -465,24 +468,53 @@ class ApplicationServiceTest {
   }
 
   @Test
-  public void findApplicationByClientId_ExceptionThrown() {
+  public void findByClientId_ResourceNotFoundExceptionThrown() {
     final var clientId = "Invalid";
+    final var grantType = "";
     when(mockApplicationRepository.findByClientId(same(clientId))).thenReturn(Optional.empty());
 
     final var exception =
-        assertThrows(ResourceNotFoundException.class, () -> subject.findByClientId(clientId));
+        assertThrows(
+            ResourceNotFoundException.class, () -> subject.findByClientId(clientId, grantType));
     assertThat(
         exception.getMessage(), is(equalTo("application not found for clientId: " + clientId)));
-    verify(mockApplicationRepository).findByClientId(clientId);
+    verify(mockApplicationRepository).findByClientId(same(clientId));
   }
 
   @Test
-  public void findApplicationByClientId_AllGood() {
+  public void findByClientId_GrantType_ClientCredentials_BadRequestExceptionThrown() {
+    final var clientId = "Invalid";
+    final var grantType = AUTHORIZATION_CODE_GRANT_TYPE_CLIENT_CREDENTIALS.getValue();
+    when(mockApplicationRepository.findByClientId(same(clientId))).thenReturn(Optional.empty());
+
+    final var exception =
+        assertThrows(BadRequestException.class, () -> subject.findByClientId(clientId, grantType));
+    assertThat(
+        exception.getMessage(), is(equalTo("application not found for clientId: " + clientId)));
+    verify(mockApplicationRepository).findByClientId(same(clientId));
+  }
+
+  @Test
+  public void findByClientId_GrantType_AuthorizationCode_BadRequestExceptionThrown() {
+    final var clientId = "Invalid";
+    final var grantType = AUTHORIZATION_CODE_GRANT_TYPE.getValue();
+    when(mockApplicationRepository.findByClientId(same(clientId))).thenReturn(Optional.empty());
+
+    final var exception =
+        assertThrows(BadRequestException.class, () -> subject.findByClientId(clientId, grantType));
+    assertThat(
+        exception.getMessage(), is(equalTo("application not found for clientId: " + clientId)));
+    verify(mockApplicationRepository).findByClientId(same(clientId));
+  }
+
+  @Test
+  public void findByClientId_AllGood() {
     final var clientId = "the client id";
+    final var grantType = "";
     final var entity = new ApplicationEntity();
 
     when(mockApplicationRepository.findByClientId(same(clientId))).thenReturn(Optional.of(entity));
-    subject.findByClientId(clientId);
+    subject.findByClientId(clientId, grantType);
     verify(mockApplicationRepository).findByClientId(same(clientId));
   }
 }

@@ -102,7 +102,7 @@ public class AuthorizationService {
         "clientId must not be blank and no longer than 32 characters");
     checkArgument(attributeValidator.isNotBlank(state), "state must be not be blank");
 
-    final var application = applicationService.findByClientId(clientId);
+    final var application = applicationService.findByClientId(clientId, "");
     final var tenant =
         tenantRepository
             .findById(application.getTenantId())
