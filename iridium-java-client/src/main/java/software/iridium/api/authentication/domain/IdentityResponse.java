@@ -30,13 +30,7 @@ public class IdentityResponse implements Serializable {
 
   private ProfileResponse profile;
 
-  @JsonIgnore private String appBaseUrl;
-
-  @JsonIgnore private String applicationName;
-
-  @JsonIgnore private String tenantWebsite;
-
-  private String userToken;
+  @JsonIgnore private String redirectUri;
 
   private Set<String> roles = new HashSet<>();
 
@@ -82,36 +76,12 @@ public class IdentityResponse implements Serializable {
     this.tenantIds = tenantIds;
   }
 
-  public String getAppBaseUrl() {
-    return appBaseUrl;
+  public String getRedirectUri() {
+    return redirectUri;
   }
 
-  public void setAppBaseUrl(final String appBaseUrl) {
-    this.appBaseUrl = appBaseUrl;
-  }
-
-  public String getApplicationName() {
-    return applicationName;
-  }
-
-  public void setApplicationName(final String applicationName) {
-    this.applicationName = applicationName;
-  }
-
-  public String getTenantWebsite() {
-    return tenantWebsite;
-  }
-
-  public void setTenantWebsite(final String tenantWebsite) {
-    this.tenantWebsite = tenantWebsite;
-  }
-
-  public String getUserToken() {
-    return userToken;
-  }
-
-  public void setUserToken(final String userToken) {
-    this.userToken = userToken;
+  public void setRedirectUri(final String redirectUri) {
+    this.redirectUri = redirectUri;
   }
 
   @Override
@@ -125,17 +95,6 @@ public class IdentityResponse implements Serializable {
         + '\''
         + ", profile="
         + profile
-        + ", appBaseUrl='"
-        + appBaseUrl
-        + '\''
-        + ", applicationName='"
-        + applicationName
-        + '\''
-        + ", tenantWebsite='"
-        + tenantWebsite
-        + '\''
-        + ", userToken='"
-        + userToken
         + '\''
         + ", roles="
         + roles

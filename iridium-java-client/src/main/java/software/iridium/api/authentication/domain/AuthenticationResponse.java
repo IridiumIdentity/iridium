@@ -11,11 +11,12 @@
  */
 package software.iridium.api.authentication.domain;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class AuthenticationResponse implements Serializable {
 
-  private static final long serialVersionUID = -8917607474548353606L;
+  @Serial private static final long serialVersionUID = -8917607474548353606L;
 
   public static final String MEDIA_TYPE =
       "application/vnd.iridium.id.authentication-response.1+json";

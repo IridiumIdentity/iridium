@@ -13,13 +13,12 @@ package software.iridium.api.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import software.iridium.api.authentication.domain.CreateIdentityRequest;
 import software.iridium.api.service.TemplateService;
 
 @Controller
@@ -27,17 +26,24 @@ public class TemplateController {
 
   @Autowired private TemplateService templateService;
 
-  private static final Logger logger = LoggerFactory.getLogger(TemplateController.class);
-
   @GetMapping("/login")
   public String retrieveLoginForm(
       final Model model,
       final @RequestParam Map<String, String> params,
       final HttpServletRequest servletRequest) {
-    logger.info("loading login for: {}", servletRequest.getRequestURL().toString());
-    logger.info(
-        "loading login for subdomain: {}",
-        servletRequest.getRequestURL().toString().split("\\.")[0]);
     return templateService.describeIndex(model, servletRequest, params);
+  }
+
+  @GetMapping("/register")
+  public String register(
+      final CreateIdentityRequest createIdentityRequest,
+      final Model model,
+      final HttpServletRequest servletRequest) {
+    return templateService.describeRegister(model, servletRequest);
+  }
+
+  @GetMapping("/confirm-registration")
+  public String register(final Model model, final HttpServletRequest servletRequest) {
+    return templateService.describeConfirmRegistration(model, servletRequest);
   }
 }

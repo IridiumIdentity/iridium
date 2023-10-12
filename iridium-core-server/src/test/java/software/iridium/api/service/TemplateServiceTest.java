@@ -12,8 +12,7 @@
 package software.iridium.api.service;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.verify;
@@ -25,11 +24,13 @@ import java.util.HashMap;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.Model;
+import software.iridium.api.authentication.domain.AuthenticationRequest;
 import software.iridium.api.authentication.domain.ExternalProviderLoginDescriptorResponse;
 import software.iridium.api.authentication.domain.LoginDescriptorResponse;
 import software.iridium.api.util.SubdomainExtractor;
@@ -70,6 +71,9 @@ class TemplateServiceTest {
 
     verify(mockServletRequest).getRequestURL();
     verify(mockSubdomainExtractor).extract(eq(subdomain));
+    verify(mockModel)
+        .addAttribute(
+            eq("authenticationRequest"), ArgumentMatchers.any(AuthenticationRequest.class));
     verify(mockModel).addAttribute(eq("displayName"), same(displayName));
     verify(mockModel).addAttribute(eq("externalProviderDescriptors"), same(externalDescriptors));
     verify(mockModel).addAttribute(eq("tenantLogoUrl"), same(tenantLogoUrl));

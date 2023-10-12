@@ -34,6 +34,16 @@ public class IdentityEntity extends AbstractEntity {
   @Column(name = "locked", nullable = false)
   private Boolean locked = false;
 
+  @Column(name = "encoded_password", length = 255, nullable = true)
+  private String encodedPassword;
+
+  @Column(name = "requires_password_change", nullable = false)
+  private Boolean requiresPasswordChange = false;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "password_reset_token_id")
+  private PasswordResetTokenEntity passwordResetToken;
+
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
       name = "tenants_identities_xref",
@@ -215,5 +225,37 @@ public class IdentityEntity extends AbstractEntity {
 
   public void setCreateSessionDetails(final IdentityCreateSessionDetails createSessionDetails) {
     this.createSessionDetails = createSessionDetails;
+  }
+
+  public Boolean getLocked() {
+    return locked;
+  }
+
+  public String getEncodedPassword() {
+    return encodedPassword;
+  }
+
+  public void setEncodedPassword(final String encodedPassword) {
+    this.encodedPassword = encodedPassword;
+  }
+
+  public Boolean getRequiresPasswordChange() {
+    return requiresPasswordChange;
+  }
+
+  public void setRequiresPasswordChange(final Boolean requiresPasswordChange) {
+    this.requiresPasswordChange = requiresPasswordChange;
+  }
+
+  public PasswordResetTokenEntity getPasswordResetToken() {
+    return passwordResetToken;
+  }
+
+  public void setPasswordResetToken(final PasswordResetTokenEntity passwordResetToken) {
+    this.passwordResetToken = passwordResetToken;
+  }
+
+  public Boolean doesNotRequirePasswordChange() {
+    return !requiresPasswordChange;
   }
 }

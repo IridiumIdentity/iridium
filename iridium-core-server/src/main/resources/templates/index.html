@@ -29,6 +29,35 @@
             <div class="tenant-logo-container tenant-logo-container-background">
 
             </div>
+            <label class="mdc-text-field mdc-text-field--outlined" id="username-label">
+                <span class="mdc-notched-outline">
+                <span class="mdc-notched-outline__leading"></span>
+                <span class="mdc-notched-outline__notch">
+                    <span class="mdc-floating-label" id="username">username</span>
+                </span>
+                <span class="mdc-notched-outline__trailing"></span>
+              </span>
+                <input type="text" class="mdc-text-field__input" th:field="*{username}" aria-labelledby="username">
+            </label>
+            <label class="mdc-text-field mdc-text-field--outlined" id="password-label">
+            <span class="mdc-notched-outline">
+            <span class="mdc-notched-outline__leading"></span>
+                <span class="mdc-notched-outline__notch">
+                    <span class="mdc-floating-label" id="my-label-id">Password</span>
+                </span>
+                <span class="mdc-notched-outline__trailing"></span>
+            </span>
+                <input type="password" class="mdc-text-field__input" th:field="*{password}" aria-labelledby="password">
+            </label>
+            <input type="hidden" th:value="${param.client_id}"  name="clientId" />
+            <div class="login-container-child">
+                <button class="mdc-button mdc-button--raised login_button" type="submit" value="Submit">
+                    <span class="mdc-button__label">Login</span>
+                </button>
+
+                <p><a th:href="@{initiate-reset-password}">reset</a> your password</p>
+
+            </div>
 
         </form>
             Login with
@@ -43,6 +72,8 @@
                         <span class="mdc-button__label"  th:text="${externalDescriptor.displayName}"></span>
                     </button>
                 </form>
+                <div>or you can <a th:href="@{/register(response_type=${param.response_type},state=${param.state},redirect_uri=${param.redirect_uri},client_id=${param.client_id},code_challenge_method=${param.code_challenge_method},code_challenge=${param.code_challenge})}">Sign Up</a></div>
+
             </div>
 
     </div>
@@ -51,4 +82,8 @@
 
 </div>
 </body>
+<script>
+    mdc.textField.MDCTextField.attachTo(document.querySelector('#username-label'));
+    mdc.textField.MDCTextField.attachTo(document.querySelector('#password-label'));
+</script>
 </html>

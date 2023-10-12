@@ -37,7 +37,6 @@ public class PerRequestCorsFilter extends OncePerRequestFilter {
     // todo (josh fischer) make this configurable
     response.addHeader("Access-Control-Allow-Origin", "*");
 
-    logger.info("Sending Header....");
     response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, HEAD, DELETE, OPTIONS");
     response.addHeader(
         "Access-Control-Allow-Headers",

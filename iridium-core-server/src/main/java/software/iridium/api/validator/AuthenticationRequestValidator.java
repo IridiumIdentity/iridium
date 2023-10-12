@@ -15,26 +15,20 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import software.iridium.api.authentication.domain.AuthenticationRequest;
 import software.iridium.api.util.AttributeValidator;
 
 @Component
-public class AuthenticationRequestParamValidator {
+public class AuthenticationRequestValidator {
 
   @Autowired private AttributeValidator attributeValidator;
 
-  // todo think about response type and state
-  public void validate(
-      final String responseType,
-      final String state,
-      final String redirectUri,
-      final String clientId,
-      final String codeChallengeMethod,
-      final String codeChallenge) {
-    checkArgument(attributeValidator.isNotBlank(clientId), "clientId must not be blank");
+  public void validate(final AuthenticationRequest request) {
     checkArgument(
-        attributeValidator.isNotBlank(codeChallengeMethod),
-        "code_challenge_method must not be blank");
-    checkArgument(attributeValidator.isNotBlank(codeChallenge), "code_challenge must not be blank");
-    checkArgument(attributeValidator.isNotBlank(redirectUri), "redirect_uri must not be blank");
+        attributeValidator.isNotBlankAndNoLongerThan(request.getUsername(), 100),
+        "username must not blank and no longer than 100 characters: " + request.getUsername());
+    checkArgument(
+        attributeValidator.isNotBlankAndNoLongerThan(request.getPassword(), 100),
+        "password must not blank and no longer than 100 characters");
   }
 }

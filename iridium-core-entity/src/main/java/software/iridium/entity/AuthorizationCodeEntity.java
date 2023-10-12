@@ -12,6 +12,7 @@
 package software.iridium.entity;
 
 import jakarta.persistence.*;
+import java.io.Serial;
 import java.util.Date;
 import software.iridium.api.authentication.domain.CodeChallengeMethod;
 
@@ -19,7 +20,7 @@ import software.iridium.api.authentication.domain.CodeChallengeMethod;
 @AttributeOverride(name = "id", column = @Column(name = "authorization_code_id"))
 @Table(name = "authorization_codes")
 public class AuthorizationCodeEntity extends AbstractEntity {
-  private static final long serialVersionUID = 8517063872625445676L;
+  @Serial private static final long serialVersionUID = 8517063872625445676L;
 
   @Column(name = "redirect_uri", length = 255, nullable = true)
   private String redirectUri;

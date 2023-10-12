@@ -54,6 +54,7 @@ class IdentityResponseMapperTest {
     final var tenantWebsite = "http://somewhereelse.com";
     final var applicationName = "the app name";
     final var userToken = "the token value";
+    final var redirectUrl = "http://locahost:4200/callback";
 
     final var authenticationResponse =
         AuthenticationResponse.of(
@@ -61,17 +62,14 @@ class IdentityResponseMapperTest {
 
     when(mockProfileMapper.map(same(profileEntity))).thenReturn(profile);
 
-    final var response = subject.map(entity, authenticationResponse);
+    final var response = subject.map(entity, redirectUrl);
 
     verify(mockProfileMapper).map(same(profileEntity));
 
     MatcherAssert.assertThat(response.getId(), is(equalTo(id)));
     MatcherAssert.assertThat(response.getUsername(), is(equalTo(emailAddress)));
+    MatcherAssert.assertThat(response.getRedirectUri(), is(equalTo(redirectUrl)));
     MatcherAssert.assertThat(response.getProfile(), sameInstance(profile));
-    MatcherAssert.assertThat(response.getApplicationName(), is(equalTo(applicationName)));
-    MatcherAssert.assertThat(response.getTenantWebsite(), is(equalTo(tenantWebsite)));
-    MatcherAssert.assertThat(response.getAppBaseUrl(), is(equalTo(appBaseUrl)));
-    MatcherAssert.assertThat(response.getUserToken(), is(equalTo(userToken)));
   }
 
   @Test

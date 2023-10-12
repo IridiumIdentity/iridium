@@ -1,19 +1,10 @@
-<!--
-  ~ * Copyright (C) Josh Fischer - All Rights Reserved
-  ~ * Unauthorized copying of this file, via any medium is strictly prohibited
-  ~ * Proprietary and confidential
-  ~ * Written by Josh Fischer <josh@joshfischer.io>, 2022.
-  ~ * Changed by Tim Grein <grein.tim97@gmail.com>, 2023.
-  -->
-
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Error | Iridium</title>
+    <title>Login | Iridium</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
-    <link th:href="@{/styles/common.css}" rel="stylesheet"/>
-    <link th:href="@{/styles/error.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/index.css}" rel="stylesheet"/>
     <link th:href="@{/styles/styles.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
@@ -22,20 +13,29 @@
     <!-- Instantiate single textfield component rendered in the document -->
 
 </head>
+<style th:inline="css">
+    .tenant-logo-container-background {
+        background: url([[${tenantLogoUrl}]])  center center no-repeat;
+        background-size: contain
+    }
+</style>
+<script src="https://kit.fontawesome.com/38dd68bec3.js" crossorigin="anonymous"></script>
 <body>
+
 <div class="mdc-card card-container">
     <div class="login-container">
-        <div class="logo-container">
-        </div>
-
-        <h2>Error</h2>
-        <h3>Status Code: <span th:text="${statusCode}"></span> </h3>
-        <p th:text="${errorMessage}"></p>
-
-        <a href="#" onclick="window.history.back();">Go Back</a>
+        <div class="tenant-logo-container tenant-logo-container-background">
 
         </div>
+        Registration confirmed.  Please check your email for further instructions
     </div>
+
+
+</div>
+
+
+<div>
+
 </div>
 </body>
 </html>

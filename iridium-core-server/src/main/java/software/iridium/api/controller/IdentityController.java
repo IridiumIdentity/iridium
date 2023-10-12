@@ -14,6 +14,8 @@ package software.iridium.api.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
+import software.iridium.api.authentication.domain.CreateIdentityRequest;
 import software.iridium.api.authentication.domain.IdentityResponse;
 import software.iridium.api.authentication.domain.IdentitySummaryResponse;
 import software.iridium.api.base.domain.PagedListResponse;
@@ -43,5 +45,28 @@ public class IdentityController {
       @RequestParam(value = "size", required = false, defaultValue = "20") final Integer size,
       @RequestParam(value = "active", defaultValue = "true") final Boolean active) {
     return identityService.getPage(servletRequest, tenantId, page, size, active);
+  }
+
+  @PostMapping(value = "/identities")
+  public RedirectView createWithFormSubmit(
+      @ModelAttribute final CreateIdentityRequest request,
+      @RequestParam(value = "response_type", required = false) final String responseType,
+      @RequestParam(value = "state", required = false) final String state,
+      @RequestParam(value = "redirect_uri", required = false) final String redirectUri,
+      @RequestParam(value = "client_id", required = false) final String clientId,
+      @RequestParam(value = "code_challenge_method", required = false)
+          final String codeChallengeMethod,
+      @RequestParam(value = "code_challenge", required = false) final String codeChallenge) {
+    final var response =
+        identityService.create(
+            request,
+            responseType,
+            state,
+            redirectUri,
+            clientId,
+            codeChallengeMethod,
+            codeChallenge);
+
+    return new RedirectView("/confirm-registration", true);
   }
 }

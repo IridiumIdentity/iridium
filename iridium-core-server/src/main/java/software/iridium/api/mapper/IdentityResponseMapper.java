@@ -13,7 +13,6 @@ package software.iridium.api.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import software.iridium.api.authentication.domain.AuthenticationResponse;
 import software.iridium.api.authentication.domain.IdentityResponse;
 import software.iridium.entity.IdentityEntity;
 
@@ -22,16 +21,12 @@ public class IdentityResponseMapper {
 
   @Autowired private ProfileResponseMapper profileMapper;
 
-  public IdentityResponse map(
-      final IdentityEntity entity, final AuthenticationResponse authenticationResponse) {
+  public IdentityResponse map(final IdentityEntity entity, final String redirectUri) {
     final var response = new IdentityResponse();
     response.setId(entity.getId());
     response.setUsername(entity.getPrimaryEmail().getEmailAddress());
     response.setProfile(profileMapper.map(entity.getProfile()));
-    response.setAppBaseUrl(authenticationResponse.getAppBaseurl());
-    response.setTenantWebsite(authenticationResponse.getTenantWebsite());
-    response.setApplicationName(authenticationResponse.getApplicationName());
-    response.setUserToken(authenticationResponse.getUserToken());
+    response.setRedirectUri(redirectUri);
     return response;
   }
 

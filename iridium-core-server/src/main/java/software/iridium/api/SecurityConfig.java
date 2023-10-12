@@ -58,7 +58,9 @@ public class SecurityConfig {
                         "/authorize",
                         "/authenticate",
                         "oauth/authorize",
-                        "register")
+                        "register",
+                        "confirm-registration",
+                        "/handles/{tenantId}/verifications")
                     .permitAll()
                     .anyRequest()
                     .fullyAuthenticated())

@@ -14,15 +14,13 @@ package software.iridium.api.authentication.domain;
 import java.io.Serial;
 import java.io.Serializable;
 
-public class CreateIdentityRequest implements Serializable {
+public class AuthenticationRequest implements Serializable {
 
-  @Serial private static final long serialVersionUID = 3380797235216688784L;
-
+  @Serial private static final long serialVersionUID = -155820203997210369L;
   public static final String MEDIA_TYPE =
-      "application/vnd.catalyst11.authn.create-identity-request.1+json";
+      "application/vnd.iridium.id.authentication-request.1+json";
 
   private String username;
-
   private String password;
 
   public String getUsername() {

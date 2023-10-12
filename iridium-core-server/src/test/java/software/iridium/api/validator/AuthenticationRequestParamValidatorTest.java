@@ -19,7 +19,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.*;
 
-import java.util.HashMap;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +27,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.iridium.api.util.AttributeValidator;
-import software.iridium.api.util.AuthorizationCodeFlowConstants;
 
 @ExtendWith(MockitoExtension.class)
 class AuthenticationRequestParamValidatorTest {
@@ -43,22 +41,17 @@ class AuthenticationRequestParamValidatorTest {
 
   @Test
   public void validate_AllGood_BehavesAsExpected() {
+    final var responseType = "code";
+    final var state = "state";
     final var clientId = "the client id";
     final var codeChallengeMethod = "the method";
     final var codeChallenge = "the code challenge";
     final var redirectUri = "the redirect URI";
 
-    final var params = new HashMap<String, String>();
-
-    params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
-    params.put(
-        AuthorizationCodeFlowConstants.CODE_CHALLENGE_METHOD.getValue(), codeChallengeMethod);
-    params.put(AuthorizationCodeFlowConstants.CODE_CHALLENGE.getValue(), codeChallenge);
-    params.put(AuthorizationCodeFlowConstants.REDIRECT_URI.getValue(), redirectUri);
-
     when(mockValidator.isNotBlank(anyString())).thenCallRealMethod();
 
-    subject.validate(params);
+    subject.validate(
+        responseType, state, redirectUri, clientId, codeChallengeMethod, codeChallenge);
 
     verify(mockValidator).isNotBlank(same(clientId));
     verify(mockValidator).isNotBlank(same(codeChallengeMethod));
@@ -68,21 +61,26 @@ class AuthenticationRequestParamValidatorTest {
 
   @Test
   public void validate_ClientIdIsBlank_ExceptionThrown() {
+    final var responseType = "code";
+    final var state = "state";
+    final var clientId = "";
     final var codeChallengeMethod = "the method";
     final var codeChallenge = "the code challenge";
     final var redirectUri = "the redirect URI";
 
-    final var params = new HashMap<String, String>();
-
-    params.put(
-        AuthorizationCodeFlowConstants.CODE_CHALLENGE_METHOD.getValue(), codeChallengeMethod);
-    params.put(AuthorizationCodeFlowConstants.CODE_CHALLENGE.getValue(), codeChallenge);
-    params.put(AuthorizationCodeFlowConstants.REDIRECT_URI.getValue(), redirectUri);
-
     when(mockValidator.isNotBlank(anyString())).thenCallRealMethod();
 
     final var exception =
-        assertThrows(IllegalArgumentException.class, () -> subject.validate(params));
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                subject.validate(
+                    responseType,
+                    state,
+                    redirectUri,
+                    clientId,
+                    codeChallengeMethod,
+                    codeChallenge));
 
     assertThat(exception.getMessage(), is(equalTo("clientId must not be blank")));
 
@@ -94,46 +92,57 @@ class AuthenticationRequestParamValidatorTest {
 
   @Test
   public void validate_CodeChallengeMethodIsBlank_ExceptionThrown() {
+    final var responseType = "code";
+    final var state = "state";
     final var clientId = "the client id";
+    final String codeChallengeMethod = null;
     final var codeChallenge = "the code challenge";
     final var redirectUri = "the redirect URI";
-
-    final var params = new HashMap<String, String>();
-
-    params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
-    params.put(AuthorizationCodeFlowConstants.CODE_CHALLENGE.getValue(), codeChallenge);
-    params.put(AuthorizationCodeFlowConstants.REDIRECT_URI.getValue(), redirectUri);
 
     when(mockValidator.isNotBlank(anyString())).thenCallRealMethod();
 
     final var exception =
-        assertThrows(IllegalArgumentException.class, () -> subject.validate(params));
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                subject.validate(
+                    responseType,
+                    state,
+                    redirectUri,
+                    clientId,
+                    codeChallengeMethod,
+                    codeChallenge));
 
     assertThat(exception.getMessage(), is(equalTo("code_challenge_method must not be blank")));
 
     verify(mockValidator).isNotBlank(same(clientId));
-    verify(mockValidator).isNotBlank(eq(""));
+    verify(mockValidator).isNotBlank(eq(null));
     verify(mockValidator, never()).isNotBlank(same(codeChallenge));
     verify(mockValidator, never()).isNotBlank(same(redirectUri));
   }
 
   @Test
   public void validate_CodeChallengeIsBlank_ExceptionThrown() {
+    final var responseType = "code";
+    final var state = "state";
     final var clientId = "the client id";
     final var codeChallengeMethod = "the method";
+    final var codeChallenge = "";
     final var redirectUri = "the redirect URI";
-
-    final var params = new HashMap<String, String>();
-
-    params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
-    params.put(
-        AuthorizationCodeFlowConstants.CODE_CHALLENGE_METHOD.getValue(), codeChallengeMethod);
-    params.put(AuthorizationCodeFlowConstants.REDIRECT_URI.getValue(), redirectUri);
 
     when(mockValidator.isNotBlank(anyString())).thenCallRealMethod();
 
     final var exception =
-        assertThrows(IllegalArgumentException.class, () -> subject.validate(params));
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                subject.validate(
+                    responseType,
+                    state,
+                    redirectUri,
+                    clientId,
+                    codeChallengeMethod,
+                    codeChallenge));
 
     assertThat(exception.getMessage(), is(equalTo("code_challenge must not be blank")));
 
@@ -145,21 +154,26 @@ class AuthenticationRequestParamValidatorTest {
 
   @Test
   public void validate_redirectUriIsBlank_ExceptionThrown() {
+    final var responseType = "code";
+    final var state = "state";
     final var clientId = "the client id";
     final var codeChallengeMethod = "the method";
     final var codeChallenge = "the code challenge";
-
-    final var params = new HashMap<String, String>();
-
-    params.put(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), clientId);
-    params.put(
-        AuthorizationCodeFlowConstants.CODE_CHALLENGE_METHOD.getValue(), codeChallengeMethod);
-    params.put(AuthorizationCodeFlowConstants.CODE_CHALLENGE.getValue(), codeChallenge);
+    final var redirectUri = "";
 
     when(mockValidator.isNotBlank(anyString())).thenCallRealMethod();
 
     final var exception =
-        assertThrows(IllegalArgumentException.class, () -> subject.validate(params));
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                subject.validate(
+                    responseType,
+                    state,
+                    redirectUri,
+                    clientId,
+                    codeChallengeMethod,
+                    codeChallenge));
 
     assertThat(exception.getMessage(), is(equalTo("redirect_uri must not be blank")));
 
