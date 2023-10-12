@@ -18,6 +18,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,6 +28,8 @@ import software.iridium.api.base.error.NotAuthorizedException;
 
 @Component
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
+
+  @Autowired ObjectMapper objectMapper;
 
   @Override
   protected void doFilterInternal(
@@ -47,8 +50,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
     if (object == null) {
       return null;
     }
-    ObjectMapper mapper = new ObjectMapper();
-    return mapper.writeValueAsString(object);
+    return objectMapper.writeValueAsString(object);
   }
 
   private Object getErrorResponse(HttpServletRequest request, NotAuthorizedException e) {
