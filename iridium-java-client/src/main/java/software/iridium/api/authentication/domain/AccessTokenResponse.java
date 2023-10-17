@@ -11,7 +11,6 @@
  */
 package software.iridium.api.authentication.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
@@ -31,16 +30,7 @@ public class AccessTokenResponse implements Serializable {
   @JsonProperty("expires_in")
   private Long expiresIn;
 
-  @JsonIgnore private String redirectUrl;
-
-  @JsonIgnore private boolean error;
-
   public AccessTokenResponse() {}
-
-  private AccessTokenResponse(final String redirectUrl) {
-    this.redirectUrl = redirectUrl;
-    this.error = true;
-  }
 
   public String getAccessToken() {
     return accessToken;
@@ -72,21 +62,5 @@ public class AccessTokenResponse implements Serializable {
 
   public void setExpiresIn(final Long expiresIn) {
     this.expiresIn = expiresIn;
-  }
-
-  public String getRedirectUrl() {
-    return redirectUrl;
-  }
-
-  public void setRedirectUrl(final String redirectUrl) {
-    this.redirectUrl = redirectUrl;
-  }
-
-  public boolean hasError() {
-    return error;
-  }
-
-  public static AccessTokenResponse withError(final String redirectUri) {
-    return new AccessTokenResponse(redirectUri);
   }
 }

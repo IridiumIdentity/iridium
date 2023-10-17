@@ -29,4 +29,11 @@ public class DateUtils {
     cal.add(Calendar.MINUTE, minutes);
     return cal.getTime();
   }
+
+  public static Date addDaysToCurrentTime(final Integer days) {
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(new Date());
+    cal.add(Calendar.DATE, days);
+    return cal.getTime();
+  }
 }

@@ -11,39 +11,42 @@
  */
 package software.iridium.api.base.error;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 public class AccessTokenErrorResponse implements Serializable {
 
   private static final long serialVersionUID = 1524799629250981083L;
-  private String code;
-  private String message;
+  private String error;
+
+  @JsonProperty("error_description")
+  private String errorDescription;
 
   public AccessTokenErrorResponse() {
     super();
-    this.code = "";
-    this.message = "";
+    this.error = "";
+    this.errorDescription = "";
   }
 
   public AccessTokenErrorResponse(final String code, final String message) {
     this();
-    this.setCode(code);
-    this.setMessage(message);
+    this.setError(code);
+    this.setErrorDescription(message);
   }
 
-  public String getCode() {
-    return code;
+  public String getError() {
+    return error;
   }
 
-  public void setCode(String code) {
-    this.code = code;
+  public void setError(String error) {
+    this.error = error;
   }
 
-  public String getMessage() {
-    return message;
+  public String getErrorDescription() {
+    return errorDescription;
   }
 
-  public void setMessage(String messages) {
-    this.message = messages;
+  public void setErrorDescription(String messages) {
+    this.errorDescription = messages;
   }
 }

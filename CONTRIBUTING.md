@@ -31,6 +31,12 @@ If there is a corresponding GitHub issue, please mention the issue number in the
 
 Ideally prefix commit comments with either the pull request number, or the associated GitHub issue number.
 
+## <a name="how_to_contribute"></a> How to Contribute
+Once you have an issue assigned to you, fork the repository, and create a branch with a name related to the issue.
+
+An example of a good branch name is `yourName/issue-76-fix-null-pointer`.  We do this to help getting into the habit of how we work  
+with the goal of adding you as a core contributor to the project.  Once you start working in the main repo with others, it's nice to be
+to tell from a glance who is working on what.
 
 ## <a name="java_version"></a> Java version
 The project is built with Java 17

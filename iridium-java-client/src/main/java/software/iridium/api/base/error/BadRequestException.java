@@ -11,9 +11,11 @@
  */
 package software.iridium.api.base.error;
 
+import java.io.Serial;
+
 public class BadRequestException extends RuntimeException {
 
-  private static final long serialVersionUID = 4441204485680238874L;
+  @Serial private static final long serialVersionUID = 4441204485680238874L;
 
   private static final String CODE = "400";
   private static final String MESSAGE = "BAD REQUEST";
