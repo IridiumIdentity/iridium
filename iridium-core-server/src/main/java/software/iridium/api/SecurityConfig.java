@@ -27,6 +27,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
+import software.iridium.api.filter.ExceptionHandlerFilter;
 import software.iridium.api.filter.PostAuthMdcFilter;
 import software.iridium.api.filter.PreAuthMdcFilter;
 import software.iridium.api.filter.RequestLoggingFilter;
@@ -38,6 +39,7 @@ public class SecurityConfig {
 
   @Resource private RequestLoggingFilter requestLoggingFilter;
   @Resource private PreAuthMdcFilter preAuthMdcFilter;
+  @Resource private ExceptionHandlerFilter exceptionHandlerFilter;
   @Resource private PostAuthMdcFilter postAuthMdcFilter;
   @Resource private AccessTokenEntityRepository accessTokenRepository;
 
@@ -100,6 +102,7 @@ public class SecurityConfig {
       http.csrf().disable();
     }
 
+    http.addFilterBefore(exceptionHandlerFilter, TokenAuthenticationFilter.class);
     http.addFilterBefore(preAuthMdcFilter, TokenAuthenticationFilter.class);
     http.addFilterAfter(postAuthMdcFilter, TokenAuthenticationFilter.class);
     http.addFilterAfter(requestLoggingFilter, TokenAuthenticationFilter.class);
