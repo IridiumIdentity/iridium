@@ -1,0 +1,81 @@
+server:
+  port: 8381
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:identities
+    username: iridium
+    password: iridium
+    driverClassName: org.h2.Driver
+    tomcat:
+      max-active: 5
+      validation-query: SELECT 1 FROM DUEL
+      validation-interval: 180000
+    test-while-idle: true
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        hbm2ddl:
+          auto: none
+        show_sql: false
+        format_sql: false
+    open-in-view: false
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-ui
+
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    parameters:
+      textColumnType: VARCHAR(255)
+#    contexts: local
+    enabled: true
+
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+
+  jmx:
+    enabled: false
+
+  mvc:
+    log-request-details: true
+    dispatch-options-request: true
+  sql:
+    init:
+      platform: h2
+
+logging:
+  level:
+    sql: info
+    liquibase: info
+    root: info
+    software:
+      iridium: debug
+    org:
+      springframework:
+        web: debug
+
+password:
+  reset:
+    token:
+      lifetime:
+        hours: 4
+
+software:
+  iridium:
+    api:
+      ttl:
+        minutes: 30
+
+# disable default error page
+
