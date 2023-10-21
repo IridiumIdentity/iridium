@@ -1,5 +1,3 @@
-[Iridium Logo](../images/iridium-3C-large.png)
-
 # What is iridium?
 Iridium is an OAuth 2.x-compliant customer identity and access management (CIAM) system designed for accessibility and configurability.
 Iridium integrates into any 3rd party management system with minimal code.
