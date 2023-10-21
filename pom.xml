@@ -14,6 +14,7 @@
         <module>iridium-server-base</module>
         <module>iridium-cli</module>
         <module>iridium-core-entity</module>
+        <module>iridium-tracker</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -49,6 +50,10 @@
         <java.version>17</java.version>
         <log4j2.version>2.17.0</log4j2.version>
         <picocli.version>4.7.2</picocli.version>
+        <liquibase.version>4.17.2</liquibase.version>
+        <mysql.version>8.0.28</mysql.version>
+        <h2.version>2.2.220</h2.version>
+
     </properties>
 
     <dependencyManagement>
@@ -71,6 +76,11 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-mail</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-webflux</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
             <dependency>
@@ -124,6 +134,25 @@
                 <version>2.2</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

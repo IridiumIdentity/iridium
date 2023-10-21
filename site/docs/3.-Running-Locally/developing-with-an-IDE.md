@@ -60,7 +60,7 @@ In an IDE, Springboot will not find the `application.properties` file in its def
 ### Use CLI
 To successfully start Iridium on your IDE, run the following command from the top of the `iridium` directory. 
 ```shell
-$ cp ./conf/application.properties ./iridium-core-server/src/main/resources
+$ cp ./conf/core-application.properties ./iridium-core-server/src/main/resources
 ```
  *Any changes you make to `application.properties` will need to be updated on both files.*
 

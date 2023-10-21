@@ -1,4 +1,5 @@
 - name: "github"
+  displayName: "GitHub"
   accessTokenRequestBaseUrl: "https://github.com/login/oauth/access_token"
   accessTokenParameters:
     - name: "client_id"
@@ -6,7 +7,7 @@
     - name: "code"
     - name: "redirect_url"
   profileRequestBaseUrl: "https://api.github.com/user"
-  iconPath: "https://avatars.githubusercontent.com/in/15368"
+  iconPath: "fa-brands fa-github"
   baseAuthorizationUrl: "https://github.com/login/oauth/authorize?"
   authorizationParameters:
     - name: "client_id"
@@ -15,6 +16,7 @@
   defaultScope: "user:email"
 
 - name: "google"
+  displayName: "Google"
   accessTokenRequestBaseUrl: "https://oauth2.googleapis.com/token"
   accessTokenParameters:
     - name: "client_id"
@@ -23,8 +25,8 @@
     - name: "redirect_url"
     - name: "grant_type"
       value: "authorization_code"
-  profileRequestBaseUrl: "https://oauth2.googleapis.com/tokeninfo?id_token="
-  iconPath: "https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
+  profileRequestBaseUrl: "https://www.googleapis.com/oauth2/v1/userinfo"
+  iconPath: "fa-brands fa-google"
   baseAuthorizationUrl: "https://accounts.google.com/o/oauth2/v2/auth"
   authorizationParameters:
     - name: "client_id"

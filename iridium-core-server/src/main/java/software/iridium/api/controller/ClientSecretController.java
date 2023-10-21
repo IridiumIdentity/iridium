@@ -11,10 +11,10 @@
  */
 package software.iridium.api.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import software.iridium.api.authentication.domain.ClientSecretCreateResponse;
-import software.iridium.api.base.domain.ApiDataResponse;
 import software.iridium.api.base.domain.ApiResponse;
 import software.iridium.api.service.ClientSecretService;
 
@@ -25,12 +25,14 @@ public class ClientSecretController {
   @Autowired private ClientSecretService clientSecretService;
 
   @PostMapping(
-      value = "applications/{application-id}/client-secrets",
+      value = "/tenants/{tenant-id}/applications/{application-id}/client-secrets",
       produces = ClientSecretCreateResponse.MEDIA_TYPE)
-  public ApiDataResponse<ClientSecretCreateResponse> create(
+  public ClientSecretCreateResponse create(
+      HttpServletRequest servletRequest,
+      @PathVariable(name = "tenant-id") final String tenantId,
       @PathVariable(name = "application-id") final String applicationId) {
 
-    return new ApiDataResponse<>(clientSecretService.create(applicationId));
+    return clientSecretService.create(servletRequest, tenantId, applicationId);
   }
 
   @DeleteMapping(value = "applications/{application-id}/client-secrets/{client-secret-id}")

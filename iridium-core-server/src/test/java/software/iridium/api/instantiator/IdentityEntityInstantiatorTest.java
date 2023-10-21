@@ -51,10 +51,10 @@ class IdentityEntityInstantiatorTest {
 
     when(mockEmailInstantiator.instantiatePrimaryEmail(same(emailAddress))).thenReturn(emailEntity);
 
-    subject.instantiateFromGithub(githubResponse, provider);
+    subject.instantiate(githubResponse, provider);
 
     verify(mockEmailInstantiator).instantiatePrimaryEmail(same(emailAddress));
     verify(mockPropertyInstantiator)
-        .instantiateGithubProperties(same(githubResponse), any(IdentityEntity.class));
+        .instantiateFromExternalProfile(same(githubResponse), any(IdentityEntity.class));
   }
 }

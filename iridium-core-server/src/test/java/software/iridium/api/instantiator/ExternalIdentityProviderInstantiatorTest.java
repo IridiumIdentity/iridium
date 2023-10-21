@@ -51,6 +51,7 @@ class ExternalIdentityProviderInstantiatorTest {
     final var clientSecret = "some client secret";
     final var defaultScope = "the default scope";
     final var iconPath = "the icon path";
+    final var displayName = "the display name";
     final var tenant = new TenantEntity();
     final var template = new ExternalIdentityProviderTemplateEntity();
     template.setName(name);
@@ -59,6 +60,7 @@ class ExternalIdentityProviderInstantiatorTest {
     template.setBaseAuthorizationUrl(baseAuthorizationUrl);
     template.setAccessTokenRequestBaseUrl(baseAccessTokenUrl);
     template.setDefaultScope(defaultScope);
+    template.setDisplayName(displayName);
     final var request = new CreateExternalIdentityProviderRequest();
     request.setClientSecret(clientSecret);
     request.setClientId(clientId);
@@ -92,5 +94,6 @@ class ExternalIdentityProviderInstantiatorTest {
     assertThat(response.getProfileRequestBaseUrl(), is(equalTo(baseProfileUrl)));
     assertThat(response.getScope(), is(equalTo(defaultScope)));
     assertThat(response.getIconPath(), is(equalTo(iconPath)));
+    assertThat(response.getDisplayName(), is(equalTo(displayName)));
   }
 }

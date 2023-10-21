@@ -11,17 +11,23 @@
  */
 package software.iridium.api;
 
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
+import software.iridium.api.filter.ExceptionHandlerFilter;
 import software.iridium.api.filter.PostAuthMdcFilter;
 import software.iridium.api.filter.PreAuthMdcFilter;
 import software.iridium.api.filter.RequestLoggingFilter;
@@ -33,37 +39,74 @@ public class SecurityConfig {
 
   @Resource private RequestLoggingFilter requestLoggingFilter;
   @Resource private PreAuthMdcFilter preAuthMdcFilter;
+  @Resource private ExceptionHandlerFilter exceptionHandlerFilter;
   @Resource private PostAuthMdcFilter postAuthMdcFilter;
   @Resource private AccessTokenEntityRepository accessTokenRepository;
+
+  @Autowired private Environment env;
+
+  @Bean
+  public WebSecurityCustomizer webSecurityCustomizer() {
+    return (web) -> web.ignoring().requestMatchers("/oauth/token");
+  }
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-    http.authorizeHttpRequests(
-            (authorize) ->
-                authorize
-                    .requestMatchers(
-                        "/",
-                        "/login",
-                        "/styles/**",
-                        "img/**",
-                        "/oauth/external/authorize",
-                        "/identities",
-                        "/authorize",
-                        "/authenticate",
-                        "oauth/authorize",
-                        "register",
-                        "/oauth/token")
-                    .permitAll()
-                    .anyRequest()
-                    .fullyAuthenticated())
-        .apply(new AuthenticationManagerConfigurer());
+    String[] profiles = env.getActiveProfiles();
 
+    if (profiles != null && profiles.length > 0 && profiles[0].equals("h2")) {
+      http.authorizeHttpRequests(
+              (authorize) ->
+                  authorize
+                      .requestMatchers(toH2Console())
+                      .permitAll()
+                      .requestMatchers(
+                          "/",
+                          "/login",
+                          "/styles/**",
+                          "img/**",
+                          "/oauth/external/authorize",
+                          "/identities",
+                          "/authorize",
+                          "/authenticate",
+                          "oauth/authorize",
+                          "register",
+                          "/oauth/token")
+                      .permitAll()
+                      .anyRequest()
+                      .fullyAuthenticated())
+          .apply(new AuthenticationManagerConfigurer());
+      http.headers().frameOptions().disable();
+      http.csrf().ignoringRequestMatchers(toH2Console());
+    } else {
+      http.authorizeHttpRequests(
+              (authorize) ->
+                  authorize
+                      .requestMatchers(
+                          "/",
+                          "/login",
+                          "/styles/**",
+                          "img/**",
+                          "/oauth/external/authorize",
+                          "/identities",
+                          "/authorize",
+                          "/authenticate",
+                          "oauth/authorize",
+                          "register",
+                          "/oauth/token")
+                      .permitAll()
+                      .anyRequest()
+                      .fullyAuthenticated())
+          .apply(new AuthenticationManagerConfigurer());
+      http.csrf().disable();
+    }
+
+    http.addFilterBefore(exceptionHandlerFilter, TokenAuthenticationFilter.class);
     http.addFilterBefore(preAuthMdcFilter, TokenAuthenticationFilter.class);
     http.addFilterAfter(postAuthMdcFilter, TokenAuthenticationFilter.class);
     http.addFilterAfter(requestLoggingFilter, TokenAuthenticationFilter.class);
     http.cors();
-    http.csrf().disable();
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     return http.build();

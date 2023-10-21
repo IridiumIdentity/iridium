@@ -25,14 +25,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import software.iridium.api.authentication.client.ProviderAccessTokenRequestor;
-import software.iridium.api.authentication.client.ProviderProfileRequestor;
 import software.iridium.api.authentication.domain.AccessTokenResponse;
 import software.iridium.api.authentication.domain.ApplicationAuthorizationFormRequest;
 import software.iridium.api.authentication.domain.CodeChallengeMethod;
 import software.iridium.api.authentication.domain.IdentityResponse;
 import software.iridium.api.base.error.BadRequestException;
+import software.iridium.api.base.error.ClientAuthenticationException;
 import software.iridium.api.base.error.NotAuthorizedException;
 import software.iridium.api.base.error.ResourceNotFoundException;
+import software.iridium.api.fetcher.ExternalProviderUserProfileFetcher;
 import software.iridium.api.generator.ExternalProviderAccessTokenUrlGenerator;
 import software.iridium.api.generator.RedirectUrlGenerator;
 import software.iridium.api.generator.SuccessAuthorizationParameterGenerator;
@@ -56,7 +57,7 @@ public class AuthorizationService {
   // todo may need to break this out into smaller classes
   @Autowired private ExternalProviderAccessTokenUrlGenerator externalAccessTokenUrlGenerator;
   @Autowired private ProviderAccessTokenRequestor accessTokenRequestor;
-  @Autowired private ProviderProfileRequestor providerProfileRequestor;
+  @Autowired private ExternalProviderUserProfileFetcher externalProfileFetcher;
   @Autowired private IdentityEntityInstantiator identityInstantiator;
   @Autowired private IdentityEntityRepository identityRepository;
   @Autowired private IdentityEmailEntityRepository emailRepository;
@@ -132,16 +133,14 @@ public class AuthorizationService {
 
       final var response = accessTokenRequestor.requestAccessToken(providerUrl);
 
-      final var githubProfile =
-          providerProfileRequestor.requestGithubProfile(
-              provider.getProfileRequestBaseUrl(), response.getAccessToken());
+      final var externalProfile = externalProfileFetcher.fetch(provider, response);
 
       final var emailOptional =
-          emailRepository.findByEmailAddressAndIdentity_ParentTenantId(
-              githubProfile.getEmail(), tenant.getId());
+          emailRepository.findByEmailAddressAndIdentity_ParentTenantIdAndIdentity_Provider_Id(
+              externalProfile.getEmail(), tenant.getId(), provider.getId());
       if (emailOptional.isEmpty()) {
 
-        final var identity = identityInstantiator.instantiateFromGithub(githubProfile, provider);
+        final var identity = identityInstantiator.instantiate(externalProfile, provider);
         identity.getAuthorizedApplications().add(application);
         identity.setParentTenantId(tenant.getId());
         return identityResponseMapper.map(identityRepository.save(identity));
@@ -231,11 +230,7 @@ public class AuthorizationService {
         final var application =
             applicationRepository
                 .findByClientId(params.get(AuthorizationCodeFlowConstants.CLIENT_ID.getValue()))
-                .orElseThrow(
-                    () ->
-                        new BadRequestException(
-                            "application not found for id: "
-                                + params.get(AuthorizationCodeFlowConstants.CLIENT_ID.getValue())));
+                .orElseThrow(() -> new BadRequestException("invalid request"));
         final var clientSecret =
             params.getOrDefault(AuthorizationCodeFlowConstants.CLIENT_SECRET.getValue(), "");
         final var secrets =
@@ -263,15 +258,12 @@ public class AuthorizationService {
           final var decodedValues = decodedValuesStr.split(":");
 
           if (decodedValues.length != 2) {
-            return AccessTokenResponse.withError("");
+            throw new BadRequestException("client credential request invalid format");
           }
           final var application =
               applicationRepository
                   .findByClientId(decodedValues[0])
-                  .orElseThrow(
-                      () ->
-                          new BadRequestException(
-                              "application not found for id: " + decodedValues[0]));
+                  .orElseThrow(() -> new BadRequestException("invalid_client"));
           final var secrets =
               application.getClientSecrets().stream()
                   .map(ClientSecretEntity::getSecretKey)
@@ -279,7 +271,7 @@ public class AuthorizationService {
 
           final var clientId = application.getClientId();
           if (attributeValidator.doesNotEqual(clientId, decodedValues[0])) {
-            return AccessTokenResponse.withError("");
+            throw new ClientAuthenticationException("invalid_client");
           }
           final var encodedSubmittedSecret = encoder.encode(decodedValues[1]);
           for (String secret : secrets) {
@@ -290,7 +282,7 @@ public class AuthorizationService {
             }
           }
           if (isNotAuthorized) {
-            return AccessTokenResponse.withError("redirectUri");
+            throw new ClientAuthenticationException("invalid_client");
           }
           return accessTokenResponseMapper.map(
               accessTokenRepository.save(accessTokenInstantiator.instantiate(application.getId())));
@@ -304,24 +296,20 @@ public class AuthorizationService {
 
       if (attributeValidator.isBlank(
           params.getOrDefault(AuthorizationCodeFlowConstants.CLIENT_ID.getValue(), ""))) {
-        throw new BadRequestException("client id blank or malformed");
+        throw new BadRequestException("invalid_request");
       }
 
       final var application =
           applicationRepository
               .findByClientId(params.get(AuthorizationCodeFlowConstants.CLIENT_ID.getValue()))
-              .orElseThrow(
-                  () ->
-                      new BadRequestException(
-                          "application not found for id: "
-                              + params.get(AuthorizationCodeFlowConstants.CLIENT_ID.getValue())));
+              .orElseThrow(() -> new BadRequestException("invalid request"));
 
       applicationAccessTokenValidator.validate(application, params);
 
       final var redirectUri =
           accessTokenRequestParameterValidator.validateAndOptionallyRedirect(application, params);
       if (attributeValidator.isNotBlank(redirectUri)) {
-        return AccessTokenResponse.withError(redirectUri);
+        throw new BadRequestException("invalid request");
       }
 
       final var inProgressExternalAuthorizationOpt =
@@ -386,7 +374,7 @@ public class AuthorizationService {
       }
     }
 
-    return AccessTokenResponse.withError("Not Authorized");
+    throw new BadRequestException("invalid_grant");
   }
 
   @Transactional(propagation = Propagation.REQUIRED)
