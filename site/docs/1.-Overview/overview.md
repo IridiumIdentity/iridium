@@ -1,48 +1,50 @@
 # What is iridium?
-Iridium is an OAuth2.x-compliant identity management system.
+Iridium is an OAuth 2.x-compliant customer identity and access management (CIAM) system designed for accessibility and configurability.
+Iridium integrates into any 3rd party management system with minimal code.
 
-[Try it for free](https://conduct.iridium.software/){ .md-button .md-button--primary }
+### [Try it for free.](https://conduct.iridium.software/)
 
-## What problem does it solve?
-The OAuth2.x RFC is full of great details, but it mainly focuses on defining the interfaces on how different identity systems can work together.  There are many implementation details in the spec which are not defined on purpose, which requires developers to make the best guess at how security, authentication, authorization, etc should be implemented within their own system.  The goal of the OAuth framework isn’t meant to restrict how implementation should be done, but to allow neighboring systems to be able to exchange data with one another securely.
+## Why use Iridium?
+Iridium is an opinionated, scalable implementation for securing any system of any size. It comes with community support and ease of use built in.
 
-Iridium helps developers secure their applications or systems the right way by providing an opinionated implementation on how to solve identity management for systems of any size.
+The OAuth 2.x specification leaves many details undefined. These details include security, authentication, and authorization. These omissions are deliberate, but they leave developers making best guesses at implementing sensitive processes.
 
-## What do you mean there are many implementation details not defined?
-Study the diagram below that describes how the authorization code grant works, but before you do let’s briefly call out what some of these terms mean.  
+ Iridium takes pressure off developers securing their applications and databases. Iridium is highly configurable and requires minimal technical knowledge to set up its basic features. As an open source project, Iridium can respond to the needs of its users by contributions from the users themselves.
 
- *  **Resource owner:** The entity that can grant access to a protected resource.  An example is the end-user of an application.  
- * **User-agent:** any software that helps retrieve, present, and interact with web content.  An example is a web browser  
- * **Client:** A client is a third-party application that requests access to resources of the resource owner. An example is an Angular or React application.  
- * **Authorization server:** validates the credentials and redirects the resource owner back to the client with an authorization code.
-![authorization code grant](../images/authorization-code-flow.png "authorization code grant")
+## What does Iridium do?
+In the OAuth 2.x framework, Iridium plays the role of an authorization server. Iridium's roles include authenticating user credentials, verifying redirect URIs match, and managing access/refresh tokens. The diagram below shows a simplified outline of the process.
 
-<style>
-    ol { list-style-type: upper-alpha; }
-</style>
+### Legend
 
-1. The resource owner (end-user) visits a third-party client (web application)  
-2. The resource owner selects the “sign up with Google” button in the client. The user-agent (browser) directs the resource owner to the Google sign-in page.  
-3. The resource owner (end-user) authenticates and authorizes the authorization server to grant access to the resource owner's information (in this case it could be the email address and profile information) to the third-party client.  
-4. After the resource owner (end-user) authorizes access, the authorization server redirects the user-agent (browser) back to the original third-party client with an authorization code and typically a state parameter  
-5. The third-party client requests an access token with the received authorization code and associated redirect URI  
-6. The authorization authenticates the client, validates the authorization code and the accompanying redirect URI matches the URI provided in step D.  If the request is valid the authorization server returns back with an access token and an optional refresh token.  
+ *  **Resource owner:** Entity capable of granting access to a protected resource, often an end-user of an application.
+ * **User-agent:** Software for recieving, sending, and processing web content, such as a web browser. 
+ * **Client:** A third-party application requesting access to the resource owner's protected resource. 
+ * **Authorization server/Iridium:** Entity which validates credentials and distributes access tokens.
 
-The OAuth 2.x spec does a great job of giving an overview of how a system is expected to behave under certain circumstances, but it doesn’t tell you how to make the system make decisions behind the scenes to create the expected outcomes.  With iridium, we put the power in your hands to take control of your system.  
 
-## How is the system architected?
-Iridium has been built with simplicity in the front of our minds as we build as flexible a model as we can. Iridium is served from a single jar tied to a relational database. 
-The system expects specific seed data to exist in the database to allow for the system to successfully authenticate, authorize, and provision access tokens to your users.
+![authorization code grant process](../images/authorization-code-flow.png "authorization code grant")
+
+<sup>Figure 1: OAuth 2.x authorization grant process</sup>
+
+1. Resource Owner visits Client.
+2. Resource Owner initiates sign-in process (usually by clicking a "sign up with X" button). Resource Owner redirected via User-agent to a sign-in page. Carried with the Resource Owner is a client identifier and a redirect URI.
+3. The Authorization Server authenticates the Resource Owner, and requests the Resource Owner's authorization for the client to access the Resource Owner's protected resource. Assuming Resource Owner allows Client access, the Authorization Server sends the User-agent back to the Client with an authorization code, using the Client's provided Redirect URI.
+4. The Client requests an access token from the Authorization Server with the newly acquired authorization code.
+5. Authorization Server authenticates client, registers the authorization code and confirms the redirect URI matches the URI in its own database. If all checks pass, Authorization Server returns an access token and an optional refresh token.
+
+OAuth's specification defines only how a system should behave, leaving the details of how to produce those behaviors up to developers. Iridium allows developers to configure their own system to their needs, without making their own software or outsourcing to an opaque service provider. 
+
+## How is Iridium scalable?
+![Iridium's scalability potiental](../images/Iridium-Scalable.png)
+
+<sup>Figure 2: Iridium's Scalability Potential</sup>
+
+Iridium can integrate with existing OpenID Connect providers, and be used to create new OpenID Connect servers. Iridium can also delegate requests to other iridium instances.
+
+## How is Iridium architected?
 
 ![iridium system overview](../images/iridium-overview.png "iridium system overview")
 
-## Tell me more about the database entities
-As Iridium is a configurable system, there are many details to go through.  At a high level, the important database relationships 
-are below as follows:
+<sup>Figure 3: Iridium System Architecture</sup>
 
-![iridium entity relationships](../images/entity-relationship-view.png)
-
-
-
-
-
+Iridium's architecture was built for simplicity. The system is served from a single jar tied to a relational database. This database requires specific seed data, but as long as this data exists, Iridium can function successfully. This means Iridium can plug into an existing OpenID system to start authenticating, authorizing, and provisioning access tokens right away.
