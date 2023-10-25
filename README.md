@@ -2,8 +2,6 @@
 ![iridium](assets/color/iridium-3C-large.png)
 
 
-# [Try Iridium for free](https://www.iridium.software)
-
 ## What is iridium?
 Iridium is an OAuth2.x-compliant customer identity and access management (CIAM) system.  It allows developers to integrate
 3rd party social login providers into their own systems in a low-code manner.  
