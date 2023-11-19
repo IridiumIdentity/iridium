@@ -7,6 +7,7 @@ In this document, the physical structure of the database will be laid out for bo
 
 ## Abstract Overview
 ![This is the Primary Abstract Entity Relationship Diagram. There are six entities, defined below. The relationships are as follows: Managing Identity has a many-to-many relationship with Tenant. Customer Identity has a many relationship to one Tenant. Application has a many relationship to one tenant, and many-to-many with Customer Identities. External Identity Providers and Application Type both have a many relationship to one Application.](../images/iridiumdb-overview.png)
+
 <sup>Figure 1: Abstract iridium database breakdown.</sup> 
 
 Iridium uses a fairly linear data flow between its entities to achieve tasks. A third party `external identity provider` such as google or github is linked to an `application` secured with Iridium. Within a `tenant` container, `identities` of users are verified using Iridium. Within each `tenant` are `customer identities` (end-users) and `managing identities` (tenant-level system administrators).
@@ -29,7 +30,8 @@ Some entities reference a key attribute from another entity without using it as 
 
 ---
 ### Resource Access Entities
-![This is a Resource Access Entity Relationship Diagram. Three entities are present, defined in a written list below. Relationships depicted are as follows: access_tokens have a many, optional relationship to refresh_tokens. ](../images/Iridiumdb-resource-access-entities.png)
+![This is a Resource Access Entity Relationship Diagram. Three entities are present, defined in a written list below. Relationships depicted are as follows: access_tokens have a many, optional relationship to refresh_tokens.](../images/iridiumdb-resource-access-entities.png)
+
 <sup>figure 2: Resource Access Entity Relationship Diagram</sup>
 
 Data Iridium uses to allow access to protected resources.
@@ -40,7 +42,8 @@ Data Iridium uses to allow access to protected resources.
 
 ---
 ### Tenants
-![This is a Tenant Entity Relationship Diagram. Two entities are present, defined in a written list below. Relationships depicted are as follows: login_descriptors has a many, optional relationship to refresh_tokens.](../images/Iridiumdb-tenants.png)
+![This is a Tenant Entity Relationship Diagram. Two entities are present, defined in a written list below. Relationships depicted are as follows: login_descriptors has a many, optional relationship to refresh_tokens.](../images/iridiumdb-tenants.png)
+
 <sup>figure 3: Tenant Entity Relationship Diagram</sup>
 
 A tenant is a container for clients, representing an environment or organization. A single company using Iridium can register multiple tenants.
@@ -49,7 +52,8 @@ A tenant is a container for clients, representing an environment or organization
 * **`[tenants]:`** Stores defining data for a tenant container. Tenant names are used in the tenant's login URL, so tenant names in the database must be URL safe.
 ---
 ### External Identity Providers
-![This is an External Identity Provider Entity Relationship Diagram. Four entities are present, three of which are defined in the list below, one of which is defined in the tenants section. The relationships are as follows: external_identity_provider_parameter_templates has a many relationship with external_identity_provider_templates. external_identity_providers has a many relationship with external_identity_provider_templates. external_identity_providers also has a many relationship with tenants.](../images/Iridiumdb-external-identity-providers.png)
+![This is an External Identity Provider Entity Relationship Diagram. Four entities are present, three of which are defined in the list below, one of which is defined in the tenants section. The relationships are as follows: external_identity_provider_parameter_templates has a many relationship with external_identity_provider_templates. external_identity_providers has a many relationship with external_identity_provider_templates. external_identity_providers also has a many relationship with tenants.](../images/iridiumdb-external-identity-providers.png)
+
 <sup>figure 4: External Identity Provider Entity Relationship Diagram</sup>
 
 Entities holding configuration for external identity providers (google, github, facebook, etc) authenticating using Iridium. Other Iridium instances are registerable as external identity providers.
@@ -59,8 +63,9 @@ Entities holding configuration for external identity providers (google, github, 
 * **`[external_identity_providers]:`** Holds the seed data for an OpenID provider to authenticate with Iridium.
 ---
 ### External Identity Provider Workspace
-![This is an External Identity Provider Workspace Entity Relationship Diagram. There are five entities, four of which are defined below, and one of which was previously defined in the external identity providers section. The relationships are as follows: external_identity_providers defines access_token_parameters and authorization_parameters, one provider to many definitions. external_identity_provider_parameters has a many relationship with external_identity_providers. in_progress_external_identity_provider_authorizations has a many, optional relationship with external_identity_providers.](../images/Iridiumdb-exidpr-workspace.png)
-<sup>figure 5:</sup>
+![This is an External Identity Provider Workspace Entity Relationship Diagram. There are five entities, four of which are defined below, and one of which was previously defined in the external identity providers section. The relationships are as follows: external_identity_providers defines access_token_parameters and authorization_parameters, one provider to many definitions. external_identity_provider_parameters has a many relationship with external_identity_providers. in_progress_external_identity_provider_authorizations has a many, optional relationship with external_identity_providers.](../images/iridiumdb-exidpr-workspace.png)
+
+<sup>figure 5:External Identity Provider Workspace Entity Relationship Diagram</sup>
 
 Entities containing additional configuration and dynamic functions for an external identity provider.
 
@@ -70,8 +75,9 @@ Entities containing additional configuration and dynamic functions for an extern
 * **[in_progress_external_identity_provider_authorizations]:** Container for the dynamic function of authorizing with an external identity provider.
 ---
 ### Identities
-![This is an Identities Entity Relationship Diagram. Five entities are defined below, one is previously defined in tenants, and another is previously defined in external identity providers. The relationships are as follows: tenants_identities_xref has a many relationship with single instances of tenants and identities. Identities has a many relationship with single instances of external_identity_providers and profiles.](../images/Iridiumdb-identities.png)
-<sup>figure 6:</sup>
+![This is an Identities Entity Relationship Diagram. Five entities are defined below, one is previously defined in tenants, and another is previously defined in external identity providers. The relationships are as follows: tenants_identities_xref has a many relationship with single instances of tenants and identities. Identities has a many relationship with single instances of external_identity_providers and profiles.](../images/iridiumdb-identities.png)
+
+<sup>figure 6:Identities Entity Relationship Diagram</sup>
 
 Client authenticating with an external identity provider via Iridium. A single client may have multiple identities for different external identity providers.
 
@@ -80,8 +86,9 @@ Client authenticating with an external identity provider via Iridium. A single c
 * **[tenants_identities_xref]:** tenants/identities cross-reference.
 ---
 ### Identity Workspace
-![This is an Identities Workspace Entity Relationship Diagram. Eight entities are in the diagram, seven of which are defined below, and one of which was previously defined in identities. The relationships are as follows: identities has a single-to-many relationship with identity_email_addresses, authentications, and identity_property. Email_verification_tokens has a many, optional relationship with single identity_email_addresses. Many roles_identities_xref are defined by single identities and roles.](../images/Iridiumdb-id-workspace.png)
-<sup>figure 7:</sup>
+![This is an Identities Workspace Entity Relationship Diagram. Eight entities are in the diagram, seven of which are defined below, and one of which was previously defined in identities. The relationships are as follows: identities has a single-to-many relationship with identity_email_addresses, authentications, and identity_property. Email_verification_tokens has a many, optional relationship with single identity_email_addresses. Many roles_identities_xref are defined by single identities and roles.](../images/iridiumdb-id-workspace.png)
+
+<sup>figure 7:Identities Workspace Entity Relationship Diagram</sup>
 
 Additional configuration entities and containers for dynamic functions related to identities.
 
@@ -94,8 +101,9 @@ Additional configuration entities and containers for dynamic functions related t
 * **[roles_identities_xref]:** roles/identities cross-reference.
 ---
 ### Applications
-![This is an Applications Entity Relationship Diagram. There are six entities, five of which are defined below, and one previously defined in the identities section. The relationships are as follows: client_secrets, scopes, and application_types all have a many, optional relationship to single applications. identities_applications and scopes both have a many, optional relationship to single identities.](../images/Iridiumdb-applications.png)
-<sup>figure 8:</sup>
+![This is an Applications Entity Relationship Diagram. There are six entities, five of which are defined below, and one previously defined in the identities section. The relationships are as follows: client_secrets, scopes, and application_types all have a many, optional relationship to single applications. identities_applications and scopes both have a many, optional relationship to single identities.](../images/iridiumdb-applications.png)
+
+<sup>figure 8:Applications Entity Relationship Diagram </sup>
 
 Applications are the specific apps secured with Iridium. They are bound to a tenant.
 
