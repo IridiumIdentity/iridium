@@ -8,9 +8,9 @@ In this document, the physical structure of the database will be laid out for bo
 ## Abstract Overview
 ![This is the Primary Abstract Entity Relationship Diagram. There are six entities, defined below. The relationships are as follows: Managing Identity has a many-to-many relationship with Tenant. Customer Identity has a many relationship to one Tenant. Application has a many relationship to one tenant, and many-to-many with Customer Identities. External Identity Providers and Application Type both have a many relationship to one Application.](../images/iridiumdb-overview.png)
 
-<sup>Figure 1: Abstract iridium database breakdown.</sup> 
+<sup>Figure 1: Abstract Iridium database breakdown.</sup> 
 
-Iridium uses a fairly linear data flow between its entities to achieve tasks. A third party `external identity provider` such as google or github is linked to an `application` secured with Iridium. Within a `tenant` container, `identities` of users are verified using Iridium. Within each `tenant` are `customer identities` (end-users) and `managing identities` (tenant-level system administrators).
+Iridium uses a fairly linear data flow between its entities to achieve tasks. A third party `external identity provider` such as Google or Github is linked to an `application` secured with Iridium. Within a `tenant` container, `identities` of users are verified using Iridium. Within each `tenant` are `customer identities` (end-users) and `managing identities` (tenant-level system administrators).
 
 * **Managing Identity:** System administrators for a tenant. There can be multiple managing identities per tenant.
 * **Customer Identity:** Standard user of Iridium. At the level of tenant, each user is limited to one identity. However, users can make an identity for an unlimited number of tenants.
@@ -56,7 +56,7 @@ A tenant is a container for clients, representing an environment or organization
 
 <sup>figure 4: External Identity Provider Entity Relationship Diagram</sup>
 
-Entities holding configuration for external identity providers (google, github, facebook, etc) authenticating using Iridium. Other Iridium instances are registerable as external identity providers.
+Entities holding configuration for external identity providers (Google, Github, Facebook) authenticating using Iridium. Other Iridium instances are registerable as external identity providers.
 
 * **[external_identity_provider_templates]:** Templates for potential external identity providers.
 * **[external_identity_provider_parameter_templates]:** Prebuilt parameter configurations for adding to an external identity provider.
