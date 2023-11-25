@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../1.building-single-page-app-libraries/">
+        <link rel="prev" href="../..">
       
       
-        <link rel="next" href="../../5.-External-Identity-Providers/create-github-application/">
+        <link rel="next" href="../overview/">
       
       
       <link rel="icon" href="../../images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Server Side Apps - Iridium</title>
+        <title>Iridium database - Iridium</title>
       
     
     
@@ -75,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#server-side-apps" class="md-skip">
+        <a href="#iridium-database" class="md-skip">
           Skip to content
         </a>
       
@@ -161,7 +161,7 @@ You're not viewing the latest version.
                 <div class="md-header__topic" data-md-component="header-topic">
 <!--          <span class="md-ellipsis">-->
 <!--            -->
-<!--              Server Side Apps-->
+<!--              Iridium database-->
 <!--            -->
 <!--          </span>-->
                 </div>
@@ -373,46 +373,82 @@ You're not viewing the latest version.
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#the-token-endpoint" class="md-nav__link">
+  <a href="#abstract-overview" class="md-nav__link">
     <span class="md-ellipsis">
-      The token endpoint
+      Abstract Overview
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="The token endpoint">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Breakdown
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Breakdown">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#query-params" class="md-nav__link">
+  <a href="#resource-access-entities" class="md-nav__link">
     <span class="md-ellipsis">
-      Query Params
+      Resource Access Entities
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#headers" class="md-nav__link">
+  <a href="#tenants" class="md-nav__link">
     <span class="md-ellipsis">
-      Headers
+      Tenants
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#response" class="md-nav__link">
+  <a href="#external-identity-providers" class="md-nav__link">
     <span class="md-ellipsis">
-      Response:
+      External Identity Providers
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#an-example-of-how-to-invoke-is-below" class="md-nav__link">
+  <a href="#external-identity-provider-workspace" class="md-nav__link">
     <span class="md-ellipsis">
-      An example of how to invoke is below:
+      External Identity Provider Workspace
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Identities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identity-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      Identity Workspace
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Applications
     </span>
   </a>
   
@@ -441,72 +477,103 @@ You're not viewing the latest version.
   
 
 
-<h1 id="server-side-apps">Server Side Apps</h1>
-<p>In some cases an application may need to authenticate itself, rather than a human user.  An example of this could be 
-an application that must spin up at some set interval and run some logic that requires authentication and authorization.  In 
-this case the application would need to get it's own <code>access_token</code>. This is why we provide the <code>client_credentials</code> grant type.</p>
-<h2 id="the-token-endpoint">The token endpoint</h2>
+<p><img alt="iridium system overview" src="../../images/iridium-overview.png" title="iridium system overview" /></p>
+<h1 id="iridium-database">Iridium Database</h1>
+<p>The Iridium database stores the data and metadata for an Iridium instance. Each Iridium instance uses its own database, which is hosted in a separate container to the primary application. The database can be treated as a simple repository rather than an independent data management system.</p>
+<p>In this document, the physical structure of the database will be laid out for both cursory reference and as a rough guide for developers aiming to reconfigure the system.</p>
+<h2 id="abstract-overview">Abstract Overview</h2>
+<p><img alt="This is the Primary Abstract Entity Relationship Diagram. There are six entities, defined below. The relationships are as follows: Managing Identity has a many-to-many relationship with Tenant. Customer Identity has a many relationship to one Tenant. Application has a many relationship to one tenant, and many-to-many with Customer Identities. External Identity Providers and Application Type both have a many relationship to one Application." src="../../images/iridiumdb-overview.png" /></p>
+<p><sup>Figure 1: Abstract Iridium database breakdown.</sup> </p>
+<p>Iridium uses a fairly linear data flow between its entities to achieve tasks. A third party <code>external identity provider</code> such as Google or Github is linked to an <code>application</code> secured with Iridium. Within a <code>tenant</code> container, <code>identities</code> of users are verified using Iridium. Within each <code>tenant</code> are <code>customer identities</code> (end-users) and <code>managing identities</code> (tenant-level system administrators).</p>
 <ul>
-<li>Method: <code>POST</code></li>
-<li>Endpoint: <code>${serverRoot}/oauth/token</code></li>
+<li><strong>Managing Identity:</strong> System administrators for a tenant. There can be multiple managing identities per tenant.</li>
+<li><strong>Customer Identity:</strong> Standard user of Iridium. At the level of tenant, each user is limited to one identity. However, users can make an identity for an unlimited number of tenants.</li>
+<li><strong>Tenant:</strong> A tenant is a container for clients, representing an environment or organization. A single company using Iridium can register multiple tenants.</li>
+<li><strong>Application:</strong> Applications are the specific apps secured with Iridium. They are bound to a tenant.</li>
+<li><strong>Application Type:</strong> The types of applications securable by Iridium. Currently, this range is limited to a single page application such as Angular.</li>
+<li><strong>External Identity Provider:</strong> Third party identity providers using Iridium to authenticate user credentials and gate access for users. Other Iridium instances can be external identity providers.</li>
 </ul>
-<h3 id="query-params">Query Params</h3>
-<table>
-<thead>
-<tr>
-<th>Query Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>grant_type</td>
-<td>string</td>
-<td><strong>Required</strong> This value must be set to <code>client_credential</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="headers">Headers</h3>
-<table>
-<thead>
-<tr>
-<th>Header</th>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Authorization</td>
-<td base64EncodedClientIdAndSecret="base64EncodedClientIdAndSecret">Basic</td>
-<td><strong>Required</strong> The users bearer token</td>
-</tr>
-</tbody>
-</table>
+<h2 id="system-breakdown">System Breakdown</h2>
+<p>The default Iridium database does contain constrained relationships, but is primarily controlled through the java application. </p>
+<p>Developers who prefer using a relational database management system such as MariaDB to control data flow can still configure Iridium to their needs. Iridium is made to be manipulated and retooled to meet different developer's needs and standards.</p>
+<p><em>A Note on Reading the Diagrams</em></p>
+<p>Some entities reference a key attribute from another entity without using it as an identifying key. Such attributes will be marked "ref." Real database entities directly correlating to roles in the abstract data flow will be <code>highlighted</code>. </p>
+<hr />
+<h3 id="resource-access-entities">Resource Access Entities</h3>
+<p><img alt="This is a Resource Access Entity Relationship Diagram. Three entities are present, defined in a written list below. Relationships depicted are as follows: access_tokens have a many, optional relationship to refresh_tokens." src="../../images/iridiumdb-resource-access-entities.png" /></p>
+<p><sup>figure 2: Resource Access Entity Relationship Diagram</sup></p>
+<p>Data Iridium uses to allow access to protected resources.</p>
 <ul>
-<li>An example of how to create the <code>base64EncodedClientIdAndSecret</code> is below:</li>
+<li><strong>[refresh_tokens]:</strong> Allows access tokens to be used again.</li>
+<li><strong>[access_tokens]:</strong> Holds the hashes that allow access to protected resources.</li>
+<li><strong>[authorization_codes]:</strong> Codes exchanged between client and Iridium, used by the client to request access and refresh tokens.</li>
 </ul>
-<pre><code class="language-shell">$ echo -n &quot;yourClientId:yourClientSecret&quot; | base64
-</code></pre>
-<h3 id="response">Response:</h3>
-<pre><code>* If the request is successful the response will look similar to the following:
-</code></pre>
-<pre><code class="language-json">HTTP/1.1 200 OK
-Content-Type: application/json
-Cache-Control: no-store
-
-{
-  &quot;access_token&quot;:&quot;someAccessTokenValue&quot;,
-  &quot;token_type&quot;:&quot;Bearer&quot;,
-  &quot;expires_in&quot;:3600,
-  &quot;refresh_token&quot;:&quot;SomeRefreshTokenValue&quot;,
-}
-</code></pre>
-<h3 id="an-example-of-how-to-invoke-is-below">An example of how to invoke is below:</h3>
-<pre><code class="language-shell">$ curl --location --request POST 'http://localhost:8381/oauth/token?grant_type=client_credentials' \
---header 'Authorization: Basic TheBase64EncodedClientIdAndSecret==' 
-</code></pre>
+<hr />
+<h3 id="tenants">Tenants</h3>
+<p><img alt="This is a Tenant Entity Relationship Diagram. Two entities are present, defined in a written list below. Relationships depicted are as follows: login_descriptors has a many, optional relationship to refresh_tokens." src="../../images/iridiumdb-tenants.png" /></p>
+<p><sup>figure 3: Tenant Entity Relationship Diagram</sup></p>
+<p>A tenant is a container for clients, representing an environment or organization. A single company using Iridium can register multiple tenants.</p>
+<ul>
+<li><strong>[login_descriptors]:</strong> Describes what the login page holds for each tenant.</li>
+<li><strong><code>[tenants]:</code></strong> Stores defining data for a tenant container. Tenant names are used in the tenant's login URL, so tenant names in the database must be URL safe.</li>
+</ul>
+<hr />
+<h3 id="external-identity-providers">External Identity Providers</h3>
+<p><img alt="This is an External Identity Provider Entity Relationship Diagram. Four entities are present, three of which are defined in the list below, one of which is defined in the tenants section. The relationships are as follows: external_identity_provider_parameter_templates has a many relationship with external_identity_provider_templates. external_identity_providers has a many relationship with external_identity_provider_templates. external_identity_providers also has a many relationship with tenants." src="../../images/iridiumdb-external-identity-providers.png" /></p>
+<p><sup>figure 4: External Identity Provider Entity Relationship Diagram</sup></p>
+<p>Entities holding configuration for external identity providers (Google, Github, Facebook) authenticating using Iridium. Other Iridium instances are registerable as external identity providers.</p>
+<ul>
+<li><strong>[external_identity_provider_templates]:</strong> Templates for potential external identity providers.</li>
+<li><strong>[external_identity_provider_parameter_templates]:</strong> Prebuilt parameter configurations for adding to an external identity provider.</li>
+<li><strong><code>[external_identity_providers]:</code></strong> Holds the seed data for an OpenID provider to authenticate with Iridium.</li>
+</ul>
+<hr />
+<h3 id="external-identity-provider-workspace">External Identity Provider Workspace</h3>
+<p><img alt="This is an External Identity Provider Workspace Entity Relationship Diagram. There are five entities, four of which are defined below, and one of which was previously defined in the external identity providers section. The relationships are as follows: external_identity_providers defines access_token_parameters and authorization_parameters, one provider to many definitions. external_identity_provider_parameters has a many relationship with external_identity_providers. in_progress_external_identity_provider_authorizations has a many, optional relationship with external_identity_providers." src="../../images/iridiumdb-exidpr-workspace.png" /></p>
+<p><sup>figure 5:External Identity Provider Workspace Entity Relationship Diagram</sup></p>
+<p>Entities containing additional configuration and dynamic functions for an external identity provider.</p>
+<ul>
+<li><strong>[access_token_parameters]:</strong> Configuration for access tokens specific to an external identity provider.</li>
+<li><strong>[authorization_parameters]:</strong> Configuration for authorization codes, specific to an external identity provider.</li>
+<li><strong>[external_identity_provider_parameters]:</strong> Additional configuration for a specific external identity provider.</li>
+<li><strong>[in_progress_external_identity_provider_authorizations]:</strong> Container for the dynamic function of authorizing with an external identity provider.</li>
+</ul>
+<hr />
+<h3 id="identities">Identities</h3>
+<p><img alt="This is an Identities Entity Relationship Diagram. Five entities are defined below, one is previously defined in tenants, and another is previously defined in external identity providers. The relationships are as follows: tenants_identities_xref has a many relationship with single instances of tenants and identities. Identities has a many relationship with single instances of external_identity_providers and profiles." src="../../images/iridiumdb-identities.png" /></p>
+<p><sup>figure 6:Identities Entity Relationship Diagram</sup></p>
+<p>Client authenticating with an external identity provider via Iridium. A single client may have multiple identities for different external identity providers.</p>
+<ul>
+<li><strong>[profiles]:</strong> Holds basic client registration data.</li>
+<li><strong><code>[identities]:</code></strong> Clients registered with a specific external identity provider, contains both managing and customer identities.</li>
+<li><strong>[tenants_identities_xref]:</strong> tenants/identities cross-reference.</li>
+</ul>
+<hr />
+<h3 id="identity-workspace">Identity Workspace</h3>
+<p><img alt="This is an Identities Workspace Entity Relationship Diagram. Eight entities are in the diagram, seven of which are defined below, and one of which was previously defined in identities. The relationships are as follows: identities has a single-to-many relationship with identity_email_addresses, authentications, and identity_property. Email_verification_tokens has a many, optional relationship with single identity_email_addresses. Many roles_identities_xref are defined by single identities and roles." src="../../images/iridiumdb-id-workspace.png" /></p>
+<p><sup>figure 7:Identities Workspace Entity Relationship Diagram</sup></p>
+<p>Additional configuration entities and containers for dynamic functions related to identities.</p>
+<ul>
+<li><strong>[identity_create_session_details]:</strong> Metadata storage for a single instance of registering an identity.</li>
+<li><strong>[authentications]:</strong> active authorizations/codes/etc for user</li>
+<li>[<strong>identity_property]:</strong> additional configuration for a specific user.</li>
+<li><strong>[identity_email_addresses]:</strong> emails associated with a user.</li>
+<li><strong>[email_verification_tokens]:</strong> verification for registered user emails.</li>
+<li><strong><code>[roles]:</code></strong> User roles, contains delineations between managing and customer identities.</li>
+<li><strong>[roles_identities_xref]:</strong> roles/identities cross-reference.</li>
+</ul>
+<hr />
+<h3 id="applications">Applications</h3>
+<p><img alt="This is an Applications Entity Relationship Diagram. There are six entities, five of which are defined below, and one previously defined in the identities section. The relationships are as follows: client_secrets, scopes, and application_types all have a many, optional relationship to single applications. identities_applications and scopes both have a many, optional relationship to single identities." src="../../images/iridiumdb-applications.png" /></p>
+<p><sup>figure 8:Applications Entity Relationship Diagram </sup></p>
+<p>Applications are the specific apps secured with Iridium. They are bound to a tenant.</p>
+<ul>
+<li><strong>[application_types]:</strong> All types of applications securable via Iridium</li>
+<li><strong><code>[applications]:</code></strong> Applications secured with Iridium. Applications are specific to a tenant.</li>
+<li><strong>[client_secrets]:</strong> client secret codes associated with an application</li>
+<li><strong>[scopes]:</strong> access parameters for an identity particular to an application</li>
+<li><strong>[identities_applications]:</strong> identities/applications cross-reference.</li>
+</ul>
 
 
   
